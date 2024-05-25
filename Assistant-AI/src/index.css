@@ -17,11 +17,20 @@ code {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0.5rem 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* equivalent to drop-shadow */
 }
 
-.navBarTitle {
-  font-size: 1.25rem;
-  font-weight: 500;
-  color: black;
-  padding: 8px 0;
+.navList {
+  list-style: none; /* Remove bullet points */
+  display: flex; /* Display list items in a row */
+}
+
+.navBarLinks {
+  text-decoration: none; /* Remove underline */
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
 }

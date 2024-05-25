@@ -1,7 +1,7 @@
 import React from 'react'
-import NavBar from "../components/NavBar/NavBar";
+import NavBar from "../components/NavBar/NavBar.jsx";
 
-function Login() {
+const Login = () => {
     return (
         <div>
             <NavBar/>
