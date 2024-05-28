@@ -31,12 +31,25 @@ function SignUp() {
             });
       };  
     
+      function handleSignUp() {
+        if (userData.username != '') {
+            
+        
+        } else {
+            console.log('Username cannot be empty!');
+        }
+    }
     // TODO
     // Sends userData to the back-end to insert into database.
     function handleSignUp(e) {
         e.preventDefault();
         if (handleConfirmPassword()) {
-            console.log('Password Matches!');
+            if (userData.username != '') {
+                var hashedPW = CryptoJS.SHA512(password).toString();
+                
+            } else {
+                console.log('Username must not be empty!');
+            }
         } else {
             console.log('Passwords do not match!');
         }
