@@ -1,20 +1,22 @@
 import React from 'react'
 import UserInfo from "./UserInfo.jsx";
 import '../../index.css'
-import { Link } from 'react-router-dom'
-import {useNavigate} from "react-router-dom";
+import { useNavigate, Link } from 'react-router-dom'
 
 const NavBar = () => {
     const navigate = useNavigate()
 
+    // To Home Page
     const onHome = () => {
         navigate("/")
     }
 
+    // To Tasks Page
     const onMyTasks = () => {
         navigate("/tasks")
     }
 
+    // To Login Page
     const onLogOut = () => {
         navigate("/login")
     }

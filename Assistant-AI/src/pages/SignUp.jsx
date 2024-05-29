@@ -49,7 +49,7 @@ function SignUp() {
 
     // TODO
     // Sends userData to the back-end to insert into database.
-    function handleSignUp(e) {
+    const handleSignUp = async (e) {
         e.preventDefault();
         if (handleConfirmPassword()) {
             if (userData.username != '') {
