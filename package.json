@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "cors": "^2.8.5",
+    "mysql2": "^3.9.8",
+    "sequelize": "^6.37.3"
+  }
+}

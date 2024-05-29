@@ -2,27 +2,24 @@ const express = require('express')
 const cors = require('cors')
 
 const app = express()
-const port = process.env.PORT || 5173
+const port = process.env.PORT || 5000
 
-var corOptions = {
-    origin: 'http://localhost:5173'
-}
 
-app.use(cors(corOptions))
+// Middlewares
+app.use(cors())
 app.use(express.json())
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded())
 
+// Get Request
 app.get('/', (req, res) => {
-    res.json('Hello!')
+    res.send('Server is running fine lololol')
 })
 
-app.post('/', (req, res) => {
-    const {parcel} = req.body
-    if (!parcel) {
-        console.log('Not Received!')
-    }
-})
+const addUser = require('../Methods/userMethods.js').addUser
+// Post Request to Add User
+app.post('/SignUp', addUser)
 
 app.listen(port, () => {
-    console.log('App is listening on port 5173.')
+    console.log('App is listening on port 5000.')
 })
+

@@ -1,16 +1,26 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
+import {useNavigate} from "react-router-dom";
 import NavBar from "../components/NavBar/NavBar.jsx";
-
+import CryptoJS from 'crypto-js';
 
 function SignUp() {
     // Used to check whether the passwords match.
     const [confirmPassword, setConfirmPassword] = useState('');
+
+    useEffect(() => {
+        fetch('/', {method: 'GET'})
+        .then(res => {
+            console.log('Hello from Database~!')
+        })
+}, [])
     
     // userData state will be used to send user info to the back-end.
     const [userData, setUserData] = useState({
         username: '',
         password: ''
     })
+
+    const navigate = useNavigate()
 
     // Checks whether the passwords match.
     function handleConfirmPassword() {
@@ -31,22 +41,38 @@ function SignUp() {
             });
       };  
     
-      function handleSignUp() {
-        if (userData.username != '') {
-            
-        
-        } else {
-            console.log('Username cannot be empty!');
-        }
+    function sendToHomePage() {
+        //TODO
+        // Sends User to the Home Page
+        navigate('/')
     }
+
     // TODO
     // Sends userData to the back-end to insert into database.
     function handleSignUp(e) {
         e.preventDefault();
         if (handleConfirmPassword()) {
             if (userData.username != '') {
-                var hashedPW = CryptoJS.SHA512(password).toString();
-                
+                var hashedPW = CryptoJS.SHA512(userData.password).toString();
+                const updatedData = {...userData, password: hashedPW};
+
+                const dataToPost = {
+                    method: 'POST', 
+                    body: JSON.stringify(updatedData),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                };
+
+                fetch('http://localhost:5000/SignUp', dataToPost)
+                .then(res => {
+                        if (res.ok) {
+                            console.log('Sign Up Successful!')
+                            sendToHomePage()
+                        }
+                    }
+                );
+
             } else {
                 console.log('Username must not be empty!');
             }
@@ -61,7 +87,7 @@ function SignUp() {
             <NavBar/>
             <h1>Sign Up</h1>
             <div>
-                <form onSubmit={handleSignUp}>
+                <form onSubmit={(e) => handleSignUp(e)}>
                     <div>
                     <label>Enter Your Name:
                         <input type='text' 
