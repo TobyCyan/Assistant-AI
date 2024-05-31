@@ -86,37 +86,42 @@ function SignUp() {
         <>
         <div>
             <NavBar/>
-            <h1>Sign Up</h1>
-            <div>
-                <form onSubmit={(e) => handleSignUp(e)}>
-                    <div>
-                    <label>Username:
-                        <input type='text' 
-                        value={userData.username}
-                        onChange={(e) => handleNameChange(e.target.value)}/>
-                    </label>
-                    </div>
-                    <div>
-                    <label>Password:
-                        <input type='password' 
-                        value={userData.password} 
-                        onChange={(e) => handlePasswordChange(e.target.value)}/>
-                    </label>
-                    </div>
-                    <div>
-                    <label>Confirm Password:
-                        <input type='password' 
-                        value={confirmPassword} 
-                        onChange={(e) => {
-                            setConfirmPassword(e.target.value);
-                            }}/>
-                    </label>  
-                    </div>
-                    <button type='submit'>
-                    Submit
-                    </button> 
-                </form>
-            </div>      
+            <div className="accountFormBox">
+                <div className="accountFormInnerBox">
+                    <form onSubmit={handleSignUp}>
+                        <h4 className="accountFormHeader">Sign Up</h4>
+                        <div>
+                            <input type='text'
+                                   placeholder="Username"
+                                   value={userData.username}
+                                   className="usernameInput"
+                                   onChange={(e) => handleNameChange(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <input type='password'
+                                   placeholder="Password"
+                                   value={userData.password}
+                                   className="passwordInput"
+                                   onChange={(e) => handlePasswordChange(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <input type='password'
+                                   placeholder="Confirm Password"
+                                   value={confirmPassword}
+                                   className="passwordInput"
+                                   onChange={(e) => {
+                                       setConfirmPassword(e.target.value);
+                                   }}
+                            />
+                        </div>
+                        <button type='submit' className="primary-btn">
+                            Sign Up
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
         </>
     );

@@ -35,7 +35,7 @@ const Login = () => {
             <div className="accountFormBox">
                 <div className="accountFormInnerBox">
                     <form onSubmit={handleLogin}>
-                        <h4 className="accountHeader">Login</h4>
+                        <h4 className="accountFormHeader">Login</h4>
                         <input
                             type="text"
                             placeholder="Username"
