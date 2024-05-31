@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import {useNavigate} from "react-router-dom";
 import NavBar from "../components/NavBar/NavBar.jsx";
-import CryptoJS from 'crypto-js';
+// import CryptoJS from 'crypto-js';
+import '../index.css'
 
 function SignUp() {
     // Used to check whether the passwords match.
@@ -49,7 +50,7 @@ function SignUp() {
 
     // TODO
     // Sends userData to the back-end to insert into database.
-    const handleSignUp = async (e) {
+    const handleSignUp = async (e) => {
         e.preventDefault();
         if (handleConfirmPassword()) {
             if (userData.username != '') {
@@ -89,14 +90,14 @@ function SignUp() {
             <div>
                 <form onSubmit={(e) => handleSignUp(e)}>
                     <div>
-                    <label>Enter Your Name:
+                    <label>Username:
                         <input type='text' 
                         value={userData.username}
                         onChange={(e) => handleNameChange(e.target.value)}/>
                     </label>
                     </div>
                     <div>
-                    <label>Enter Your Password:
+                    <label>Password:
                         <input type='password' 
                         value={userData.password} 
                         onChange={(e) => handlePasswordChange(e.target.value)}/>

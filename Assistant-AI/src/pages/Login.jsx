@@ -1,6 +1,7 @@
-import React from 'react'
+import {React, useState} from 'react'
 import NavBar from "../components/NavBar/NavBar.jsx";
 import {Link, useNavigate} from "react-router-dom";
+import '../index.css'
 
 const Login = () => {
     const [username, setUsername] = useState("")
@@ -30,7 +31,34 @@ const Login = () => {
     return (
         <div>
             <NavBar/>
-            <h1>Login</h1>
+
+            <div className="accountFormBox">
+                <div className="accountFormInnerBox">
+                    <form onSubmit={handleLogin}>
+                        <h4 className="accountHeader">Login</h4>
+                        <input
+                            type="text"
+                            placeholder="Username"
+                            className="usernameInput"
+                            value={username}
+                            onChange={e => setUsername(e.target.value)}
+                        />
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            className="passwordInput"
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                        />
+
+                        <button type="submit" className="primary-btn">
+                            Login
+                        </button>
+
+                        <Link to="/signUp" className="signUpButton">Sign Up</Link>
+                    </form>
+                </div>
+            </div>
         </div>
     )
 }
