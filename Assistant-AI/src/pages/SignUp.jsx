@@ -15,7 +15,7 @@ function SignUp() {
         .then(res => {
             console.log('Hello from Database~!')
         })
-}, [])
+    }, [])
     
     // userData state will be used to send user info to the back-end.
     const [userData, setUserData] = useState({
@@ -39,7 +39,7 @@ function SignUp() {
 
     // Update userData with the new password.
     const handlePasswordChange = (newPW) => {
-    return setUserData((prevState) => {
+        return setUserData((prevState) => {
             return { ...prevState, password: newPW };
         });
     };  
@@ -74,11 +74,26 @@ function SignUp() {
         }
     }
 
-    function handleDifferentPassword() {
+    function renderSignUpError() {
+        if (error == 'UsernameTaken') {
+            return (
+                <div>
+                    Username Already Taken!
+                </div>
+            )
+        }
+    }
+
+    // Clears both passwords in the form.
+    function clearPW() {
         setUserData((prevState) => {
             return { ...prevState, password: '' };
         })
         setConfirmPassword('')
+    }
+
+    function handleDifferentPassword() {
+        clearPW()
         setError('MismatchPW')
     }
 
@@ -86,8 +101,15 @@ function SignUp() {
         setError('EmptyPW')
     }
 
+    function handleFailedSignUp(error) {
+        if (error == 'Username Already Taken!') {
+            clearPW()
+            setError('UsernameTaken')
+        }
+    }
+
+    // Sends User to the Home Page
     function sendToHomePage() {
-        // Sends User to the Home Page
         navigate('/')
     }
 
@@ -128,10 +150,15 @@ function SignUp() {
 
         fetch('http://localhost:5000/SignUp', dataToPost)
         .then(res => {
-                if (res.ok) {
-                    console.log('Sign Up Successful!')
-                    sendToHomePage()
-                }
+            // Response is ok if and only if the Response Status is 2xx.
+            if (res.ok) {
+                console.log('Sign Up Successful!')
+                sendToHomePage()
+                return
+            }
+            
+            // Response status is not ok, obtain the error text and handle it.
+            res.text().then(text => handleFailedSignUp(text))
             }
         );
     }
@@ -144,8 +171,9 @@ function SignUp() {
                 <div className="accountFormInnerBox">
                     <form onSubmit={handleSignUp}>
                         <h4 className="accountFormHeader">Sign Up</h4>
-                        
+
                         {renderEmptyUsernameError()}
+                        {renderSignUpError()}
                         <div>
                             <input type='text'
                                    placeholder="Username"

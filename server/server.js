@@ -1,5 +1,6 @@
 const express = require('express')
 const cors = require('cors')
+const jwt = require('jsonwebtoken')
 
 const app = express()
 const port = process.env.PORT || 5000
@@ -17,6 +18,8 @@ app.get('/', (req, res) => {
 const addUser = require('../Methods/userMethods.js').addUser
 // Post Request to Add User
 app.post('/SignUp', addUser)
+
+
 
 app.listen(port, () => {
     console.log('App is listening on port 5000.')
