@@ -1,4 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
+    // Defines a user table with its parameters.
     const User = sequelize.define('users', {
         id : {
             primaryKey: true,
@@ -11,13 +12,15 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         password: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
+            allowNull: false
         },
     }, {
         tableName: 'users'
     })
 
-    const Notes = sequelize.define('note', {
+    // Defines a tasks table with its parameters.
+    const Tasks = sequelize.define('task', {
         userId : {
             type: DataTypes.INTEGER,
             references: {
@@ -27,8 +30,24 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE'
         },
-        content: {
+        title: {
             type: DataTypes.TEXT,
+            allowNull: false,
+        },
+        description: {
+            type: DataTypes.TEXT,
+            allowNull: false
+        },
+        category: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        deadline: {
+            type: DataTypes.DATE,
+            allowNull: false
+        },
+        priority: {
+            type: DataTypes.STRING,
             allowNull: false
         },
         reminderDate: {
@@ -38,17 +57,18 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.TIME
         }
     }, {
-        tableName: 'note'
+        tableName: 'task'
     })
 
-    User.hasMany(Notes, {
+    // Defines a one-to-many relationship between a user and their tasks.
+    User.hasMany(Tasks, {
         foreignKey: 'userId',
     })
-    Notes.belongsTo(User, {
+    Tasks.belongsTo(User, {
         foreignKey: 'userId',
     }
     )
 
-
-    return [User, Notes]
+    // Returns the 2 tables in an array.
+    return [User, Tasks]
 }

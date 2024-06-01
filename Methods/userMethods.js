@@ -1,7 +1,7 @@
 const db = require('../Models/dataBase.js')
 
 const User = db.user
-const Notes = db.notes
+const Tasks = db.tasks
 
 // Refer to sequelize.org/master/manual for full API reference of queries.
 
@@ -18,9 +18,9 @@ const addUser = async (req, res) => {
     console.log(newUser + ' added to database!')
 }
 
-// Exports all methods to be used by the server.
 module.exports = {
     addUser,
 }
+
 
 

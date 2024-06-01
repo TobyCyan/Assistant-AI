@@ -32,8 +32,8 @@ db.Sequelize = Sequelize
 db.sequelize = sequelize
 
 // Define the tables in the db.
-db.user = require('./userAndNotesModel.js')(sequelize, DataTypes)[0]
-db.notes = require('./userAndNotesModel.js')(sequelize, DataTypes)[1]
+db.user = require('./userAndTasksModel.js')(sequelize, DataTypes)[0]
+db.tasks = require('./userAndTasksModel.js')(sequelize, DataTypes)[1]
 
 // Force is false to prevent database from being recreated repeatly.
 db.sequelize.sync({force: false})

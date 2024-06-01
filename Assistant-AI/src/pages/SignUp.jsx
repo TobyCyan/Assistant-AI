@@ -1,12 +1,14 @@
 import React, {useState, useEffect} from 'react'
 import {useNavigate} from "react-router-dom";
 import NavBar from "../components/NavBar/NavBar.jsx";
-// import CryptoJS from 'crypto-js';
+import CryptoJS from 'crypto-js';
 import '../index.css'
 
 function SignUp() {
     // Used to check whether the passwords match.
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('')
+
+    const [error, setError] = useState('')
 
     useEffect(() => {
         fetch('/', {method: 'GET'})
@@ -24,7 +26,7 @@ function SignUp() {
     const navigate = useNavigate()
 
     // Checks whether the passwords match.
-    function handleConfirmPassword() {
+    function pwMatch() {
         return confirmPassword === userData.password;
     }
     
@@ -35,15 +37,56 @@ function SignUp() {
             });
       };
 
-      // Update userData with the new password.
-      const handlePasswordChange = (newPW) => {
-        return setUserData((prevState) => {
-              return { ...prevState, password: newPW };
-            });
-      };  
+    // Update userData with the new password.
+    const handlePasswordChange = (newPW) => {
+    return setUserData((prevState) => {
+            return { ...prevState, password: newPW };
+        });
+    };  
     
+    function handleEmptyUsername() {
+        setError('UsernameError')
+    }
+
+    function renderEmptyUsernameError() {
+        if (error == 'UsernameError') {
+            return (
+                <div>
+                    Username Must Not Be Empty!
+                </div>
+            )
+        }
+    }
+
+    function renderPWError() {
+        if (error == 'MismatchPW') {
+            return (
+                <div>
+                    Passwords Do Not Match!
+                </div>
+            )
+        } else if (error == 'EmptyPW') {
+            return (
+                <div>
+                    Passwords Must Not Be Empty!
+                </div>
+            )
+        }
+    }
+
+    function handleDifferentPassword() {
+        setUserData((prevState) => {
+            return { ...prevState, password: '' };
+        })
+        setConfirmPassword('')
+        setError('MismatchPW')
+    }
+
+    function handleEmptyPW() {
+        setError('EmptyPW')
+    }
+
     function sendToHomePage() {
-        //TODO
         // Sends User to the Home Page
         navigate('/')
     }
@@ -52,34 +95,45 @@ function SignUp() {
     // Sends userData to the back-end to insert into database.
     const handleSignUp = async (e) => {
         e.preventDefault();
-        if (handleConfirmPassword()) {
-            if (userData.username != '') {
-                var hashedPW = CryptoJS.SHA512(userData.password).toString();
-                const updatedData = {...userData, password: hashedPW};
+        setError('')
 
-                const dataToPost = {
-                    method: 'POST', 
-                    body: JSON.stringify(updatedData),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                };
-
-                fetch('http://localhost:5000/SignUp', dataToPost)
-                .then(res => {
-                        if (res.ok) {
-                            console.log('Sign Up Successful!')
-                            sendToHomePage()
-                        }
-                    }
-                );
-
-            } else {
-                console.log('Username must not be empty!');
-            }
-        } else {
-            console.log('Passwords do not match!');
+        if (userData.username == '') {
+            console.log('Username cannot be empty!')
+            handleEmptyUsername()
+            return
         }
+
+        if (userData.password == '') {
+            console.log('Password cannot be Empty!')
+            handleEmptyPW()
+            return
+        }
+
+        if (!pwMatch()) {
+            console.log('Passwords do not match!')
+            handleDifferentPassword()
+            return
+        }
+
+        var hashedPW = CryptoJS.SHA512(userData.password).toString();
+        const updatedData = {...userData, password: hashedPW};
+
+        const dataToPost = {
+            method: 'POST', 
+            body: JSON.stringify(updatedData),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+
+        fetch('http://localhost:5000/SignUp', dataToPost)
+        .then(res => {
+                if (res.ok) {
+                    console.log('Sign Up Successful!')
+                    sendToHomePage()
+                }
+            }
+        );
     }
 
     return (
@@ -90,6 +144,8 @@ function SignUp() {
                 <div className="accountFormInnerBox">
                     <form onSubmit={handleSignUp}>
                         <h4 className="accountFormHeader">Sign Up</h4>
+                        
+                        {renderEmptyUsernameError()}
                         <div>
                             <input type='text'
                                    placeholder="Username"
@@ -98,6 +154,8 @@ function SignUp() {
                                    onChange={(e) => handleNameChange(e.target.value)}
                             />
                         </div>
+
+                        {renderPWError()}
                         <div>
                             <input type='password'
                                    placeholder="Password"
