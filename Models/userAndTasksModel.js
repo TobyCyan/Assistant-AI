@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     const Tasks = sequelize.define('task', {
         userId : {
             type: DataTypes.INTEGER,
+            allowNull: false,
             references: {
                 model: User,
                 key: 'id'
@@ -50,11 +51,8 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        reminderDate: {
+        reminder: {
             type: DataTypes.DATE
-        },
-        reminderTime: {
-            type: DataTypes.TIME
         }
     }, {
         tableName: 'task'
