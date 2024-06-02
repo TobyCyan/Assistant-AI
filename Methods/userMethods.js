@@ -21,7 +21,8 @@ const addUser = async (req, res) => {
     let newUserData = {
         name: data['username'],
         password: data['password'],
-        points: data['points']
+        points: data['points'],
+        dateOfBirth: data['dateOfBirth']
     }
     // Username must be unique.
     const findUser = await User.findOne({attributes: ['name'],

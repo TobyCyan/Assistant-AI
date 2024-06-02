@@ -55,7 +55,7 @@ code {
   margin-bottom: 1.75rem;
 }
 
-.usernameInput, .passwordInput {
+.usernameInput, .passwordInput, .dateOfBirthInput {
   width: 80%;
   font-size: 0.875rem;
   background-color: transparent;
@@ -64,6 +64,10 @@ code {
   border-radius: 0.25rem;
   margin-bottom: 1rem;
   outline: none;
+}
+
+.error {
+  color:crimson;
 }
 
 .primary-btn {

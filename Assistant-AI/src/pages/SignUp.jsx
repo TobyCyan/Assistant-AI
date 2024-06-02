@@ -21,7 +21,8 @@ function SignUp() {
     const [userData, setUserData] = useState({
         username: '',
         password: '',
-        points: 0
+        points: 0,
+        dateOfBirth: ''
     })
 
     const navigate = useNavigate()
@@ -43,16 +44,22 @@ function SignUp() {
         return setUserData((prevState) => {
             return { ...prevState, password: newPW };
         });
-    };  
+    };
     
-    function handleEmptyUsername() {
-        setError('UsernameError')
+    // Update userData with the new birth date.
+    const handleBirthDateChange = (newBirthDate) => {
+        const birthDateObject = new Date(newBirthDate)
+        const formattedDate = birthDateObject.toISOString().split('T')[0];
+
+        return setUserData((prevState) => {
+            return { ...prevState, dateOfBirth: formattedDate };
+        });
     }
 
     function renderEmptyUsernameError() {
         if (error == 'UsernameError') {
             return (
-                <div>
+                <div className='error'> 
                     Username Must Not Be Empty!
                 </div>
             )
@@ -62,7 +69,7 @@ function SignUp() {
     function renderPWError() {
         if (error == 'MismatchPW') {
             return (
-                <div>
+                <div className='error'>
                     Passwords Do Not Match!
                 </div>
             )
@@ -78,8 +85,18 @@ function SignUp() {
     function renderSignUpError() {
         if (error == 'UsernameTaken') {
             return (
-                <div>
+                <div className='error'>
                     Username Already Taken!
+                </div>
+            )
+        }
+    }
+
+    function renderDateOfBirthError() {
+        if (error == 'EmptyDOB') {
+            return (
+                <div className='error'>
+                    Please Fill Up Your Birthday!
                 </div>
             )
         }
@@ -93,6 +110,10 @@ function SignUp() {
         setConfirmPassword('')
     }
 
+    function handleEmptyUsername() {
+        setError('UsernameError')
+    }
+
     function handleDifferentPassword() {
         clearPW()
         setError('MismatchPW')
@@ -100,6 +121,10 @@ function SignUp() {
 
     function handleEmptyPW() {
         setError('EmptyPW')
+    }
+
+    function handleEmptyDateOfBirth() {
+        setError('EmptyDOB')
     }
 
     function handleFailedSignUp(error) {
@@ -123,6 +148,12 @@ function SignUp() {
         if (userData.username == '') {
             console.log('Username cannot be empty!')
             handleEmptyUsername()
+            return
+        }
+
+        if (userData.dateOfBirth == '') {
+            console.log('Date of Birth cannot be empty!')
+            handleEmptyDateOfBirth()
             return
         }
 
@@ -184,6 +215,15 @@ function SignUp() {
                             />
                         </div>
 
+                        {renderDateOfBirthError()}
+                        <div>
+                            <input type='date' 
+                                    placeholder='dd-mm-yyyy'
+                                    value={userData.dateOfBirth}
+                                    className='dateOfBirthInput'
+                                    onChange={(e) => handleBirthDateChange(e.target.value)}
+                            />
+                        </div>
                         {renderPWError()}
                         <div>
                             <input type='password'

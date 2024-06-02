@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
         points: {
             type: DataTypes.INTEGER,
             allowNull: false
+        },
+        dateOfBirth: {
+            type: DataTypes.DATE,
+            allowNull: false
         }
     }, {
         tableName: 'users'
