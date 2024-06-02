@@ -34,6 +34,8 @@ Our goal is to develop a task management application that helps users to organiz
 
 ### Project Scope
 
+Assistant AI is essentially a task management system with the help of a Virtual Assistant to automate simple tasks for a more interactive user experience.
+
 #### Features Summary
 
 #### Core
@@ -247,3 +249,41 @@ Our goal is to develop a task management application that helps users to organiz
 **Architecture Diagram**
 
 ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/b75b3da5788da89c66ae5746696fb7f301f2e8039af63825.png)
+
+### Proof of Concept
+
+**New User**
+
+![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/8a15fa41f9db45ad25530558039336cff6e746ccb5c96f06.png)
+
+![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/9b51ebd0b9dcedcec265940edfb462a6b6741cf9ed3caeb6.png)
+
+![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/ddf0bc096ae49618c49132a6959ce9d219232bfb863d19fa.png)
+
+**Error Handling (Front-End)**
+
+Empty Username
+
+![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/57b67b20b462106ae079045fc75cd371618ef771f1b08983.png)
+
+Empty Birth Date
+
+![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/6424df0d1be08b5ab8d44bb2de25763afaadb95f535a909e.png)
+
+Empty Password
+
+![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/21af7816627b7b3b394928cfcebb70982d0d0e71c611521a.png)
+
+Password Mismatch
+
+![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/0b4fc16f53433474d6d92c57765760be120da3a713d26550.png)
+
+![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/bb705a742581e578ce61314f67075082e109fa095ff8a1d6.png)
+
+**Error Handling (Back-End)**
+
+Existing User
+
+![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/590bf77b8875d96a47783f87d89891588241f14582f381b0.png)
+
+![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/00c6ab2241cd4574f7216fdb1857a7451dabc0f61d8fb82d.png)
