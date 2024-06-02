@@ -75,7 +75,7 @@ function SignUp() {
             )
         } else if (error == 'EmptyPW') {
             return (
-                <div>
+                <div className='error'>
                     Passwords Must Not Be Empty!
                 </div>
             )
