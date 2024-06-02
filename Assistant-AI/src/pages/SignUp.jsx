@@ -20,7 +20,8 @@ function SignUp() {
     // userData state will be used to send user info to the back-end.
     const [userData, setUserData] = useState({
         username: '',
-        password: ''
+        password: '',
+        points: 0
     })
 
     const navigate = useNavigate()
