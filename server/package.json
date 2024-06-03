@@ -12,12 +12,14 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.9.8",
     "sequelize": "^6.37.3"
   },
   "devDependencies": {
     "babel-preset-react-app": "@babel/plugin-proposal-private-property-in-object",
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.2"
   }
 }

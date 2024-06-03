@@ -3,7 +3,7 @@ const cors = require('cors')
 const jwt = require('jsonwebtoken')
 
 const app = express()
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 5001
 
 // Middlewares
 app.use(cors())
@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
     res.send('Server is running fine lololol')
 })
 
-const addUser = require('../Methods/userMethods.js').addUser
+const addUser = require('./Methods/userMethods.js').addUser
 // Post Request to Add User
 app.post('/SignUp', addUser)
 
