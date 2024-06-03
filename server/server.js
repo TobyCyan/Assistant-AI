@@ -16,8 +16,12 @@ app.get('/', (req, res) => {
 })
 
 const addUser = require('../Methods/userMethods.js').addUser
+const loginUser = require('../Methods/userMethods.js').loginUser
 // Post Request to Add User
 app.post('/SignUp', addUser)
+
+// Post Request to Login User
+app.post('/Login', loginUser)
 
 
 
