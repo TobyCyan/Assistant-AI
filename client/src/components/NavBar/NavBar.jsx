@@ -1,11 +1,11 @@
-import {useState, React} from 'react'
+import React, { useState, useEffect} from 'react'
 import UserInfo from "./UserInfo.jsx";
 import '../../index.css'
 import { useNavigate, Link } from 'react-router-dom'
+import {useTokenContext} from "../TokenContext/TokenContext.jsx";
 
 const NavBar = () => {
-    const[isLoggedIn, setLoggedIn] = useState(false);
-    const[userInfo, setUserInfo] = useState(null);
+    const {token, setToken} = useTokenContext()
     const navigate = useNavigate()
 
     // To Home Page
@@ -28,10 +28,10 @@ const NavBar = () => {
             <div className="navBarLinkBox">
                 <ul className="navList">
                     <li><Link to="/" className="navBarLinks">Assistant AI</Link></li>
-                    <li><Link to="/tasks" className="navBarLinks">My Tasks</Link></li>
+                    <li><Link to={token ? "/tasks" : "/login"} className="navBarLinks">My Tasks</Link></li>
                 </ul>
             </div>
-            <UserInfo isLoggedIn={isLoggedIn} userInfo={userInfo}/>
+            <UserInfo/>
         </div>
     )
 }

@@ -272,7 +272,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
 
 ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/b75b3da5788da89c66ae5746696fb7f301f2e8039af63825.png)
 
-### Proof of Concept
+### Technical Proof of Concept
 
 **New User**
 

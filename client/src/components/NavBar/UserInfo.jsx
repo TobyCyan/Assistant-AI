@@ -1,11 +1,28 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import '../../index.css'
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useTokenContext } from "../TokenContext/TokenContext.jsx";
+// import {secretKey} from "../../../../server/Methods/userMethods";
 
-const UserInfo = ({userInfo}) => {
+// const jwt = require('jsonwebtoken')
+
+const UserInfo = () => {
     const navigate = useNavigate()
 
+    const {token, setToken} = useTokenContext()
+    const [username, setUsername] = useState('')
+
+    useEffect(() => {
+        if (token) {
+            // const user = jwt.verify(token, secretKey)
+            // setUsername(user)
+            console.log('Token Refreshed')
+        }
+    }, [token])
+
+
     const onLogOut = () => {
+        setToken('')
         navigate("/login")
     }
 
@@ -13,20 +30,28 @@ const UserInfo = ({userInfo}) => {
         navigate("/SignUp")
     }
 
-    if(!userInfo) {
-        return(
-            <div className="userInfo">
-                <p>User Name</p>
-                <button onClick={onLogOut} className="navBarBtn">Log Out</button>
-            </div>
-        )
-    } else {
-        return (
-            <div className="userInfo">
-                <button onClick={onLogOut} className="navBarBtn">Login</button>
-                <button onClick={onSignUp} className="navBarBtn">Sign Up</button>
-            </div>
-        )
+    const userBar = () => {
+        if (token) {
+            return (
+                <div className="userInfo">
+                    <p className="username">{username}</p>
+                    <button className="navBarBtn" onClick={onLogOut}>Log Out</button>
+                </div>
+            )
+        } else {
+            return (
+                <div className="userInfo">
+                    <button className="navBarBtn" onClick={onLogOut}>Log In</button>
+                    <button className="navBarBtn" onClick={onSignUp}>Sign Up</button>
+                </div>
+            )
+        }
     }
+
+    return(
+        <>
+            {userBar()}
+        </>
+    )
 }
 export default UserInfo;

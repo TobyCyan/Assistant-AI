@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom";
 import NavBar from "../components/NavBar/NavBar.jsx";
 import CryptoJS from 'crypto-js';
 import '../index.css'
+import RenderError from "../components/RenderError/RenderError";
 
 function SignUp() {
     // Used to check whether the passwords match.
@@ -54,52 +55,6 @@ function SignUp() {
         return setUserData((prevState) => {
             return { ...prevState, dateOfBirth: formattedDate };
         });
-    }
-
-    function renderEmptyUsernameError() {
-        if (error == 'UsernameError') {
-            return (
-                <div className='error'> 
-                    Username Must Not Be Empty!
-                </div>
-            )
-        }
-    }
-
-    function renderPWError() {
-        if (error == 'MismatchPW') {
-            return (
-                <div className='error'>
-                    Passwords Do Not Match!
-                </div>
-            )
-        } else if (error == 'EmptyPW') {
-            return (
-                <div className='error'>
-                    Passwords Must Not Be Empty!
-                </div>
-            )
-        }
-    }
-
-    function renderSignUpError() {
-        if (error == 'UsernameTaken') {
-            return (
-                <div className='error'>
-                    Username Already Taken!
-                </div>
-            )
-        }
-    }
-
-    function renderDateOfBirthError() {
-        if (error == 'EmptyDOB') {
-            return (
-                <div className='error'>
-                    Please Fill Up Your Birthday!
-                </div>
-            )
-        }
     }
 
     // Clears both passwords in the form.
@@ -180,11 +135,12 @@ function SignUp() {
             }
         };
 
-        fetch('http://localhost:5000/SignUp', dataToPost)
+        fetch('http://localhost:5001/SignUp', dataToPost)
         .then(res => {
             // Response is ok if and only if the Response Status is 2xx.
             if (res.ok) {
                 console.log('Sign Up Successful!')
+                localStorage.setItem('jwt', res.json().token)
                 sendToHomePage()
                 return
             }
@@ -204,8 +160,8 @@ function SignUp() {
                     <form onSubmit={handleSignUp}>
                         <h4 className="accountFormHeader">Sign Up</h4>
 
-                        {renderEmptyUsernameError()}
-                        {renderSignUpError()}
+                        {RenderError.renderEmptyUsernameError(error)}
+                        {RenderError.renderSignUpError(error)}
                         <div>
                             <input type='text'
                                    placeholder="Username"
@@ -215,7 +171,7 @@ function SignUp() {
                             />
                         </div>
 
-                        {renderDateOfBirthError()}
+                        {RenderError.renderDateOfBirthError(error)}
                         <div>
                             <input type='date' 
                                     placeholder='dd-mm-yyyy'
@@ -224,7 +180,7 @@ function SignUp() {
                                     onChange={(e) => handleBirthDateChange(e.target.value)}
                             />
                         </div>
-                        {renderPWError()}
+                        {RenderError.renderPWError(error)}
                         <div>
                             <input type='password'
                                    placeholder="Password"
