@@ -25,6 +25,6 @@ app.post('/SignUp', addUser)
 app.post('/Login', loginUser)
 
 app.listen(port, () => {
-    console.log('App is listening on port 5000.')
+    console.log('App is listening on port 5001.')
 })
 

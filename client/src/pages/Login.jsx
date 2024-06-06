@@ -55,19 +55,25 @@ const Login = () => {
         };
 
         fetch('http://localhost:5001/Login', dataToPost)
-            .then(res => {
-                    // Response is ok if and only if the Response Status is 2xx.
-                    if (res.ok) {
-                        console.log('Login Successful!')
-                        setToken(res.json().token)
-                        sendToHomePage()
-                        return
-                    }
-
-                    // Response status is not ok, obtain the error text and handle it.
-                    res.text().then(text => handleFailedLogin(text))
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    response.text().then(text => handleFailedLogin(text));
                 }
-            )
+            })
+            .then(data => {
+                if (data) {
+                    console.log('Login Successful!');
+                    console.log(data.token);
+                    setToken(data.token);
+                    sendToHomePage();
+                }
+            })
+            .catch(error => {
+                console.error('Login failed:', error);
+                handleFailedLogin('Login failed');
+            });
     }
 
     return (

@@ -23,6 +23,7 @@ const UserInfo = () => {
 
     const onLogOut = () => {
         setToken('')
+        console.log(token)
         navigate("/login")
     }
 

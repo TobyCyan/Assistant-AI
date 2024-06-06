@@ -31,7 +31,7 @@ const addUser = async (req, res) => {
         return
     } else {
         const newUser = await User.create(newUserData)
-        const token = jwt.sign(newUserData.name, secretKey)
+        const token = jwt.sign({username: newUserData.name}, secretKey, {expiresIn: 5 * 60})
         res.status(200).send(token)
         console.log(newUser + ' added to database!')
     }
@@ -41,12 +41,17 @@ const addUser = async (req, res) => {
 // TODO
 // Somehow findUser isn't returning properly.
 const loginUser = async (req, res) => {
-    const {username, password} = req.body
-    const findUser = await User.findOne({username})
+    const {username, hashedPW} = req.body
+    console.log(req.body)
+    const findUser = await User.findOne({where: {name: username}})
+    console.log(findUser)
 
-    if (findUser && findUser.password === password) {
-        const token = jwt.sign(username, secretKey)
-        res.send({token})
+    if (findUser && findUser.password === hashedPW) {
+        const token = jwt.sign({username}, secretKey)
+        console.log(token)
+        return res.json({
+            token
+        })
     } else {
         res.status(401).send('Invalid Credentials')
     }
