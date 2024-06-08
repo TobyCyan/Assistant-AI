@@ -18,17 +18,23 @@ code {
   align-items: center;
   justify-content: space-between;
   padding: 0.5rem 1.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* equivalent to drop-shadow */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .navList {
-  list-style: none; /* Remove bullet points */
-  display: flex; /* Display list items in a row */
+  list-style: none;
+  display: flex;
 }
 
-.navBarLinks, .signUpButton {
-  text-decoration: none; /* Remove underline */
+.navBarLinks {
+  text-decoration: none;
   margin: 0 0.5rem;
+  color: black;
+}
+
+.signUpButton {
+  text-decoration: none;
+  margin: 0.5rem;
   color: black;
 }
 

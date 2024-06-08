@@ -1,6 +1,7 @@
 const {and} = require('sequelize')
 const db = require('../Models/dataBase.js')
 const jwt = require('jsonwebtoken')
+const {authenticateToken} = require("../utilities/utilities")
 
 const User = db.user
 const Tasks = db.tasks
@@ -42,13 +43,11 @@ const addUser = async (req, res) => {
 // Somehow findUser isn't returning properly.
 const loginUser = async (req, res) => {
     const {username, hashedPW} = req.body
-    console.log(req.body)
     const findUser = await User.findOne({where: {name: username}})
-    console.log(findUser)
 
     if (findUser && findUser.password === hashedPW) {
+        // JWT was signed with username
         const token = jwt.sign({username}, secretKey)
-        console.log(token)
         return res.json({
             token
         })
@@ -57,9 +56,34 @@ const loginUser = async (req, res) => {
     }
 }
 
+//Get User Details
+const getUserInfo = async(req, res) => {
+    console.log("Started fetch")
+    console.log(req)
+    console.log(req.user)
+    const username = req.user
+
+    const findUser = await User.findOne({where: {name: username}})
+
+    if(findUser) {
+        console.log("Found User")
+        return res.json({
+            user: {
+                id: findUser.id,
+                username: findUser.name,
+                points: findUser.points,
+                dateOfBirth: findUser.dateOfBirth,
+            }
+        })
+    } else {
+        res.status(401).send('Error, no such user found in DB')
+    }
+}
+
 module.exports = {
     addUser,
     loginUser,
+    getUserInfo,
 }
 
 

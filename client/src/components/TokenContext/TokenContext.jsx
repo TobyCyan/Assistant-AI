@@ -3,8 +3,10 @@ import {useNavigate} from "react-router-dom";
 const TokenContext = createContext()
 
 export const TokenProvider = ({children}) => {
-    const [token, setToken] = useState(localStorage.getItem('jwt') || '')
+    // localStorage.getItem returns a truthy value - undefined
+    const [token, setToken] = useState('')
 
+    // Debugging
     useEffect(() => {
         // This will run after the state update is complete
         console.log(token + "Updated");

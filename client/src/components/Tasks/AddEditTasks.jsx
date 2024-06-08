@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 
+// To receive the following 1) Task Data (if edit) 2) Type - add or edit - need to load
 const AddEditTasks = () => {
     const[title, setTitle] = useState("");
     const[description, setDescription] = useState("");
