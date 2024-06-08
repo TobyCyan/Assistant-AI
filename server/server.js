@@ -15,9 +15,7 @@ app.use(express.urlencoded())
 const secretKey = 'aSsiSTaNTAIiSAlwAYsHErEtOhelP020620241aM*$^0^'
 
 // Get Request
-app.get('/', (req, res) => {
-    res.send('Server is running fine lololol')
-})
+app.get('/Tasks', getTasks)
 
 const addUser = require('./Methods/userMethods.js').addUser
 const loginUser = require('./Methods/userMethods.js').loginUser
@@ -31,6 +29,7 @@ app.post('/Login', loginUser)
 
 // Get Request of User
 app.get('/getUser', authenticateToken(secretKey), getUserInfo)
+
 
 app.listen(port, () => {
     console.log('App is listening on port 5001.')

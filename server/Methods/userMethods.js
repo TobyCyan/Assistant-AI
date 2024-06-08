@@ -1,7 +1,11 @@
 const {and} = require('sequelize')
 const db = require('../Models/dataBase.js')
 const jwt = require('jsonwebtoken')
+<<<<<<< Updated upstream:server/Methods/userMethods.js
 const {authenticateToken} = require("../utilities/utilities")
+=======
+const { user } = require('../config/dbConfig.js')
+>>>>>>> Stashed changes:Methods/userMethods.js
 
 const User = db.user
 const Tasks = db.tasks
@@ -10,6 +14,15 @@ const Tasks = db.tasks
 const secretKey = 'aSsiSTaNTAIiSAlwAYsHErEtOhelP020620241aM*$^0^'
 
 // Refer to sequelize.org/master/manual for full API reference of queries.
+
+const getIdByUsername = async (username) => {
+    const userData = await User.findOne({
+        where: {
+            name: username
+        }
+    })
+    return userData[0].id
+}
 
 // Query to add a new user to db.
 const addUser = async (req, res) => {
@@ -32,6 +45,7 @@ const addUser = async (req, res) => {
         return
     } else {
         const newUser = await User.create(newUserData)
+<<<<<<< Updated upstream:server/Methods/userMethods.js
         const token = jwt.sign({username: newUserData.name}, secretKey, {expiresIn: 5 * 60})
         res.status(200).send(token)
         console.log(newUser + ' added to database!')
@@ -56,6 +70,7 @@ const loginUser = async (req, res) => {
     }
 }
 
+<<<<<<< Updated upstream:server/Methods/userMethods.js
 //Get User Details
 const getUserInfo = async(req, res) => {
     console.log("Started fetch")
@@ -84,6 +99,52 @@ module.exports = {
     addUser,
     loginUser,
     getUserInfo,
+=======
+const getTasks = async (req, res) => {
+    const userId = await getIdByUsername(req.body)
+    const tasks = await Tasks.findAll({userId: userId})
+
+    if (tasks) {
+        res.send({tasks})
+    } else {
+        res.status(401).send('Invalid User/ Tasks')
+    }
+}
+
+const addTask = async (req, res) => {
+    const data = req.body
+    let newTaskData = {
+        userId: data['userId'],
+        title: data['title'],
+        description: data['description'],
+        category: data['category'],
+        deadline: data['deadline'],
+        priority: data['priority'],
+        reminder: data['reminder']
+    }
+    const newTask = await Tasks.create(newTaskData)
+    console.log(newUser + ' added to database!')
+}
+
+const editTask = async (req, res) => {
+// TODO
+
+}
+
+const updateTask = async (req, res) => {
+// TODO
+// use Tasks.update
+
+}
+
+module.exports = {
+    addUser,
+    loginUser,
+    getTasks,
+    addTask,
+    editTask,
+    updateTask,
+>>>>>>> Stashed changes:Methods/userMethods.js
 }
 
 
