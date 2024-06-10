@@ -1,11 +1,11 @@
 const {and} = require('sequelize')
 const db = require('../Models/dataBase.js')
 const jwt = require('jsonwebtoken')
-<<<<<<< Updated upstream:server/Methods/userMethods.js
+
 const {authenticateToken} = require("../utilities/utilities")
-=======
+
 const { user } = require('../config/dbConfig.js')
->>>>>>> Stashed changes:Methods/userMethods.js
+
 
 const User = db.user
 const Tasks = db.tasks
@@ -15,13 +15,14 @@ const secretKey = 'aSsiSTaNTAIiSAlwAYsHErEtOhelP020620241aM*$^0^'
 
 // Refer to sequelize.org/master/manual for full API reference of queries.
 
+// Gets UserID by the Username.
 const getIdByUsername = async (username) => {
     const userData = await User.findOne({
         where: {
             name: username
         }
     })
-    return userData[0].id
+    return userData.dataValues.id
 }
 
 // Query to add a new user to db.
@@ -45,7 +46,6 @@ const addUser = async (req, res) => {
         return
     } else {
         const newUser = await User.create(newUserData)
-<<<<<<< Updated upstream:server/Methods/userMethods.js
         const token = jwt.sign({username: newUserData.name}, secretKey, {expiresIn: 5 * 60})
         res.status(200).send(token)
         console.log(newUser + ' added to database!')
@@ -62,17 +62,15 @@ const loginUser = async (req, res) => {
     if (findUser && findUser.password === hashedPW) {
         // JWT was signed with username
         const token = jwt.sign({username}, secretKey)
-        return res.json({
-            token
-        })
+        const userId = await getIdByUsername(username)
+        res.send({token: token, userId: userId})
     } else {
         res.status(401).send('Invalid Credentials')
     }
 }
 
-<<<<<<< Updated upstream:server/Methods/userMethods.js
 //Get User Details
-const getUserInfo = async(req, res) => {
+const getUserInfo = async (req, res) => {
     console.log("Started fetch")
     console.log(req)
     console.log(req.user)
@@ -95,17 +93,12 @@ const getUserInfo = async(req, res) => {
     }
 }
 
-module.exports = {
-    addUser,
-    loginUser,
-    getUserInfo,
-=======
 const getTasks = async (req, res) => {
-    const userId = await getIdByUsername(req.body)
+    const {userId} = req.body
     const tasks = await Tasks.findAll({userId: userId})
 
     if (tasks) {
-        res.send({tasks})
+        res.send({tasks: tasks})
     } else {
         res.status(401).send('Invalid User/ Tasks')
     }
@@ -123,7 +116,8 @@ const addTask = async (req, res) => {
         reminder: data['reminder']
     }
     const newTask = await Tasks.create(newTaskData)
-    console.log(newUser + ' added to database!')
+    res.send({newTask: newTask})
+    console.log(newTask + ' added to database!')
 }
 
 const editTask = async (req, res) => {
@@ -132,8 +126,22 @@ const editTask = async (req, res) => {
 }
 
 const updateTask = async (req, res) => {
-// TODO
-// use Tasks.update
+    // TODO
+    // use Tasks.update
+
+}
+
+const deleteTask = async (req, res) => {
+    const {taskId, userId} = req.body
+    const deleteTask = await Tasks.destroy({
+        where: {
+            id: taskId,
+            userId: userId
+        }
+    })
+    .catch(err => console.error('Error Deleting Task', err))
+
+    console.log('Task Successfully Deleted!')
 
 }
 
@@ -144,7 +152,8 @@ module.exports = {
     addTask,
     editTask,
     updateTask,
->>>>>>> Stashed changes:Methods/userMethods.js
+    deleteTask,
+    getUserInfo
 }
 
 

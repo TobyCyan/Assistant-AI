@@ -56,10 +56,54 @@ const renderInvalidCredentialsError = (error) => {
     }
 }
 
+const renderNoTaskTitleError = (error) => {
+    if (error == 'noTaskTitle') {
+        return (
+            <div className='error'>
+                Please Enter A Title!
+            </div>
+        )
+    }
+}
+
+const renderNoTaskCategoryError = (error) => {
+    if (error == 'noTaskCategory') {
+        return (
+            <div className='error'>
+                Please Enter A Category!
+            </div>
+        )
+    }
+}
+
+const renderNoTaskPriorityError = (error) => {
+    if (error == 'noTaskPriority') {
+        return (
+            <div className='error'>
+                Please Enter A Priority Level!
+            </div>
+        )
+    }
+}
+
+const renderNoTaskDeadlineError = (error) => {
+    if (error == 'noTaskDeadline') {
+        return (
+            <div className='error'>
+                Please Enter A Deadline!
+            </div>
+        )
+    }
+}
+
 export default {
     renderDateOfBirthError,
     renderEmptyUsernameError,
     renderPWError,
     renderSignUpError,
-    renderInvalidCredentialsError
+    renderInvalidCredentialsError,
+    renderNoTaskTitleError,
+    renderNoTaskCategoryError,
+    renderNoTaskPriorityError,
+    renderNoTaskDeadlineError,
 }

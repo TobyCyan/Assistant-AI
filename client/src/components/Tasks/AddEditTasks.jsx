@@ -1,17 +1,59 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+import { useTokenContext } from '../TokenContext/TokenContext';
+import RenderError from '../RenderError/RenderError';
 
 // To receive the following 1) Task Data (if edit) 2) Type - add or edit - need to load
-const AddEditTasks = () => {
-    const[title, setTitle] = useState("");
-    const[description, setDescription] = useState("");
-    const[category, setCategory] = useState("");
-    const[deadline, setDeadline] = useState("");
-    const[priority, setPriority] = useState("");
-    const[error, setError] = useState("");
+const AddEditTasks = (tasks, setTasks) => {
+    const {tokenStatus, userInfo} = useTokenContext()
+    const [token, setToken] = tokenStatus
+    const [userData, setUserData] = userInfo
+
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [category, setCategory] = useState('');
+    const [deadline, setDeadline] = useState('');
+    const [priority, setPriority] = useState('');
+    const [reminder, setReminder] = useState('')
+    const[error, setError] = useState('');
 
     //Add Task API Call
     const addNewTask = async () => {
-        //POST
+        const newTask = {
+            userId: userData.userId,
+            title: title,
+            description: description,
+            category: category,
+            deadline: deadline,
+            priority: priority,
+            reminder: null
+        }
+        const dataToPost = {
+            method: 'POST',
+            body: JSON.stringify(newTask),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        // POST Request to Add Task.
+        fetch('http://localhost:5001/AddTask', dataToPost)
+        .then(res => {
+            if (res.ok) {
+                console.log('Task Successfully Added!')
+                return res.json()
+            } else {
+                console.error(err => 'Add Task Failed!', err)
+            }
+        })
+        .then(task => {
+            setTitle('')
+            setDescription('')
+            setCategory('')
+            setDeadline('')
+            setPriority('')
+            setReminder('')
+            setTasks([task.newTask, ...tasks]);
+            onClose()
+        })
     }
 
     //Edit Task API Call
@@ -19,43 +61,39 @@ const AddEditTasks = () => {
         //PUT
     }
 
-    const handleAddTask=() => {
-        if(!title) {
-            setError("Please enter a title");
+    const handleAddTask = (e) => {
+        e.preventDefault();
+        if(title == '') {
+            setError('noTaskTitle');
             return;
         }
 
-        if(!category) {
-            setError("Please enter a category");
+        if(category == '') {
+            setError('noTaskCategory');
             return;
         }
 
-        if(!deadline) {
-            setError("Please enter a deadline");
+        if(deadline == '') {
+            setError('noTaskDeadline');
             return;
         }
 
-        if(!priority) {
-            setError("Please enter a priority level");
+        if(priority == '') {
+            setError("noTaskPriority");
             return;
         }
 
-        setError("");
+        setError('');
 
         //Add or Edit
-    }
-
-    const onClose = () => {
-        //Close Modal
+        addNewTask()
     }
 
     // Add / Edit Task Layout
-    return(
+    return (
         <div className="addEditTaskContainer">
-            <button className="taskCloseButton">
-                Close
-            </button>
 
+            {RenderError.renderNoTaskTitleError(error)}
             <div className="titleBox">
                 <label>Title</label>
                 <input
@@ -79,6 +117,7 @@ const AddEditTasks = () => {
                 />
             </div>
 
+            {RenderError.renderNoTaskCategoryError(error)}
             <div className="categoryBox">
                 <label>Category</label>
                 <input
@@ -90,6 +129,7 @@ const AddEditTasks = () => {
                 />
             </div>
 
+            {RenderError.renderNoTaskPriorityError(error)}
             <div className="priorityBox">
                 <label>Priority</label>
                 <select id="priority" value={priority} onChange={e => setPriority(e.target.value)}>
@@ -100,12 +140,13 @@ const AddEditTasks = () => {
                 </select>
             </div>
 
+            {RenderError.renderNoTaskDeadlineError(error)}
             <div className="deadlineBox">
                 <label>Deadline:</label>
                 <input type="date" value={deadline} onChange={e => setDeadline(e.target.value)}/>
             </div>
 
-            <button className="saveTask" onClick={handleAddTask}>
+            <button className="saveTask" onClick={e => handleAddTask(e)}>
                 Save
             </button>
         </div>

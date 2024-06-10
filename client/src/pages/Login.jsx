@@ -10,7 +10,10 @@ const Login = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState('')
-    const {token, setToken} = useTokenContext()
+    const {tokenStatus, userInfo, tasksInfo} = useTokenContext()
+    const [token, setToken] = tokenStatus
+    const [userData, setUserData] = userInfo
+    const [tasks, setTasks] = tasksInfo
 
     const navigate = useNavigate()
 
@@ -55,24 +58,27 @@ const Login = () => {
         };
 
         fetch('http://localhost:5001/Login', dataToPost)
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
+            .then(res => {
+                if (res.ok) {
+                    console.log('Login Successful!');
+                    return res.json()
                 } else {
-                    response.text().then(text => handleFailedLogin(text));
+                    res.text().then(text => handleFailedLogin(text));
                 }
             })
-            .then(data => {
-                if (data) {
-                    console.log('Login Successful!');
-                    console.log(data.token);
-                    setToken(data.token);
+            .then(tokenResponse => {
+                if (tokenResponse) {
+                    console.log(tokenResponse);
+                    setToken(tokenResponse.token);
+                    const tokenPayload = JSON.parse(atob(tokenResponse.token?.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))
+                    const username = tokenPayload?.username
+
+                    setUserData({username: username, userId: tokenResponse.userId})
                     sendToHomePage();
                 }
             })
             .catch(error => {
                 console.error('Login failed:', error);
-                handleFailedLogin('Login failed');
             });
     }
 
