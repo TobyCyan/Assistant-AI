@@ -35,11 +35,11 @@ const addUser = async (req, res) => {
         dateOfBirth: data['dateOfBirth']
     }
     // Username must be unique.
-    const findUser = await User.findOne({attributes: ['name'],
-                                        where: {
-                                            name: data['username']
-                                        }
-                                    })
+    const findUser = await User.findOne({
+        where: {
+            name: data['username']
+        }
+    })
     
     if (findUser) {
         res.status(401).send('Username Already Taken!')
@@ -57,7 +57,11 @@ const addUser = async (req, res) => {
 // Somehow findUser isn't returning properly.
 const loginUser = async (req, res) => {
     const {username, hashedPW} = req.body
-    const findUser = await User.findOne({where: {name: username}})
+    const findUser = await User.findOne({
+        where: {
+            name: username
+        }
+    })
 
     if (findUser && findUser.password === hashedPW) {
         // JWT was signed with username
@@ -95,7 +99,11 @@ const getUserInfo = async (req, res) => {
 
 const getTasks = async (req, res) => {
     const {userId} = req.body
-    const tasks = await Tasks.findAll({userId: userId})
+    const tasks = await Tasks.findAll({
+        where: {
+            userId: userId
+        }
+    })
 
     if (tasks) {
         res.send({tasks: tasks})
@@ -121,8 +129,26 @@ const addTask = async (req, res) => {
 }
 
 const editTask = async (req, res) => {
-// TODO
+    const data = req.body
+    let editTaskData = {
+        title: data['title'],
+        description: data['description'],
+        category: data['category'],
+        deadline: data['deadline'],
+        priority: data['priority'],
+        reminder: data['reminder']
+    }
 
+    const editTask = await Tasks.update(editTaskData, {
+            where: {
+                userId: data['userId'],
+                id: data['taskId']
+            }
+        }
+    )
+
+    res.send({editTask: editTask})
+    console.log(editTask + ' edited!')
 }
 
 const updateTask = async (req, res) => {

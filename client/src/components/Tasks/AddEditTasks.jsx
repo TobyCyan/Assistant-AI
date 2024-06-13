@@ -1,19 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTokenContext } from '../TokenContext/TokenContext';
 import RenderError from '../RenderError/RenderError';
 
 // To receive the following 1) Task Data (if edit) 2) Type - add or edit - need to load
-const AddEditTasks = (tasks, setTasks) => {
-    const {tokenStatus, userInfo} = useTokenContext()
+const AddEditTasks = ({
+    taskId, 
+    editTitle,
+    editDescription,
+    editCategory,
+    editDeadline,
+    editPriority,
+    editReminder,
+    submitType
+}) => {
+    const {tokenStatus, userInfo, tasksInfo} = useTokenContext()
     const [token, setToken] = tokenStatus
     const [userData, setUserData] = userInfo
+    const [tasks, setTasks] = tasksInfo
 
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [category, setCategory] = useState('');
-    const [deadline, setDeadline] = useState('');
-    const [priority, setPriority] = useState('');
-    const [reminder, setReminder] = useState('')
+    const [title, setTitle] = useState(editTitle ? editTitle : '');
+    const [description, setDescription] = useState(editDescription ? editDescription : '');
+    const [category, setCategory] = useState(editCategory ? editCategory : '');
+    const [deadline, setDeadline] = useState(editDeadline ? editDeadline : '');
+    const [priority, setPriority] = useState(editPriority ? editPriority : '');
+    const [reminder, setReminder] = useState(editReminder ? editReminder : '')
     const[error, setError] = useState('');
 
     //Add Task API Call
@@ -56,12 +66,40 @@ const AddEditTasks = (tasks, setTasks) => {
         })
     }
 
-    //Edit Task API Call
-    const editTask = async () => {
-        //PUT
+    const editTasks = (taskId) => {
+        const editedTask = {
+            userId: userData.userId,
+            taskId: taskId,
+            title: title,
+            description: description,
+            category: category,
+            deadline: deadline,
+            priority: priority,
+            reminder: null
+        }
+        const dataToPost = {
+            method: 'POST',
+            body: JSON.stringify(editedTask),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        // POST Request to Add Task.
+        fetch('http://localhost:5001/EditTask', dataToPost)
+        .then(res => {
+            if (res.ok) {
+                console.log('Task Successfully Edited!')
+                return res.json()
+            } else {
+                console.error(err => 'Edit Task Failed!', err)
+            }
+        })
+        .then(task => {
+            setTasks([task.editTask, ...tasks]);
+        })
     }
 
-    const handleAddTask = (e) => {
+    const handleSave = (e) => {
         e.preventDefault();
         if(title == '') {
             setError('noTaskTitle');
@@ -83,10 +121,13 @@ const AddEditTasks = (tasks, setTasks) => {
             return;
         }
 
-        setError('');
+        setError('')
 
-        //Add or Edit
-        addNewTask()
+        if (submitType == 'add') {
+            addNewTask()
+        } else if (submitType == 'edit') {
+            editTasks(taskId)
+        }
     }
 
     // Add / Edit Task Layout
@@ -146,7 +187,7 @@ const AddEditTasks = (tasks, setTasks) => {
                 <input type="date" value={deadline} onChange={e => setDeadline(e.target.value)}/>
             </div>
 
-            <button className="saveTask" onClick={e => handleAddTask(e)}>
+            <button className="saveTask" onClick={e => handleSave(e)}>
                 Save
             </button>
         </div>

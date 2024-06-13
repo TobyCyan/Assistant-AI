@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import NavBar from "../components/NavBar/NavBar.jsx";
 import TasksBox from "../components/TasksBox/TasksBox";
 import Modal from 'react-modal';
-import AddEditTasks from "../components/Tasks/AddEditTasks";
+import AddTask from '../components/Tasks/AddTask.jsx'
+import EditTasks from '../components/Tasks/EditTasks.jsx'
 import { useTokenContext } from "../components/TokenContext/TokenContext";
 
 const MyTasks = () => {
@@ -10,10 +11,11 @@ const MyTasks = () => {
     const [token, setToken] = tokenStatus
     const [userData, setUserData] = userInfo
     const [tasks, setTasks] = tasksInfo
+    const [tasksToEdit, setTasksToEdit] = useState([])
 
-    const[isAddTaskModalOpen, setAddTaskModalOpen] = useState({
+    const[isTaskModalOpen, setTaskModalOpen] = useState({
         isShown: false,
-        type: "add",
+        type: "",
         data: null,
     })
     
@@ -41,7 +43,7 @@ const MyTasks = () => {
             })
             .then(tasks => {
                 if (tasks) {
-                    console.log(tasks)
+                    console.log('Type of Tasks: ' + typeof tasks.tasks + ', Tasks: ' + tasks.tasks + ', isArray? ' + Array.isArray(tasks.tasks))
                     setTasks(tasks.tasks)
                 }
             })
@@ -52,16 +54,16 @@ const MyTasks = () => {
 
     // Closes the  Modal
     const closeModal = () => {
-        setAddTaskModalOpen({
+        setTaskModalOpen({
             isShown: false,
-            type: "add",
+            type: "",
             data: null,
         })
     }
 
     // Open Modal when user wants to add task, to load empty page
     const handleAddTask = () => {
-        setAddTaskModalOpen({
+        setTaskModalOpen({
             isShown: true,
             type: "add",
             data: null, //To add data
@@ -71,7 +73,7 @@ const MyTasks = () => {
     // Open Modal when user wants to edit, to load current note data
     const handleEditTask = () => {
         // To receive data
-        setAddTaskModalOpen({
+        setTaskModalOpen({
             isShown: true,
             type: "edit",
             data: null, //To add data
@@ -83,12 +85,12 @@ const MyTasks = () => {
             <NavBar/>
             <div className="homepageContainer">
                 <div className="overdueAndRemindersBox">
-                    <TasksBox key="Overdued" title="Overdued" tasksToShow={tasks}/>
-                    <TasksBox key="Reminders" title="Reminders" tasksToShow={tasks}/>
+                    <TasksBox key="Overdued" title="Overdued" tasksToShow={tasks} tasksToEdit={tasksToEdit} setTasksToEdit={setTasksToEdit}/>
+                    <TasksBox key="Reminders" title="Reminders" tasksToShow={tasks} tasksToEdit={tasksToEdit} setTasksToEdit={setTasksToEdit}/>
                 </div>
                 <div className="upcomingAndPriorityBox">
-                    <TasksBox key="Upcoming" title="Upcoming" tasksToShow={tasks} setTasks={setTasks}/>
-                    <TasksBox key="Priority" title="Priority" tasksToShow={tasks} setTasks={setTasks}/>
+                    <TasksBox key="Upcoming" title="Upcoming" tasksToShow={tasks} setTasks={setTasks} tasksToEdit={tasksToEdit} setTasksToEdit={setTasksToEdit}/>
+                    <TasksBox key="Priority" title="Priority" tasksToShow={tasks} setTasks={setTasks} tasksToEdit={tasksToEdit} setTasksToEdit={setTasksToEdit}/>
                 </div>
                 <div className="assistantCharacterBox">
                     <div className="box">
@@ -107,19 +109,25 @@ const MyTasks = () => {
                 </div>
             </div>
             <Modal
-                isOpen={isAddTaskModalOpen.isShown}
-                taskData = {isAddTaskModalOpen.data}
+                isOpen={isTaskModalOpen.isShown}
+                taskData = {isTaskModalOpen.data}
                 onClose={closeModal}
                 appElement={document.getElementById('root')}
             >
                 <button onClick={closeModal} className="taskCloseButton">
                     Close
                 </button>
-
-                <AddEditTasks 
-                tasks={tasks} 
-                setTasks={setTasks}
-                />
+                {isTaskModalOpen.type == 'add' ? (
+                    <AddTask />
+                ) : 
+                isTaskModalOpen.type == 'edit' ? (
+                    <EditTasks tasksToEdit={tasksToEdit} />
+                ) : (
+                    <>
+                    <h1>Nothing Here</h1>
+                    </>
+                )}
+                
             </Modal>
         </>
     )

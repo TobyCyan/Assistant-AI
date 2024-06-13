@@ -1,12 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../index.css'
 import { useTokenContext } from '../TokenContext/TokenContext';
 
 // To Add onComplete, onDelete
-const Tasks = ({index, taskId, title, message}) => {
+const Tasks = ({index, taskId, title, message, tasksToEdit, setTasksToEdit}) => {
     const { tokenStatus, userInfo, tasksInfo } = useTokenContext()
     const [userData, setUserData] = userInfo
     const [tasks, setTasks] = tasksInfo
+
+    const [isToEdit, setIsToEdit] = useState(false)
+
+    useEffect(() => {
+        if (isToEdit) {
+            setTasksToEdit([...tasksToEdit, tasks[index]])
+        } else {
+            const filteredTasks = tasksToEdit?.filter(x => x.id != taskId)
+            setTasksToEdit(filteredTasks)
+        }
+    }, [isToEdit])
     
     function onComplete() {
         // POST Request to Update User Points.
@@ -43,6 +54,7 @@ const Tasks = ({index, taskId, title, message}) => {
                     <button onClick={() => {onComplete}} className="taskButton">Tick</button>
                     <button onClick={() => {onDelete(index)}} className="taskButton">Cross</button>
                 </div>
+                <input type="checkbox" value={isToEdit} onChange={() => setIsToEdit(!isToEdit)}/>
             </div>
         </li>
     );
