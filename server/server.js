@@ -14,17 +14,17 @@ app.use(express.urlencoded())
 // Secret Key Must Not Be Leaked for Security Purposes.
 const secretKey = 'aSsiSTaNTAIiSAlwAYsHErEtOhelP020620241aM*$^0^'
 
+// Server Methods
+const addUser = require('./Methods/serverMethods.js').addUser
+const loginUser = require('./Methods/serverMethods.js').loginUser
+const getTasks = require('./Methods/serverMethods.js').getTasks
+
 // User Methods
-const addUser = require('./Methods/userMethods.js').addUser
-const loginUser = require('./Methods/userMethods.js').loginUser
-const getUserInfo = require('./Methods/userMethods.js').getUserInfo
-const getTasks = require('./Methods/userMethods.js').getTasks
 const addTask = require('./Methods/userMethods.js').addTask
 const editTask = require('./Methods/userMethods.js').editTask
 const deleteTask = require('./Methods/userMethods.js').deleteTask
-
-// Get Request of User
-app.get('/getUser', authenticateToken(secretKey), getUserInfo)
+const completeTask = require('./Methods/userMethods.js').completeTask
+const inCompleteTask = require('./Methods/userMethods.js').inCompleteTask
 
 // Post Request to Get User Tasks by Username
 app.post('/Tasks', getTasks)
@@ -39,6 +39,8 @@ app.post('/Login', loginUser)
 app.post('/AddTask', addTask)
 app.post('/EditTask', editTask)
 app.post('/DeleteTask', deleteTask)
+app.post('/CompleteTask', completeTask)
+app.post('/InCompleteTask', inCompleteTask)
 
 
 app.listen(port, () => {

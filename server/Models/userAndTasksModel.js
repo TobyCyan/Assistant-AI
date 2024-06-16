@@ -61,6 +61,10 @@ module.exports = (sequelize, DataTypes) => {
         },
         reminder: {
             type: DataTypes.DATE
+        },
+        completed: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false
         }
     }, {
         tableName: 'task'

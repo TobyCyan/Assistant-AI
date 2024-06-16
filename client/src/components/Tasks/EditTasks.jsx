@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useTokenContext } from '../TokenContext/TokenContext';
 import AddEditTasks from './AddEditTasks';
-import { isoDateToDateOnly } from '../TasksBox/Tasks';
+
+export const isoDateToDateOnly = (isoDate) => {
+    const dateOnly = isoDate.split('T')[0]
+    return dateOnly
+}
 
 const EditTasks = ({tasksToEdit}) => {
     const { tokenStatus, userInfo, tasksInfo } = useTokenContext()
@@ -24,7 +28,13 @@ const EditTasks = ({tasksToEdit}) => {
     )
     return (
         <>
-        {showTasksToEdit}
+        {showTasksToEdit.length != 0 ? (
+            {showTasksToEdit}
+            ) : (
+            <>
+                <h2 className='emptyEditTaskList'>You have not selected any tasks to edit!</h2> 
+            </>
+        )}
         </>
     )
 }
