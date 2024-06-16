@@ -1,6 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import '../../index.css'
+import '../../index.css';
 import { useTokenContext } from '../TokenContext/TokenContext';
+
+export const isoDateToDateOnly = (isoDate) => {
+    const dateOnly = isoDate.split('T')[0]
+    return dateOnly
+}
+
+export const roundNum = (num) => {
+    const numCeil = Math.ceil(num)
+    const numFloor = Math.floor(num)
+    const decimalNum = num - numFloor
+    return decimalNum >= 0.5 ? numCeil : numFloor
+}
 
 // To Add onComplete, onDelete
 const Tasks = ({index, taskId, title, message, tasksToEdit, setTasksToEdit}) => {
@@ -19,8 +31,33 @@ const Tasks = ({index, taskId, title, message, tasksToEdit, setTasksToEdit}) => 
         }
     }, [isToEdit])
     
+    const calculatePriorityPoints = (priority, hours) => {
+        const priorityMap = {
+            High: 3,
+            Medium: 2,
+            Low: 1
+        }
+        return priorityMap.priority + roundNum(hours / 24)
+    }
+
+    function calculateTaskPoints() {
+        const task = tasks[index]
+        const priority = task.priority
+        const deadlineDate = new Date(task.deadline)
+
+        const currDate = new Date()
+        const currTime = currDate.getTime()
+        const deadlineTime = deadlineDate.getTime()
+        const difference = deadlineTime - currTime
+        const differenceInHours = difference / 1000 / 60 / 60
+        const priorityPoints = calculatePriorityPoints(priority, differenceInHours)
+
+        return differenceInHours < 0 ? 1 : priorityPoints + roundNum(differenceInHours * 0.25)
+    }
+
     function onComplete() {
         // POST Request to Update User Points.
+        const points = calculateTaskPoints()
     }
 
     function onDelete(index) {
