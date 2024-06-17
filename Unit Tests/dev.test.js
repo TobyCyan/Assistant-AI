@@ -1,6 +1,6 @@
 import { roundNum } from "../client/src/components/TasksBox/Tasks"
 import { calculatePriorityPoints } from "../client/src/components/TasksBox/Tasks"
-import { PriorityQueue } from "../client/src/Data Structures/minPriorityQueue"
+import { TaskPriorityQueue } from "../client/src/Data Structures/TaskPriorityQueue"
 
 // Unit Testing for roundNum function
 // test('tests rounding of a non-negative number', () => {
@@ -48,41 +48,35 @@ import { PriorityQueue } from "../client/src/Data Structures/minPriorityQueue"
 //     expect(calculatePriorityPoints('Medium', 90)).toBe(6)
 // })
 
-let pq = new PriorityQueue()
-pq.pushItem(1,2)
-pq.pushItem(1,2)
-pq.pushItem(2,0)
-pq.pushItem(1,0)
-test('tests the new pq', () => {
-    expect(pq.queue).toEqual([{key: 1, priority: 2}])
-})
-
-test('tests the new pq size of 1', () => {
-    expect(pq.size()).toEqual(1)
-})
-
-test('tests the pushing a second item', () => {
-    expect(pq.queue).toEqual([{key: 1, priority: 2}, {key: 1, priority: 2}])
-})
-
-test('tests the new pq size of 2', () => {
-    expect(pq.size()).toEqual(2)
-})
+let pq = new TaskPriorityQueue()
+pq.pushItem(1,'High')
+pq.pushItem(4, 'Low')
+pq.pushItem(2, 'Medium')
+pq.pushItem(0, 'High')
 
 test('tests the new pq', () => {
-    expect(pq.queue).toEqual([{key: 2, priority: 0}, {key: 4, priority: 1}, {key: 1, priority: 2}])
+    expect(pq.queue).toEqual([
+        {task: 1, priority: 'High'},
+        {task: 0, priority: 'High'}, 
+        {task: 2, priority: 'Medium'}, 
+        {task: 4, priority: 'Low'},
+    ])
 })
 
-test('tests the new pq size of 3', () => {
-    expect(pq.size()).toEqual(3)
-})
-
-test('tests the new pq', () => {
-    expect(pq.queue).toEqual([{key: 1, priority: 0}, {key: 2, priority: 0}, {key: 4, priority: 1}, {key: 1, priority: 2}])
-})
-
-test('tests the new pq size of 4', () => {
+test('tests the new pq size', () => {
     expect(pq.size()).toEqual(4)
+})
+
+test('tests the new pq popMax', () => {
+    expect(pq.popMax()).toEqual({task: 1, priority: 'High'})
+})
+
+test('tests the new pq after popMax', () => {
+    expect(pq.queue).toEqual([
+        {task: 0, priority: 'High'}, 
+        {task: 2, priority: 'Medium'}, 
+        {task: 4, priority: 'Low'},
+    ])
 })
 
 
