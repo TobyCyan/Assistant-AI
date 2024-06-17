@@ -35,7 +35,8 @@ const AddEditTasks = ({
             category: category,
             deadline: deadline,
             priority: priority,
-            reminder: null
+            reminder: null,
+            completed: false
         }
         const dataToPost = {
             method: 'POST',

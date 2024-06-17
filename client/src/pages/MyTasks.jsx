@@ -1,11 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import NavBar from "../components/NavBar/NavBar.jsx";
 import TasksBox from "../components/TasksBox/TasksBox";
-import PriorityTasks from "../components/TasksBox/PriorityTasks";
+import { OverDueTasks } from '../components/TasksBox/OverDueTasks.jsx';
+import { PriorityTasks } from "../components/TasksBox/PriorityTasks";
 import Modal from 'react-modal';
 import AddTask from '../components/Tasks/AddTask.jsx'
 import EditTasks from '../components/Tasks/EditTasks.jsx'
 import { useTokenContext } from "../components/TokenContext/TokenContext";
+import { getToken } from './Home.jsx';
+
+export const unparseToken = (token) => {
+    const tokenPayload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))
+    const username = tokenPayload?.username
+    const userId = tokenPayload?.userId
+    return [username, userId]
+}
 
 const MyTasks = () => {
     const {tokenStatus, userInfo, tasksInfo} = useTokenContext()
@@ -20,6 +29,15 @@ const MyTasks = () => {
         data: null,
     })
     
+    useEffect(() => {
+        const token = getToken()
+        if (token) {
+            setToken(token)
+            const tokenData = unparseToken(token)
+            setUserData({username: tokenData[0], userId: tokenData[1]})
+        }
+    }, [])
+
     useEffect(() => {
         if (token) {
             console.log('Username is ' + userData.username)
@@ -51,7 +69,7 @@ const MyTasks = () => {
             .catch(err => console.error('Failed to Fetch Tasks!', err))
         }
     }
-    , [])
+    , [token])
 
     // Closes the  Modal
     const closeModal = () => {
@@ -86,10 +104,9 @@ const MyTasks = () => {
             <NavBar/>
             <div className="homepageContainer">
                 <div className="overdueAndRemindersBox">
-                    <TasksBox 
-                        key="Overdued" 
-                        title="Overdued" 
-                        tasksToShow={tasks} 
+                    <OverDueTasks 
+                        tasks={tasks}
+                        setTasks={setTasks} 
                         tasksToEdit={tasksToEdit} 
                         setTasksToEdit={setTasksToEdit}
                     />

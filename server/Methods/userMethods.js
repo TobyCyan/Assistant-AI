@@ -16,7 +16,8 @@ const addTask = async (req, res) => {
         category: data['category'],
         deadline: data['deadline'],
         priority: data['priority'],
-        reminder: data['reminder']
+        reminder: data['reminder'],
+        completed: data['completed']
     }
     // Create the New Task Instance.
     const newTask = await Tasks.create(newTaskData)

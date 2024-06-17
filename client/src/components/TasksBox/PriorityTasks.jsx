@@ -3,23 +3,21 @@ import TasksBox from "./TasksBox";
 import { TaskPriorityQueue } from "../../Data Structures/TaskPriorityQueue";
 
 
-const PriorityTasks = ({tasksToSort, setTasks, tasksToEdit, setTasksToEdit}) => {
+export const PriorityTasks = ({tasksToSort, setTasks, tasksToEdit, setTasksToEdit}) => {
     const [tasksToShow, setTasksToShow] = useState([])
     const [pq, setPQ] = useState([])
     
     useEffect(() => {
         let pq = new TaskPriorityQueue()
         tasksToSort?.forEach(task => {
-            pq.pushItem(task, task.priority)
-            console.log('PQ is Array? ' + Array.isArray(pq.queue))
-        
+            pq.pushItem(task, task.priority)   
         });
+
         setPQ(pq.queue)
     }, [tasksToSort])
 
     useEffect(() => {
-        console.log(pq) // not empty
-        const tasksToShow = pq.map((item, index) => (item['task']))
+        const tasksToShow = pq.map((item) => (item['task']))
         setTasksToShow(tasksToShow)
     }, [pq])
 
@@ -37,5 +35,3 @@ const PriorityTasks = ({tasksToSort, setTasks, tasksToEdit, setTasksToEdit}) => 
     )
 
 }
-
-export default PriorityTasks

@@ -2,6 +2,17 @@ import React, { useEffect, useState } from 'react';
 import '../../index.css';
 import { useTokenContext } from '../TokenContext/TokenContext';
 
+// Get the Difference between Current Time and Deadline Time.
+export const getTimeDifference = (task) => {
+    const deadlineDate = new Date(task.deadline)
+
+    const currDate = new Date()
+    const currTime = currDate.getTime()
+    const deadlineTime = deadlineDate.getTime()
+    const difference = deadlineTime - currTime
+    return difference
+}
+
 // Round up or down the given num.
 export const roundNum = (num) => {
     const numCeil = Math.ceil(num)
@@ -46,12 +57,8 @@ const Tasks = ({index, taskId, title, message, tasksToEdit, setTasksToEdit}) => 
     function calculateTaskPoints() {
         const task = tasks[index]
         const priority = task.priority
-        const deadlineDate = new Date(task.deadline)
-
-        const currDate = new Date()
-        const currTime = currDate.getTime()
-        const deadlineTime = deadlineDate.getTime()
-        const difference = deadlineTime - currTime
+        
+        const difference = getTimeDifference(task)
         const differenceInHours = difference / 1000 / 60 / 60
         const priorityPoints = calculatePriorityPoints(priority, differenceInHours)
 

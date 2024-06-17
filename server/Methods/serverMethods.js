@@ -65,12 +65,12 @@ const loginUser = async (req, res) => {
 
     // If User Exists and Credentials Match. 
     if (findUser && findUser.password === hashedPW) {
-        // JWT was signed with username
-        const token = jwt.sign({username}, secretKey)
         // Gets the UserId by Username
         const userId = await getIdByUsername(username)
+        // JWT was signed with username
+        const token = jwt.sign({username, userId}, secretKey)
         // Sends the JWT Token and UserId as a Response.
-        res.send({token: token, userId: userId})
+        res.send({token: token})
     } else {
         // Sends an Error Message If Credentials are Invalid.
         res.status(401).send('Invalid Credentials')

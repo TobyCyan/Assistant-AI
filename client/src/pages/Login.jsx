@@ -69,11 +69,13 @@ const Login = () => {
             .then(tokenResponse => {
                 if (tokenResponse) {
                     console.log(tokenResponse);
-                    setToken(tokenResponse.token);
-                    const tokenPayload = JSON.parse(atob(tokenResponse.token?.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))
+                    const token = tokenResponse.token
+                    localStorage.setItem('jwt', token);
+                    setToken(token)
+                    const tokenPayload = JSON.parse(atob(token?.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))
                     const username = tokenPayload?.username
 
-                    setUserData({username: username, userId: tokenResponse.userId})
+                    setUserData({username: username, userId: tokenPayload.userId})
                     sendToHomePage();
                 }
             })
