@@ -3,45 +3,37 @@ import { useTokenContext } from '../TokenContext/TokenContext';
 import RenderError from '../RenderError/RenderError';
 
 // To receive the following 1) Task Data (if edit) 2) Type - add or edit - need to load
-const AddEditTasks = ({
-    taskId, 
-    editTitle,
-    editDescription,
-    editCategory,
-    editDeadline,
-    editPriority,
-    editReminder,
-    submitType
-}) => {
+const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
     const {tokenStatus, userInfo, tasksInfo} = useTokenContext()
     const [token, setToken] = tokenStatus
     const [userData, setUserData] = userInfo
     const [tasks, setTasks] = tasksInfo
 
-    const [title, setTitle] = useState(editTitle ? editTitle : '');
-    const [description, setDescription] = useState(editDescription ? editDescription : '');
-    const [category, setCategory] = useState(editCategory ? editCategory : '');
-    const [deadline, setDeadline] = useState(editDeadline ? editDeadline : '');
-    const [priority, setPriority] = useState(editPriority ? editPriority : '');
-    const [reminder, setReminder] = useState(editReminder ? editReminder : '')
+    const [title, setTitle] = useState(taskData?.title || '');
+    const [description, setDescription] = useState(taskData?.description  || '');
+    const [category, setCategory] = useState(taskData?.category || '');
+    const [deadline, setDeadline] = useState(taskData?.deadline.substring(0, 10) || '');
+    const [priority, setPriority] = useState(taskData?.priority || '');
+    const [reminder, setReminder] = useState(taskData?.reminder || null);
     const[error, setError] = useState('');
 
     //Add Task API Call
     const addNewTask = async () => {
         const newTask = {
-            userId: userData.userId,
             title: title,
             description: description,
             category: category,
             deadline: deadline,
             priority: priority,
-            reminder: null
+            reminder: null,
+            completed: false
         }
         const dataToPost = {
             method: 'POST',
             body: JSON.stringify(newTask),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             }
         };
         // POST Request to Add Task.
@@ -61,27 +53,28 @@ const AddEditTasks = ({
             setDeadline('')
             setPriority('')
             setReminder('')
-            setTasks([task.newTask, ...tasks]);
+            getAllTasks()
             onClose()
         })
     }
 
-    const editTasks = (taskId) => {
+    const editTask = () => {
         const editedTask = {
-            userId: userData.userId,
-            taskId: taskId,
+            taskId: taskData.id,
             title: title,
             description: description,
             category: category,
             deadline: deadline,
             priority: priority,
-            reminder: null
+            reminder: null,
+            completed: taskData.completed
         }
         const dataToPost = {
-            method: 'POST',
+            method: 'PUT',
             body: JSON.stringify(editedTask),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             }
         };
         // POST Request to Add Task.
@@ -95,44 +88,45 @@ const AddEditTasks = ({
             }
         })
         .then(task => {
-            setTasks([task.editTask, ...tasks]);
+            getAllTasks()
+            onClose()
         })
     }
 
-    const handleSave = (e) => {
-        e.preventDefault();
-        if(title == '') {
+    const handleSave = () => {
+        if(!title) {
             setError('noTaskTitle');
             return;
         }
 
-        if(category == '') {
+        if(!category) {
             setError('noTaskCategory');
             return;
         }
 
-        if(deadline == '') {
+        if(!deadline) {
             setError('noTaskDeadline');
             return;
         }
 
-        if(priority == '') {
+        if(!priority) {
             setError("noTaskPriority");
             return;
         }
 
         setError('')
 
-        if (submitType == 'add') {
+        if (type === "add") {
             addNewTask()
-        } else if (submitType == 'edit') {
-            editTasks(taskId)
+        } else {
+            editTask()
         }
     }
 
     // Add / Edit Task Layout
     return (
         <div className="addEditTaskContainer">
+            <button className="closeAddEditModalBtn" onClick={onClose}>Close</button>
 
             {RenderError.renderNoTaskTitleError(error)}
             <div className="titleBox">
@@ -187,8 +181,8 @@ const AddEditTasks = ({
                 <input type="date" value={deadline} onChange={e => setDeadline(e.target.value)}/>
             </div>
 
-            <button className="saveTask" onClick={e => handleSave(e)}>
-                Save
+            <button className="saveTask" onClick={handleSave}>
+                {type === 'edit' ? 'Save' : 'Add'}
             </button>
         </div>
     )

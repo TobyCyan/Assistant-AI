@@ -1,69 +1,59 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import NavBar from "../components/NavBar/NavBar.jsx";
-import TasksBox from "../components/TasksBox/TasksBox";
-import Modal from 'react-modal';
-import AddTask from '../components/Tasks/AddTask.jsx'
-import EditTasks from '../components/Tasks/EditTasks.jsx'
-import { useTokenContext } from "../components/TokenContext/TokenContext";
+import '../index.css'
+import {useTokenContext} from "../components/TokenContext/TokenContext";
+import DetailedTaskCard from "../components/Tasks/DetailedTaskCard";
+import Modal from "react-modal";
+import AddEditTasks from "../components/Tasks/AddEditTasks";
+import CompleteDeleteTasks from "../components/Tasks/CompleteDeleteTasks";
 
-const MyTasks = () => {
+function MyTasks() {
     const {tokenStatus, userInfo, tasksInfo} = useTokenContext()
     const [token, setToken] = tokenStatus
     const [userData, setUserData] = userInfo
-    const [tasks, setTasks] = tasksInfo
-    const [tasksToEdit, setTasksToEdit] = useState([])
+    const [tasks, setTasks] = useState([])
 
-    const[isTaskModalOpen, setTaskModalOpen] = useState({
+    const[addEditModalOpen, setAddEditModalOpen] = useState({
         isShown: false,
-        type: "",
+        type: "add",
         data: null,
     })
-    
+
+    const[compDelModalOpen, setCompDelModalOpen] = useState({
+        isShown: false,
+        type: "del",
+        data: null,
+    })
+
     useEffect(() => {
         if (token) {
-            console.log('Username is ' + userData.username)
-            const userId = userData.userId
-            const dataToPost = {
-                method: 'POST',
-                body: JSON.stringify({userId}),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            };
-            // Sends a request with the username as payload.
-            fetch('http://localhost:5001/Tasks', dataToPost)
-            .then(res => {
-                // Sets the tasks if response is ok.
-                if (res.ok) {
-                    console.log('Tasks Successfully Fetched!')
-                    return res.json()
-                } else {
-                    console.log('Invalid User/ Tasks')
-                }
-            })
-            .then(tasks => {
-                if (tasks) {
-                    console.log('Type of Tasks: ' + typeof tasks.tasks + ', Tasks: ' + tasks.tasks + ', isArray? ' + Array.isArray(tasks.tasks))
-                    setTasks(tasks.tasks)
-                }
-            })
-            .catch(err => console.error('Failed to Fetch Tasks!', err))
+            console.log("Token Set")
+            localStorage.setItem('token', token);
+            getUserInfo();
+            getUserTasks();
         }
-    }
-    , [])
+    }, [token]);
 
     // Closes the  Modal
-    const closeModal = () => {
-        setTaskModalOpen({
+    const closeAddEditModal = () => {
+        setAddEditModalOpen({
             isShown: false,
-            type: "",
+            type: "add",
+            data: null,
+        })
+    }
+
+    const closeCompDelModal = () => {
+        setCompDelModalOpen({
+            isShown: false,
+            type: "del",
             data: null,
         })
     }
 
     // Open Modal when user wants to add task, to load empty page
     const handleAddTask = () => {
-        setTaskModalOpen({
+        setAddEditModalOpen({
             isShown: true,
             type: "add",
             data: null, //To add data
@@ -71,63 +61,170 @@ const MyTasks = () => {
     }
 
     // Open Modal when user wants to edit, to load current note data
-    const handleEditTask = () => {
+    const handleEditTask = (taskData) => {
         // To receive data
-        setTaskModalOpen({
+        setAddEditModalOpen({
             isShown: true,
             type: "edit",
-            data: null, //To add data
+            data: taskData, //To add data
         })
     }
+
+    const handleDeleteTask = (taskData) => {
+        setCompDelModalOpen({
+            isShown: true,
+            type: "del",
+            data: taskData,
+        })
+    }
+
+    const handleCompleteTask = (taskData) => {
+        setCompDelModalOpen({
+            isShown: true,
+            type: "comp",
+            data: taskData,
+        })
+    }
+
+    const getUserTasks = async () => {
+        const dataToPost = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        try {
+            const res = await fetch('http://localhost:5001/Tasks', dataToPost)
+            if(res.ok) {
+                console.log("Tasks successfully retrieved")
+            } else {
+                console.log("Invalid User/Tasks")
+            }
+
+            const data = await res.json()
+            if(data) {
+                console.log('Type of Tasks: ' + typeof data.tasks + ', Tasks: ' + data.tasks + ', isArray? ' + Array.isArray(data.tasks))
+                setTasks(data.tasks)
+            }
+        } catch (error) {
+            console.error('Failed to Fetch Tasks!', error)
+        }
+    }
+
+    const getUserInfo = async () => {
+        const dataToPost = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        try {
+            const res = await fetch('http://localhost:5001/GetUserInfo', dataToPost)
+            if(res.ok) {
+                console.log("UserInfo successfully retrieved")
+            } else {
+                console.log("Invalid User/Info")
+            }
+
+            const data = await res.json()
+            if(data) {
+                console.log(data)
+                setUserData(data.userInfo)
+            }
+        } catch (error) {
+            console.error('Failed to Fetch User Info!', error)
+        }
+    }
+
+    const categories = [...new Set(tasks.map(task => task.category))].map((eachCat, index) => (
+        <li key={index}>
+            {eachCat}
+        </li>
+    ))
+
+    const tasksToTaskCard = tasks.map((task, index) => {
+        <DetailedTaskCard
+            key={index}
+            taskData={task}
+            onEdit={()=>handleEditTask(task)}
+            onComplete={()=>handleCompleteTask(task)}
+            onDelete={()=>handleDeleteTask(task)}
+        />
+    })
+
+    const second = (
+        <div className="tasksGridBox">
+            {tasks.map((task, index) => (
+                <DetailedTaskCard
+                    key={index}
+                    taskData={task}
+                    onEdit={() => {}}
+                    onComplete={() => {}}
+                    onDelete={() => {}}
+                />
+            ))}
+        </div>
+    );
 
     return (
         <>
             <NavBar/>
-            <div className="homepageContainer">
-                <div className="overdueAndRemindersBox">
-                    <TasksBox key="Overdued" title="Overdued" tasksToShow={tasks} tasksToEdit={tasksToEdit} setTasksToEdit={setTasksToEdit}/>
-                    <TasksBox key="Reminders" title="Reminders" tasksToShow={tasks} tasksToEdit={tasksToEdit} setTasksToEdit={setTasksToEdit}/>
+            <div className="tasksPageContainer">
+                <div className="tasksSidebar">
+                    <button onClick={handleAddTask}>Add Task</button>
+                    <ul id="category-list">
+                        <li onClick={()=>{}}>All</li>
+                        {categories}
+                        <li>Completed</li>
+                        <li>Low</li>
+                        <li>Medium</li>
+                        <li>High</li>
+                    </ul>
                 </div>
-                <div className="upcomingAndPriorityBox">
-                    <TasksBox key="Upcoming" title="Upcoming" tasksToShow={tasks} setTasks={setTasks} tasksToEdit={tasksToEdit} setTasksToEdit={setTasksToEdit}/>
-                    <TasksBox key="Priority" title="Priority" tasksToShow={tasks} setTasks={setTasks} tasksToEdit={tasksToEdit} setTasksToEdit={setTasksToEdit}/>
-                </div>
-                <div className="assistantCharacterBox">
-                    <div className="box">
-                        <p>Assistant AI</p>
-                    </div>
-                    {token ? (
-                        <>
-                        <button onClick={() => handleAddTask()}>Add Task</button>
-                        <button onClick={() => handleEditTask()}>Edit Task</button>
-                        </>
-                        ) : (
-                            <div>Login To Start Adding Tasks!</div>
-                        )
-                    } 
-                
+                <div className="tasksContainer">
+                    {second}
                 </div>
             </div>
             <Modal
-                isOpen={isTaskModalOpen.isShown}
-                taskData = {isTaskModalOpen.data}
-                onClose={closeModal}
-                appElement={document.getElementById('root')}
+                isOpen={addEditModalOpen.isShown}
+                onRequestClose={() => {}}
+                style={{
+                    overlay: {
+                        backgroundColor: "rgba(0, 0, 0, 0.2)"
+                    },
+                }}
+                contentLabel=""
+                className="AddEditTaskModal"
             >
-                <button onClick={closeModal} className="taskCloseButton">
-                    Close
-                </button>
-                {isTaskModalOpen.type == 'add' ? (
-                    <AddTask />
-                ) : 
-                isTaskModalOpen.type == 'edit' ? (
-                    <EditTasks tasksToEdit={tasksToEdit} />
-                ) : (
-                    <>
-                    <h1>Nothing Here</h1>
-                    </>
-                )}
-                
+                <AddEditTasks
+                    type={addEditModalOpen.type}
+                    taskData={addEditModalOpen.data}
+                    onClose={closeAddEditModal}
+                    getAllTasks={getUserTasks}
+                />
+            </Modal>
+            <Modal
+                isOpen={compDelModalOpen.isShown}
+                onRequestClose={() => {}}
+                style={{
+                    overlay: {
+                        backgroundColor: "rgba(0, 0, 0, 0.2)"
+                    },
+                }}
+                contentLabel=""
+                className="CompDelTaskModal"
+            >
+                <CompleteDeleteTasks
+                    type={compDelModalOpen.type}
+                    taskData={compDelModalOpen.data}
+                    onClose={closeCompDelModal}
+                    getAllTasks={getUserTasks}
+                    getUserInfo={getUserInfo}
+                />
             </Modal>
         </>
     )

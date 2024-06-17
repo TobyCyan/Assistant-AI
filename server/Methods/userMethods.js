@@ -6,17 +6,19 @@ const Tasks = db.tasks
 
 // Adds A New Task to the Task Table.
 const addTask = async (req, res) => {
+    const {id} = req.user
     const data = req.body
 
     // Data of the New Task.
     let newTaskData = {
-        userId: data['userId'],
+        userId: id,
         title: data['title'],
         description: data['description'],
         category: data['category'],
         deadline: data['deadline'],
         priority: data['priority'],
-        reminder: data['reminder']
+        reminder: data['reminder'],
+        completed: data['completed'],
     }
     // Create the New Task Instance.
     const newTask = await Tasks.create(newTaskData)
@@ -27,7 +29,9 @@ const addTask = async (req, res) => {
 
 // Edits the Given Task and Updates its Data.
 const editTask = async (req, res) => {
+    console.log(req.body)
     const data = req.body
+    const {id} = req.user
 
     // Data of the Edited Task.
     let editTaskData = {
@@ -36,13 +40,14 @@ const editTask = async (req, res) => {
         category: data['category'],
         deadline: data['deadline'],
         priority: data['priority'],
-        reminder: data['reminder']
+        reminder: data['reminder'],
+        completed: data['completed'],
     }
     // Updates the Task Instance.
     const editTask = await Tasks.update(editTaskData, 
         {
             where: {
-                userId: data['userId'],
+                userId: id,
                 id: data['taskId']
             }
         }
@@ -55,18 +60,14 @@ const editTask = async (req, res) => {
 
 // Completes the Given Task.
 const completeTask = async (req, res) => {
-    const { taskId, userId, points } = req.body
-
-    // Data of the Completed Task.
-    const completeTaskData = {
-        completed: true
-    }
+    const {id} = request.user
+    const { taskId, points } = req.body
 
     // Finds the User Instance That Completed the Task.
     const userData = await User.findOne(
         {
             where: {
-                id: userId
+                id
             }
         }
     )
@@ -148,20 +149,30 @@ const inCompleteTask = async (req, res) => {
 
 // Deletes the Given Task.
 const deleteTask = async (req, res) => {
-    const {taskId, userId} = req.body
+    const {id} = req.user
+    const {taskId} = req.body
+    console.log(id)
+    console.log(taskId)
 
     // Deletes the Task Instance from the Task Table.
-    await Tasks.destroy({
-        where: {
-            id: taskId,
-            userId: userId
+    try {
+        const res = await Tasks.destroy({
+            where: {
+                id: taskId,
+                userId: id
+            }
+        })
+        if(res.ok()) {
+            console.log(res.json())
+            console.log("Deleted Successfully")
         }
-    })
-    .catch(err => console.error('Error Deleting Task', err))
-
-    console.log('Task Successfully Deleted!')
+    } catch(error) {
+        console.error('Error Deleting Task', error)
+    }
+    console.log('Task Deleted Phase over!')
 
 }
+
 
 module.exports = {
     addTask,

@@ -3,18 +3,18 @@ import "../../index.css"
 import Tasks from "./Tasks.jsx";
 
 // Receives an Array,
-const TasksBox = ({title, tasksToShow, tasksToEdit, setTasksToEdit}) => {
+const TasksBox = ({title, tasksToShow, onEdit, onDelete, onComplete}) => {
 
     // Check whether tasks exists first
     const tasks = tasksToShow?.map((task, index) => (<Tasks 
-        key={index} 
-        index={index} 
-        taskId = {task.id} 
-        title={task.title} 
+        key={index}
+        taskId = {task.id}
+        title={task.title}
         message={task.description} 
-        tasksToEdit={tasksToEdit}
-        setTasksToEdit={setTasksToEdit}
-        />))
+        onEdit={() => onEdit(task)}
+        onComplete={() => onComplete(task)}
+        onDelete={() => onDelete(task)}
+    />))
 
     return (
         <div className="tasksContainer">

@@ -18,6 +18,7 @@ const secretKey = 'aSsiSTaNTAIiSAlwAYsHErEtOhelP020620241aM*$^0^'
 const addUser = require('./Methods/serverMethods.js').addUser
 const loginUser = require('./Methods/serverMethods.js').loginUser
 const getTasks = require('./Methods/serverMethods.js').getTasks
+const getUserInfo = require('./Methods/serverMethods.js').getUserInfo
 
 // User Methods
 const addTask = require('./Methods/userMethods.js').addTask
@@ -27,7 +28,11 @@ const completeTask = require('./Methods/userMethods.js').completeTask
 const inCompleteTask = require('./Methods/userMethods.js').inCompleteTask
 
 // Post Request to Get User Tasks by Username
-app.post('/Tasks', getTasks)
+// app.post('/Tasks', getTasks)
+app.get('/Tasks', authenticateToken(secretKey), getTasks)
+
+// Post Request to Get All User Info
+app.get('/GetUserInfo', authenticateToken(secretKey), getUserInfo)
 
 // Post Request to Add User
 app.post('/SignUp', addUser)
@@ -36,12 +41,18 @@ app.post('/SignUp', addUser)
 app.post('/Login', loginUser)
 
 // Task-related Post Requests
-app.post('/AddTask', addTask)
-app.post('/EditTask', editTask)
-app.post('/DeleteTask', deleteTask)
-app.post('/CompleteTask', completeTask)
+app.post('/AddTask', authenticateToken(secretKey), addTask)
+app.put('/EditTask',  authenticateToken(secretKey), editTask)
+app.delete('/DeleteTask', authenticateToken(secretKey), deleteTask)
+app.put('/CompleteTask',  authenticateToken(secretKey), completeTask)
 app.post('/InCompleteTask', inCompleteTask)
 
+/*
+app.post('/EditTask', authenticateToken(secretKey), editTask)
+app.post('/DeleteTask', authenticateToken(secretKey), deleteTask)
+app.post('/CompleteTask', authenticateToken(secretKey), completeTask)
+app.post('/InCompleteTask', authenticateToken(secretKey), inCompleteTask)
+ */
 
 app.listen(port, () => {
     console.log('App is listening on port 5001.')

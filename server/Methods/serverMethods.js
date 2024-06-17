@@ -7,7 +7,7 @@ const Tasks = db.tasks
 // Secret Key Must Not Be Leaked for Security Purposes.
 const secretKey = 'aSsiSTaNTAIiSAlwAYsHErEtOhelP020620241aM*$^0^'
 
-// Gets UserID by the Username.
+// Gets UserID by the Username. To remove since id can be obtained from token
 const getIdByUsername = async (username) => {
     const userData = await User.findOne(
         {
@@ -66,11 +66,10 @@ const loginUser = async (req, res) => {
     // If User Exists and Credentials Match. 
     if (findUser && findUser.password === hashedPW) {
         // JWT was signed with username
-        const token = jwt.sign({username}, secretKey)
+        const token = jwt.sign({username: findUser.name, id:findUser.id}, secretKey)
         // Gets the UserId by Username
-        const userId = await getIdByUsername(username)
         // Sends the JWT Token and UserId as a Response.
-        res.send({token: token, userId: userId})
+        res.send({token: token, userId: findUser.id})
     } else {
         // Sends an Error Message If Credentials are Invalid.
         res.status(401).send('Invalid Credentials')
@@ -79,13 +78,13 @@ const loginUser = async (req, res) => {
 
 // Gets All the User's Tasks by the UserId.
 const getTasks = async (req, res) => {
-    const { userId } = req.body
+    const { id } = req.user
 
     // Finds All Task Instances of the User.
     const tasks = await Tasks.findAll(
         {
             where: {
-                userId: userId
+                userId: id
             }
         }
     )
@@ -99,8 +98,37 @@ const getTasks = async (req, res) => {
     }
 }
 
+// Gets All of User Info
+const getUserInfo = async (req, res) => {
+    const { id } = req.user
+
+    const findUser = await User.findOne(
+        {
+            where: {
+                id: id
+            }
+        }
+    )
+
+    if(findUser) {
+        console.log(findUser)
+        const userDetails = {
+            username: findUser.name,
+            id: findUser.id,
+            dateOfBirth: findUser.dateOfBirth,
+            points: findUser.points
+        }
+        console.log(userDetails)
+        res.send(userDetails)
+    } else {
+        res.status(401).send('Invalid User')
+    }
+}
+
+
 module.exports = {
     addUser,
     loginUser,
     getTasks,
+    getUserInfo
 }

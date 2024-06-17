@@ -20,7 +20,7 @@ export const calculatePriorityPoints = (priority, hours) => {
 }
 
 // To Add onComplete, onDelete
-const Tasks = ({index, taskId, title, message, tasksToEdit, setTasksToEdit}) => {
+const Tasks = ({taskId, title, message, onEdit, onComplete, onDelete}) => {
     const { tokenStatus, userInfo, tasksInfo } = useTokenContext()
     const [userData, setUserData] = userInfo
     const [tasks, setTasks] = tasksInfo
@@ -29,9 +29,8 @@ const Tasks = ({index, taskId, title, message, tasksToEdit, setTasksToEdit}) => 
     const [isComplete, setIsComplete] = useState(false)
     const [pointsToBeDeducted, setPointsToBeDeducted] = useState(0)
 
-    const userId = userData.userId
-
     // Keeps Track of the Selected Tasks to Edit and Puts Them in a List.
+    /*
     useEffect(() => {
         if (isToEdit) {
             setTasksToEdit([...tasksToEdit, tasks[index]])
@@ -40,11 +39,12 @@ const Tasks = ({index, taskId, title, message, tasksToEdit, setTasksToEdit}) => 
             setTasksToEdit(filteredTasks)
         }
     }, [isToEdit])
+    */
 
     // Calculate Points Earned from Completing the Task.
     // Not Final
     function calculateTaskPoints() {
-        const task = tasks[index]
+        //const task = tasks[key]
         const priority = task.priority
         const deadlineDate = new Date(task.deadline)
 
@@ -82,6 +82,7 @@ const Tasks = ({index, taskId, title, message, tasksToEdit, setTasksToEdit}) => 
     }
 
     // Reverses the Completion Status of the Task and Deducts the Points from the User.
+    /*
     function onInComplete() {
         const dataToPost = {
             method: 'POST', 
@@ -101,8 +102,10 @@ const Tasks = ({index, taskId, title, message, tasksToEdit, setTasksToEdit}) => 
         .catch(err => console.error('Task Could not be InCompleted', err))
 
     }
+    */
 
     // Deletes the Current Task from the Task List.
+    /*
     function onDelete(index) {
         setTasks([...tasks.slice(0, index), ...tasks.slice(index + 1)]);
         
@@ -123,26 +126,18 @@ const Tasks = ({index, taskId, title, message, tasksToEdit, setTasksToEdit}) => 
         })
         .catch(err => console.error('Task Deletion Failed', err))
     }
+    */
 
     return (
         <li>
-            <div key={index} className="task">
+            <div key={taskId} className="task">
                 <div className="taskTitle">{title}</div>
                 <div className="taskMsg">{message}</div>
                 <div className="taskActions">
-                    {!isComplete ? (
-                        <>
-                            <button onClick={() => {onComplete()}} className="taskButton">Complete</button>
-                        </>
-                        ) : (
-                        <>
-                            <button onClick={() => {onInComplete()}} className="taskButton">Uncomplete</button>
-                        </>
-                        )
-                    }
-                    <button onClick={() => {onDelete(index)}} className="taskButton">Delete</button>
+                    <button onClick={onEdit} className="taskButton">Edit</button>
+                    <button onClick={onComplete} className="taskButton">C</button>
+                    <button onClick={onDelete} className="taskButton">X</button>
                 </div>
-                <input type="checkbox" value={isToEdit} onChange={() => setIsToEdit(!isToEdit)}/>
             </div>
         </li>
     );

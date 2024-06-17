@@ -25,6 +25,7 @@ const UserInfo = () => {
 
     const onLogOut = () => {
         setToken('')
+        localStorage.removeItem("token")
         console.log(token)
         navigate("/login")
     }
