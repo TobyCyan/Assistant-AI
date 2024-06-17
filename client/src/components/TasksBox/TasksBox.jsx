@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import "../../index.css"
 import Tasks from "./Tasks.jsx";
 
 // Receives an Array,
 const TasksBox = ({title, tasksToShow, tasksToEdit, setTasksToEdit}) => {
+
+    useEffect(() => {
+        console.log('tasksToShow: ' + tasksToShow)
+    },[])
 
     // Check whether tasks exists first
     const tasks = tasksToShow?.map((task, index) => (<Tasks 

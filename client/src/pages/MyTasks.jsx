@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import NavBar from "../components/NavBar/NavBar.jsx";
 import TasksBox from "../components/TasksBox/TasksBox";
+import PriorityTasks from "../components/TasksBox/PriorityTasks";
 import Modal from 'react-modal';
 import AddTask from '../components/Tasks/AddTask.jsx'
 import EditTasks from '../components/Tasks/EditTasks.jsx'
@@ -85,12 +86,36 @@ const MyTasks = () => {
             <NavBar/>
             <div className="homepageContainer">
                 <div className="overdueAndRemindersBox">
-                    <TasksBox key="Overdued" title="Overdued" tasksToShow={tasks} tasksToEdit={tasksToEdit} setTasksToEdit={setTasksToEdit}/>
-                    <TasksBox key="Reminders" title="Reminders" tasksToShow={tasks} tasksToEdit={tasksToEdit} setTasksToEdit={setTasksToEdit}/>
+                    <TasksBox 
+                        key="Overdued" 
+                        title="Overdued" 
+                        tasksToShow={tasks} 
+                        tasksToEdit={tasksToEdit} 
+                        setTasksToEdit={setTasksToEdit}
+                    />
+                    <TasksBox 
+                        key="Reminders" 
+                        title="Reminders" 
+                        tasksToShow={tasks} 
+                        tasksToEdit={tasksToEdit} 
+                        setTasksToEdit={setTasksToEdit}
+                    />
                 </div>
                 <div className="upcomingAndPriorityBox">
-                    <TasksBox key="Upcoming" title="Upcoming" tasksToShow={tasks} setTasks={setTasks} tasksToEdit={tasksToEdit} setTasksToEdit={setTasksToEdit}/>
-                    <TasksBox key="Priority" title="Priority" tasksToShow={tasks} setTasks={setTasks} tasksToEdit={tasksToEdit} setTasksToEdit={setTasksToEdit}/>
+                    <TasksBox 
+                        key="Upcoming" 
+                        title="Upcoming" 
+                        tasksToShow={tasks} 
+                        setTasks={setTasks} 
+                        tasksToEdit={tasksToEdit} 
+                        setTasksToEdit={setTasksToEdit}
+                    />
+                    <PriorityTasks 
+                        tasksToSort={tasks}
+                        setTasks={setTasks} 
+                        tasksToEdit={tasksToEdit} 
+                        setTasksToEdit={setTasksToEdit}
+                    />
                 </div>
                 <div className="assistantCharacterBox">
                     <div className="box">
