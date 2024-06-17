@@ -29,7 +29,9 @@ const EditTasks = ({tasksToEdit}) => {
     return (
         <>
         {showTasksToEdit.length != 0 ? (
+            <ul>
             {showTasksToEdit}
+            </ul>
             ) : (
             <>
                 <h2 className='emptyEditTaskList'>You have not selected any tasks to edit!</h2> 
