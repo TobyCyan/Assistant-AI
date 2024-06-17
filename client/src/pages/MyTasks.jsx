@@ -8,13 +8,7 @@ import AddTask from '../components/Tasks/AddTask.jsx'
 import EditTasks from '../components/Tasks/EditTasks.jsx'
 import { useTokenContext } from "../components/TokenContext/TokenContext";
 import { getToken } from './Home.jsx';
-
-export const unparseToken = (token) => {
-    const tokenPayload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))
-    const username = tokenPayload?.username
-    const userId = tokenPayload?.userId
-    return [username, userId]
-}
+import { parseToken } from './Login.jsx';
 
 const MyTasks = () => {
     const {tokenStatus, userInfo, tasksInfo} = useTokenContext()
@@ -33,7 +27,7 @@ const MyTasks = () => {
         const token = getToken()
         if (token) {
             setToken(token)
-            const tokenData = unparseToken(token)
+            const tokenData = parseToken(token)
             setUserData({username: tokenData[0], userId: tokenData[1]})
         }
     }, [])
