@@ -272,10 +272,31 @@ ul {
   background-color: #ddd;
 }
 
+.detailedTasksContainer {
+  padding: 16px;
+  overflow: hidden;
+  flex: 1;
+  background-color: #f0f0f0;
+  height: 40%;
+  width: 90%;
+  color: black;
+  padding: 0rem;
+  border: 2px dotted black;
+  gap: 0;
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+  height: 80%;
+  padding: 20px;
+  overflow-y: auto;
+}
+
 .tasksGridBox {
   display: grid;
-  grid-template-columns: repeat(3, minmax(100px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(3, 1fr); /* Each grid item takes equal space */
+  gap: 10px; /* Adjust gap between items */
+  overflow-y: auto; /* Enable vertical scrolling if needed */
+  padding: 10px; /* Adjust padding for the grid container */
 }
 
 .grid-item {
@@ -284,15 +305,18 @@ ul {
   text-align: center;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  min-width: 320px;
+  margin: 0 auto;
 }
 
 .taskCardBox {
   background-color: #fff;
-  width: 300px;
+  min-width: 250px;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin-bottom: 20px;
+  padding: 10px;
+  margin: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -303,7 +327,9 @@ ul {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   overflow-wrap: break-word;
+  flex: 0 0 auto;
 }
 
 .taskCardRightHeader {
@@ -335,7 +361,8 @@ ul {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin: 10px;
+  flex: 0 0 auto;
 }
 
 .taskCardCategory, .taskCardPriority {
@@ -343,6 +370,8 @@ ul {
 }
 
 .taskCardDescription {
+  width: 100%;
+  text-align: left;
   font-size: 14px;
   color: #333;
   line-height: 1.5em;
@@ -351,6 +380,7 @@ ul {
   text-overflow: ellipsis;
   overflow-wrap: break-word;
   word-break: break-all;
+  flex: 1;
 }
 
 .taskCardFooter {
@@ -359,6 +389,7 @@ ul {
   align-items: center;
   margin-top: 10px;
   width: 100%;
+  flex: 0 0 auto;
 }
 
 .taskReminder {
@@ -394,3 +425,4 @@ ul {
   margin: 16px 0px 0px 0px;
   font-weight: bold;
 }
+

@@ -257,7 +257,7 @@ function MyTasks() {
                         <li onClick={() => handleFilterTasks('Low')}>Low ({uncompletedTasks.filter(each => each.priority === 'Low').length})</li>
                     </ul>
                 </div>
-                <div className="tasksContainer">
+                <div className="detailedTasksContainer">
                 {tasksInGrid}
                 </div>
             </div>
