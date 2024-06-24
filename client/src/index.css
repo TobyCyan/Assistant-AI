@@ -107,7 +107,6 @@ code {
   align-items: center;
   border: 1px black;
   border-style: solid;
-
 }
 
 .overdueAndRemindersBox, .upcomingAndPriorityBox {
@@ -166,19 +165,30 @@ code {
 
 .tasksContainer {
   background-color: #f0f0f0;
-  height: 40%;
-  width: 90%;
+  width: 85%;
+  height: 80%;
   color: black;
   padding: 0rem;
+  margin: 5px 0px;
   border: 2px dotted black;
   gap: 0;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  flex: 1;
 }
 
 .tasksBox {
   overflow-y: auto;
   flex: 1;
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+
+.tasksBox ul {
+  margin: 4px 16px 16px 16px;
 }
 
 .task {
@@ -260,14 +270,6 @@ ul {
 
 .tasksSidebar ul li:hover {
   background-color: #ddd;
-}
-
-
-.tasksContainer {
-  width: 85%;
-  height: 80%;
-  padding: 20px;
-  overflow-y: auto;
 }
 
 .tasksGridBox {

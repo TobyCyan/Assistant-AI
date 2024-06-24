@@ -1,12 +1,15 @@
 import React from 'react';
+import {getDDMM, getDDMMYY} from '../../utilities/utilities.js'
 
 const DetailedTaskCard = ({taskData, onEdit, onComplete, onUncomplete, onDelete}) => {
+
+
     return (
         <div className="taskCardBox">
             <div className="taskCardHeader">
                 <div className="taskCardTitle">{taskData.title}</div>
                 <div className="taskCardRightHeader">
-                    <div className="taskCardDeadline">{taskData.deadline.substring(5,10).replace('-', '/')}/{taskData.deadline.substring(2, 4)}</div>
+                    <div className="taskCardDeadline">{getDDMMYY(taskData.deadline)}</div>
                     <button className="taskCardDeleteBtn" onClick={onDelete}>X</button>
                 </div>
             </div>
@@ -18,7 +21,7 @@ const DetailedTaskCard = ({taskData, onEdit, onComplete, onUncomplete, onDelete}
                 {taskData.description}
             </div>
             <div className="taskCardFooter">
-                <div className="taskReminder">{taskData.reminder.substring(5, 10).replace('-', '/') || "NO REMINDER YET"}</div>
+                <div className="taskReminder">{getDDMM(taskData.reminder) || "NO REMINDER YET"}</div>
                 <button className="taskCardEditBtn" onClick={onEdit}>Edit</button>
                 <button className="taskCardCompleteBtn" onClick={taskData.completed ? onUncomplete : onComplete}>{taskData.completed ? "Uncomplete" : "Complete" }</button>
             </div>
