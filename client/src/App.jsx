@@ -1,10 +1,11 @@
 import './App.css';
-import React, {useState, useEffect, useCallback} from 'react';
+import React from 'react';
 import {BrowserRouter, Routes, Route} from "react-router-dom"
 import Home from "./pages/Home.jsx"
 import Login from "./pages/Login.jsx"
 import SignUp from "./pages/SignUp.jsx"
 import MyTasks from "./pages/MyTasks.jsx"
+import { Reminder } from './components/TaskReminder/Reminder.jsx';
 
 const routes = (
     <BrowserRouter>
@@ -13,6 +14,7 @@ const routes = (
             <Route path="/login" exact element={<Login />} />
             <Route path="/tasks" exact element = {<MyTasks/>} />
             <Route path="/signup" exact element={<SignUp />} />
+            <Route path="/reminder" exact element={<Reminder />}/>
         </Routes>
     </BrowserRouter>
 );

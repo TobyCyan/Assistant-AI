@@ -6,6 +6,13 @@ import CryptoJS from 'crypto-js';
 import RenderError from "../components/RenderError/RenderError";
 import {useTokenContext} from "../components/TokenContext/TokenContext";
 
+export const parseToken = (token) => {
+    const tokenPayload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))
+    const username = tokenPayload?.username
+    const userId = tokenPayload?.userId
+    return [username, userId]
+}
+
 const Login = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -69,11 +76,11 @@ const Login = () => {
             .then(tokenResponse => {
                 if (tokenResponse) {
                     console.log(tokenResponse);
-                    setToken(tokenResponse.token);
-                    const tokenPayload = JSON.parse(atob(tokenResponse.token?.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))
-                    const username = tokenPayload?.username
-
-                    setUserData({username: username, userId: tokenResponse.userId})
+                    const token = tokenResponse.token
+                    localStorage.setItem('token', token);
+                    setToken(token)
+                    const tokenData = parseToken(token)
+                    setUserData({username: tokenData[0], userId: tokenData[1]})
                     sendToHomePage();
                 }
             })

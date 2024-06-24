@@ -7,18 +7,6 @@ const Tasks = db.tasks
 // Secret Key Must Not Be Leaked for Security Purposes.
 const secretKey = 'aSsiSTaNTAIiSAlwAYsHErEtOhelP020620241aM*$^0^'
 
-// Gets UserID by the Username. To remove since id can be obtained from token
-const getIdByUsername = async (username) => {
-    const userData = await User.findOne(
-        {
-            where: {
-                name: username
-            }
-        }
-    )
-    return userData.dataValues.id
-}
-
 // Query to add a new user to db.
 const addUser = async (req, res) => {
     const data = req.body
@@ -132,3 +120,4 @@ module.exports = {
     getTasks,
     getUserInfo
 }
+

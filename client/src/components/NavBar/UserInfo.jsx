@@ -9,9 +9,10 @@ import { useTokenContext } from "../TokenContext/TokenContext.jsx";
 const UserInfo = () => {
     const navigate = useNavigate()
 
-    const {tokenStatus, userInfo} = useTokenContext()
+    const {tokenStatus, userInfo, tasksInfo} = useTokenContext()
     const [token, setToken] = tokenStatus
     const [userData, setUserData] = userInfo
+    const [tasks, setTasks] = tasksInfo
     const [username, setUsername] = useState('')
 
     useEffect(() => {

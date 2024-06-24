@@ -1,11 +1,16 @@
 import React, {useEffect, useState} from 'react'
 import NavBar from "../components/NavBar/NavBar.jsx";
+
 import '../index.css'
 import {useTokenContext} from "../components/TokenContext/TokenContext";
 import DetailedTaskCard from "../components/Tasks/DetailedTaskCard";
-import Modal from "react-modal";
 import AddEditTasks from "../components/Tasks/AddEditTasks";
 import CompleteDeleteTasks from "../components/Tasks/CompleteDeleteTasks";
+import TasksBox from "../components/TasksBox/TasksBox";
+import { OverDueTasks } from '../components/TasksBox/OverDueTasks.jsx';
+import { PriorityTasks } from "../components/TasksBox/PriorityTasks";
+import Modal from 'react-modal';
+import { parseToken } from './Login.jsx';
 
 function MyTasks() {
     const {tokenStatus, userInfo} = useTokenContext()
@@ -30,6 +35,15 @@ function MyTasks() {
     })
 
     // Get User Info and User Tasks if there is token
+    useEffect(() => {
+        const token = getToken()
+        if (token) {
+            setToken(token)
+            const tokenData = parseToken(token)
+            setUserData({username: tokenData[0], userId: tokenData[1]})
+        }
+    }, [])
+
     useEffect(() => {
         if (token) {
             console.log("Token Set")

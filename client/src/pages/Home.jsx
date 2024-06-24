@@ -170,6 +170,7 @@ const Home = () => {
     // Tasks from High to Low Priority
     const priorityTasks = null;
 
+
     return (
         <>
             <NavBar />

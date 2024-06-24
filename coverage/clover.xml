@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1718555401544" clover="3.2.0">
-  <project timestamp="1718555401544" name="All files">
-    <metrics statements="85" coveredstatements="16" conditionals="20" coveredconditionals="3" methods="29" coveredmethods="3" elements="134" coveredelements="22" complexity="0" loc="85" ncloc="85" packages="3" files="3" classes="3"/>
+<coverage generated="1718601655688" clover="3.2.0">
+  <project timestamp="1718601655688" name="All files">
+    <metrics statements="88" coveredstatements="21" conditionals="20" coveredconditionals="5" methods="29" coveredmethods="4" elements="137" coveredelements="30" complexity="0" loc="88" ncloc="88" packages="3" files="3" classes="3"/>
     <package name="Data Structures">
-      <metrics statements="13" coveredstatements="10" conditionals="6" coveredconditionals="3" methods="5" coveredmethods="3"/>
-      <file name="minPriorityQueue.js" path="C:\Users\ernes\OneDrive\Documents\Godot Game Projects\temp\Assistant-AI\client\src\Data Structures\minPriorityQueue.js">
-        <metrics statements="13" coveredstatements="10" conditionals="6" coveredconditionals="3" methods="5" coveredmethods="3"/>
+      <metrics statements="16" coveredstatements="15" conditionals="6" coveredconditionals="5" methods="5" coveredmethods="4"/>
+      <file name="TaskPriorityQueue.js" path="C:\Users\ernes\OneDrive\Documents\Godot Game Projects\temp\Assistant-AI\client\src\Data Structures\TaskPriorityQueue.js">
+        <metrics statements="16" coveredstatements="15" conditionals="6" coveredconditionals="5" methods="5" coveredmethods="4"/>
         <line num="4" count="1" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="12" count="4" type="stmt"/>
-        <line num="16" count="4" type="stmt"/>
-        <line num="18" count="4" type="stmt"/>
-        <line num="19" count="3" type="cond" truecount="1" falsecount="1"/>
-        <line num="20" count="3" type="stmt"/>
-        <line num="21" count="3" type="stmt"/>
-        <line num="22" count="3" type="stmt"/>
-        <line num="25" count="4" type="cond" truecount="2" falsecount="0"/>
-        <line num="26" count="1" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="32" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="21" count="4" type="stmt"/>
+        <line num="22" count="4" type="stmt"/>
+        <line num="24" count="4" type="stmt"/>
+        <line num="25" count="5" type="stmt"/>
+        <line num="26" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="27" count="2" type="stmt"/>
+        <line num="28" count="2" type="stmt"/>
+        <line num="29" count="2" type="stmt"/>
+        <line num="32" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="33" count="2" type="stmt"/>
+        <line num="38" count="1" type="stmt"/>
+        <line num="39" count="1" type="cond" truecount="1" falsecount="1"/>
       </file>
     </package>
     <package name="components.TasksBox">
