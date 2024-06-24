@@ -60,7 +60,8 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         reminder: {
-            type: DataTypes.DATE
+            type: DataTypes.DATE,
+            allowNull: false
         },
         completed: {
             type: DataTypes.BOOLEAN,

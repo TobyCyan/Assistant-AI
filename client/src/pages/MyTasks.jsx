@@ -8,23 +8,28 @@ import AddEditTasks from "../components/Tasks/AddEditTasks";
 import CompleteDeleteTasks from "../components/Tasks/CompleteDeleteTasks";
 
 function MyTasks() {
-    const {tokenStatus, userInfo, tasksInfo} = useTokenContext()
+    const {tokenStatus, userInfo} = useTokenContext()
     const [token, setToken] = tokenStatus
     const [userData, setUserData] = userInfo
     const [tasks, setTasks] = useState([])
+    const [displayTasks, setDisplayTasks] = useState(tasks)
+    const [filter, setFilter] = useState('All')
 
+    // Initial state of AddEditModal
     const[addEditModalOpen, setAddEditModalOpen] = useState({
         isShown: false,
         type: "add",
         data: null,
     })
 
+    // Initial state of CompleteDeleteModal
     const[compDelModalOpen, setCompDelModalOpen] = useState({
         isShown: false,
         type: "del",
         data: null,
     })
 
+    // Get User Info and User Tasks if there is token
     useEffect(() => {
         if (token) {
             console.log("Token Set")
@@ -33,6 +38,15 @@ function MyTasks() {
             getUserTasks();
         }
     }, [token]);
+
+    useEffect(() => {
+        const uncompleted = tasks.filter(each => !each.completed)
+        setDisplayTasks(uncompleted)
+    }, [tasks]);
+
+    useEffect(() => {
+        filterTasks(filter)
+    }, [filter]);
 
     // Closes the  Modal
     const closeAddEditModal = () => {
@@ -70,6 +84,32 @@ function MyTasks() {
         })
     }
 
+    const filterTasks = (value) => {
+        if(value === 'All') {
+            setDisplayTasks(tasks)
+        } else if (value === 'Completed') {
+            const filtered = tasks.filter(each => each.completed)
+            setDisplayTasks(filtered)
+        } else if (value === 'Low') {
+            const filtered = tasks.filter(each => each.priority === 'Low')
+            setDisplayTasks(filtered)
+        } else if (value === 'Medium') {
+            const filtered = tasks.filter(each => each.priority === 'Medium')
+            setDisplayTasks(filtered)
+        } else if (value === 'High') {
+            const filtered = tasks.filter(each => each.priority === 'High')
+            setDisplayTasks(filtered)
+        } else {
+            const filtered = tasks.filter(each => each.category === filter)
+            setDisplayTasks(filtered)
+        }
+    }
+
+    const handleFilterTasks = (value) => {
+        setFilter(value)
+        console.log(value)
+    }
+
     const handleDeleteTask = (taskData) => {
         setCompDelModalOpen({
             isShown: true,
@@ -86,6 +126,7 @@ function MyTasks() {
         })
     }
 
+    // Get User Tasks
     const getUserTasks = async () => {
         const dataToPost = {
             method: 'GET',
@@ -106,13 +147,16 @@ function MyTasks() {
             const data = await res.json()
             if(data) {
                 console.log('Type of Tasks: ' + typeof data.tasks + ', Tasks: ' + data.tasks + ', isArray? ' + Array.isArray(data.tasks))
+                console.log(data.tasks[0])
                 setTasks(data.tasks)
+                setDisplayTasks(tasks)
             }
         } catch (error) {
             console.error('Failed to Fetch Tasks!', error)
         }
     }
 
+    // Get User Info
     const getUserInfo = async () => {
         const dataToPost = {
             method: 'GET',
@@ -133,7 +177,7 @@ function MyTasks() {
             const data = await res.json()
             if(data) {
                 console.log(data)
-                setUserData(data.userInfo)
+                setUserData(data)
             }
         } catch (error) {
             console.error('Failed to Fetch User Info!', error)
@@ -141,11 +185,12 @@ function MyTasks() {
     }
 
     const categories = [...new Set(tasks.map(task => task.category))].map((eachCat, index) => (
-        <li key={index}>
+        <li key={index} onClick={() => handleFilterTasks(eachCat)}>
             {eachCat}
         </li>
     ))
 
+    /*
     const tasksToTaskCard = tasks.map((task, index) => {
         <DetailedTaskCard
             key={index}
@@ -155,16 +200,17 @@ function MyTasks() {
             onDelete={()=>handleDeleteTask(task)}
         />
     })
+    */
 
-    const second = (
+    const tasksInGrid = (
         <div className="tasksGridBox">
-            {tasks.map((task, index) => (
+            {displayTasks.map((task, index) => (
                 <DetailedTaskCard
                     key={index}
                     taskData={task}
-                    onEdit={() => {}}
-                    onComplete={() => {}}
-                    onDelete={() => {}}
+                    onEdit={()=>handleEditTask(task)}
+                    onComplete={()=>handleCompleteTask(task)}
+                    onDelete={()=>handleDeleteTask(task)}
                 />
             ))}
         </div>
@@ -177,21 +223,23 @@ function MyTasks() {
                 <div className="tasksSidebar">
                     <button onClick={handleAddTask}>Add Task</button>
                     <ul id="category-list">
-                        <li onClick={()=>{}}>All</li>
+                        <li onClick={() => handleFilterTasks('All')}>All</li>
+                        <li onClick={() => handleFilterTasks('Completed')}>Completed</li>
                         {categories}
-                        <li>Completed</li>
-                        <li>Low</li>
-                        <li>Medium</li>
-                        <li>High</li>
+                        <li onClick={() => handleFilterTasks('High')}>High</li>
+                        <li onClick={() => handleFilterTasks('Medium')}>Medium</li>
+                        <li onClick={() => handleFilterTasks('Low')}>Low</li>
                     </ul>
                 </div>
                 <div className="tasksContainer">
-                    {second}
+                {tasksInGrid}
                 </div>
             </div>
             <Modal
                 isOpen={addEditModalOpen.isShown}
-                onRequestClose={() => {}}
+                onRequestClose={() => {
+                    closeCompDelModal()
+                }}
                 style={{
                     overlay: {
                         backgroundColor: "rgba(0, 0, 0, 0.2)"
@@ -209,7 +257,9 @@ function MyTasks() {
             </Modal>
             <Modal
                 isOpen={compDelModalOpen.isShown}
-                onRequestClose={() => {}}
+                onRequestClose={() => {
+                    closeCompDelModal()
+                }}
                 style={{
                     overlay: {
                         backgroundColor: "rgba(0, 0, 0, 0.2)"
@@ -221,7 +271,7 @@ function MyTasks() {
                 <CompleteDeleteTasks
                     type={compDelModalOpen.type}
                     taskData={compDelModalOpen.data}
-                    onClose={closeCompDelModal}
+                    onClose={() => closeCompDelModal()}
                     getAllTasks={getUserTasks}
                     getUserInfo={getUserInfo}
                 />

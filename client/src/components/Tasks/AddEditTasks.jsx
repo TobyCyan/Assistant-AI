@@ -14,18 +14,22 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
     const [category, setCategory] = useState(taskData?.category || '');
     const [deadline, setDeadline] = useState(taskData?.deadline.substring(0, 10) || '');
     const [priority, setPriority] = useState(taskData?.priority || '');
-    const [reminder, setReminder] = useState(taskData?.reminder || null);
+    const [reminderDate, setReminderDate] = useState(taskData?.reminder.substring(0,10) || '');
+    // const [reminderTime, setReminderTime] = useState(taskData?.reminder.substring(11,16) || '');
     const[error, setError] = useState('');
 
     //Add Task API Call
     const addNewTask = async () => {
+        console.log(reminderDate)
+        // console.log(reminderTime)
         const newTask = {
             title: title,
             description: description,
             category: category,
             deadline: deadline,
             priority: priority,
-            reminder: null,
+            reminder: reminderDate,
+            //reminder: `${reminderDate}T${reminderTime}:00`,
             completed: false
         }
         const dataToPost = {
@@ -52,13 +56,14 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
             setCategory('')
             setDeadline('')
             setPriority('')
-            setReminder('')
+            setReminderDate('')
+            //setReminderTime('')
             getAllTasks()
             onClose()
         })
     }
 
-    const editTask = () => {
+    const editTask = async () => {
         const editedTask = {
             taskId: taskData.id,
             title: title,
@@ -66,9 +71,11 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
             category: category,
             deadline: deadline,
             priority: priority,
-            reminder: null,
+            reminder: reminderDate,
+            //reminder: `${reminderDate}T${reminderTime}:00`,
             completed: taskData.completed
         }
+        console.log(deadline)
         const dataToPost = {
             method: 'PUT',
             body: JSON.stringify(editedTask),
@@ -78,7 +85,7 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
             }
         };
         // POST Request to Add Task.
-        fetch('http://localhost:5001/EditTask', dataToPost)
+        await fetch('http://localhost:5001/EditTask', dataToPost)
         .then(res => {
             if (res.ok) {
                 console.log('Task Successfully Edited!')
@@ -145,7 +152,7 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
                 <textarea
                     type="text"
                     className="descriptionInput"
-                    placeholder="description"
+                    placeholder="Description"
                     rows={12}
                     value={description}
                     onChange={e => setDescription(e.target.value)}
@@ -181,11 +188,26 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
                 <input type="date" value={deadline} onChange={e => setDeadline(e.target.value)}/>
             </div>
 
+            {RenderError.renderNoTaskDeadlineError(error)}
+            <div className="reminderBox">
+                <label>Reminder Date:</label>
+                <input type="date" value={reminderDate} onChange={e => setReminderDate(e.target.value)}/>
+            </div>
+
             <button className="saveTask" onClick={handleSave}>
                 {type === 'edit' ? 'Save' : 'Add'}
             </button>
         </div>
     )
+
+    /*
+        Reminder Time Component to be added back later
+                {RenderError.renderNoTaskDeadlineError(error)}
+            <div className="deadlineBox">
+                <label>Reminder Time:</label>
+                <input type="time" value={reminderTime} onChange={e => setReminderTime(e.target.value)}/>
+            </div>
+     */
 }
 
 export default AddEditTasks;

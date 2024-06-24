@@ -156,15 +156,18 @@ const deleteTask = async (req, res) => {
 
     // Deletes the Task Instance from the Task Table.
     try {
-        const res = await Tasks.destroy({
+        const result = await Tasks.destroy({
             where: {
                 id: taskId,
                 userId: id
             }
         })
-        if(res.ok()) {
-            console.log(res.json())
-            console.log("Deleted Successfully")
+        if (result > 0) {  // Check if any rows were deleted
+            console.log("Deleted Successfully");
+            res.send({ message: "Task deleted successfully" });
+        } else {
+            console.log("No task found to delete");
+            res.status(404).send({ error: "Task not found" });
         }
     } catch(error) {
         console.error('Error Deleting Task', error)

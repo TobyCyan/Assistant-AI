@@ -20,7 +20,7 @@ export const calculatePriorityPoints = (priority, hours) => {
 }
 
 // To Add onComplete, onDelete
-const Tasks = ({taskId, title, message, onEdit, onComplete, onDelete}) => {
+const Tasks = ({taskId, title, deadline, message, onEdit, onComplete, onDelete}) => {
     const { tokenStatus, userInfo, tasksInfo } = useTokenContext()
     const [userData, setUserData] = userInfo
     const [tasks, setTasks] = tasksInfo
@@ -131,8 +131,10 @@ const Tasks = ({taskId, title, message, onEdit, onComplete, onDelete}) => {
     return (
         <li>
             <div key={taskId} className="task">
-                <div className="taskTitle">{title}</div>
-                <div className="taskMsg">{message}</div>
+                <div className="taskTitle">
+                    <span style={{fontWeight: 'bold'}}>{deadline.substring(5, 10)}</span> {title}
+                </div>
+                <div className="taskMsg"></div>
                 <div className="taskActions">
                     <button onClick={onEdit} className="taskButton">Edit</button>
                     <button onClick={onComplete} className="taskButton">C</button>

@@ -122,6 +122,48 @@ code {
   position: relative;
 }
 
+.closeAddEditModalBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 2.5rem;
+  position: absolute;
+  top: -0.75rem;
+  right: -0.75rem;
+}
+
+.titleBox {
+
+}
+
+.descriptionBox {
+
+}
+
+.compDelTasksContainer {
+  position: relative;
+  background-color: #ffffff;
+  height: 100%;
+}
+
+.closeSmallModalBtn {
+  width: 3rem;
+  height: 1.5rem;
+  position: absolute;
+  top: -0rem;
+  right: -0rem;
+
+}
+
+.confirmMessage {
+  padding: 1.5rem 1rem 1rem 1rem;
+}
+
+.confirmCompDelBtn {
+
+}
+
 .tasksContainer {
   background-color: #f0f0f0;
   height: 40%;
@@ -229,7 +271,7 @@ ul {
 
 .tasksGridBox {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(100px, 1fr));
   gap: 10px;
 }
 
@@ -258,16 +300,20 @@ ul {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  overflow-wrap: break-word;
 }
 
 .taskCardRightHeader {
+  width: 40%;
   display:flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .taskCardTitle {
   font-size: 18px;
   font-weight: bold;
+  overflow-wrap: break-word;
 }
 
 .taskCardDeadline {
@@ -299,6 +345,7 @@ ul {
   max-height: calc(8 * 1.5em); /* Max 8 lines */
   overflow: hidden;
   text-overflow: ellipsis;
+  overflow-wrap: break-word;
 }
 
 .taskCardFooter {
@@ -306,6 +353,7 @@ ul {
   justify-content: space-between;
   align-items: center;
   margin-top: 10px;
+  width: 100%;
 }
 
 .taskReminder {

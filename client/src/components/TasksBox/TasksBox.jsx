@@ -10,7 +10,7 @@ const TasksBox = ({title, tasksToShow, onEdit, onDelete, onComplete}) => {
         key={index}
         taskId = {task.id}
         title={task.title}
-        message={task.description} 
+        deadline = {task.deadline}
         onEdit={() => onEdit(task)}
         onComplete={() => onComplete(task)}
         onDelete={() => onDelete(task)}

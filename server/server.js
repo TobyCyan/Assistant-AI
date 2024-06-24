@@ -45,14 +45,8 @@ app.post('/AddTask', authenticateToken(secretKey), addTask)
 app.put('/EditTask',  authenticateToken(secretKey), editTask)
 app.delete('/DeleteTask', authenticateToken(secretKey), deleteTask)
 app.put('/CompleteTask',  authenticateToken(secretKey), completeTask)
-app.post('/InCompleteTask', inCompleteTask)
+app.put('/InCompleteTask',  authenticateToken(secretKey), inCompleteTask)
 
-/*
-app.post('/EditTask', authenticateToken(secretKey), editTask)
-app.post('/DeleteTask', authenticateToken(secretKey), deleteTask)
-app.post('/CompleteTask', authenticateToken(secretKey), completeTask)
-app.post('/InCompleteTask', authenticateToken(secretKey), inCompleteTask)
- */
 
 app.listen(port, () => {
     console.log('App is listening on port 5001.')

@@ -22,6 +22,10 @@ const UserInfo = () => {
         }
     }, [token])
 
+    useEffect(() => {
+        console.log(userData)
+        setUsername(userData?.username)
+    }, [userData]);
 
     const onLogOut = () => {
         setToken('')

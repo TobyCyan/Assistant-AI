@@ -8,23 +8,26 @@ import Tasks from "../components/TasksBox/Tasks";
 import CompleteDeleteTasks from "../components/Tasks/CompleteDeleteTasks";
 
 const Home = () => {
-    const {tokenStatus, userInfo, tasksInfo} = useTokenContext()
+    const {tokenStatus, userInfo} = useTokenContext()
     const [token, setToken] = tokenStatus
     const [userData, setUserData] = userInfo
     const [tasks, setTasks] = useState([])
 
+    // Initial state of AddEditModal
     const[addEditModalOpen, setAddEditModalOpen] = useState({
         isShown: false,
         type: "add",
         data: null,
     })
 
+    // Initial state of CompleteDeleteModal
     const[compDelModalOpen, setCompDelModalOpen] = useState({
         isShown: false,
         type: "del",
         data: null,
     })
 
+    // Get User Info and User Tasks if there is token
     useEffect(() => {
         if (token) {
             console.log("Token Set")
@@ -56,6 +59,7 @@ const Home = () => {
             if(data) {
                 console.log('Type of Tasks: ' + typeof data.tasks + ', Tasks: ' + data.tasks + ', isArray? ' + Array.isArray(data.tasks))
                 setTasks(data.tasks)
+                console.log(data.tasks)
             }
         } catch (error) {
             console.error('Failed to Fetch Tasks!', error)
@@ -83,14 +87,14 @@ const Home = () => {
             const data = await res.json()
             if(data) {
                 console.log(data)
-                setUserData(data.userInfo)
+                setUserData(data)
             }
         } catch (error) {
             console.error('Failed to Fetch User Info!', error)
         }
     }
 
-    // Closes the  Modal
+    // Closes the Add Edit Task Modal
     const closeAddEditModal = () => {
         setAddEditModalOpen({
             isShown: false,
@@ -99,6 +103,7 @@ const Home = () => {
         })
     }
 
+    // Closes the Complete Delete Task Modal
     const closeCompDelModal = () => {
         setCompDelModalOpen({
             isShown: false,
@@ -126,6 +131,7 @@ const Home = () => {
         })
     }
 
+    // Open Modal when user wants to delete task
     const handleDeleteTask = (taskData) => {
         setCompDelModalOpen({
             isShown: true,
@@ -134,6 +140,7 @@ const Home = () => {
         })
     }
 
+    // Open Modal when user wants to complete task
     const handleCompleteTask = (taskData) => {
         setCompDelModalOpen({
             isShown: true,
@@ -142,22 +149,37 @@ const Home = () => {
         })
     }
 
-    // to filter
-    const overduedTasks = null;
-    const remindersTasks = null;
-    const upcomingTasks = null;
+    // To compare current date
+    const currentDate = new Date()
+
+    // Overdued Tasks
+    const overduedTasks = tasks.filter(each => {
+        const deadlineDate = new Date(each.deadline)
+        return deadlineDate < currentDate
+    })
+
+    // Tasks with reminders past current date
+    const remindersTasks = tasks;
+
+    // Upcoming Tasks
+    const upcomingTasks = tasks.filter(each => {
+        const deadlineDate = new Date(each.deadline)
+        return deadlineDate > currentDate
+    });
+
+    // Tasks from High to Low Priority
     const priorityTasks = null;
 
     return (
         <>
-            <NavBar/>
+            <NavBar />
             <div className="homepageContainer">
                 <div className="overdueAndRemindersBox">
-                    <TasksBox key="Overdued" title="Overdued" tasksToShow={tasks} onEdit={handleEditTask} onComplete={handleCompleteTask} onDelete={handleDeleteTask}/>
-                    <TasksBox key="Reminders" title="Reminders" tasksToShow={tasks} onEdit={handleEditTask} onComplete={handleCompleteTask} onDelete={handleDeleteTask} />
+                    <TasksBox key="Overdued" title="Overdued" tasksToShow={overduedTasks} onEdit={handleEditTask} onComplete={handleCompleteTask} onDelete={handleDeleteTask}/>
+                    <TasksBox key="Reminders" title="Reminders" tasksToShow={remindersTasks} onEdit={handleEditTask} onComplete={handleCompleteTask} onDelete={handleDeleteTask} />
                 </div>
                 <div className="upcomingAndPriorityBox">
-                    <TasksBox key="Upcoming" title="Upcoming" tasksToShow={tasks} onEdit={handleEditTask} onComplete={handleCompleteTask} onDelete={handleDeleteTask}/>
+                    <TasksBox key="Upcoming" title="Upcoming" tasksToShow={upcomingTasks} onEdit={handleEditTask} onComplete={handleCompleteTask} onDelete={handleDeleteTask}/>
                     <TasksBox key="Priority" title="Priority" tasksToShow={tasks} onEdit={handleEditTask} onComplete={handleCompleteTask} onDelete={handleDeleteTask}/>
                 </div>
                 <div className="assistantCharacterBox">

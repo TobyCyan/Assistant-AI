@@ -45,7 +45,7 @@ const DetailedTaskCard = ({taskData, onEdit, onComplete, onDelete}) => {
             <div className="taskCardHeader">
                 <div className="taskCardTitle">{taskData.title}</div>
                 <div className="taskCardRightHeader">
-                    <div className="taskCardDeadline">{taskData.deadline.substring(0,9)}</div>
+                    <div className="taskCardDeadline">{taskData.deadline.substring(0,10)}</div>
                     <button className="taskCardDeleteBtn" onClick={onDelete}>X</button>
                 </div>
             </div>
@@ -57,7 +57,7 @@ const DetailedTaskCard = ({taskData, onEdit, onComplete, onDelete}) => {
                 {taskData.description}
             </div>
             <div className="taskCardFooter">
-                <div className="taskReminder">{taskData.reminder || "NO REMINDER YET"}</div>
+                <div className="taskReminder">{taskData.reminder.substring(5, 10) || "NO REMINDER YET"}</div>
                 <button className="taskCardEditBtn" onClick={onEdit}>Edit</button>
                 <button className="taskCardCompleteBtn" onClick={onComplete}>Complete</button>
             </div>

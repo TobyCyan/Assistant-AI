@@ -6,7 +6,7 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
     const [userData, setUserData] = userInfo
     const [tasks, setTasks] = tasksInfo
 
-    const completeTask = async() => {
+    const completeTask = async () => {
         const completedTask = {...taskData, completed: true}
         const dataToPost = {
             method: 'PUT',
@@ -18,7 +18,7 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
         };
         try {
             const res = await fetch('http://localhost:5001/CompleteTask', dataToPost)
-            if(res,ok) {
+            if(res.ok) {
                 console.log("Task successfully completed")
             }
             getAllTasks()
@@ -40,13 +40,25 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
             }
         };
 
+        /*
+        fetch('http://localhost:5001/DeleteTask', dataToPost)
+            .then(res => {
+                if(res.ok()) {
+                    getAllTasks()
+                    onClose()
+                }
+            })
+        */
+
         try {
             const res = await fetch('http://localhost:5001/DeleteTask', dataToPost)
-            if(res.ok) {
+            if(res) {
                 console.log("Task successfully deleted")
+                const data = await res.json()
+                getAllTasks()
+                onClose()
             }
-            getAllTasks()
-            onClose()
+
         } catch (error) {
             console.error('Failed to Delete task!', error)
         }
@@ -63,7 +75,7 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
     return (
         <div className="compDelTasksContainer">
             <button className="closeSmallModalBtn" onClick={onClose}>Close</button>
-            <div>{`Are you sure you want to ${type ==="del" ? "delete" : "complete"} this task ${taskData?.title}?`}</div>
+            <div className="confirmMessage">{`Are you sure you want to ${type ==="del" ? "delete" : "complete"} this task ${taskData?.title}?`}</div>
             <button className="confirmCompDelBtn" onClick={handleConfirm}>Confirm</button>
         </div>
     )
