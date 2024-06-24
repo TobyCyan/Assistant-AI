@@ -96,6 +96,25 @@ const renderNoTaskDeadlineError = (error) => {
     }
 }
 
+const renderWeakPWError = (error) => {
+    if (error == 'WeakPW') {
+        return (
+            <>
+                <div className='error'>Password Must Have:</div>
+                <div className='error'>
+                    At Least 8 Characters.
+                </div>
+                <div className='error'>
+                    At Least 1 Lowercase and Uppercase Alphabet.
+                </div>
+                <div className='error'>
+                    At Least 1 Number.
+                </div>
+            </>
+        )
+    }
+}
+
 export default {
     renderDateOfBirthError,
     renderEmptyUsernameError,
@@ -106,4 +125,5 @@ export default {
     renderNoTaskCategoryError,
     renderNoTaskPriorityError,
     renderNoTaskDeadlineError,
+    renderWeakPWError,
 }

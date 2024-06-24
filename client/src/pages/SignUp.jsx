@@ -5,6 +5,30 @@ import CryptoJS from 'crypto-js';
 import '../index.css'
 import RenderError from "../components/RenderError/RenderError";
 
+export const checkStrongPW = (password) => {
+    const len = password.length
+    const alphabets = 'abcdefghijklmnopqrstuvwxyz'
+    const uppercaseAlphabets = alphabets.toUpperCase()
+    const numbers = '0123456789'
+
+    let isAlphabetExist = false
+    let isUppercaseExist = false
+    let isNumberExist = false
+    for (let i = 0; i < len; i++) {
+        if (alphabets.includes(password[i])) {
+            isAlphabetExist = true
+        }
+        if (uppercaseAlphabets.includes(password[i])) {
+            isUppercaseExist = true
+        }
+        if (numbers.includes(password[i])) {
+            isNumberExist = true
+        }
+    }
+
+    return len >= 8 && isAlphabetExist && isUppercaseExist && isNumberExist
+}
+
 function SignUp() {
     // Used to check whether the passwords match.
     const [confirmPassword, setConfirmPassword] = useState('')
@@ -82,6 +106,10 @@ function SignUp() {
         setError('EmptyDOB')
     }
 
+    function handleWeakPassword() {
+        setError('WeakPW')
+    }
+
     function handleFailedSignUp(error) {
         if (error == 'Username Already Taken!') {
             clearPW()
@@ -121,6 +149,13 @@ function SignUp() {
         if (!pwMatch()) {
             console.log('Passwords do not match!')
             handleDifferentPassword()
+            return
+        }
+        
+        const isPWStrong = checkStrongPW(userData.password)
+
+        if (!isPWStrong) {
+            handleWeakPassword()
             return
         }
 
@@ -199,6 +234,7 @@ function SignUp() {
                                    }}
                             />
                         </div>
+                        {RenderError.renderWeakPWError(error)}
                         <button type='submit' className="primary-btn">
                             Sign Up
                         </button>
