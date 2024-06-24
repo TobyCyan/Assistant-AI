@@ -108,6 +108,7 @@ function SignUp() {
 
     function handleWeakPassword() {
         setError('WeakPW')
+        setConfirmPassword('')
     }
 
     function handleFailedSignUp(error) {
