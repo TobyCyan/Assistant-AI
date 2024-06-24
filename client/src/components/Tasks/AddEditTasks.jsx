@@ -30,7 +30,8 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
             priority: priority,
             reminder: reminderDate,
             //reminder: `${reminderDate}T${reminderTime}:00`,
-            completed: false
+            completed: false,
+            points: 0,
         }
         const dataToPost = {
             method: 'POST',
@@ -73,7 +74,8 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
             priority: priority,
             reminder: reminderDate,
             //reminder: `${reminderDate}T${reminderTime}:00`,
-            completed: taskData.completed
+            completed: taskData.completed,
+            points: taskData.points,
         }
         console.log(deadline)
         const dataToPost = {

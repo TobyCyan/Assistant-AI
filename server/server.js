@@ -25,7 +25,7 @@ const addTask = require('./Methods/userMethods.js').addTask
 const editTask = require('./Methods/userMethods.js').editTask
 const deleteTask = require('./Methods/userMethods.js').deleteTask
 const completeTask = require('./Methods/userMethods.js').completeTask
-const inCompleteTask = require('./Methods/userMethods.js').inCompleteTask
+const unCompleteTask = require('./Methods/userMethods.js').uncompleteTask
 
 // Post Request to Get User Tasks by Username
 // app.post('/Tasks', getTasks)
@@ -45,7 +45,7 @@ app.post('/AddTask', authenticateToken(secretKey), addTask)
 app.put('/EditTask',  authenticateToken(secretKey), editTask)
 app.delete('/DeleteTask', authenticateToken(secretKey), deleteTask)
 app.put('/CompleteTask',  authenticateToken(secretKey), completeTask)
-app.put('/InCompleteTask',  authenticateToken(secretKey), inCompleteTask)
+app.put('/UncompleteTask',  authenticateToken(secretKey), unCompleteTask)
 
 
 app.listen(port, () => {

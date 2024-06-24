@@ -4,7 +4,6 @@ import TasksBox from "../components/TasksBox/TasksBox";
 import Modal from 'react-modal';
 import { useTokenContext } from "../components/TokenContext/TokenContext";
 import AddEditTasks from "../components/Tasks/AddEditTasks";
-import Tasks from "../components/TasksBox/Tasks";
 import CompleteDeleteTasks from "../components/Tasks/CompleteDeleteTasks";
 
 const Home = () => {
@@ -12,6 +11,7 @@ const Home = () => {
     const [token, setToken] = tokenStatus
     const [userData, setUserData] = userInfo
     const [tasks, setTasks] = useState([])
+    const uncompletedTasks = tasks.filter(task => !task.completed) || []
 
     // Initial state of AddEditModal
     const[addEditModalOpen, setAddEditModalOpen] = useState({
@@ -153,22 +153,22 @@ const Home = () => {
     const currentDate = new Date()
 
     // Overdued Tasks
-    const overduedTasks = tasks.filter(each => {
+    const overduedTasks = uncompletedTasks.filter(each => {
         const deadlineDate = new Date(each.deadline)
         return deadlineDate < currentDate
     })
 
     // Tasks with reminders past current date
-    const remindersTasks = tasks;
+    const remindersTasks = uncompletedTasks;
 
     // Upcoming Tasks
-    const upcomingTasks = tasks.filter(each => {
+    const upcomingTasks = uncompletedTasks.filter(each => {
         const deadlineDate = new Date(each.deadline)
         return deadlineDate > currentDate
     });
 
     // Tasks from High to Low Priority
-    const priorityTasks = null;
+    const priorityTasks = uncompletedTasks;
 
 
     return (
@@ -176,12 +176,12 @@ const Home = () => {
             <NavBar />
             <div className="homepageContainer">
                 <div className="overdueAndRemindersBox">
-                    <TasksBox key="Overdued" title="Overdued" tasksToShow={overduedTasks} onEdit={handleEditTask} onComplete={handleCompleteTask} onDelete={handleDeleteTask}/>
-                    <TasksBox key="Reminders" title="Reminders" tasksToShow={remindersTasks} onEdit={handleEditTask} onComplete={handleCompleteTask} onDelete={handleDeleteTask} />
+                    <TasksBox key="Overdued" title="Overdued" tasksToShow={overduedTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
+                    <TasksBox key="Reminders" title="Reminders" tasksToShow={remindersTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask} />
                 </div>
                 <div className="upcomingAndPriorityBox">
-                    <TasksBox key="Upcoming" title="Upcoming" tasksToShow={upcomingTasks} onEdit={handleEditTask} onComplete={handleCompleteTask} onDelete={handleDeleteTask}/>
-                    <TasksBox key="Priority" title="Priority" tasksToShow={tasks} onEdit={handleEditTask} onComplete={handleCompleteTask} onDelete={handleDeleteTask}/>
+                    <TasksBox key="Upcoming" title="Upcoming" tasksToShow={upcomingTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
+                    <TasksBox key="Priority" title="Priority" tasksToShow={priorityTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
                 </div>
                 <div className="assistantCharacterBox">
                     <div className="box">

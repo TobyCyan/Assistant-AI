@@ -2,33 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../../index.css';
 import { useTokenContext } from '../TokenContext/TokenContext';
 
-// Get the Difference between Current Time and Deadline Time.
-export const getTimeDifference = (task) => {
-    const deadlineDate = new Date(task.deadline)
 
-    const currDate = new Date()
-    const currTime = currDate.getTime()
-    const deadlineTime = deadlineDate.getTime()
-    const difference = deadlineTime - currTime
-    return difference
-}
-
-// Round up or down the given num.
-export const roundNum = (num) => {
-    const numCeil = Math.ceil(num)
-    const numFloor = Math.floor(num)
-    const decimalNum = num - numFloor
-    return decimalNum >= 0.5 ? numCeil : numFloor
-}
-
-export const calculatePriorityPoints = (priority, hours) => {
-    const priorityMap = {
-        High: 3,
-        Medium: 2,
-        Low: 1
-    }
-    return priorityMap[priority] + roundNum(hours / 24)
-}
 
 // To Add onComplete, onDelete
 const Tasks = ({taskId, title, deadline, message, onEdit, onComplete, onDelete}) => {
@@ -40,53 +14,6 @@ const Tasks = ({taskId, title, deadline, message, onEdit, onComplete, onDelete})
     const [isComplete, setIsComplete] = useState(false)
     const [pointsToBeDeducted, setPointsToBeDeducted] = useState(0)
 
-    // Keeps Track of the Selected Tasks to Edit and Puts Them in a List.
-    /*
-    useEffect(() => {
-        if (isToEdit) {
-            setTasksToEdit([...tasksToEdit, tasks[index]])
-        } else {
-            const filteredTasks = tasksToEdit?.filter(x => x.id != taskId)
-            setTasksToEdit(filteredTasks)
-        }
-    }, [isToEdit])
-    */
-
-    // Calculate Points Earned from Completing the Task.
-    // Not Final
-    function calculateTaskPoints() {
-        //const task = tasks[key]
-        const priority = task.priority
-        
-        const difference = getTimeDifference(task)
-        const differenceInHours = difference / 1000 / 60 / 60
-        const priorityPoints = calculatePriorityPoints(priority, differenceInHours)
-
-        return differenceInHours < 0 ? 1 : priorityPoints + roundNum(differenceInHours * 0.25)
-    }
-
-    // Completes the Task and Updates the User's Points.
-    function onComplete() {
-        // POST Request to Update User Points.
-        const points = calculateTaskPoints()
-        setPointsToBeDeducted(points)
-        const dataToPost = {
-            method: 'POST', 
-            body: JSON.stringify({taskId, userId, points}), 
-            headers: {
-            'Content-Type': 'application/json'
-            }
-        }
-        fetch('http://localhost:5001/CompleteTask', dataToPost)
-        .then(res => {
-            if (res.ok) {
-                console.log('Task Completed!')
-                setIsComplete(true)
-                return
-            }
-        })
-        .catch(err => console.error('Task Could not be Completed', err))
-    }
 
     // Reverses the Completion Status of the Task and Deducts the Points from the User.
     /*
@@ -139,7 +66,7 @@ const Tasks = ({taskId, title, deadline, message, onEdit, onComplete, onDelete})
         <li>
             <div key={taskId} className="task">
                 <div className="taskTitle">
-                    <span style={{fontWeight: 'bold'}}>{deadline.substring(5, 10)}</span> {title}
+                    <span style={{fontWeight: 'bold'}}>{deadline.substring(5, 10).replace('-', '/')}</span> {title}
                 </div>
                 <div className="taskMsg"></div>
                 <div className="taskActions">

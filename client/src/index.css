@@ -191,6 +191,7 @@ code {
 
 .taskTitle {
   margin: 0;
+  font-weight: bold;
 }
 
 .tasksTitleBox {
@@ -304,7 +305,8 @@ ul {
 }
 
 .taskCardRightHeader {
-  width: 40%;
+  font-weight: bold;
+  width: 35%;
   display:flex;
   justify-content: space-between;
   align-items: center;
@@ -346,6 +348,7 @@ ul {
   overflow: hidden;
   text-overflow: ellipsis;
   overflow-wrap: break-word;
+  word-break: break-all;
 }
 
 .taskCardFooter {
@@ -365,4 +368,27 @@ ul {
   padding: 8px 12px;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.nameAndPoints {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-height: 59px;
+}
+
+.username {
+  font-weight: bold;
+  margin: 0px;
+}
+
+.points {
+  font-size: 10px;
+  margin: 0px;
+}
+
+.categoriesSidebar {
+  margin: 16px 0px 0px 0px;
+  font-weight: bold;
 }

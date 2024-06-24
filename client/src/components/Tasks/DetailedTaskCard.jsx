@@ -1,51 +1,12 @@
 import React from 'react';
 
-const DetailedTaskCard = ({taskData, onEdit, onComplete, onDelete}) => {
-    /*
-    return (
-        <div className="taskCardBox">
-            <div className="taskCardHeader">
-                <div className="taskCardTitle">Title</div>
-                <div className="taskCardRightHeader">
-                    <div className="taskCardDeadline">Deadline Date</div>
-                    <button className="taskCardDeleteBtn">X</button>
-                </div>
-            </div>
-            <div className="taskCardSecondHeader">
-                <div className="taskCardCategory">Category</div>
-                <div className="taskCardPriority">Low</div>
-            </div>
-            <div className="taskCardContent">
-                This is a filler line. This is a filler line. This is a filler line. This is a filler line.
-                This is a filler line. This is a filler line. This is a filler line. This is a filler line.
-                This is a filler line. This is a filler line. This is a filler line. This is a filler line.
-                This is a filler line. This is a filler line. This is a filler line. This is a filler line.
-                This is a filler line. This is a filler line. This is a filler line. This is a filler line.
-                This is a filler line. This is a filler line. This is a filler line. This is a filler line.
-                This is a filler line. This is a filler line. This is a filler line. This is a filler line.
-                This is a filler line. This is a filler line. This is a filler line. This is a filler line.
-                This is a filler line. This is a filler line. This is a filler line. This is a filler line.
-                This is a filler line. This is a filler line. This is a filler line. This is a filler line.
-                This is a filler line. This is a filler line. This is a filler line. This is a filler line.
-                This is a filler line. This is a filler line. This is a filler line. This is a filler line.
-            </div>
-            <div className="taskCardFooter">
-                <div className="taskReminder">Reminder Date</div>
-                <button className="taskCardEditBtn">Edit</button>
-            </div>
-        </div>
-
-
-    );
-
-     */
-
+const DetailedTaskCard = ({taskData, onEdit, onComplete, onUncomplete, onDelete}) => {
     return (
         <div className="taskCardBox">
             <div className="taskCardHeader">
                 <div className="taskCardTitle">{taskData.title}</div>
                 <div className="taskCardRightHeader">
-                    <div className="taskCardDeadline">{taskData.deadline.substring(0,10)}</div>
+                    <div className="taskCardDeadline">{taskData.deadline.substring(5,10).replace('-', '/')}/{taskData.deadline.substring(2, 4)}</div>
                     <button className="taskCardDeleteBtn" onClick={onDelete}>X</button>
                 </div>
             </div>
@@ -57,9 +18,9 @@ const DetailedTaskCard = ({taskData, onEdit, onComplete, onDelete}) => {
                 {taskData.description}
             </div>
             <div className="taskCardFooter">
-                <div className="taskReminder">{taskData.reminder.substring(5, 10) || "NO REMINDER YET"}</div>
+                <div className="taskReminder">{taskData.reminder.substring(5, 10).replace('-', '/') || "NO REMINDER YET"}</div>
                 <button className="taskCardEditBtn" onClick={onEdit}>Edit</button>
-                <button className="taskCardCompleteBtn" onClick={onComplete}>Complete</button>
+                <button className="taskCardCompleteBtn" onClick={taskData.completed ? onUncomplete : onComplete}>{taskData.completed ? "Uncomplete" : "Complete" }</button>
             </div>
         </div>
 

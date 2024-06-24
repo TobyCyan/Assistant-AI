@@ -66,6 +66,10 @@ module.exports = (sequelize, DataTypes) => {
         completed: {
             type: DataTypes.BOOLEAN,
             allowNull: false
+        },
+        points: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
         }
     }, {
         tableName: 'task'

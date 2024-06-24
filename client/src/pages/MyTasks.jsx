@@ -19,6 +19,7 @@ function MyTasks() {
     const [tasks, setTasks] = useState([])
     const [displayTasks, setDisplayTasks] = useState(tasks)
     const [filter, setFilter] = useState('All')
+    const uncompletedTasks = tasks.filter(task => !task.completed) || []
 
     // Initial state of AddEditModal
     const[addEditModalOpen, setAddEditModalOpen] = useState({
@@ -36,7 +37,6 @@ function MyTasks() {
 
     // Get User Info and User Tasks if there is token
     useEffect(() => {
-        const token = getToken()
         if (token) {
             setToken(token)
             const tokenData = parseToken(token)
@@ -140,6 +140,16 @@ function MyTasks() {
         })
     }
 
+
+    // Open Modal when user wants to uncomplete task
+    const handleUncompleteTask = (taskData) => {
+        setCompDelModalOpen({
+            isShown: true,
+            type: "uncomp",
+            data: taskData,
+        })
+    }
+
     // Get User Tasks
     const getUserTasks = async () => {
         const dataToPost = {
@@ -198,9 +208,9 @@ function MyTasks() {
         }
     }
 
-    const categories = [...new Set(tasks.map(task => task.category))].map((eachCat, index) => (
+    const categories = [...new Set(uncompletedTasks.map(task => task.category))].map((eachCat, index) => (
         <li key={index} onClick={() => handleFilterTasks(eachCat)}>
-            {eachCat}
+            {eachCat} ({uncompletedTasks.filter(each => each.category === eachCat).length})
         </li>
     ))
 
@@ -224,6 +234,7 @@ function MyTasks() {
                     taskData={task}
                     onEdit={()=>handleEditTask(task)}
                     onComplete={()=>handleCompleteTask(task)}
+                    onUncomplete={() => handleUncompleteTask(task)}
                     onDelete={()=>handleDeleteTask(task)}
                 />
             ))}
@@ -236,13 +247,14 @@ function MyTasks() {
             <div className="tasksPageContainer">
                 <div className="tasksSidebar">
                     <button onClick={handleAddTask}>Add Task</button>
+                    <div className="categoriesSidebar">Categories</div>
                     <ul id="category-list">
-                        <li onClick={() => handleFilterTasks('All')}>All</li>
-                        <li onClick={() => handleFilterTasks('Completed')}>Completed</li>
+                        <li onClick={() => handleFilterTasks('All')}>All ({uncompletedTasks.length})</li>
+                        <li onClick={() => handleFilterTasks('Completed')}>Completed ({tasks.filter(each => each.completed).length})</li>
                         {categories}
-                        <li onClick={() => handleFilterTasks('High')}>High</li>
-                        <li onClick={() => handleFilterTasks('Medium')}>Medium</li>
-                        <li onClick={() => handleFilterTasks('Low')}>Low</li>
+                        <li onClick={() => handleFilterTasks('High')}>High ({uncompletedTasks.filter(each => each.priority === 'High').length})</li>
+                        <li onClick={() => handleFilterTasks('Medium')}>Medium ({uncompletedTasks.filter(each => each.priority === 'Medium').length})</li>
+                        <li onClick={() => handleFilterTasks('Low')}>Low ({uncompletedTasks.filter(each => each.priority === 'Low').length})</li>
                     </ul>
                 </div>
                 <div className="tasksContainer">

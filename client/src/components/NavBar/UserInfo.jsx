@@ -12,20 +12,13 @@ const UserInfo = () => {
     const {tokenStatus, userInfo, tasksInfo} = useTokenContext()
     const [token, setToken] = tokenStatus
     const [userData, setUserData] = userInfo
-    const [tasks, setTasks] = tasksInfo
     const [username, setUsername] = useState('')
-
-    useEffect(() => {
-        if (token) {
-            // const user = jwt.verify(token, secretKey)
-            // setUsername(user)
-            console.log('Token Refreshed')
-        }
-    }, [token])
+    const [points, setPoints] = useState(0)
 
     useEffect(() => {
         console.log(userData)
         setUsername(userData?.username)
+        setPoints(userData?.points)
     }, [userData]);
 
     const onLogOut = () => {
@@ -43,7 +36,11 @@ const UserInfo = () => {
         if (token) {
             return (
                 <div className="userInfo">
-                    <p className="username">{username}</p>
+
+                    <div className="nameAndPoints">
+                        <p className="username">{username}</p>
+                        <p className="points">{points} pts</p>
+                    </div>
                     <button className="navBarBtn" onClick={onLogOut}>Log Out</button>
                 </div>
             )

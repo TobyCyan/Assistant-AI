@@ -60,8 +60,9 @@ const editTask = async (req, res) => {
 
 // Completes the Given Task.
 const completeTask = async (req, res) => {
-    const {id} = request.user
-    const { taskId, points } = req.body
+    const {id} = req.user
+    const completedTask = req.body
+    console.log(completedTask)
 
     // Finds the User Instance That Completed the Task.
     const userData = await User.findOne(
@@ -76,23 +77,22 @@ const completeTask = async (req, res) => {
     await userData.increment(
         'points',
         {
-            by: points
+            by: completedTask.points
         }
     )
     .catch(err => console.error('Error Updating Points', err))
 
     // Update the Completion Status of the Task.
-    await Tasks.update(completeTaskData,
+    await Tasks.update(completedTask,
         {
             where: {
-                userId: userId,
-                id: taskId
+                userId: id,
+                id: completedTask.id
             }
         }
     )
     .catch(err => {
         console.error('Error Completing Task', err)
-        return
     })
 
     // Sends an ok Response.
@@ -101,20 +101,16 @@ const completeTask = async (req, res) => {
 
 }
 
-// InCompletes the Given Task.
-const inCompleteTask = async (req, res) => {
-    const { taskId, userId, pointsToBeDeducted } = req.body
-
-    // Data of the InCompleted Task.
-    const inCompleteTaskData = {
-        completed: false
-    }
+// UnCompletes the Given Task.
+const uncompleteTask = async (req, res) => {
+    const {id} = req.user
+    const {uncompletedTask, toDeduct} = req.body
 
     // Finds the User Instance That InCompleted the Task.
     const userData = await User.findOne(
         {
             where: {
-                id: userId
+                id
             }
         }
     )
@@ -123,17 +119,17 @@ const inCompleteTask = async (req, res) => {
     await userData.decrement(
         'points',
         {
-            by: pointsToBeDeducted
+            by: toDeduct
         }
     )
     .catch(err => console.error('Error Updating Points', err))
 
     // Update the Completion Status of the Task.
-    await Tasks.update(inCompleteTaskData,
+    await Tasks.update(uncompletedTask,
         {
             where: {
-                userId: userId,
-                id: taskId
+                userId: id,
+                id: uncompletedTask.id
             }
         }
     )
@@ -143,7 +139,7 @@ const inCompleteTask = async (req, res) => {
     })
 
     // Sends an ok Response.
-    res.status(200).send('Task InCompleted!')
+    res.status(200).send('Task Uncompleted!')
     console.log('Points Successfully Deducted!')
 }
 
@@ -181,7 +177,7 @@ module.exports = {
     addTask,
     editTask,
     completeTask,
-    inCompleteTask,
+    uncompleteTask,
     deleteTask,
 }
 

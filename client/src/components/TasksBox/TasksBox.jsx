@@ -23,7 +23,7 @@ const TasksBox = ({title, tasksToShow, onEdit, onDelete, onComplete}) => {
     return (
         <div className="tasksContainer">
             <div className="tasksTitleBox">
-                <h3>{title}</h3>
+                <h3>{title} ({tasks.length})</h3>
             </div>
             <div className="tasksBox">
                 <ul>
