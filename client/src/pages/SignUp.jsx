@@ -4,32 +4,13 @@ import NavBar from "../components/NavBar/NavBar.jsx";
 import CryptoJS from 'crypto-js';
 import '../index.css'
 import RenderError from "../components/RenderError/RenderError";
-
-export const checkStrongPW = (password) => {
-    const len = password.length
-    const alphabets = 'abcdefghijklmnopqrstuvwxyz'
-    const uppercaseAlphabets = alphabets.toUpperCase()
-    const numbers = '0123456789'
-
-    let isAlphabetExist = false
-    let isUppercaseExist = false
-    let isNumberExist = false
-    for (let i = 0; i < len; i++) {
-        if (alphabets.includes(password[i])) {
-            isAlphabetExist = true
-        }
-        if (uppercaseAlphabets.includes(password[i])) {
-            isUppercaseExist = true
-        }
-        if (numbers.includes(password[i])) {
-            isNumberExist = true
-        }
-    }
-
-    return len >= 8 && isAlphabetExist && isUppercaseExist && isNumberExist
-}
+import {useTokenContext} from "../components/TokenContext/TokenContext.jsx";
+import {checkStrongPW} from "../utilities/utilities.js";
 
 function SignUp() {
+    const {tokenStatus} = useTokenContext()
+    const [token, setToken] = tokenStatus
+
     // Used to check whether the passwords match.
     const [confirmPassword, setConfirmPassword] = useState('')
 
@@ -126,7 +107,7 @@ function SignUp() {
     // TODO
     // Sends userData to the back-end to insert into database.
     const handleSignUp = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
         setError('')
 
         if (userData.username == '') {
@@ -171,20 +152,24 @@ function SignUp() {
             }
         };
 
-        fetch('http://localhost:5001/SignUp', dataToPost)
-        .then(res => {
-            // Response is ok if and only if the Response Status is 2xx.
-            if (res.ok) {
+        try {
+            const res = await fetch('http://localhost:5001/SignUp', dataToPost)
+
+            if(res.ok) {
                 console.log('Sign Up Successful!')
-                localStorage.setItem('jwt', res.json().token)
+                const data = await res.json()
+                const resToken = data.token
+                localStorage.setItem('token', resToken)
+                setToken(resToken)
                 sendToHomePage()
                 return
+            } else {
+                const text = await res.text()
+                handleFailedSignUp(text)
             }
-            
-            // Response status is not ok, obtain the error text and handle it.
-            res.text().then(text => handleFailedSignUp(text))
-            }
-        );
+        } catch (error) {
+            console.error('Error occured during Sign Up', error)
+        }
     }
 
     return (

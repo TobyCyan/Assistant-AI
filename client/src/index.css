@@ -194,9 +194,16 @@ code {
 .task {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 2px;
+}
+
+.taskInnerBox {
+  width: 95%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .taskTitle {
@@ -205,16 +212,28 @@ code {
 }
 
 .tasksTitleBox {
+  height: 12%;
   flex: 0 0 auto;
 }
 
 .taskActions {
   display:flex;
-  align-items: center;
+  align-items: stretch;
 }
 
 ul li {
   list-style: none;
+}
+
+.tasksBox ul li {
+  min-height: 30px;
+  margin: 1px 0px;
+  padding: 2px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  border: 1px solid #000;
+  display: flex;
+  align-items: center;
 }
 
 ul {
@@ -348,6 +367,7 @@ ul {
 
 .taskCardDeadline {
   font-size: 14px;
+  margin-right: 3px;
 }
 
 .taskCardDeleteBtn {
@@ -396,11 +416,16 @@ ul {
   font-size: 14px;
 }
 
-.taskCardEditBtn {
+.taskCardEditBtn, .taskCardCompleteBtn {
   border: none;
   padding: 8px 12px;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.taskCardCompleteBtn::before {
+  content: "\2713";
+  margin-right: 5px;
 }
 
 .nameAndPoints {
@@ -426,3 +451,21 @@ ul {
   font-weight: bold;
 }
 
+#category-list {
+  overflow-y: auto;
+  max-height: 90%;
+}
+
+.taskEditButton, .taskCrossButton, .taskTickButton {
+  min-height: 80%;
+}
+
+.taskCrossButton::before {
+  content: "\00D7";
+  font-size: 18px;
+}
+
+.taskTickButton::before {
+  content: "\2713";
+  font-size: 14px;
+}

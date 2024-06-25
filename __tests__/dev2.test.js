@@ -1,4 +1,4 @@
-import { checkStrongPW } from "../client/src/pages/SignUp"
+import {checkStrongPW} from "../client/src/utilities/utilities";
 
 // Unit Tests to test for Strong Password Checker.
 const pw1 = '123456789'

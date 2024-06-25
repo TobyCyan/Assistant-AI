@@ -5,10 +5,9 @@ import { useNavigate, Link } from 'react-router-dom'
 import {useTokenContext} from "../TokenContext/TokenContext.jsx";
 
 const NavBar = () => {
-    const {tokenStatus, userInfo, tasksInfo} = useTokenContext()
+    const {tokenStatus, userInfo} = useTokenContext()
     const [token, setToken] = tokenStatus
     const [userData, setUserData] = userInfo
-    const [tasks, setTasks] = tasksInfo
     const navigate = useNavigate()
 
     // To Home Page

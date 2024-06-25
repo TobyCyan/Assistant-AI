@@ -2,14 +2,11 @@ import React, { useState, useEffect } from 'react'
 import '../../index.css'
 import { useNavigate } from "react-router-dom";
 import { useTokenContext } from "../TokenContext/TokenContext.jsx";
-// import {secretKey} from "../../../../server/Methods/userMethods";
-
-// const jwt = require('jsonwebtoken')
 
 const UserInfo = () => {
     const navigate = useNavigate()
 
-    const {tokenStatus, userInfo, tasksInfo} = useTokenContext()
+    const {tokenStatus, userInfo} = useTokenContext()
     const [token, setToken] = tokenStatus
     const [userData, setUserData] = userInfo
     const [username, setUsername] = useState('')

@@ -17,10 +17,9 @@ const Login = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState('')
-    const {tokenStatus, userInfo, tasksInfo} = useTokenContext()
+    const {tokenStatus, userInfo} = useTokenContext()
     const [token, setToken] = tokenStatus
     const [userData, setUserData] = userInfo
-    const [tasks, setTasks] = tasksInfo
 
     const navigate = useNavigate()
 
@@ -54,7 +53,7 @@ const Login = () => {
 
         //Login API
         var hashedPW = CryptoJS.SHA512(password).toString();
-        const updatedData = {username, hashedPW};
+        const updatedData = {username, password: hashedPW};
 
         const dataToPost = {
             method: 'POST',

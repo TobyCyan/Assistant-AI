@@ -4,10 +4,8 @@ import RenderError from '../RenderError/RenderError';
 
 // To receive the following 1) Task Data (if edit) 2) Type - add or edit - need to load
 const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
-    const {tokenStatus, userInfo, tasksInfo} = useTokenContext()
+    const {tokenStatus} = useTokenContext()
     const [token, setToken] = tokenStatus
-    const [userData, setUserData] = userInfo
-    const [tasks, setTasks] = tasksInfo
 
     const [title, setTitle] = useState(taskData?.title || '');
     const [description, setDescription] = useState(taskData?.description  || '');

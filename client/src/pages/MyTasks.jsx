@@ -214,18 +214,6 @@ function MyTasks() {
         </li>
     ))
 
-    /*
-    const tasksToTaskCard = tasks.map((task, index) => {
-        <DetailedTaskCard
-            key={index}
-            taskData={task}
-            onEdit={()=>handleEditTask(task)}
-            onComplete={()=>handleCompleteTask(task)}
-            onDelete={()=>handleDeleteTask(task)}
-        />
-    })
-    */
-
     const tasksInGrid = (
         <div className="tasksGridBox">
             {displayTasks.map((task, index) => (

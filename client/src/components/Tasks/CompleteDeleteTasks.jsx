@@ -1,14 +1,12 @@
 import {useTokenContext} from "../TokenContext/TokenContext.jsx";
 
 const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}) => {
-    const {tokenStatus, userInfo, tasksInfo} = useTokenContext()
+    const {tokenStatus, userInfo} = useTokenContext()
     const [token, setToken] = tokenStatus
-    const [userData, setUserData] = userInfo
 
     // Get the Difference between Current Time and Deadline Time.
     const getTimeDifference = (task) => {
         const deadlineDate = new Date(task.deadline)
-
         const currDate = new Date()
         const currTime = currDate.getTime()
         const deadlineTime = deadlineDate.getTime()
@@ -44,31 +42,7 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
         return differenceInHours < 0 ? 1 : priorityPoints + roundNum(differenceInHours * 0.25)
     }
 
-    /*
-    // Completes the Task and Updates the User's Points.
-    function onComplete() {
-        // POST Request to Update User Points.
-        const points = calculateTaskPoints()
-        setPointsToBeDeducted(points)
-        const dataToPost = {
-            method: 'POST',
-            body: JSON.stringify({taskId, userId, points}),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }
-        fetch('http://localhost:5001/CompleteTask', dataToPost)
-            .then(res => {
-                if (res.ok) {
-                    console.log('Task Completed!')
-                    setIsComplete(true)
-                    return
-                }
-            })
-            .catch(err => console.error('Task Could not be Completed', err))
-    }
-    */
-
+    // PUT Request to complete task
     const completeTask = async () => {
         const toEarn = calculateTaskPoints()
         const completedTask = {...taskData, completed: true, points: toEarn}
@@ -79,7 +53,7 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             }
-        };
+        }
         try {
             const res = await fetch('http://localhost:5001/CompleteTask', dataToPost)
             if(res.ok) {
@@ -93,6 +67,7 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
         }
     }
 
+    // PUT Request to uncomplete Task
     const uncompleteTask = async () => {
         const toDeduct = taskData.points
         const uncompletedTask = {...taskData, completed: false, points: 0}
@@ -117,6 +92,7 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
         }
     }
 
+    // DELETE Request to delete Task
     const deleteTask = async () => {
         const taskId = taskData.id
         const dataToPost = {
@@ -142,6 +118,7 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
         }
     }
 
+    // Select which operation
     const handleConfirm = () => {
         if(type === "del") {
             deleteTask()

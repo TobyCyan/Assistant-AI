@@ -12,7 +12,6 @@ export const TokenProvider = (props) => {
         dateOfBirth: null,
         points: null,
     })
-    const [tasks, setTasks] = useState([])
 
     // Debugging for token.
     useEffect(() => {
@@ -30,18 +29,11 @@ export const TokenProvider = (props) => {
         //console.log('User Updated as Username: ' + userInfo.username + ', ID: ' + userInfo.userId);
     }, [userData]);
 
-    // Debugging for tasks.
-    useEffect(() => {
-        // This will run after the state update is complete
-        console.log('Tasks Updated as Tasks: ' + tasks);
-    }, [tasks]);
-
     return (
         <TokenContext.Provider 
         value={{
             tokenStatus: [token, setToken], 
             userInfo: [userData, setUserData],
-            tasksInfo: [tasks, setTasks]
         }}>
             {props.children}
         </TokenContext.Provider>

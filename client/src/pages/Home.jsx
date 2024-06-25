@@ -27,6 +27,16 @@ const Home = () => {
         data: null,
     })
 
+    // On First Load, Get User Info and User Tasks if there is token
+    useEffect(() => {
+        if(token) {
+            localStorage.setItem('token', token);
+            setToken(token)
+            getUserInfo()
+            getUserTasks()
+        }
+    }, [])
+
     // Get User Info and User Tasks if there is token
     useEffect(() => {
         if (token) {
@@ -169,7 +179,6 @@ const Home = () => {
 
     // Tasks from High to Low Priority
     const priorityTasks = uncompletedTasks;
-
 
     return (
         <>

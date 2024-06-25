@@ -1,185 +1,102 @@
 const db = require('../Models/dataBase.js')
+const jwt = require('jsonwebtoken')
+
 const User = db.user
 const Tasks = db.tasks
 
-// Refer to sequelize.org/master/manual for full API reference of queries.
+// Secret Key Must Not Be Leaked for Security Purposes.
+const secretKey = 'aSsiSTaNTAIiSAlwAYsHErEtOhelP020620241aM*$^0^'
 
-// Adds A New Task to the Task Table.
-const addTask = async (req, res) => {
-    const {id} = req.user
+// Query to add a new user to db.
+const addUser = async (req, res) => {
     const data = req.body
-
-    // Data of the New Task.
-    let newTaskData = {
-        userId: id,
-        title: data['title'],
-        description: data['description'],
-        category: data['category'],
-        deadline: data['deadline'],
-        priority: data['priority'],
-        reminder: data['reminder'],
-        completed: data['completed'],
+    let newUserData = {
+        name: data['username'],
+        password: data['password'],
+        points: data['points'],
+        dateOfBirth: data['dateOfBirth']
     }
-    // Create the New Task Instance.
-    const newTask = await Tasks.create(newTaskData)
-    // Sends the Added Task as a Response to be Added into the Task List.
-    res.send({newTask: newTask})
-    console.log(newTask + ' added to database!')
-}
-
-// Edits the Given Task and Updates its Data.
-const editTask = async (req, res) => {
-    console.log(req.body)
-    const data = req.body
-    const {id} = req.user
-
-    // Data of the Edited Task.
-    let editTaskData = {
-        title: data['title'],
-        description: data['description'],
-        category: data['category'],
-        deadline: data['deadline'],
-        priority: data['priority'],
-        reminder: data['reminder'],
-        completed: data['completed'],
-    }
-    // Updates the Task Instance.
-    const editTask = await Tasks.update(editTaskData, 
-        {
-            where: {
-                userId: id,
-                id: data['taskId']
-            }
+    console.log(newUserData.dateOfBirth)
+    // Username must be unique.
+    const findUser = await User.findOne({
+        where: {
+            name: data['username']
         }
-    )
-
-    // Sends the Edited Task as a Response to be Added into the Task List.
-    res.send({editTask: editTask})
-    console.log(editTask + ' edited!')
-}
-
-// Completes the Given Task.
-const completeTask = async (req, res) => {
-    const {id} = req.user
-    const completedTask = req.body
-    console.log(completedTask)
-
-    // Finds the User Instance That Completed the Task.
-    const userData = await User.findOne(
-        {
-            where: {
-                id
-            }
-        }
-    )
-
-    // Increments the User's Points.
-    await userData.increment(
-        'points',
-        {
-            by: completedTask.points
-        }
-    )
-    .catch(err => console.error('Error Updating Points', err))
-
-    // Update the Completion Status of the Task.
-    await Tasks.update(completedTask,
-        {
-            where: {
-                userId: id,
-                id: completedTask.id
-            }
-        }
-    )
-    .catch(err => {
-        console.error('Error Completing Task', err)
     })
-
-    // Sends an ok Response.
-    res.status(200).send('Task Completed!')
-    console.log('Points Successfully Added!')
-
-}
-
-// UnCompletes the Given Task.
-const uncompleteTask = async (req, res) => {
-    const {id} = req.user
-    const {uncompletedTask, toDeduct} = req.body
-
-    // Finds the User Instance That InCompleted the Task.
-    const userData = await User.findOne(
-        {
-            where: {
-                id
-            }
-        }
-    )
-
-    // Decrements the User's Points
-    await userData.decrement(
-        'points',
-        {
-            by: toDeduct
-        }
-    )
-    .catch(err => console.error('Error Updating Points', err))
-
-    // Update the Completion Status of the Task.
-    await Tasks.update(uncompletedTask,
-        {
-            where: {
-                userId: id,
-                id: uncompletedTask.id
-            }
-        }
-    )
-    .catch(err => {
-        console.error('Error InCompleting Task', err)
+    
+    // Sends an Error Messages as Response If User Already Exists.
+    if (findUser) {
+        res.status(401).send('Username Already Taken!')
         return
-    })
+    } else {
+        // Creates the New User Instance and Signs a JSON Web Token with the Username and Secret Key.
+        const newUser = await User.create(newUserData)
+        // Remove expiresIn first
+        const token = jwt.sign({username: newUser.name, id:newUser.id}, secretKey)
 
-    // Sends an ok Response.
-    res.status(200).send('Task Uncompleted!')
-    console.log('Points Successfully Deducted!')
+        // Sends an ok Response and the JWT Token to Begin the User's Session.
+        res.status(200).send({token})
+        console.log(newUser + ' added to database!')
+    }
 }
 
-// Deletes the Given Task.
-const deleteTask = async (req, res) => {
-    const {id} = req.user
-    const {taskId} = req.body
-    console.log(id)
-    console.log(taskId)
+// Query to login the user.
+const loginUser = async (req, res) => {
+    const { username, password } = req.body
 
-    // Deletes the Task Instance from the Task Table.
-    try {
-        const result = await Tasks.destroy({
+    // Finds the User Instance That Logged In.
+    const findUser = await User.findOne(
+        {
             where: {
-                id: taskId,
-                userId: id
+                name: username
             }
-        })
-        if (result > 0) {  // Check if any rows were deleted
-            console.log("Deleted Successfully");
-            res.send({ message: "Task deleted successfully" });
-        } else {
-            console.log("No task found to delete");
-            res.status(404).send({ error: "Task not found" });
         }
-    } catch(error) {
-        console.error('Error Deleting Task', error)
-    }
-    console.log('Task Deleted Phase over!')
+    )
 
+    // If User Exists and Credentials Match. 
+    if (findUser && findUser.password === password) {
+        // JWT was signed with username
+        const token = jwt.sign({username: findUser.name, id:findUser.id}, secretKey)
+        // Gets the UserId by Username
+        // Sends the JWT Token and UserId as a Response.
+        res.send({token, userId: findUser.id})
+    } else {
+        // Sends an Error Message If Credentials are Invalid.
+        res.status(401).send('Invalid Credentials')
+    }
+}
+
+// Query to Get User Info
+const getUserInfo = async (req, res) => {
+    const { id } = req.user
+
+    const findUser = await User.findOne(
+        {
+            where: {
+                id: id
+            }
+        }
+    )
+
+    if(findUser) {
+        console.log(findUser)
+        const userDetails = {
+            username: findUser.name,
+            id: findUser.id,
+            dateOfBirth: findUser.dateOfBirth,
+            points: findUser.points
+        }
+        console.log(userDetails)
+        res.send(userDetails)
+    } else {
+        res.status(404).send('Invalid User')
+    }
 }
 
 
 module.exports = {
-    addTask,
-    editTask,
-    completeTask,
-    uncompleteTask,
-    deleteTask,
+    addUser,
+    loginUser,
+    getUserInfo
 }
-
-
 
