@@ -315,7 +315,7 @@ ul {
 
 .tasksPageContainer {
   display: flex;
-  height: 100vh;
+  height: 80vh;
 }
 
 .tasksSidebar {
@@ -323,7 +323,7 @@ ul {
   background-color: #f4f4f4;
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  height: 80%;
+  height: 80vh;
 }
 
 .tasksSidebar h2 {
@@ -352,7 +352,7 @@ ul {
   overflow: hidden;
   flex: 1;
   background-color: #f0f0f0;
-  height: 40%;
+  height: 80vh;
   width: 90%;
   color: black;
   padding: 0rem;
@@ -361,7 +361,6 @@ ul {
   display: flex;
   flex-direction: column;
   width: 85%;
-  height: 80%;
   padding: 20px;
   overflow-y: auto;
 }
