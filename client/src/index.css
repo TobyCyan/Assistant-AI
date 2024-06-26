@@ -408,7 +408,7 @@ ul {
 
 .taskCardRightHeader {
   font-weight: bold;
-  width: 35%;
+  width: 30%;
   display:flex;
   justify-content: space-between;
   align-items: center;
@@ -422,7 +422,6 @@ ul {
 
 .taskCardDeadline {
   font-size: 14px;
-  margin-right: 3px;
 }
 
 .taskCardDeleteBtn {
@@ -438,6 +437,7 @@ ul {
   justify-content: space-between;
   margin: 10px;
   flex: 0 0 auto;
+  font-weight: bold;
 }
 
 .taskCardCategory, .taskCardPriority {
@@ -469,6 +469,7 @@ ul {
 
 .taskReminder {
   font-size: 14px;
+  font-weight: bold;
 }
 
 .taskCardEditBtn, .taskCardCompleteBtn {

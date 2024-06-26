@@ -114,12 +114,13 @@ const completeTask = async (req, res) => {
     )
     .catch(err => console.error('Error Updating Points', err))
 
+    console.log(completedTask)
     // Update the Completion Status of the Task.
     const updated = await Tasks.update(updateFields,
         {
             where: {
                 userId: id,
-                id: completedTask.taskId
+                id: completedTask.id
             }
         }
     )
@@ -161,12 +162,14 @@ const uncompleteTask = async (req, res) => {
     )
     .catch(err => console.error('Error Updating Points', err))
 
+    console.log(id)
+
     // Update the Completion Status of the Task.
     updated = await Tasks.update(updateFields,
         {
             where: {
                 userId: id,
-                id: uncompletedTask.taskId
+                id: uncompletedTask.id
             }
         }
     )
