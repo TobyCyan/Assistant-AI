@@ -29,3 +29,17 @@ export const checkStrongPW = (password) => {
 
     return len >= 8 && isAlphabetExist && isUppercaseExist && isNumberExist
 }
+
+export const compareTasks = (task1, task2) => {
+    const priorityOrder = { High: 3, Medium: 2, Low: 1 };
+    const priority1 = priorityOrder[task1.priority];
+    const priority2 = priorityOrder[task2.priority];
+
+    // If priorities are different, sort by priority (High > Medium > Low)
+    if (priority1 !== priority2) {
+        return priority2 - priority1; // Sort descending by priority
+    }
+
+    // Same priority - earlier deadline first
+    return new Date(task1.deadline) - new Date(task2.deadline);
+};

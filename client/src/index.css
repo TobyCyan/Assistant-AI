@@ -12,6 +12,10 @@ code {
   monospace;
 }
 
+button {
+  cursor: pointer;
+}
+
 .navBar {
   background-color: white;
   display: flex;
@@ -64,7 +68,7 @@ code {
   margin-bottom: 1.75rem;
 }
 
-.usernameInput, .passwordInput, .dateOfBirthInput {
+.usernameInput, .passwordInput {
   width: 80%;
   font-size: 0.875rem;
   background-color: transparent;
@@ -73,6 +77,41 @@ code {
   border-radius: 0.25rem;
   margin-bottom: 1rem;
   outline: none;
+}
+
+.dateOfBirthInput {
+  width: 85%;
+  font-size: 0.875rem;
+  background-color: transparent;
+  border-width: 1.5px;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+  outline: none;
+}
+
+#dateOfBirthLabel {
+  font-size: 0.875rem;
+  margin: 0 0.5rem;
+  padding-bottom: 1rem;
+  white-space: nowrap;
+}
+
+.dateOfBirthBox {
+  font-size: 0.875rem;
+  background-color: transparent;
+  border-width: 1.5px;
+  padding: 0 1.25rem;
+  width: 90%;
+  border-radius: 0.25rem;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.signUpBox {
+  width: 100%;
 }
 
 .error {
@@ -105,12 +144,15 @@ code {
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+  /*
   border: 1px black;
   border-style: solid;
+  */
 }
 
 .overdueAndRemindersBox, .upcomingAndPriorityBox {
-  width: 37.5%
+  width: 37.5%;
+  flex: 1;
 }
 
 .assistantCharacterBox {
@@ -170,7 +212,8 @@ code {
   color: black;
   padding: 0rem;
   margin: 5px 0px;
-  border: 2px dotted black;
+  /* border: 2px dotted black; */
+  border: 2px solid #000000;
   gap: 0;
   display: flex;
   flex-direction: column;
@@ -206,12 +249,25 @@ code {
   align-items: center;
 }
 
+.titleAndPriorityBox {
+  display: flex;
+  flex-direction: column;
+  height:100%;
+  align-items: flex-start;
+}
+
+
 .taskTitle {
   margin: 0;
   font-weight: bold;
 }
 
-.tasksTitleBox {
+.taskPriority {
+  font-weight: bold;
+  font-size: 10px;
+}
+
+.tasksBoxTitleBox {
   height: 12%;
   flex: 0 0 auto;
 }
@@ -300,7 +356,7 @@ ul {
   width: 90%;
   color: black;
   padding: 0rem;
-  border: 2px dotted black;
+  /* border: 2px dotted black; */
   gap: 0;
   display: flex;
   flex-direction: column;
@@ -423,6 +479,20 @@ ul {
   cursor: pointer;
 }
 
+.addTaskBtn {
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+}
+
+.addTaskBtn::before {
+  content: '+';
+  margin-right: 5px;
+  font-size: 16px; /* Adjust font size if necessary */
+  line-height: 1; /* Adjust line-height to align with the button text */
+}
+
 .taskCardCompleteBtn::before {
   content: "\2713";
   margin-right: 5px;
@@ -469,3 +539,78 @@ ul {
   content: "\2713";
   font-size: 14px;
 }
+
+.productivityBar {
+  width: 100%;
+  height: 20px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.productivity {
+  height: 100%;
+  background-color: #4caf50; /* Green color for progress */
+  transition: width 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 0; /* Initial width is 0 */
+  position: relative; /* Ensure z-index works */
+}
+
+.productivity::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: linear-gradient(135deg, transparent 8px, rgba(255, 255, 255, 0.5) 8px, rgba(255, 255, 255, 0.5) 16px, transparent 16px);
+  background-size: 30px 30px; /* Adjust size to control spacing between lines */
+  z-index: 1; /* Ensure slanted lines are above progress text */
+}
+
+.productivityPercent {
+  color: white;
+  font-weight: bold;
+  padding: 0 8px;
+}
+
+.addButtonBox {
+  /* border: 1px dotted #000; */
+  height: 8%;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userDisplayBox, .AIbox {
+  /* border: 1px dotted #000; */
+  height: 40%;
+  width: 90%;
+  display: flex;
+}
+
+.userDisplayBox {
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.AIbox {
+  justify-content: center;
+}
+
+/*
+  Borders for visualisation
+    1. homepageContainer
+    2. overdueAndRemindersBox
+    3. upcomingAndPriorityBox
+    4. assistantCharacterBox
+    5. tasksContainer
+    6. addButtonBox
+    7. userDisplayBox
+    8. assistantCharacterBox
+    9. tasksPageContainer
+*/

@@ -27,7 +27,6 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
             deadline: deadline,
             priority: priority,
             reminder: reminderDate,
-            //reminder: `${reminderDate}T${reminderTime}:00`,
             completed: false,
             points: 0,
         }
@@ -111,14 +110,38 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
             return;
         }
 
+        if(!priority) {
+            setError("noTaskPriority");
+            return;
+        }
+
         if(!deadline) {
             setError('noTaskDeadline');
             return;
         }
 
-        if(!priority) {
-            setError("noTaskPriority");
-            return;
+        if(!reminderDate) {
+            setError('noTaskReminder')
+            return
+        }
+
+        const currentDate = new Date()
+        const deadlineObj = new Date(deadline)
+        const reminderObj = new Date(reminderDate)
+
+        if(deadlineObj < currentDate) {
+            setError('deadlinePast')
+            return
+        }
+
+        if(reminderObj < currentDate) {
+            setError('reminderPast')
+            return
+        }
+
+        if(reminderObj > deadlineObj) {
+            setError('reminderBeforeDeadline')
+            return
         }
 
         setError('')
@@ -182,13 +205,13 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
                 </select>
             </div>
 
-            {RenderError.renderNoTaskDeadlineError(error)}
+            {RenderError.renderDeadlineError(error)}
             <div className="deadlineBox">
                 <label>Deadline:</label>
                 <input type="date" value={deadline} onChange={e => setDeadline(e.target.value)}/>
             </div>
 
-            {RenderError.renderNoTaskDeadlineError(error)}
+            {RenderError.renderReminderError(error)}
             <div className="reminderBox">
                 <label>Reminder Date:</label>
                 <input type="date" value={reminderDate} onChange={e => setReminderDate(e.target.value)}/>
@@ -199,15 +222,6 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
             </button>
         </div>
     )
-
-    /*
-        Reminder Time Component to be added back later
-                {RenderError.renderNoTaskDeadlineError(error)}
-            <div className="deadlineBox">
-                <label>Reminder Time:</label>
-                <input type="time" value={reminderTime} onChange={e => setReminderTime(e.target.value)}/>
-            </div>
-     */
 }
 
 export default AddEditTasks;

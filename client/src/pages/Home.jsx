@@ -5,6 +5,8 @@ import Modal from 'react-modal';
 import { useTokenContext } from "../components/TokenContext/TokenContext";
 import AddEditTasks from "../components/Tasks/AddEditTasks";
 import CompleteDeleteTasks from "../components/Tasks/CompleteDeleteTasks";
+import ProductivityBar from "../components/ProductivityBar/ProductivityBar.jsx";
+import {compareTasks} from "../utilities/utilities.js";
 
 const Home = () => {
     const {tokenStatus, userInfo} = useTokenContext()
@@ -178,14 +180,14 @@ const Home = () => {
     });
 
     // Tasks from High to Low Priority
-    const priorityTasks = uncompletedTasks;
+    const priorityTasks = uncompletedTasks.sort(compareTasks)
 
     return (
         <>
             <NavBar />
             <div className="homepageContainer">
                 <div className="overdueAndRemindersBox">
-                    <TasksBox key="Overdued" title="Overdued" tasksToShow={overduedTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
+                    <TasksBox id="overdueBox" key="Overdued" title="Overdued" tasksToShow={overduedTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
                     <TasksBox key="Reminders" title="Reminders" tasksToShow={remindersTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask} />
                 </div>
                 <div className="upcomingAndPriorityBox">
@@ -193,18 +195,26 @@ const Home = () => {
                     <TasksBox key="Priority" title="Priority" tasksToShow={priorityTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
                 </div>
                 <div className="assistantCharacterBox">
-                    <div className="box">
+                    <div className="addButtonBox">
+                        {token ? (
+                            <>
+                                <button className="addTaskBtn" onClick={handleAddTask}>Add Task</button>
+                            </>
+                        ) : (
+                            <div>Login To Start Adding Tasks!</div>
+                        )
+                        }
+                    </div>
+                    <div className="userDisplayBox">
+                        <div>Welcome back {userData?.username}!</div>
+                        <div>Points: {userData?.points || 0}</div>
+                        <div className="productivityBox">
+                            <ProductivityBar percentage={75}/>
+                        </div>
+                    </div>
+                    <div className="AIbox">
                         <p>Assistant AI</p>
                     </div>
-                    {token ? (
-                        <>
-                            <button onClick={handleAddTask}>Add Task</button>
-                        </>
-                    ) : (
-                        <div>Login To Start Adding Tasks!</div>
-                    )
-                    }
-
                 </div>
             </div>
             <Modal

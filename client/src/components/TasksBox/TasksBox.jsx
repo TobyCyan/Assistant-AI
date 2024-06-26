@@ -15,6 +15,7 @@ const TasksBox = ({title, tasksToShow, onEdit, onDelete, onComplete}) => {
         taskId = {task.id}
         title={task.title}
         deadline = {task.deadline}
+        priority = {task.priority}
         onEdit={() => onEdit(task)}
         onComplete={() => onComplete(task)}
         onDelete={() => onDelete(task)}
@@ -22,7 +23,7 @@ const TasksBox = ({title, tasksToShow, onEdit, onDelete, onComplete}) => {
 
     return (
         <div className="tasksContainer">
-            <div className="tasksTitleBox">
+            <div className="tasksBoxTitleBox">
                 <h3>{title} ({tasks.length})</h3>
             </div>
             <div className="tasksBox">

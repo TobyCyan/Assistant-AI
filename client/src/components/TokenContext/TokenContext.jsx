@@ -27,7 +27,7 @@ export const TokenProvider = (props) => {
         // This will run after the state update is complete
         console.log(userData)
         //console.log('User Updated as Username: ' + userInfo.username + ', ID: ' + userInfo.userId);
-    }, [userData]);
+    }, [userData])
 
     return (
         <TokenContext.Provider 

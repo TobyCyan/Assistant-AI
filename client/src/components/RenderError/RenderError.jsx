@@ -43,6 +43,12 @@ const renderDateOfBirthError = (error) => {
                 Please Fill Up Your Birthday!
             </div>
         )
+    } else if (error == 'DOBFuture') {
+        return (
+            <div className='error'>
+                Date Of Birth Cannot Be In Future
+            </div>
+        )
     }
 }
 
@@ -86,11 +92,39 @@ const renderNoTaskPriorityError = (error) => {
     }
 }
 
-const renderNoTaskDeadlineError = (error) => {
+const renderDeadlineError = (error) => {
     if (error == 'noTaskDeadline') {
         return (
             <div className='error'>
                 Please Enter A Deadline!
+            </div>
+        )
+    } else if (error == 'deadlinePast') {
+        return (
+            <div className='error'>
+                Deadline Cannot Be In The Past!
+            </div>
+        )
+    }
+}
+
+const renderReminderError = (error) => {
+     if (error == 'noTaskReminder') {
+        return (
+            <div className='error'>
+                Please Enter A Reminder!
+            </div>
+        )
+    } else if (error == 'reminderPast') {
+        return (
+            <div className='error'>
+                Reminder Cannot be In The Past!
+            </div>
+        )
+    } else if (error == 'reminderBeforeDeadline') {
+        return (
+            <div className='error'>
+                Reminder Must Come Before Deadline!
             </div>
         )
     }
@@ -124,6 +158,7 @@ export default {
     renderNoTaskTitleError,
     renderNoTaskCategoryError,
     renderNoTaskPriorityError,
-    renderNoTaskDeadlineError,
+    renderDeadlineError,
+    renderReminderError,
     renderWeakPWError,
 }

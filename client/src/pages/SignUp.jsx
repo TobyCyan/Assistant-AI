@@ -87,6 +87,10 @@ function SignUp() {
         setError('EmptyDOB')
     }
 
+    function handleFutureDOB() {
+        setError('DOBFuture')
+    }
+
     function handleWeakPassword() {
         setError('WeakPW')
         setConfirmPassword('')
@@ -119,6 +123,15 @@ function SignUp() {
         if (userData.dateOfBirth == '') {
             console.log('Date of Birth cannot be empty!')
             handleEmptyDateOfBirth()
+            return
+        }
+
+        const currentDate = new Date()
+        const dateOfBirthObj = new Date(userData.dateOfBirth)
+
+        if (dateOfBirthObj > currentDate) {
+            console.log('Date of Birth cannot be in future!')
+            handleFutureDOB()
             return
         }
 
@@ -183,7 +196,7 @@ function SignUp() {
 
                         {RenderError.renderEmptyUsernameError(error)}
                         {RenderError.renderSignUpError(error)}
-                        <div>
+                        <div className="signUpBox">
                             <input type='text'
                                    placeholder="Username"
                                    value={userData.username}
@@ -193,16 +206,17 @@ function SignUp() {
                         </div>
 
                         {RenderError.renderDateOfBirthError(error)}
-                        <div>
-                            <input type='date' 
-                                    placeholder='dd-mm-yyyy'
-                                    value={userData.dateOfBirth}
-                                    className='dateOfBirthInput'
-                                    onChange={(e) => handleBirthDateChange(e.target.value)}
+                        <div className="dateOfBirthBox">
+                            <label id="dateOfBirthLabel">Birthdate</label>
+                            <input type='date'
+                                   placeholder='dd-mm-yyyy'
+                                   value={userData.dateOfBirth}
+                                   className='dateOfBirthInput'
+                                   onChange={(e) => handleBirthDateChange(e.target.value)}
                             />
                         </div>
                         {RenderError.renderPWError(error)}
-                        <div>
+                        <div className="signUpBox">
                             <input type='password'
                                    placeholder="Password"
                                    value={userData.password}
@@ -210,7 +224,7 @@ function SignUp() {
                                    onChange={(e) => handlePasswordChange(e.target.value)}
                             />
                         </div>
-                        <div>
+                        <div className="signUpBox">
                             <input type='password'
                                    placeholder="Confirm Password"
                                    value={confirmPassword}

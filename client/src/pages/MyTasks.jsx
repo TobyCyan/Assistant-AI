@@ -234,7 +234,7 @@ function MyTasks() {
             <NavBar/>
             <div className="tasksPageContainer">
                 <div className="tasksSidebar">
-                    <button onClick={handleAddTask}>Add Task</button>
+                    <button className="addTaskBtn" onClick={handleAddTask}>Add Task</button>
                     <div className="categoriesSidebar">Categories</div>
                     <ul id="category-list">
                         <li onClick={() => handleFilterTasks('All')}>All ({uncompletedTasks.length})</li>

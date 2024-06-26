@@ -89,6 +89,7 @@ const editTask = async (req, res) => {
 // Completes the Given Task.
 const completeTask = async (req, res) => {
     const {id} = req.user
+    console.log(id)
     const completedTask = req.body
     const updateFields = {
         completed: completedTask.completed,
@@ -99,7 +100,7 @@ const completeTask = async (req, res) => {
     const userData = await User.findOne(
         {
             where: {
-                id
+                id: id
             }
         }
     )
@@ -118,7 +119,7 @@ const completeTask = async (req, res) => {
         {
             where: {
                 userId: id,
-                id: completedTask.id
+                id: completedTask.taskId
             }
         }
     )
@@ -135,7 +136,7 @@ const completeTask = async (req, res) => {
 
 // UnCompletes the Given Task.
 const uncompleteTask = async (req, res) => {
-    const {id} = req.user
+    const { id } = req.user
     const {uncompletedTask, toDeduct} = req.body
     const updateFields = {
         completed: uncompletedTask.completed,
@@ -146,7 +147,7 @@ const uncompleteTask = async (req, res) => {
     const userData = await User.findOne(
         {
             where: {
-                id
+                id: id
             }
         }
     )
@@ -165,7 +166,7 @@ const uncompleteTask = async (req, res) => {
         {
             where: {
                 userId: id,
-                id: uncompletedTask.id
+                id: uncompletedTask.taskId
             }
         }
     )
