@@ -156,9 +156,7 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
     // Add / Edit Task Layout
     return (
         <div className="addEditTaskContainer">
-            <button className="closeAddEditModalBtn" onClick={onClose}>Close</button>
-
-            {RenderError.renderNoTaskTitleError(error)}
+            <button className="closeAddEditModalBtn" onClick={onClose}></button>
             <div className="titleBox">
                 <label>Title</label>
                 <input
@@ -169,6 +167,7 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
                     onChange={e => setTitle(e.target.value)}
                 />
             </div>
+            {RenderError.renderNoTaskTitleError(error)}
 
             <div className="descriptionBox">
                 <label>Description</label>
@@ -187,38 +186,43 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
                 <label>Category</label>
                 <input
                     type="text"
-                    className="titleInput"
+                    className="categoryInput"
                     placeholder="Category"
                     value={category}
                     onChange={e => setCategory(e.target.value)}
                 />
             </div>
 
-            {RenderError.renderNoTaskPriorityError(error)}
-            <div className="priorityBox">
-                <label>Priority</label>
-                <select id="priority" value={priority} onChange={e => setPriority(e.target.value)}>
-                    <option value="">--Please Choose--</option>
-                    <option value="Low">Low</option>
-                    <option value="Medium">Medium</option>
-                    <option value="High">High</option>
-                </select>
+
+            <div className="priorityAndDatesBox">
+
+                <div className="priorityBox">
+                    <label>Priority</label>
+                    <select id="priority" value={priority} onChange={e => setPriority(e.target.value)}>
+                        <option value="">--Please Choose--</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </div>
+
+                <div className="deadlineBox">
+                    <label>Deadline:</label>
+                    <input className="deadlineInput" type="date" value={deadline}
+                           onChange={e => setDeadline(e.target.value)}/>
+                </div>
+
+                <div className="reminderBox">
+                    <label>Reminder Date:</label>
+                    <input className="reminderInput" type="date" value={reminderDate}
+                           onChange={e => setReminderDate(e.target.value)}/>
+                </div>
             </div>
 
-            {RenderError.renderDeadlineError(error)}
-            <div className="deadlineBox">
-                <label>Deadline:</label>
-                <input type="date" value={deadline} onChange={e => setDeadline(e.target.value)}/>
-            </div>
+            {RenderError.renderPriorityOrDateError(error)}
 
-            {RenderError.renderReminderError(error)}
-            <div className="reminderBox">
-                <label>Reminder Date:</label>
-                <input type="date" value={reminderDate} onChange={e => setReminderDate(e.target.value)}/>
-            </div>
-
-            <button className="saveTask" onClick={handleSave}>
-                {type === 'edit' ? 'Save' : 'Add'}
+            <button className="saveTaskBtn" onClick={handleSave}>
+                {type === 'edit' ? 'UPDATE' : 'ADD'}
             </button>
         </div>
     )

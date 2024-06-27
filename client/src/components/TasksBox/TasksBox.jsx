@@ -16,6 +16,7 @@ const TasksBox = ({title, tasksToShow, onEdit, onDelete, onComplete}) => {
         title={task.title}
         deadline = {task.deadline}
         priority = {task.priority}
+        category = {task.category}
         onEdit={() => onEdit(task)}
         onComplete={() => onComplete(task)}
         onDelete={() => onDelete(task)}

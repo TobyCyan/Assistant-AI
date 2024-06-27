@@ -131,9 +131,10 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
 
     return (
         <div className="compDelTasksContainer">
-            <button className="closeSmallModalBtn" onClick={onClose}>Close</button>
-            <div className="confirmMessage">{`Are you sure you want to ${type ==="del" ? "delete" : type === "comp" ? "complete" : "uncomplete"} this task ${taskData?.title}?`}</div>
-            <button className="confirmCompDelBtn" onClick={handleConfirm}>Confirm</button>
+            <button className="closeSmallModalBtn" onClick={onClose}></button>
+            <div></div>
+            <div className="confirmMessage">{`Are you sure you want to ${type ==="del" ? "delete" : type === "comp" ? "complete" : "uncomplete"} this task "${taskData?.title}"?`}</div>
+            <button className="confirmCompDelBtn" onClick={handleConfirm}>{type ==="del" ? "DELETE" : type === "comp" ? "COMPLETE" : "UNCOMPLETE"}</button>
         </div>
     )
 }

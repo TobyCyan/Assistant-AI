@@ -82,18 +82,14 @@ const renderNoTaskCategoryError = (error) => {
     }
 }
 
-const renderNoTaskPriorityError = (error) => {
+const renderPriorityOrDateError = (error) => {
     if (error == 'noTaskPriority') {
         return (
             <div className='error'>
                 Please Enter A Priority Level!
             </div>
         )
-    }
-}
-
-const renderDeadlineError = (error) => {
-    if (error == 'noTaskDeadline') {
+    } else if (error == 'noTaskDeadline') {
         return (
             <div className='error'>
                 Please Enter A Deadline!
@@ -105,11 +101,7 @@ const renderDeadlineError = (error) => {
                 Deadline Cannot Be In The Past!
             </div>
         )
-    }
-}
-
-const renderReminderError = (error) => {
-     if (error == 'noTaskReminder') {
+    } else if (error == 'noTaskReminder') {
         return (
             <div className='error'>
                 Please Enter A Reminder!
@@ -157,8 +149,6 @@ export default {
     renderInvalidCredentialsError,
     renderNoTaskTitleError,
     renderNoTaskCategoryError,
-    renderNoTaskPriorityError,
-    renderDeadlineError,
-    renderReminderError,
+    renderPriorityOrDateError,
     renderWeakPWError,
 }

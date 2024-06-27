@@ -6,9 +6,7 @@ import {useTokenContext} from "../components/TokenContext/TokenContext";
 import DetailedTaskCard from "../components/Tasks/DetailedTaskCard";
 import AddEditTasks from "../components/Tasks/AddEditTasks";
 import CompleteDeleteTasks from "../components/Tasks/CompleteDeleteTasks";
-import TasksBox from "../components/TasksBox/TasksBox";
-import { OverDueTasks } from '../components/TasksBox/OverDueTasks.jsx';
-import { PriorityTasks } from "../components/TasksBox/PriorityTasks";
+import {compareTasksDeadline} from "../utilities/utilities.js";
 import Modal from 'react-modal';
 import { parseToken } from './Login.jsx';
 
@@ -54,6 +52,7 @@ function MyTasks() {
     }, [token]);
 
     useEffect(() => {
+        tasks.sort(compareTasksDeadline)
         const uncompleted = tasks.filter(each => !each.completed)
         setDisplayTasks(uncompleted)
     }, [tasks]);

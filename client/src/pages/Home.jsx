@@ -6,14 +6,14 @@ import { useTokenContext } from "../components/TokenContext/TokenContext";
 import AddEditTasks from "../components/Tasks/AddEditTasks";
 import CompleteDeleteTasks from "../components/Tasks/CompleteDeleteTasks";
 import ProductivityBar from "../components/ProductivityBar/ProductivityBar.jsx";
-import {compareTasks} from "../utilities/utilities.js";
+import {compareTasksPriority, compareTasksDeadline} from "../utilities/utilities.js";
 
 const Home = () => {
     const {tokenStatus, userInfo} = useTokenContext()
     const [token, setToken] = tokenStatus
     const [userData, setUserData] = userInfo
     const [tasks, setTasks] = useState([])
-    const uncompletedTasks = tasks.filter(task => !task.completed) || []
+    const uncompletedTasks = tasks.filter(task => !task.completed).sort(compareTasksDeadline) || []
 
     // Initial state of AddEditModal
     const[addEditModalOpen, setAddEditModalOpen] = useState({
@@ -171,7 +171,10 @@ const Home = () => {
     })
 
     // Tasks with reminders past current date
-    const remindersTasks = uncompletedTasks;
+    const remindersTasks = uncompletedTasks.filter(each => {
+        const reminderDate = new Date(each.reminder)
+        return reminderDate < currentDate
+    })
 
     // Upcoming Tasks
     const upcomingTasks = uncompletedTasks.filter(each => {
@@ -180,7 +183,7 @@ const Home = () => {
     });
 
     // Tasks from High to Low Priority
-    const priorityTasks = uncompletedTasks.sort(compareTasks)
+    const priorityTasks = uncompletedTasks.sort(compareTasksPriority)
 
     return (
         <>
@@ -209,7 +212,9 @@ const Home = () => {
                         <div>Welcome back {userData?.username}!</div>
                         <div>Points: {userData?.points || 0}</div>
                         <div className="productivityBox">
+                            <h3>Productivity Report</h3>
                             <ProductivityBar percentage={75}/>
+                            <h3>75%</h3>
                         </div>
                     </div>
                     <div className="AIbox">
@@ -219,7 +224,7 @@ const Home = () => {
             </div>
             <Modal
                 isOpen={addEditModalOpen.isShown}
-                onRequestClose={() => {}}
+                onRequestClose={closeAddEditModal}
                 style={{
                     overlay: {
                         backgroundColor: "rgba(0, 0, 0, 0.2)"
@@ -237,7 +242,7 @@ const Home = () => {
             </Modal>
             <Modal
                 isOpen={compDelModalOpen.isShown}
-                onRequestClose={() => {}}
+                onRequestClose={closeCompDelModal}
                 style={{
                     overlay: {
                         backgroundColor: "rgba(0, 0, 0, 0.2)"

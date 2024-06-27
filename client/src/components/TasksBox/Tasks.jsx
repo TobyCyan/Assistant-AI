@@ -4,7 +4,7 @@ import {getDDMM} from "../../utilities/utilities.js";
 
 
 // To Add onComplete, onDelete
-const Tasks = ({taskId, title, deadline, priority, onEdit, onComplete, onDelete}) => {
+const Tasks = ({taskId, title, deadline, priority, category, onEdit, onComplete, onDelete}) => {
     return (
         <li>
             <div key={taskId} className="task">
@@ -13,8 +13,8 @@ const Tasks = ({taskId, title, deadline, priority, onEdit, onComplete, onDelete}
                         <div className="taskTitle">
                             <span style={{fontWeight: 'bold'}}>{getDDMM(deadline)}</span> {title}
                         </div>
-                        <div className="taskPriority">
-                            {priority}
+                        <div className="taskPriorityAndCategory">
+                            {priority} | {category}
                         </div>
                     </div>
 

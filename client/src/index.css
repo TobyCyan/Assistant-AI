@@ -167,42 +167,114 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 3rem;
-  height: 2.5rem;
+  width: 2rem;
+  height: 2rem;
   position: absolute;
-  top: -0.75rem;
-  right: -0.75rem;
+  top: -0.25rem;
+  right: -0.25rem;
+  background: none;
+  border: none;
 }
 
-.titleBox {
+.closeAddEditModalBtn::before {
+  content: "\00D7";
+  font-size: 50px;
+}
 
+.addEditTaskContainer label {
+  font-size: 1.5rem;
+}
+
+.titleBox, .categoryBox, .priorityBox, .deadlineBox, .reminderBox {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.categoryBox {
+  margin-top: 1rem;
+}
+
+.titleInput, .categoryInput {
+  font-size: 1.25rem;
+  color: #0f172a;
+  outline: none;
+}
+
+.categoryBox {
+  margin-top: 1rem;
 }
 
 .descriptionBox {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
 
+#priority, .deadlineInput, .reminderInput {
+  font-size: 0.875rem;
+  padding: 0.5rem;
+}
+
+.descriptionInput {
+  font-size: 0.875rem;
+  color: #0f172a;
+  outline: none;
+  background-color: #f8fafc;
+  padding: 0.5rem;
+  border-radius: 0.25rem; /
+}
+
+.priorityAndDatesBox {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.saveTaskBtn {
+  font-weight: 500;
+  margin-top: 1.25rem;
+  padding: 0.75rem;
+  width: 100%;
 }
 
 .compDelTasksContainer {
   position: relative;
   background-color: #ffffff;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .closeSmallModalBtn {
-  width: 3rem;
-  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  height: 2rem;
   position: absolute;
-  top: -0rem;
-  right: -0rem;
+  top: -0.5rem;
+  right: -1rem;
+  background: none;
+  border: none;
+}
 
+.closeSmallModalBtn::before {
+  content: "\00D7";
+  font-size: 50px;
 }
 
 .confirmMessage {
-  padding: 1.5rem 1rem 1rem 1rem;
+
 }
 
 .confirmCompDelBtn {
-
+  font-weight: 500;
+  padding: 0.5rem;
+  width: 100%;
 }
 
 .tasksContainer {
@@ -256,13 +328,12 @@ button {
   align-items: flex-start;
 }
 
-
 .taskTitle {
   margin: 0;
   font-weight: bold;
 }
 
-.taskPriority {
+.taskPriorityAndCategory {
   font-weight: bold;
   font-size: 10px;
 }
@@ -298,13 +369,23 @@ ul {
 
 .AddEditTaskModal {
   width: 60%;
-  height: 60%;
-  max-height: 60%;
+  height: 70%;
   background-color: white;
   border-radius: 0.375rem;
-  margin-top: 3.5rem;
   padding: 1.25rem;
-  overflow: scroll;
+}
+
+.CompDelTaskModal {
+  width: 30%;
+  height: 20%;
+  background-color: white;
+  border-radius: 0.375rem;
+  padding: 1.25rem;
+}
+
+.titleCloseBtnBox {
+  display: flex;
+  justify-content: space-between;
 }
 
 .ReactModal__Overlay {
@@ -408,7 +489,7 @@ ul {
 
 .taskCardRightHeader {
   font-weight: bold;
-  width: 30%;
+  max-width: 110px;
   display:flex;
   justify-content: space-between;
   align-items: center;
@@ -422,6 +503,8 @@ ul {
 
 .taskCardDeadline {
   font-size: 14px;
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
 .taskCardDeleteBtn {
@@ -429,6 +512,9 @@ ul {
   padding: 8px 12px;
   border-radius: 4px;
   cursor: pointer;
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-left: 3px;
 }
 
 .taskCardSecondHeader {
@@ -541,7 +627,7 @@ ul {
 }
 
 .productivityBar {
-  width: 100%;
+  width: 80%;
   height: 20px;
   background-color: #f0f0f0;
   border-radius: 4px;
@@ -572,9 +658,16 @@ ul {
 }
 
 .productivityPercent {
-  color: white;
+  color: black;
   font-weight: bold;
   padding: 0 8px;
+}
+
+.productivityBox{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .addButtonBox {
