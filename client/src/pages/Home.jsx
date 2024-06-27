@@ -6,7 +6,7 @@ import { useTokenContext } from "../components/TokenContext/TokenContext";
 import AddEditTasks from "../components/Tasks/AddEditTasks";
 import CompleteDeleteTasks from "../components/Tasks/CompleteDeleteTasks";
 import ProductivityBar from "../components/ProductivityBar/ProductivityBar.jsx";
-import {compareTasksPriority, compareTasksDeadline} from "../utilities/utilities.js";
+import {compareTasksPriority, compareTasksDeadline, calculateTaskProductivity} from "../utilities/utilities.js";
 
 const Home = () => {
     const {tokenStatus, userInfo} = useTokenContext()
@@ -14,6 +14,7 @@ const Home = () => {
     const [userData, setUserData] = userInfo
     const [tasks, setTasks] = useState([])
     const uncompletedTasks = tasks.filter(task => !task.completed).sort(compareTasksDeadline) || []
+    const productivity = calculateTaskProductivity(tasks);
 
     // Initial state of AddEditModal
     const[addEditModalOpen, setAddEditModalOpen] = useState({
@@ -213,8 +214,8 @@ const Home = () => {
                         <div>Points: {userData?.points || 0}</div>
                         <div className="productivityBox">
                             <h3>Productivity Report</h3>
-                            <ProductivityBar percentage={75}/>
-                            <h3>75%</h3>
+                            <ProductivityBar percentage={productivity}/>
+                            <h3>{productivity}%</h3>
                         </div>
                     </div>
                     <div className="AIbox">

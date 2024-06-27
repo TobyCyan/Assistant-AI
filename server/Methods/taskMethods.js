@@ -1,6 +1,7 @@
 const db = require('../Models/dataBase.js')
 const User = db.user
 const Tasks = db.tasks
+const {getTodayDate} = require('../utilities/utilities')
 
 // Refer to sequelize.org/master/manual for full API reference of queries.
 
@@ -16,6 +17,7 @@ const getTasks = async (req, res) => {
             }
         }
     )
+    console.log(tasks)
 
     // Sends the List of Tasks as a Response If Tasks Found.
     if (tasks) {
@@ -41,6 +43,7 @@ const addTask = async (req, res) => {
         priority: data['priority'],
         reminder: data['reminder'],
         completed: data['completed'],
+        dateCompleted: null,
     }
     // Create the New Task Instance.
     const newTask = await Tasks.create(newTaskData)
@@ -93,7 +96,8 @@ const completeTask = async (req, res) => {
     const completedTask = req.body
     const updateFields = {
         completed: completedTask.completed,
-        points: completedTask.points
+        points: completedTask.points,
+        dateCompleted: getTodayDate(),
     }
 
     // Finds the User Instance That Completed the Task.
@@ -141,7 +145,8 @@ const uncompleteTask = async (req, res) => {
     const {uncompletedTask, toDeduct} = req.body
     const updateFields = {
         completed: uncompletedTask.completed,
-        points: 0
+        points: 0,
+        dateCompleted: null,
     }
 
     // Finds the User Instance That InCompleted the Task.

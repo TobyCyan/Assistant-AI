@@ -17,7 +17,6 @@ function MyTasks() {
     const [tasks, setTasks] = useState([])
     const [displayTasks, setDisplayTasks] = useState(tasks)
     const [filter, setFilter] = useState('All')
-    const uncompletedTasks = tasks.filter(task => !task.completed) || []
 
     // Initial state of AddEditModal
     const[addEditModalOpen, setAddEditModalOpen] = useState({
@@ -53,8 +52,8 @@ function MyTasks() {
 
     useEffect(() => {
         tasks.sort(compareTasksDeadline)
-        const uncompleted = tasks.filter(each => !each.completed)
-        setDisplayTasks(uncompleted)
+        setDisplayTasks(tasks)
+        filterTasks(filter)
     }, [tasks]);
 
     useEffect(() => {
@@ -97,24 +96,21 @@ function MyTasks() {
         })
     }
 
+    const uncompletedTasks = tasks.filter(each => !each.completed)
+
     const filterTasks = (value) => {
         if(value === 'All') {
-            setDisplayTasks(tasks)
+            setDisplayTasks(uncompletedTasks)
         } else if (value === 'Completed') {
-            const filtered = tasks.filter(each => each.completed)
-            setDisplayTasks(filtered)
+            setDisplayTasks(tasks.filter(each => each.completed))
         } else if (value === 'Low') {
-            const filtered = tasks.filter(each => each.priority === 'Low')
-            setDisplayTasks(filtered)
+            setDisplayTasks(uncompletedTasks.filter(each => each.priority === 'Low'))
         } else if (value === 'Medium') {
-            const filtered = tasks.filter(each => each.priority === 'Medium')
-            setDisplayTasks(filtered)
+            setDisplayTasks(uncompletedTasks.filter(each => each.priority === 'Medium'))
         } else if (value === 'High') {
-            const filtered = tasks.filter(each => each.priority === 'High')
-            setDisplayTasks(filtered)
+            setDisplayTasks(uncompletedTasks.filter(each => each.priority === 'High'))
         } else {
-            const filtered = tasks.filter(each => each.category === filter)
-            setDisplayTasks(filtered)
+            setDisplayTasks(uncompletedTasks.filter(each => each.category === filter))
         }
     }
 

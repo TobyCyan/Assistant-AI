@@ -22,7 +22,7 @@ const DetailedTaskCard = ({taskData, onEdit, onComplete, onUncomplete, onDelete}
             </div>
             <div className="taskCardFooter">
                 <div className="taskReminder">{getDDMM(taskData.reminder) || "NO REMINDER YET"}</div>
-                <button className="taskCardEditBtn" onClick={onEdit}>Edit</button>
+                {!taskData.completed && (<button className="taskCardEditBtn" onClick={onEdit}>Edit</button>)}
                 <button className="taskCardCompleteBtn" onClick={taskData.completed ? onUncomplete : onComplete}>{taskData.completed ? "Uncomplete" : "Complete" }</button>
             </div>
         </div>

@@ -15,6 +15,12 @@ const authenticateToken = (secretKey) => {
     }
 }
 
+const getTodayDate = () => {
+    const today = new Date();
+    return today.toISOString().substring(0, 10);
+}
+
 module.exports = {
     authenticateToken,
+    getTodayDate,
 }

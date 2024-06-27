@@ -70,6 +70,10 @@ module.exports = (sequelize, DataTypes) => {
         points: {
             type: DataTypes.INTEGER,
             allowNull: true,
+        },
+        dateCompleted: {
+            type: DataTypes.DATE,
+            allowNull: true,
         }
     }, {
         tableName: 'task'
