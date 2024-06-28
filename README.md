@@ -52,11 +52,12 @@ Assistant AI is essentially a task management system with the help of a Virtual 
 4. Users to be able to **edit tasks.**
 5. Users to be able to **delete tasks.**
 6. Users to be able to **complete tasks.**
-7. Users to **receive reminders** on time.
-8. Users to be able to **view tasks** by **categorisation.**
-9. User **productivity report analysis (based on task completion).**
-10. User voice to provide input to **automate each task.**
-11. Interactive voice lines **(Birthday wishes, greetings, daily life conversations).**
+7. Users to be able to **uncomplete tasks.**
+8. Users to **receive reminders** on time.
+9. Users to be able to **view tasks** by **categorisation.**
+10. User **productivity report analysis (based on task completion).**
+11. User voice to provide input to **automate each task.**
+12. Interactive voice lines **(Birthday wishes, greetings, daily life conversations).**
 
 **Extensions**
 
@@ -67,73 +68,75 @@ Assistant AI is essentially a task management system with the help of a Virtual 
 #### Core Features Details
 
 * **Sign Up**
-* User to be able to sign up for new account using a **unique** username and password
-* Username to be unique, user to face error if signing up for new account using existing username
-* Users to start off with 0 points
+  * User to be able to sign up for new account using a **unique** username and password
+  * Username to be unique, user to face error if signing up for new account using existing username
+  * Users to start off with 0 points
 
 * **Login / Logout**
-* On Login, users should be redirected to the home page where there is a dashboard that displays the following
-* Tasks by deadline and priority
-* Reminders of Tasks
-* User Productivity Rate
-* On Logout, users should be redirected to the login page
+  * On Login, users should be redirected to the home page where there is a dashboard that displays the following
+  * Tasks by deadline and priority
+  * Reminders of Tasks
+  * User Productivity Rate
+  * On Logout, users should be redirected to the login page
 
 * **Add Tasks**
-* Users to be able to add tasks with the following fields:
-* Title
-* Content
-* Category
-* Priority
-* Reminder (DateTime)
-* Deadline (DateTime)
+  * Users to be able to add tasks with the following fields:
+  * Title
+  * Description
+  * Category
+  * Priority
+  * Reminder (DateTime)
+  * Deadline (DateTime)
 
 * **Edit Tasks**
-* Users to be able to edit the following fields for a task:
-* Title
-* Content
-* Category
-* Priority
-* Reminder (DateTime)
-* Deadline (DateTime)
+  * Users to be able to edit the following fields for a task:
+  * Title
+  * Description
+  * Category
+  * Priority
+  * Reminder (DateTime)
+  * Deadline (DateTime)
 
 * **Delete Tasks**
-* Users to be able to delete tasks from the dashboard / edit task section
+  * Users to be able to delete tasks from the dashboard / edit task section
 
 * **Complete Tasks**
-* Users to be able to press complete task, in which task completion will reward users with XP points. Late completion of tasks will reward with 1 points.
+  * Users to be able to press complete task, in which task completion will reward users with XP points. Late completion of tasks will reward with 1 points.
+
+* **Uncomplete Tasks**
+    * Users to be able to press uncomplete task, in which points earned will be deducted.
 
 * **Receive Reminders** (To be developed further)
-* Users to receive reminders from the AI Assistant when the task has reached the reminder date
+  * Users to receive reminders from the AI Assistant when the task has reached the reminder date
 
 * **View Tasks - Categorisation**
-* Users to be able to sort their task list using a sidebar that shows the filters available
+  * Users to be able to sort their task list using a sidebar that shows the filters available
 
 * **Productivity Report**
-* Generate a productivity report showing productivity rate based on number of tasks completed, date of task completion relative to deadline, and priority of tasks completed
-* Tasks completed before the deadline will result in higher productivity
-* Tasks completed after the deadline will result in lower productivity
-* Tasks yet to be completed after the deadline will also result int lower productivity
-* The priority of tasks will affect the weightage and its increase on decrease in productivity rate
+  * Generate a productivity report showing productivity rate based on number of tasks completed, date of task completion relative to deadline, and priority of tasks completed
+  * Tasks completed before the deadline will result in higher productivity
+  * Tasks completed after the deadline will result in lower productivity
+  * Tasks yet to be completed after the deadline will also result int lower productivity
+  * The priority of tasks will affect the weightage and its increase on decrease in productivity rate
 
 * **Automation Task** (In Progress)
-* Website to allow voice input to generate and fill in task fields using speech recognition
+  * Website to allow voice input to generate and fill in task fields using speech recognition
 
 * **Interactive Voice Lines** (In Progress)
-* Users to receive voice output from AI Assistant for events 
-(Greetings for logging in, birthday wishes, simple conversations, etc.)
+  * Users to receive voice output from AI Assistant for events  (Greetings for logging in, birthday wishes, simple conversations, etc.)
 
 **Extension Features**
 
 * **Task Priority Suggestion**
-* To allow suggestions by AI on the priority of task based on title of task (e.g. Cleaning of Dishes - Low, Meeting with Client - High)
+  * To allow suggestions by AI on the priority of task based on title of task (e.g. Cleaning of Dishes - Low, Meeting with Client - High)
 
 * **Recurring Tasks**
-* Site to provide automatic creation of recurring tasks based on creation
-* Daily / Weekly / Monthly (To be explored)
+  * Site to provide automatic creation of recurring tasks based on creation
+  * Daily / Weekly / Monthly (To be explored)
 
 * **Exchange of Items using Points**
-* To provide a “shop” to exchange decorative items for the Assistant AI
-* Decoration and customisation of the Assistant AI character will bring gamification and engagement to users
+  * To provide a “shop” to exchange decorative items for the Assistant AI
+  * Decoration and customisation of the Assistant AI character will bring gamification and engagement to users
 
 ### Milestone Timeline
 
@@ -250,7 +253,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
 
 **Database Diagram**
 
-!Database Diagram](./images/databaseModelDiagram.png)
+![Database Diagram](./images/databaseModelDiagram.png)
 
 **Sequence Diagram**
 
@@ -262,27 +265,22 @@ Assistant AI is essentially a task management system with the help of a Virtual 
 
 ### Software Engineering Principles
 
-**Front-End Unit Testing**
+* **Front-End Unit Testing**
+    * Unit Testing for the frontend components were conducted using Vitest and React Testing-Library. As of now, only the tasks and tasksbox have simple tests to run and more will be added for other units / components.
 
-Unit Testing for the frontend components were conducted using Vitest and React Testing-Library. As of now, only the tasks and tasksbox have simple tests to run and more will be added for other units / components.
+* **BackEnd Unit Testing**
+    * Unit Testing for the backend API server conducted using Postman API Testing to verify that API functions correctly when the request is sent from the client.
 
-**BackEnd Unit Testing**
+* **Version Control**
+    * Version Control using Github - Working on features on different branches, merge and pull requests
 
-Unit Testing for the backend API server conducted using Postman API Testing to verify that API functions correctly when the request is sent from the client.
+* **Code Readability**
+    * Commenting on code to ensure readability and clarity for developers
 
-**Version Control**
-
-Version Control using Github - Working on features on different branches, merge and pull requests
-
-**Code Readability**
-
-Commenting on code to ensure readability and clarity for developers
-
-**Single Responsibility Principle**
-
-Ensuring each component has only one responsibility
+* **Single Responsibility Principle**
+    * Ensuring each component has only one responsibility
 
 ### Technical Proof of Concept
 
-
+https://drive.google.com/file/d/1zJ-W6Mnwhf3kvtDq5AHZDyBLQlX40LVF/view
 
