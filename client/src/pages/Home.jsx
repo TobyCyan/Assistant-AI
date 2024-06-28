@@ -200,14 +200,7 @@ const Home = () => {
                 </div>
                 <div className="assistantCharacterBox">
                     <div className="addButtonBox">
-                        {token ? (
-                            <>
-                                <button className="addTaskBtn" onClick={handleAddTask}>Add Task</button>
-                            </>
-                        ) : (
-                            <div>Login To Start Adding Tasks!</div>
-                        )
-                        }
+                        <button className="addTaskBtn" onClick={handleAddTask}>Add Task</button>
                     </div>
                     <div className="userDisplayBox">
                         <div>Welcome back {userData?.username}!</div>

@@ -25,8 +25,8 @@ const NavBar = () => {
             <div className="navBarLinkBox">
                 <ul className="navList">
                     <li><Link to="/" className="navBarLinks">Assistant AI</Link></li>
-                    <li><Link to={token ? "/tasks" : "/login"} className="navBarLinks">My Tasks</Link></li>
-                    <li><Link to={token ? "/reminder" : "/login"} className="navBarLinks">Reminder</Link></li>
+                    {token && <li><Link to={token ? "/tasks" : "/login"} className="navBarLinks">My Tasks</Link></li>}
+                    {token && <li><Link to={token ? "/reminder" : "/login"} className="navBarLinks">Reminder</Link></li>}
                 </ul>
             </div>
             <UserInfo/>
