@@ -34,25 +34,9 @@ Our goal is to develop a task management application that helps users to organiz
 
 ### User Guide
 1. Users are required to have the following installed: Node.js, Express.js and MySQL
-2. Clone repository - git clone git@github.com:TobyCyan/Assistant-AI.git
-2. Open repository in terminal and install the following libraries from command line
-3. FrontEnd
-   - cd client
-   - npm install
-   - npm i react-dom react-router-dom crypto-js 
-   - cd ..
-4. BackEnd
-   - cd server
-   - npm i express cors sequelize jsonwebtoken mysql2
-   - npm install --save mysql2
-5. Config & Set Up (To be added)
-6. To run the app from app repository in terminal
-   1. FrontEnd
-     - cd client
-     - npm run dev
-   2. BackEnd & DataBase
-    - cd server
-    - npm run dev
+2. After cloning, users need to setup a MySQL database and configure it to the config folder by matching the name and password
+3. For running the frontend, users may run "npm run dev" from /client
+4. For running the backend, users may run "npm run server" from /server
 
 ### Project Scope
 
@@ -116,24 +100,25 @@ Assistant AI is essentially a task management system with the help of a Virtual 
 * Users to be able to delete tasks from the dashboard / edit task section
 
 * **Complete Tasks**
-* Users to be able to press complete task, in which task completion will reward users with XP points. Late completion of tasks will reward with 0 / negative points
+* Users to be able to press complete task, in which task completion will reward users with XP points. Late completion of tasks will reward with 1 points.
 
-* **Receive Reminders**
+* **Receive Reminders** (To be developed further)
 * Users to receive reminders from the AI Assistant when the task has reached the reminder date
 
 * **View Tasks - Categorisation**
-* Users to be able to sort their task list by a dropdown bar to “filter” the following tasks under that category to be displayed to them
+* Users to be able to sort their task list using a sidebar that shows the filters available
 
 * **Productivity Report**
 * Generate a productivity report showing productivity rate based on number of tasks completed, date of task completion relative to deadline, and priority of tasks completed
-* Number of Tasks Missed - Higher productivity for lesser deadlines missed
-* Deadline - Higher productivity for tasks completed earlier before deadline
-* Priority of Tasks - Higher productivity for high priority tasks completed punctually
+* Tasks completed before the deadline will result in higher productivity
+* Tasks completed after the deadline will result in lower productivity
+* Tasks yet to be completed after the deadline will also result int lower productivity
+* The priority of tasks will affect the weightage and its increase on decrease in productivity rate
 
-* **Automation Task**
+* **Automation Task** (In Progress)
 * Website to allow voice input to generate and fill in task fields using speech recognition
 
-* **Interactive Voice Lines**
+* **Interactive Voice Lines** (In Progress)
 * Users to receive voice output from AI Assistant for events 
 (Greetings for logging in, birthday wishes, simple conversations, etc.)
 
@@ -149,7 +134,6 @@ Assistant AI is essentially a task management system with the help of a Virtual 
 * **Exchange of Items using Points**
 * To provide a “shop” to exchange decorative items for the Assistant AI
 * Decoration and customisation of the Assistant AI character will bring gamification and engagement to users
-
 
 ### Milestone Timeline
 
@@ -266,46 +250,39 @@ Assistant AI is essentially a task management system with the help of a Virtual 
 
 **Database Diagram**
 
-![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/49c8552a184e251b802c0e6584fd21dfe5738f13d9b96b39.png)
+!Database Diagram](./images/databaseModelDiagram.png)
 
-**Architecture Diagram**
+**Sequence Diagram**
 
-![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/b75b3da5788da89c66ae5746696fb7f301f2e8039af63825.png)
+![Sequence Diagram](./images/sequenceDiagram.png)
+
+**User Flow Diagram**
+
+![Sequence Diagram](./images/sequenceDiagram.png)
+
+### Software Engineering Principles
+
+**Front-End Unit Testing**
+
+Unit Testing for the frontend components were conducted using Vitest and React Testing-Library. As of now, only the tasks and tasksbox have simple tests to run and more will be added for other units / components.
+
+**BackEnd Unit Testing**
+
+Unit Testing for the backend API server conducted using Postman API Testing to verify that API functions correctly when the request is sent from the client.
+
+**Version Control**
+
+Version Control using Github - Working on features on different branches, merge and pull requests
+
+**Code Readability**
+
+Commenting on code to ensure readability and clarity for developers
+
+**Single Responsibility Principle**
+
+Ensuring each component has only one responsibility
 
 ### Technical Proof of Concept
 
-**New User**
 
-![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/8a15fa41f9db45ad25530558039336cff6e746ccb5c96f06.png)
 
-![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/9b51ebd0b9dcedcec265940edfb462a6b6741cf9ed3caeb6.png)
-
-![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/ddf0bc096ae49618c49132a6959ce9d219232bfb863d19fa.png)
-
-**Error Handling (Front-End)**
-
-Empty Username
-
-![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/57b67b20b462106ae079045fc75cd371618ef771f1b08983.png)
-
-Empty Birth Date
-
-![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/6424df0d1be08b5ab8d44bb2de25763afaadb95f535a909e.png)
-
-Empty Password
-
-![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/21af7816627b7b3b394928cfcebb70982d0d0e71c611521a.png)
-
-Password Mismatch
-
-![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/0b4fc16f53433474d6d92c57765760be120da3a713d26550.png)
-
-![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/bb705a742581e578ce61314f67075082e109fa095ff8a1d6.png)
-
-**Error Handling (Back-End)**
-
-Existing User
-
-![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/590bf77b8875d96a47783f87d89891588241f14582f381b0.png)
-
-![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/00c6ab2241cd4574f7216fdb1857a7451dabc0f61d8fb82d.png)
