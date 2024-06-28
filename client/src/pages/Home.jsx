@@ -198,26 +198,36 @@ const Home = () => {
                     <TasksBox key="Upcoming" title="Upcoming" tasksToShow={upcomingTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
                     <TasksBox key="Priority" title="Priority" tasksToShow={priorityTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
                 </div>
-                <div className="assistantCharacterBox">
-                    <div className="addButtonBox">
-                        <button className="addTaskBtn" onClick={handleAddTask}>Add Task</button>
-                    </div>
-                    <div className="userDisplayBox">
-                        <div>Welcome back {userData?.username}!</div>
-                        <div>Points: {userData?.points || 0}</div>
-                        <div className="productivityBox">
-                            <h3>Productivity Report</h3>
-                            <ProductivityBar percentage={productivity}/>
-                            <h3>{productivity}%</h3>
+
+                    {!token ? (
+                        <div className="assistantCharacterBox">
+                            <div>
+                                <h2>Please Log In or Sign Up to Add Tasks!</h2>
+                            </div>
                         </div>
-                    </div>
-                    <div className="AIbox">
-                        <p>Assistant AI</p>
-                    </div>
-                </div>
-            </div>
-            <Modal
-                isOpen={addEditModalOpen.isShown}
+                            ) : (
+                            <div className="assistantCharacterBox">
+                                <div className="addButtonBox">
+                                    <button className="addTaskBtn" onClick={handleAddTask}>Add Task</button>
+                                </div>
+                                <div className="userDisplayBox">
+                                    <div>Welcome back {userData?.username}!</div>
+                                    <div>Points: {userData?.points || 0}</div>
+                                    <div className="productivityBox">
+                                        <h3>Productivity Report</h3>
+                                        <ProductivityBar percentage={productivity}/>
+                                        <h3>{productivity}%</h3>
+                                    </div>
+                                </div>
+                                <div className="AIbox">
+                                    <p>Assistant AI</p>
+                                </div>
+                            </div>
+                            )}
+
+                        </div>
+                        <Modal
+                        isOpen={addEditModalOpen.isShown}
                 onRequestClose={closeAddEditModal}
                 style={{
                     overlay: {

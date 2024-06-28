@@ -20,6 +20,12 @@ const UserInfo = () => {
 
     const onLogOut = () => {
         setToken('')
+        setUserData({
+            username: null,
+            id: null,
+            dateOfBirth: null,
+            points: null,
+        })
         localStorage.removeItem("token")
         console.log(token)
         navigate("/login")

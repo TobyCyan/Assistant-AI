@@ -39,7 +39,7 @@ Our goal is to develop a task management application that helps users to organiz
 3. FrontEnd
    - cd client
    - npm install
-   - npm i react-dom react-router-dom crypto-js
+   - npm i react-dom react-router-dom crypto-js 
    - cd ..
 4. BackEnd
    - cd server
