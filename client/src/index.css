@@ -452,10 +452,10 @@ ul {
 
 .tasksGridBox {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Each grid item takes equal space */
-  gap: 10px; /* Adjust gap between items */
-  overflow-y: auto; /* Enable vertical scrolling if needed */
-  padding: 10px; /* Adjust padding for the grid container */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  overflow-y: auto;
+  padding: 10px;
 }
 
 .grid-item {
@@ -579,8 +579,8 @@ ul {
 .addTaskBtn::before {
   content: '+';
   margin-right: 5px;
-  font-size: 16px; /* Adjust font size if necessary */
-  line-height: 1; /* Adjust line-height to align with the button text */
+  font-size: 16px;
+  line-height: 1;
 }
 
 .taskCardCompleteBtn::before {
@@ -640,13 +640,13 @@ ul {
 
 .productivity {
   height: 100%;
-  background-color: #4caf50; /* Green color for progress */
+  background-color: #4caf50;
   transition: width 0.3s ease-in-out;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 0; /* Initial width is 0 */
-  position: relative; /* Ensure z-index works */
+  width: 0;
+  position: relative;
 }
 
 .productivity::after {
@@ -657,8 +657,8 @@ ul {
   right: 0;
   bottom: 0;
   background-image: linear-gradient(135deg, transparent 8px, rgba(255, 255, 255, 0.5) 8px, rgba(255, 255, 255, 0.5) 16px, transparent 16px);
-  background-size: 30px 30px; /* Adjust size to control spacing between lines */
-  z-index: 1; /* Ensure slanted lines are above progress text */
+  background-size: 30px 30px;
+  z-index: 1;
 }
 
 .productivityPercent {

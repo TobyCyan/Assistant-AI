@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react"
 import Tasks from "../../src/components/TasksBox/Tasks.jsx"
-
+import { vi } from 'vitest'
 it("Should display tasks", async () => {
     const mockTask = {
         taskId: 1,
@@ -10,6 +10,10 @@ it("Should display tasks", async () => {
         category: 'Work'
     };
 
+    const mockOnEdit = vi.fn();
+    const mockOnDelete = vi.fn();
+    const mockOnComplete = vi.fn();
+
     render(
         <Tasks
             taskId={mockTask.taskId}
@@ -17,12 +21,14 @@ it("Should display tasks", async () => {
             deadline={mockTask.deadline}
             priority={mockTask.priority}
             category={mockTask.category}
+            onEdit={mockOnEdit}
+            onDelete={mockOnDelete}
+            onComplete={mockOnComplete}
         />
     );
 
     expect(screen.findByText('Sample Task')).toBeTruthy();
     expect(screen.getByText('03/08')).toBeTruthy();
     expect(screen.getByText('High | Work')).toBeTruthy();
-    expect()
 });
 

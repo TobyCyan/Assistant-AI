@@ -18,6 +18,7 @@ const UserInfo = () => {
         setPoints(userData?.points)
     }, [userData]);
 
+    // Clear token and userData on log out, to login page
     const onLogOut = () => {
         setToken('')
         setUserData({
@@ -31,10 +32,12 @@ const UserInfo = () => {
         navigate("/login")
     }
 
+    // To Sign Up Page
     const onSignUp = () => {
         navigate("/SignUp")
     }
 
+    // Username, points and log out shown if user logged in, else sign up and login
     const userBar = () => {
         if (token) {
             return (

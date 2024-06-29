@@ -32,6 +32,7 @@ export const checkStrongPW = (password) => {
 
 const priorityOrder = { High: 3, Medium: 2, Low: 1 };
 
+// Sort by priority first, then deadline
 export const compareTasksPriority = (task1, task2) => {
     const priority1 = priorityOrder[task1.priority];
     const priority2 = priorityOrder[task2.priority];
@@ -45,6 +46,7 @@ export const compareTasksPriority = (task1, task2) => {
     return new Date(task1.deadline) - new Date(task2.deadline);
 };
 
+// Sort by deadline first, then priority
 export const compareTasksDeadline = (task1, task2) => {
     const deadline1 = new Date(task1.deadline).getTime()
     const deadline2 = new Date(task2.deadline).getTime()
@@ -62,9 +64,9 @@ export const compareTasksDeadline = (task1, task2) => {
 // Weightage for tasks
 const weightages = {
     overduedTasks: {
-        High: -0.5,
-        Medium: -0.3,
-        Low: -0.2
+        High: -0.8,
+        Medium: -0.5,
+        Low: -0.3
     },
     punctual: {
         High: 0.1,
@@ -78,13 +80,14 @@ const weightages = {
     }
 };
 
+// Difference in days, returns negative if date2 is earlier / date 1 is later
 const getDaysDifference = (date1, date2) => {
-    // Returns negative if date2 is earlier / date 1 is later
     const timeDiff = date2.getTime() - date1.getTime()
 
     return Math.floor(timeDiff / (1000 * 3600 * 24))
 }
 
+// Calculate points for each task
 const pointsPerTask = (task) => {
     const taskDate = new Date(task.deadline)
     const days = getDaysDifference(today, taskDate)
@@ -125,7 +128,6 @@ const pointsPerTask = (task) => {
         }
     }
 }
-
 
 
 export const calculateTaskProductivity = (tasks) => {

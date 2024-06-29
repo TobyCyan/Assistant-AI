@@ -22,6 +22,7 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
         return decimalNum >= 0.5 ? numCeil : numFloor
     }
 
+    // Map points to priority with different weightages
     const calculatePriorityPoints = (priority, hours) => {
         const priorityMap = {
             High: 3,
