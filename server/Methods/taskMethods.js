@@ -5,7 +5,12 @@ const {getTodayDate} = require('../utilities/utilities')
 
 // Refer to sequelize.org/master/manual for full API reference of queries.
 
-// Gets All the User's Tasks by the UserId.
+/**
+ * Gets All the User's Tasks by the userId.
+ * @async
+ * @param {*} req The request from the front-end.
+ * @param {*} res The response to the front-end.
+ */
 const getTasks = async (req, res) => {
     const { id } = req.user
 
@@ -28,12 +33,20 @@ const getTasks = async (req, res) => {
     }
 }
 
-// Adds A New Task to the Task Table.
+/**
+ * Adds A New Task to the Task Table.
+ * @async
+ * @param {*} req The request from the front-end.
+ * @param {*} res The response to the front-end.
+ */
 const addTask = async (req, res) => {
     const {id} = req.user
     const data = req.body
 
-    // Data of the New Task.
+    /** 
+     * Data of the New Task.
+     * @type {Object}
+     */
     let newTaskData = {
         userId: id,
         title: data['title'],
@@ -57,7 +70,11 @@ const addTask = async (req, res) => {
 }
 
 
-// Edits the Given Task and Updates its Data.
+/**
+ * Edits the Given Task and Updates its Data.
+ * @param {*} req The request from the front-end.
+ * @param {*} res The response to the front-end.
+ */
 const editTask = async (req, res) => {
     const {id} = req.user
     const data = req.body
@@ -89,7 +106,13 @@ const editTask = async (req, res) => {
     }
 }
 
-// Completes the Given Task.
+/**
+ * Completes the Given Task.
+ * @async
+ * @param {*} req The request from the front-end.
+ * @param {*} res The response to the front-end.
+ * @throws {Error} Throws an error if the task completion fails.
+ */
 const completeTask = async (req, res) => {
     const {id} = req.user
     console.log(id)
@@ -139,7 +162,13 @@ const completeTask = async (req, res) => {
     }
 }
 
-// UnCompletes the Given Task.
+/**
+ * Uncompletes the Given Task.
+ * @async
+ * @param {*} req The request from the front-end.
+ * @param {*} res The response to the front-end.
+ * @throws {Error} Throws an error if the task uncompletion fails.
+ */
 const uncompleteTask = async (req, res) => {
     const { id } = req.user
     const {uncompletedTask, toDeduct} = req.body
@@ -190,7 +219,13 @@ const uncompleteTask = async (req, res) => {
     }
 }
 
-// Deletes the Given Task.
+/**
+ * Deletes the Given Task.
+ * @async
+ * @param {*} req The request from the front-end.
+ * @param {*} res The response to the front-end.
+ * @throws {Error} Throws an error if the task deletion fails.
+ */
 const deleteTask = async (req, res) => {
     const {id} = req.user
     const {taskId} = req.body

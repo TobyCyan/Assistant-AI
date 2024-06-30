@@ -1,6 +1,16 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import {getDDMM, getDDMMYY} from '../../utilities/utilities.js'
 
+/**
+ * A React component of the detailed task card.
+ * @component
+ * @param {Object} taskData The data of the current task.
+ * @param {function} onEdit Function to edit the task.
+ * @param {function} onComplete Function to complete the task.
+ * @param {function} onUncomplete Function to uncomplete the task.
+ * @param {function} onDelete Function to delete the task.
+ * @returns {ReactNode} A React element that renders a detailed card of the task.
+ */
 const DetailedTaskCard = ({taskData, onEdit, onComplete, onUncomplete, onDelete}) => {
 
 

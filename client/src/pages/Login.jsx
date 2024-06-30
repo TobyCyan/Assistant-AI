@@ -1,4 +1,4 @@
-import {React, useState} from 'react'
+import {React, useState, ReactNode} from 'react'
 import NavBar from "../components/NavBar/NavBar.jsx";
 import {Link, useNavigate} from "react-router-dom";
 import '../index.css'
@@ -6,6 +6,11 @@ import CryptoJS from 'crypto-js';
 import RenderError from "../components/RenderError/RenderError";
 import {useTokenContext} from "../components/TokenContext/TokenContext";
 
+/**
+ * A function that parses the JSON Web Token (JWT) and extracts the username and userId from it.
+ * @param {Object} token The JWT obtained from back-end to be parsed. 
+ * @returns {[string, number]} Array of the username and userId.
+ */
 export const parseToken = (token) => {
     const tokenPayload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))
     const username = tokenPayload?.username
@@ -13,21 +18,56 @@ export const parseToken = (token) => {
     return [username, userId]
 }
 
+/**
+ * A React component that displays the Login page and handles any error while logging in.
+ * @component
+ * @returns {ReactNode} A React element that renders the login page.
+ */
 const Login = () => {
+    /**
+     * The username of the current user and setter function to update it.
+     * @type {[string, function]}
+     */
     const [username, setUsername] = useState("")
+
+    /**
+     * The password of the current user and setter function to update it.
+     * @type {[string, function]}
+     */
     const [password, setPassword] = useState("")
+
+    /**
+     * The error faced by the current user while logging in and setter function to update it.
+     * @type {[string, function]}
+     */
     const [error, setError] = useState('')
     const {tokenStatus, userInfo} = useTokenContext()
+
+    /**
+     * The current token and setter function to update it.
+     * @type {[string, function]}
+     */
     const [token, setToken] = tokenStatus
+
+    /**
+     * The current user data and setter function to update it.
+     * @type {[Object, function]}
+     */
     const [userData, setUserData] = userInfo
 
     const navigate = useNavigate()
 
-    // Sends User to the Home Page
+    /**
+     * Sends User to the Home Page.
+     */
     function sendToHomePage() {
         navigate('/')
     }
 
+    /**
+     * Function that handles a login failure.
+     * @param {string} error Error faced by the current user while logging in.
+     */
     function handleFailedLogin(error) {
         if (error == 'Invalid Credentials') {
             setUsername('')
@@ -36,6 +76,13 @@ const Login = () => {
         }
     }
 
+    /**
+     * Function that handles a successful login, hashes the user password and sends a POST request to verify the current user credentials.
+     * @async
+     * @param {*} e Login event.
+     * @returns {Promise<void>} A promise that verifies the current user credentials and sets the JWT if successful.
+     * @throws {Error} Throws an error if login fails.
+     */
     const handleLogin = async (e) => {
         e.preventDefault()
 
@@ -51,10 +98,22 @@ const Login = () => {
 
         setError("")
 
-        //Login API
+        /**
+         * Hashing the user password using the SHA512 hashing algorithm from CryptoJS.
+         * @type {string}
+         */
         var hashedPW = CryptoJS.SHA512(password).toString();
+
+        /**
+         * The updated user data including the hashed password.
+         * @type {Object}
+         */
         const updatedData = {username, password: hashedPW};
 
+        /**
+         * Data to POST to the back-end to verify user credentials.
+         * @type {Object}
+         */
         const dataToPost = {
             method: 'POST',
             body: JSON.stringify(updatedData),

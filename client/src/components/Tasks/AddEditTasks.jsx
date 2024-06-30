@@ -1,22 +1,69 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactNode } from 'react';
 import { useTokenContext } from '../TokenContext/TokenContext';
 import RenderError from '../RenderError/RenderError';
 
-// To receive the following 1) Task Data (if edit) 2) Type - add or edit - need to load
+/**
+ * A React component to add or edit tasks.
+ * @component
+ * @param {Object} taskData The data of the current task.
+ * @param {string} type The type of operation - add or edit.
+ * @param {function} getAllTasks fetch request to get all user tasks.
+ * @param {function} onClose Function to close the modal.
+ * @returns {ReactNode} A React element that renders the AddEditTasks modal.
+ */
 const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
     const {tokenStatus} = useTokenContext()
     const [token, setToken] = tokenStatus
 
+    /**
+     * The current task title and setter function to update it.
+     * @type {[string, function]}
+     */
     const [title, setTitle] = useState(taskData?.title || '');
+
+    /**
+     * The current task description and setter function to update it.
+     * @type {[string, function]}
+     */
     const [description, setDescription] = useState(taskData?.description  || '');
+
+    /**
+     * The current task category and setter function to update it.
+     * @type {[string, function]}
+     */
     const [category, setCategory] = useState(taskData?.category || '');
+
+    /**
+     * The current task deadline and setter function to update it.
+     * @type {[string, function]}
+     */
     const [deadline, setDeadline] = useState(taskData?.deadline.substring(0, 10) || '');
+
+    /**
+     * The current task priority and setter function to update it.
+     * @type {[string, function]}
+     */
     const [priority, setPriority] = useState(taskData?.priority || '');
+
+    /**
+     * The current task reminder date and setter function to update it.
+     * @type {[string, function]}
+     */
     const [reminderDate, setReminderDate] = useState(taskData?.reminder.substring(0,10) || '');
     // const [reminderTime, setReminderTime] = useState(taskData?.reminder.substring(11,16) || '');
+
+    /**
+     * The current task error and setter function to update it.
+     * @type {[string, function]}
+     */
     const[error, setError] = useState('');
 
-    //Add Task API Call
+    /** 
+     * POST Request to Add Task.
+     * @async
+     * @returns {Promise<void>} A promise that adds the user task.
+     * @throws {Error} Throws an error if adding task fails.
+     */
     const addNewTask = async () => {
         console.log(reminderDate)
         // console.log(reminderTime)
@@ -30,6 +77,11 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
             completed: false,
             points: 0,
         }
+
+        /**
+         * Data to post and make the API call.
+         * @type {Object}
+         */
         const dataToPost = {
             method: 'POST',
             body: JSON.stringify(newTask),
@@ -38,7 +90,7 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
                 'Authorization': `Bearer ${token}`
             }
         };
-        // POST Request to Add Task.
+        
         fetch('http://localhost:5001/AddTask', dataToPost)
         .then(res => {
             if (res.ok) {
@@ -59,9 +111,23 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
             getAllTasks()
             onClose()
         })
+        .catch(err => {
+            console.error('Error Adding Task: ', err.message)
+        })
     }
 
+    /** 
+     * POST Request to Edit Task.
+     * @async
+     * @returns {Promise<void>} A promise that edits the user task.
+     * @throws {Error} Throws an error if editing task fails.
+     */
     const editTask = async () => {
+
+        /**
+         * Data of the edited task.
+         * @type {Object}
+         */
         const editedTask = {
             taskId: taskData.id,
             title: title,
@@ -75,6 +141,11 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
             points: taskData.points,
         }
         console.log(deadline)
+
+        /**
+         * Data to post and make the API call.
+         * @type {Object}
+         */
         const dataToPost = {
             method: 'PUT',
             body: JSON.stringify(editedTask),
@@ -83,7 +154,7 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
                 'Authorization': `Bearer ${token}`
             }
         };
-        // POST Request to Add Task.
+
         await fetch('http://localhost:5001/EditTask', dataToPost)
         .then(res => {
             if (res.ok) {
@@ -97,8 +168,14 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
             getAllTasks()
             onClose()
         })
+        .catch(err => {
+            console.error('Error Editing Task: ', err.message)
+        })
     }
 
+    /**
+     * Handles saving the new task or edited task.
+     */
     const handleSave = () => {
         if(!title) {
             setError('noTaskTitle');
@@ -125,8 +202,19 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
             return
         }
 
+        /**
+         * @type {Date} Current date.
+         */
         const currentDate = new Date()
+
+        /**
+         * @type {Date} Task deadline date.
+         */
         const deadlineObj = new Date(deadline)
+
+        /**
+         * @type {Date} Task reminder date.
+         */
         const reminderObj = new Date(reminderDate)
 
         if(deadlineObj < currentDate) {
@@ -153,7 +241,6 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
         }
     }
 
-    // Add / Edit Task Layout
     return (
         <div className="addEditTaskContainer">
             <button className="closeAddEditModalBtn" onClick={onClose}></button>

@@ -1,21 +1,40 @@
-import React, { useState, useEffect} from 'react'
+import React, { ReactNode } from 'react'
 import UserInfo from "./UserInfo.jsx";
 import '../../index.css'
 import { useNavigate, Link } from 'react-router-dom'
 import {useTokenContext} from "../TokenContext/TokenContext.jsx";
 
+/**
+ * A React component that displays relevant information on the navigation bar depending on the user state.
+ * @component
+ * @returns {ReactNode} A React element that renders the navigation bar.
+ */
 const NavBar = () => {
     const {tokenStatus, userInfo} = useTokenContext()
+
+    /**
+     * The current token and setter function to update it.
+     * @type {[string, function]}
+     */
     const [token, setToken] = tokenStatus
+
+    /**
+     * The current user data and setter function to update it.
+     * @type {[Object, function]}
+     */
     const [userData, setUserData] = userInfo
     const navigate = useNavigate()
 
-    // To Home Page
+    /**
+     * Redirects to Home page.
+     */
     const onHome = () => {
         navigate("/")
     }
 
-    // To Tasks Page
+    /**
+     * Redirects to Task page.
+     */
     const onMyTasks = () => {
         navigate("/tasks")
     }

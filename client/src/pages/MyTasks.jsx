@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, ReactNode} from 'react'
 import NavBar from "../components/NavBar/NavBar.jsx";
 
 import '../index.css'
@@ -10,6 +10,11 @@ import {compareTasksDeadline} from "../utilities/utilities.js";
 import Modal from 'react-modal';
 import { parseToken } from './Login.jsx';
 
+/**
+ * A Functional React component that displays all user tasks based on their categories, level of priority and completion status, and allows user to perform task operations such as add, edit, complete, uncomplete and delete.
+ * @component
+ * @returns {ReactNode} A React element that renders lists of tasks based on category, priority level and state of completion.
+ */
 function MyTasks() {
     const {tokenStatus, userInfo} = useTokenContext()
     const [token, setToken] = tokenStatus
@@ -18,21 +23,30 @@ function MyTasks() {
     const [displayTasks, setDisplayTasks] = useState(tasks)
     const [filter, setFilter] = useState('All')
 
-    // Initial state of AddEditModal
+    /**
+     * The current state of AddEditModal and setter function to update it.
+     * @type {[Object, function]}
+     */
     const[addEditModalOpen, setAddEditModalOpen] = useState({
         isShown: false,
         type: "add",
         data: null,
     })
 
-    // Initial state of CompleteDeleteModal
+    /**
+     * The current state of CompleteDeleteModal and setter function to update it.
+     * @type {[Object, function]}
+     */
     const[compDelModalOpen, setCompDelModalOpen] = useState({
         isShown: false,
         type: "del",
         data: null,
     })
 
-    // Get User Info and User Tasks if there is token
+    /** 
+     * @function useEffect
+     * @description Set User Data if there is token.
+     */
     useEffect(() => {
         if (token) {
             setToken(token)
@@ -41,6 +55,10 @@ function MyTasks() {
         }
     }, [])
 
+    /** 
+     * @function useEffect
+     * @description Get User Info and User Tasks if there is token.
+     */
     useEffect(() => {
         if (token) {
             console.log("Token Set")
@@ -50,17 +68,27 @@ function MyTasks() {
         }
     }, [token]);
 
+    /** 
+     * @function useEffect
+     * @description Sort the tasks by deadline, set the tasks to display and filter the tasks if there is any changes to the user tasks.
+     */
     useEffect(() => {
         tasks.sort(compareTasksDeadline)
         setDisplayTasks(tasks)
         filterTasks(filter)
     }, [tasks]);
 
+    /** 
+     * @function useEffect
+     * @description Re-filter the tasks if there is any changes to the filter.
+     */
     useEffect(() => {
         filterTasks(filter)
     }, [filter]);
 
-    // Closes the  Modal
+    /** 
+     * Function that closes the add or edit modal.
+     */
     const closeAddEditModal = () => {
         setAddEditModalOpen({
             isShown: false,
@@ -69,6 +97,9 @@ function MyTasks() {
         })
     }
 
+    /** 
+     * Function that closes the complete or delete modal.
+     */
     const closeCompDelModal = () => {
         setCompDelModalOpen({
             isShown: false,
@@ -77,7 +108,9 @@ function MyTasks() {
         })
     }
 
-    // Open Modal when user wants to add task, to load empty page
+    /** 
+     * Open Modal when user wants to add task, to load empty page.
+     */
     const handleAddTask = () => {
         setAddEditModalOpen({
             isShown: true,
@@ -85,8 +118,10 @@ function MyTasks() {
             data: null, //To add data
         })
     }
-
-    // Open Modal when user wants to edit, to load current note data
+    
+    /** 
+     * Open Modal when user wants to edit, to load current note data.
+     */
     const handleEditTask = (taskData) => {
         // To receive data
         setAddEditModalOpen({
@@ -98,6 +133,10 @@ function MyTasks() {
 
     const uncompletedTasks = tasks.filter(each => !each.completed)
 
+    /**
+     * Function that filters the list of tasks based on All, completion status, priority level, and category, then sets the tasks to display.
+     * @param {string} value Value to filter the tasks by.
+     */
     const filterTasks = (value) => {
         if(value === 'All') {
             setDisplayTasks(uncompletedTasks)
@@ -114,11 +153,19 @@ function MyTasks() {
         }
     }
 
+    /**
+     * Set the filter value to filter the tasks.
+     * @param {string} value Value to filter the tasks by.
+     */
     const handleFilterTasks = (value) => {
         setFilter(value)
         console.log(value)
     }
 
+    /**
+     * Opens the modal to delete the selected task.
+     * @param {Object} taskData Data of the selected task to delete.
+     */
     const handleDeleteTask = (taskData) => {
         setCompDelModalOpen({
             isShown: true,
@@ -127,6 +174,10 @@ function MyTasks() {
         })
     }
 
+    /**
+     * Opens the modal to complete the selected task.
+     * @param {Object} taskData Data of the selected task to complete.
+     */
     const handleCompleteTask = (taskData) => {
         setCompDelModalOpen({
             isShown: true,
@@ -136,7 +187,10 @@ function MyTasks() {
     }
 
 
-    // Open Modal when user wants to uncomplete task
+    /**
+     * Opens the modal to uncomplete the selected task.
+     * @param {Object} taskData Data of the selected task to uncomplete.
+     */
     const handleUncompleteTask = (taskData) => {
         setCompDelModalOpen({
             isShown: true,
@@ -145,7 +199,12 @@ function MyTasks() {
         })
     }
 
-    // Get User Tasks
+    /** 
+     * Async GET method to get user tasks.
+     * @async
+     * @returns {Promise<void>} A promise that gets the current user's tasks.
+     * @throws {Error} Throws an error if getting user tasks fails.
+     */
     const getUserTasks = async () => {
         const dataToPost = {
             method: 'GET',
@@ -175,7 +234,12 @@ function MyTasks() {
         }
     }
 
-    // Get User Info
+    /** 
+     * Async GET method to get user info.
+     * @async
+     * @returns {Promise<void>} A promise that gets the current user's info.
+     * @throws {Error} Throws an error if getting user info fails.
+     */
     const getUserInfo = async () => {
         const dataToPost = {
             method: 'GET',
@@ -203,12 +267,20 @@ function MyTasks() {
         }
     }
 
+    /**
+     * A React component that displays a list of buttons of every unique categories of all the uncompleted tasks and the number of uncompleted tasks in each category.
+     * @component
+     */
     const categories = [...new Set(uncompletedTasks.map(task => task.category))].map((eachCat, index) => (
         <li key={index} onClick={() => handleFilterTasks(eachCat)}>
             {eachCat} ({uncompletedTasks.filter(each => each.category === eachCat).length})
         </li>
     ))
 
+    /**
+     * A React component that displays every tasks in their own detailed cards with the edit, complete, uncomplete, and delete buttons.
+     * @component
+     */
     const tasksInGrid = (
         <div className="tasksGridBox">
             {displayTasks.map((task, index) => (

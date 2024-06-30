@@ -7,7 +7,12 @@ const Tasks = db.tasks
 // Secret Key Must Not Be Leaked for Security Purposes.
 const secretKey = 'aSsiSTaNTAIiSAlwAYsHErEtOhelP020620241aM*$^0^'
 
-// Query to add a new user to db.
+/**
+ * Adds a new user to the database.
+ * @async
+ * @param {*} req The request from the front-end.
+ * @param {*} res The response to the front-end.
+ */
 const addUser = async (req, res) => {
     const data = req.body
     let newUserData = {
@@ -40,7 +45,12 @@ const addUser = async (req, res) => {
     }
 }
 
-// Query to login the user.
+/**
+ * Logs in the user.
+ * @async
+ * @param {*} req The request from the front-end.
+ * @param {*} res The response to the front-end.
+ */
 const loginUser = async (req, res) => {
     const { username, password } = req.body
 
@@ -66,7 +76,12 @@ const loginUser = async (req, res) => {
     }
 }
 
-// Query to Get User Info
+/**
+ * Get user's info.
+ * @async
+ * @param {*} req The request from the front-end.
+ * @param {*} res The response to the front-end.
+ */
 const getUserInfo = async (req, res) => {
     const { id } = req.user
 

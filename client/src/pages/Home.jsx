@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, ReactNode } from 'react'
 import NavBar from "../components/NavBar/NavBar.jsx";
 import TasksBox from "../components/TasksBox/TasksBox";
 import Modal from 'react-modal';
@@ -8,29 +8,62 @@ import CompleteDeleteTasks from "../components/Tasks/CompleteDeleteTasks";
 import ProductivityBar from "../components/ProductivityBar/ProductivityBar.jsx";
 import {compareTasksPriority, compareTasksDeadline, calculateTaskProductivity} from "../utilities/utilities.js";
 
+/**
+ * A React component that displays the home page and a brief layout of the current user tasks, including the navigation bar, 4 task boxes, and the modal to add or edit tasks.
+ * @component
+ * @returns {ReactNode} A React element that renders the home page.
+ */
 const Home = () => {
     const {tokenStatus, userInfo} = useTokenContext()
+    /**
+     * The current token and setter function to update it.
+     * @type {[string, function]}
+     */
     const [token, setToken] = tokenStatus
+
+    /**
+     * The current user data and setter function to update it.
+     * @type {[Object, function]}
+     */
     const [userData, setUserData] = userInfo
+
+    /**
+     * The current user tasks and setter function to update it.
+     * @type {[Array<Object>, function]}
+     */
     const [tasks, setTasks] = useState([])
+
+    /**
+     * Filters the uncompleted task and sort them by the deadline.
+     * @type {Array<Object>} The list of uncompleted tasks sorted by deadline.
+     */
     const uncompletedTasks = tasks.filter(task => !task.completed).sort(compareTasksDeadline) || []
     const productivity = calculateTaskProductivity(tasks);
 
-    // Initial state of AddEditModal
+    /**
+     * The current state of AddEditModal and setter function to update it.
+     * @type {[Object, function]}
+     */
     const[addEditModalOpen, setAddEditModalOpen] = useState({
         isShown: false,
         type: "add",
         data: null,
     })
 
-    // Initial state of CompleteDeleteModal
+    /**
+     * The current state of CompleteDeleteModal and setter function to update it.
+     * @type {[Object, function]}
+     */
     const[compDelModalOpen, setCompDelModalOpen] = useState({
         isShown: false,
         type: "del",
         data: null,
     })
 
-    // On First Load, Get User Info and User Tasks if there is token
+    /**
+     * @function useEffect
+     * @description On First Load, Get User Info and User Tasks if there is token.
+     */
     useEffect(() => {
         if(token) {
             localStorage.setItem('token', token);
@@ -40,7 +73,10 @@ const Home = () => {
         }
     }, [])
 
-    // Get User Info and User Tasks if there is token
+    /**
+     * @function useEffect
+     * @description Get User Info and User Tasks if there is token
+     */
     useEffect(() => {
         if (token) {
             console.log("Token Set")
@@ -50,7 +86,12 @@ const Home = () => {
         }
     }, [token]);
 
-    // Get User Tasks
+    /** 
+     * Async GET method to get user tasks.
+     * @async
+     * @returns {Promise<void>} A promise that gets the current user's tasks.
+     * @throws {Error} Throws an error if getting user tasks fails.
+     */
     const getUserTasks = async () => {
         const dataToPost = {
             method: 'GET',
@@ -79,7 +120,12 @@ const Home = () => {
         }
     }
 
-    // Get User Data
+    /** 
+     * Async GET method to get user data.
+     * @async
+     * @returns {Promise<void>} A promise that gets the current user's data.
+     * @throws {Error} Throws an error if getting user data fails.
+     */
     const getUserInfo = async () => {
         const dataToPost = {
             method: 'GET',
@@ -107,7 +153,9 @@ const Home = () => {
         }
     }
 
-    // Closes the Add Edit Task Modal
+    /**
+     * Closes the Add Edit Task Modal.
+     */
     const closeAddEditModal = () => {
         setAddEditModalOpen({
             isShown: false,
@@ -116,7 +164,9 @@ const Home = () => {
         })
     }
 
-    // Closes the Complete Delete Task Modal
+    /**
+     * Closes the Complete Delete Task Modal.
+     */
     const closeCompDelModal = () => {
         setCompDelModalOpen({
             isShown: false,
@@ -125,7 +175,9 @@ const Home = () => {
         })
     }
 
-    // Open Modal when user wants to add task, to load empty page
+    /**
+     * Open Modal when user wants to add task, to load empty page.
+     */
     const handleAddTask = () => {
         setAddEditModalOpen({
             isShown: true,
@@ -134,7 +186,10 @@ const Home = () => {
         })
     }
 
-    // Open Modal when user wants to edit, to load current note data
+    /** 
+     * Open Modal when user wants to edit, to load current note data.
+     * @param {Object} taskData Data of current task.
+     */
     const handleEditTask = (taskData) => {
         // To receive data
         setAddEditModalOpen({
@@ -144,7 +199,10 @@ const Home = () => {
         })
     }
 
-    // Open Modal when user wants to delete task
+    /**
+     * Open Modal when user wants to delete task.
+     * @param {Object} taskData Data of current task.
+     */
     const handleDeleteTask = (taskData) => {
         setCompDelModalOpen({
             isShown: true,
@@ -153,7 +211,10 @@ const Home = () => {
         })
     }
 
-    // Open Modal when user wants to complete task
+    /** 
+     * Open Modal when user wants to complete task.
+     * @param {Object} taskData Data of current task.
+     */
     const handleCompleteTask = (taskData) => {
         setCompDelModalOpen({
             isShown: true,
@@ -162,28 +223,43 @@ const Home = () => {
         })
     }
 
-    // To compare current date
+    /** 
+     * To compare current date.
+     * @type {Date}
+     */
     const currentDate = new Date()
 
-    // Overdued Tasks
+    /** 
+     * Array of Overdued Tasks.
+     * @type {Array<Object>}
+     */
     const overduedTasks = uncompletedTasks.filter(each => {
         const deadlineDate = new Date(each.deadline)
         return deadlineDate < currentDate
     })
 
-    // Tasks with reminders past current date
+    /**
+     * Array of tasks with reminders past current date.
+     * @type {Array<Object>}
+     */
     const remindersTasks = uncompletedTasks.filter(each => {
         const reminderDate = new Date(each.reminder)
         return reminderDate < currentDate
     })
 
-    // Upcoming Tasks
+    /** 
+     * Array of upcoming tasks.
+     * @type {Array<Object>}
+     */
     const upcomingTasks = uncompletedTasks.filter(each => {
         const deadlineDate = new Date(each.deadline)
         return deadlineDate > currentDate
     });
 
-    // Tasks from High to Low Priority
+    /**
+     * Array of tasks sorted from high to low priority.
+     * @type {Array<Object>}
+     */
     const priorityTasks = uncompletedTasks.sort(compareTasksPriority)
 
     return (

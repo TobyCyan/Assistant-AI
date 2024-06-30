@@ -1,8 +1,13 @@
 import React, {useState, createContext, useContext, useEffect} from "react";
-import {useNavigate} from "react-router-dom";
+
 
 const TokenContext = createContext()
 
+/**
+ * @typedef {Object} TokenContext
+ * @property {string} tokenStatus - The token status of the user.
+ * @property {Object} userInfo - The information about the user.
+ */
 export const TokenProvider = (props) => {
     // localStorage.getItem returns a truthy value - undefined
     const [token, setToken] = useState(null)
@@ -40,5 +45,9 @@ export const TokenProvider = (props) => {
     )
 }
 
+/**
+ * Use TokenContext as the context.
+ * @returns {TokenContext} The token context object.
+ */
 export const useTokenContext = () => useContext(TokenContext)
 

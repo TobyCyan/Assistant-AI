@@ -1,5 +1,10 @@
-import React from "react"
+import React, { ReactNode } from "react"
 
+/**
+ * This component renders the empty username error.
+ * @param {string} error Error that the user may encounter when signing up.
+ * @returns {ReactNode} A React element that renders the empty username sign up error.
+ */
 const renderEmptyUsernameError = (error) => {
     if (error == 'UsernameError') {
         return (
@@ -10,6 +15,11 @@ const renderEmptyUsernameError = (error) => {
     }
 }
 
+/**
+ * This component renders the password mismatch error.
+ * @param {string} error Error that the user may encounter when signing up.
+ * @returns {ReactNode} A React element that renders the password mismatch sign up error.
+ */
 const renderPWError = (error) => {
     if (error == 'MismatchPW') {
         return (
@@ -26,6 +36,11 @@ const renderPWError = (error) => {
     }
 }
 
+/**
+ * This component renders the username taken error.
+ * @param {string} error Error that the user may encounter when signing up.
+ * @returns {ReactNode} A React element that renders the username taken sign up error.
+ */
 const renderSignUpError = (error) => {
     if (error == 'UsernameTaken') {
         return (
@@ -36,6 +51,11 @@ const renderSignUpError = (error) => {
     }
 }
 
+/**
+ * This component renders the empty or invalid date of birth error.
+ * @param {string} error Error that the user may encounter when signing up.
+ * @returns {ReactNode} A React element that renders the empty or invalid date of birth sign up error.
+ */
 const renderDateOfBirthError = (error) => {
     if (error == 'EmptyDOB') {
         return (
@@ -52,6 +72,11 @@ const renderDateOfBirthError = (error) => {
     }
 }
 
+/**
+ * This component renders the invalid user credentials error.
+ * @param {string} error Error that the user may encounter when logging in.
+ * @returns {ReactNode} A React element that renders the invalid user credentials log in error.
+ */
 const renderInvalidCredentialsError = (error) => {
     if (error == 'InvalidCreds') {
         return (
@@ -62,6 +87,11 @@ const renderInvalidCredentialsError = (error) => {
     }
 }
 
+/**
+ * This component renders the empty task title error.
+ * @param {string} error Error that the user may encounter when adding a task.
+ * @returns {ReactNode} A React element that renders the empty task title add task error.
+ */
 const renderNoTaskTitleError = (error) => {
     if (error == 'noTaskTitle') {
         return (
@@ -72,6 +102,11 @@ const renderNoTaskTitleError = (error) => {
     }
 }
 
+/**
+ * This component renders the empty task category error.
+ * @param {string} error Error that the user may encounter when adding a task.
+ * @returns {ReactNode} A React element that renders the empty task category add task error.
+ */
 const renderNoTaskCategoryError = (error) => {
     if (error == 'noTaskCategory') {
         return (
@@ -82,6 +117,11 @@ const renderNoTaskCategoryError = (error) => {
     }
 }
 
+/**
+ * This component renders the invalid task priority, deadline and reminder error.
+ * @param {string} error Error that the user may encounter when adding a task.
+ * @returns {ReactNode} A React element that renders the invalid task priority, deadline and reminder add task error.
+ */
 const renderPriorityOrDateError = (error) => {
     if (error == 'noTaskPriority') {
         return (
@@ -122,6 +162,11 @@ const renderPriorityOrDateError = (error) => {
     }
 }
 
+/**
+ * This component renders the weak password error.
+ * @param {string} error Error that the user may encounter when signing up.
+ * @returns {ReactNode} A React element that renders the weak password sign up error.
+ */
 const renderWeakPWError = (error) => {
     if (error == 'WeakPW') {
         return (

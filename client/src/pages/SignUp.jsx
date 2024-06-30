@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, ReactNode} from 'react'
 import {useNavigate} from "react-router-dom";
 import NavBar from "../components/NavBar/NavBar.jsx";
 import CryptoJS from 'crypto-js';
@@ -7,15 +7,36 @@ import RenderError from "../components/RenderError/RenderError";
 import {useTokenContext} from "../components/TokenContext/TokenContext.jsx";
 import {checkStrongPW} from "../utilities/utilities.js";
 
+/**
+ * A Functional React component that displays the sign up page, handles sign up errors, and communicates with the back-end to sign the user up.
+ * @component
+ * @returns {ReactNode} A React element that renders the sign up page.
+ */
 function SignUp() {
     const {tokenStatus} = useTokenContext()
+
+    /**
+     * The current token and setter function to update it.
+     * @type {[string, function]}
+     */
     const [token, setToken] = tokenStatus
 
-    // Used to check whether the passwords match.
+    /**
+     * The current confirmation password and setter function to update it.
+     * @type {[string, function]}
+     */
     const [confirmPassword, setConfirmPassword] = useState('')
 
+    /**
+     * The current error faced by user during sign up and setter function to update it.
+     * @type {[string, function]}
+     */
     const [error, setError] = useState('')
 
+    /**
+     * @function useEffect
+     * @description GET method to check for connection with the back-end.
+     */
     useEffect(() => {
         fetch('/', {method: 'GET'})
         .then(res => {
@@ -23,7 +44,10 @@ function SignUp() {
         })
     }, [])
     
-    // userData state will be used to send user info to the back-end.
+    /**
+     * The current userData state and setter function to update it.
+     * @type {[Object, function]}
+     */
     const [userData, setUserData] = useState({
         username: '',
         password: '',
@@ -33,26 +57,41 @@ function SignUp() {
 
     const navigate = useNavigate()
 
-    // Checks whether the passwords match.
+    /** 
+     * Checks whether user and confirmation passwords match.
+     * @returns {boolean} true or false.
+     */
     function pwMatch() {
         return confirmPassword === userData.password;
     }
     
-    // Update userData with the new username.
+    /**
+     * Update userData with the new username.
+     * @param {string} newName Name in the input field.
+     * @returns {function} Function that updates the username in the userData object.
+     */
     const handleNameChange = (newName) => {
         return setUserData((prevState) => {
               return { ...prevState, username: newName };
             });
       };
 
-    // Update userData with the new password.
+    /**
+     * Update userData with the new password.
+     * @param {string} newPW Password in the input field.
+     * @returns Function that updates the password in the userData object.
+     */
     const handlePasswordChange = (newPW) => {
         return setUserData((prevState) => {
             return { ...prevState, password: newPW };
         });
     };
     
-    // Update userData with the new birth date.
+    /**
+     * Update userData with the new birth date.
+     * @param {Date} newBirthDate Birth date in the input field.
+     * @returns Function that updates the birth date in the userData object.
+     */
     const handleBirthDateChange = (newBirthDate) => {
         const birthDateObject = new Date(newBirthDate)
         const formattedDate = birthDateObject.toISOString().split('T')[0];
@@ -62,7 +101,9 @@ function SignUp() {
         });
     }
 
-    // Clears both passwords in the form.
+    /**
+     * Clears both passwords in the form.
+     */
     function clearPW() {
         setUserData((prevState) => {
             return { ...prevState, password: '' };
@@ -70,32 +111,53 @@ function SignUp() {
         setConfirmPassword('')
     }
 
+    /**
+     * Updates the sign up error when username is empty.
+     */
     function handleEmptyUsername() {
         setError('UsernameError')
     }
 
+    /**
+     * Updates the sign up error when passwords do not match.
+     */
     function handleDifferentPassword() {
         clearPW()
         setError('MismatchPW')
     }
 
+    /**
+     * Updates the sign up error when password is empty.
+     */
     function handleEmptyPW() {
         setError('EmptyPW')
     }
 
+    /**
+     * Updates the sign up error when birth date is empty.
+     */
     function handleEmptyDateOfBirth() {
         setError('EmptyDOB')
     }
 
+    /**
+     * Updates the sign up error when birth date is in the future.
+     */
     function handleFutureDOB() {
         setError('DOBFuture')
     }
 
+    /**
+     * Updates the sign up error when password is weak.
+     */
     function handleWeakPassword() {
         setError('WeakPW')
         setConfirmPassword('')
     }
 
+    /**
+     * Updates the sign up error when username is already taken.
+     */
     function handleFailedSignUp(error) {
         if (error == 'Username Already Taken!') {
             clearPW()
@@ -103,13 +165,21 @@ function SignUp() {
         }
     }
 
-    // Sends User to the Home Page
+    /** 
+     * Sends User to the Home Page.
+     */
     function sendToHomePage() {
         navigate('/')
     }
 
-    // TODO
-    // Sends userData to the back-end to insert into database.
+
+    /**
+     * Sends userData to the back-end to insert into database.
+     * @async
+     * @param {*} e Sign Up event.
+     * @returns {Promise<void>} A promise that adds the new user into the database.
+     * @throws {Error} Throws an error if user sign up fails.
+     */
     const handleSignUp = async (e) => {
         e.preventDefault()
         setError('')

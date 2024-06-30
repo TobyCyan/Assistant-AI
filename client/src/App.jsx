@@ -1,5 +1,5 @@
 import './App.css';
-import React from 'react';
+import React, { ReactNode }from 'react';
 import {BrowserRouter, Routes, Route} from "react-router-dom"
 import Home from "./pages/Home.jsx"
 import Login from "./pages/Login.jsx"
@@ -8,6 +8,10 @@ import MyTasks from "./pages/MyTasks.jsx"
 import { Reminder } from './components/TaskReminder/Reminder.jsx';
 import PrivateRoutes from "./pages/PrivateRoutes/PrivateRoutes.jsx";
 
+/**
+ * The routes of the web application.
+ * @type {ReactNode}
+ */
 const routes = (
     <BrowserRouter>
         <Routes>
@@ -22,6 +26,10 @@ const routes = (
     </BrowserRouter>
 );
 
+/**
+ * The React component of the web application.
+ * @returns {ReactNode} A React element that renders all the available routes.
+ */
 function App() {
     return (
         <div>

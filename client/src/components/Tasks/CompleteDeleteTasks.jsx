@@ -1,10 +1,30 @@
 import {useTokenContext} from "../TokenContext/TokenContext.jsx";
+import React, { ReactNode } from 'react'
 
+/**
+ * A React component that calculates the task points and assign it to the user when completing task, deduct when uncompleting, and removes the task when deleting.
+ * @component
+ * @param {Object} taskData The data of the current task.
+ * @param {string} type The type of operation - add or edit.
+ * @param {function} getAllTasks fetch request to get all user tasks.
+ * @param {function} getUserInfo fetch request to get the current user info.
+ * @param {function} onClose Function to close the modal.
+ * @returns {ReactNode} A React element that renders the completing and deleting of user tasks.
+ */
 const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}) => {
     const {tokenStatus, userInfo} = useTokenContext()
+
+    /**
+     * The current token and setter function to update it.
+     * @type {[string, function]}
+     */
     const [token, setToken] = tokenStatus
 
-    // Get the Difference between Current Time and Deadline Time.
+    /** 
+     * Get the Difference between Current Time and Deadline Time.
+     * @param {Object} task The task data.
+     * @returns {number} The difference between current and deadline time.
+     */
     const getTimeDifference = (task) => {
         const deadlineDate = new Date(task.deadline)
         const currDate = new Date()
@@ -14,7 +34,11 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
         return difference
     }
 
-    // Round up or down the given num.
+    /** 
+     * Round up or down the given num.
+     * @param {number} num The number to round up or down.
+     * @returns {number} The rounded up or down number.
+     */
     const roundNum = (num) => {
         const numCeil = Math.ceil(num)
         const numFloor = Math.floor(num)
@@ -22,8 +46,17 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
         return decimalNum >= 0.5 ? numCeil : numFloor
     }
 
-    // Map points to priority with different weightages
+    /** 
+     * Calculates the points based on the priority and difference between current time and deadline time.
+     * @param {string} priotity The priority of the task - High, Medium, Low
+     * @param {number} hours The difference in hours between current time and task deadline time.
+     * @returns {number} The priority points of the task.
+     */
     const calculatePriorityPoints = (priority, hours) => {
+        /**
+         * Map points to priority with different weightages.
+         * @type {Object}
+         */
         const priorityMap = {
             High: 3,
             Medium: 2,
@@ -32,8 +65,10 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
         return priorityMap[priority] + roundNum(hours / 24)
     }
 
-    // Calculate Points Earned from Completing the Task.
-    // Not Final
+    /** 
+     * Calculate Points Earned from Completing the Task.
+     * @returns {number} The task points.
+     */
     function calculateTaskPoints() {
         const priority = taskData.priority
         const difference = getTimeDifference(taskData)
@@ -43,7 +78,12 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
         return differenceInHours < 0 ? 1 : priorityPoints + roundNum(differenceInHours * 0.25)
     }
 
-    // PUT Request to complete task
+    /** 
+     * PUT Request to complete task.
+     * @async
+     * @returns {Promise<void>} A promise that completes the user task.
+     * @throws {Error} Throws an error if completing task fails.
+     */
     const completeTask = async () => {
         const toEarn = calculateTaskPoints()
         const completedTask = {...taskData, completed: true, points: toEarn}
@@ -68,7 +108,12 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
         }
     }
 
-    // PUT Request to uncomplete Task
+    /** 
+     * PUT Request to uncomplete Task.
+     * @async
+     * @returns {Promise<void>} A promise to uncomplete a task.
+     * @throws {Error} Throws an error if uncompleting task fails.
+     */
     const uncompleteTask = async () => {
         const toDeduct = taskData.points
         const uncompletedTask = {...taskData, completed: false, points: 0}
@@ -93,7 +138,12 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
         }
     }
 
-    // DELETE Request to delete Task
+    /** 
+     * DELETE Request to delete Task.
+     * @async
+     * @returns {Promise<void>} A promise that deletes a task.
+     * @throws {Error} Throws an error if deleting task fails.
+     */
     const deleteTask = async () => {
         const taskId = taskData.id
         const dataToPost = {
@@ -119,7 +169,9 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
         }
     }
 
-    // Select which operation
+    /** 
+     * Select which operation to execute when confirming completing, uncompleting or deleting tasks.
+     */
     const handleConfirm = () => {
         if(type === "del") {
             deleteTask()
