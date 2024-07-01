@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <title>ChatBot Tester</title>
+</head>
+
+<body>
+    <h1>ChatBot heheheheh</h1>
+    <div class="container" id="responsebox" >Your Response will Appear here!</div>
+    <input class="container" id="chatbox" value="" placeholder="Enter an Input">
+
+    <div id="errorbox"></div>
+    <div id="retrain_success"></div>
+
+    <!-- <label for="behaviortype">Behavior Type</label>
+    <input type="text" id="behaviortype" name="behaviortype" placeholder="Enter a behavior type.">
+
+    <label for="pattern">Pattern</label>
+    <input type="text" id="pattern" name="pattern" placeholder="Enter a pattern.">
+
+    <label for="response">Response</label>
+    <input type="text" id="response" name="response" placeholder="Enter a response."> -->
+
+    <button class="retrain" id="retrain">
+        Retrain Bot
+    </button>
+
+    <h2>Behavior Array</h2>
+    <div id="behaviorarray"></div>
+    <script type="module" src="{{ url_for('static', filename='js/medium.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='API Calls/weather.js') }}"></script>
+</body>
+
+</html>

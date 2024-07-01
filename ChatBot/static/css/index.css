@@ -1,0 +1,43 @@
+.container {
+    margin: 15px;
+    border: 5px solid black;
+    padding: 20px;
+    word-wrap: break-word;
+}
+
+#chatbox {
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1, h2 {
+    max-width: fit-content;
+    justify-content: center;
+    margin: auto;
+    display: flex;
+    font-family:'Courier New', Courier, monospace;
+}
+
+#retrain_success {
+    color:blue;
+    max-width: fit-content;
+    justify-content: center;
+    margin: auto;
+}
+
+input, button, label, #errorbox {
+    display: grid;
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 12px;
+}
+
+button {
+    margin-bottom: 25px;
+}
+
+#errorbox {
+    color: red;
+}
