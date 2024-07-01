@@ -2,51 +2,51 @@ import { roundNum } from "../client/src/components/TasksBox/Tasks"
 import { calculatePriorityPoints } from "../client/src/components/TasksBox/Tasks"
 import { TaskPriorityQueue } from "../client/src/Data Structures/TaskPriorityQueue"
 
-// // Unit Testing for roundNum function
-// test('tests rounding of a non-negative number', () => {
-//     expect(roundNum(1.5)).toBe(2)
-// })
+// Unit Testing for roundNum function
+test('tests rounding of a non-negative number', () => {
+    expect(roundNum(1.5)).toBe(2)
+})
 
-// test('tests rounding of a non-negative number', () => {
-//     expect(roundNum(2)).toBe(2)
-// })
+test('tests rounding of a non-negative number', () => {
+    expect(roundNum(2)).toBe(2)
+})
 
-// test('tests rounding of a non-negative number', () => {
-//     expect(roundNum(1.1)).toBe(1)
-// })
+test('tests rounding of a non-negative number', () => {
+    expect(roundNum(1.1)).toBe(1)
+})
 
-// test('tests rounding of a non-negative number', () => {
-//     expect(roundNum(19.4)).toBe(19)
-// })
+test('tests rounding of a non-negative number', () => {
+    expect(roundNum(19.4)).toBe(19)
+})
 
-// test('tests rounding of a non-negative number', () => {
-//     expect(roundNum(22.9)).toBe(23)
-// })
+test('tests rounding of a non-negative number', () => {
+    expect(roundNum(22.9)).toBe(23)
+})
 
-// // Unit Testing Calculation of Priority Points.
-// test('tests calculating priority points.', () => {
-//     expect(calculatePriorityPoints('High', 12)).toBe(4)
-// })
+// Unit Testing Calculation of Priority Points.
+test('tests calculating priority points.', () => {
+    expect(calculatePriorityPoints('High', 12)).toBe(4)
+})
 
-// test('tests calculating priority points.', () => {
-//     expect(calculatePriorityPoints('High', 62)).toBe(6)
-// })
+test('tests calculating priority points.', () => {
+    expect(calculatePriorityPoints('High', 62)).toBe(6)
+})
 
-// test('tests calculating priority points.', () => {
-//     expect(calculatePriorityPoints('Low', 2)).toBe(1)
-// })
+test('tests calculating priority points.', () => {
+    expect(calculatePriorityPoints('Low', 2)).toBe(1)
+})
 
-// test('tests calculating priority points.', () => {
-//     expect(calculatePriorityPoints('Low', 20)).toBe(2)
-// })
+test('tests calculating priority points.', () => {
+    expect(calculatePriorityPoints('Low', 20)).toBe(2)
+})
 
-// test('tests calculating priority points.', () => {
-//     expect(calculatePriorityPoints('Medium', 0)).toBe(2)
-// })
+test('tests calculating priority points.', () => {
+    expect(calculatePriorityPoints('Medium', 0)).toBe(2)
+})
 
-// test('tests calculating priority points.', () => {
-//     expect(calculatePriorityPoints('Medium', 90)).toBe(6)
-// })
+test('tests calculating priority points.', () => {
+    expect(calculatePriorityPoints('Medium', 90)).toBe(6)
+})
 
 // let pq = new TaskPriorityQueue()
 // pq.pushItem(1,'High')
