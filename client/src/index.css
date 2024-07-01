@@ -141,6 +141,7 @@ button {
   height: 80vh;
   margin: 0.5rem;
   padding: 0.5rem;
+  cursor: default;
 }
 
 .overdueAndRemindersBox, .upcomingAndPriorityBox, .assistantCharacterBox{
@@ -219,6 +220,7 @@ button {
 #priority, .deadlineInput, .reminderInput {
   font-size: 0.875rem;
   padding: 0.5rem;
+  float: left;
 }
 
 .descriptionInput {
@@ -695,9 +697,53 @@ ul {
   justify-content: space-evenly;
 }
 
-.AIbox {
-  justify-content: center;
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.invisibleBox {
+  height: 300px
+}
+
+.AIBox {
+  height: auto;
+  justify-content: center;
+  display: inline-block;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  border: 10px solid rgb(11, 82, 187);
+  border-radius: 20px;
+  border-width: 4px;
+  padding: 13px;
+  word-wrap: break-word;
+  align-self: flex-end;
+  cursor: default;
+  font-weight: bold;
+  font-size: large;
+  color: #000000;
+  background-color: rgb(202, 240, 255);
+  opacity: 1;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+
+.fadeIn {
+  animation: fadeIn 1.5s;
+}
+
+.fadeOut {
+  animation: fadeOut 1.5s;
+}
+
 
 /*
   Borders for visualisation

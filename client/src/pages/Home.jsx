@@ -7,6 +7,7 @@ import AddEditTasks from "../components/Tasks/AddEditTasks";
 import CompleteDeleteTasks from "../components/Tasks/CompleteDeleteTasks";
 import ProductivityBar from "../components/ProductivityBar/ProductivityBar.jsx";
 import {compareTasksPriority, compareTasksDeadline, calculateTaskProductivity} from "../utilities/utilities.js";
+import AIBox from '../components/AIBox/AIBox.jsx';
 
 /**
  * A React component that displays the home page and a brief layout of the current user tasks, including the navigation bar, 4 task boxes, and the modal to add or edit tasks.
@@ -295,9 +296,9 @@ const Home = () => {
                                         <h3>{productivity}%</h3>
                                     </div>
                                 </div>
-                                <div className="AIbox">
-                                    <p>Assistant AI</p>
-                                </div>
+
+                                <AIBox />
+
                             </div>
                             )}
 

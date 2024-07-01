@@ -14,12 +14,15 @@ import numpy as np
 import random
 import json
 import pickle
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, url_for
+from flask_cors import CORS
+
 
 file = open('behavior.json')
 behavior_data = json.load(file)
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/')
 def home():
@@ -27,6 +30,13 @@ def home():
 
 with open("behavior.json") as file:
         data = json.load(file)
+
+
+@app.route('/api/get_medium_script')
+def get_medium_script():
+    script = url_for('static', filename='js/medium.js', _external=True)
+    return jsonify({'script': script})
+
 
 def tokenize_and_stem_string(string: str):
     punctuations = '.?!,'
@@ -152,7 +162,6 @@ def predict_behavior_type_from_prompt(prompt, model):
     prompt_input = create_input_from_prompt(prompt, input_words)
     
     output = model.predict(prompt_input)
-    print(output)
     output_type_index = np.argmax(output[0])
     
     return behavior_types[output_type_index]
@@ -189,7 +198,6 @@ training, output, input_words, behavior_types = prepare_training_input_and_outpu
 @app.route('/retrain')
 def retrain():
     model = train_model_and_load('model.tflearn', training, output)
-    print(training, output)
     return jsonify({'message': 'Retrain Successful!'}), 200
 
 @app.route('/behaviorarray')
