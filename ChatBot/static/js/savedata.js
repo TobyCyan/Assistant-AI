@@ -1,6 +1,7 @@
 const fs = require('fs')
 
-const data = JSON.parse(fs.readFileSync('behavior.json'))
+const link = './ChatBot/behavior.json'
+const data = JSON.parse(fs.readFileSync(link))
 
 const dataArray = data['behavior']
 
@@ -75,11 +76,16 @@ const saveNewTypeEntry = (type) => {
         typeIndex = dataArray.length - 1
         
         const jsonData = JSON.stringify(data)
-        fs.writeFileSync('behavior.json', jsonData, (err) => {
-            if (err) {
-                console.error('Error Saving New Type Entry: ', err)
-            }
-        })
+        try {
+            fs.writeFileSync(link, jsonData, (err) => {
+                if (err) {
+                    console.error('Error Saving New Type Entry: ', err)
+                }
+            })
+            console.log('Type: ' + type + ' created!')
+        } catch (error) {
+            console.error('Error reading the file:', error);
+        }
     }
     return typeIndex
 }
@@ -96,7 +102,7 @@ const saveNewPatternBasedOnType = (pattern, type)  => {
         patternArray.push(pattern)
 
         const jsonData = JSON.stringify(data)
-        fs.writeFileSync('behavior.json', jsonData, (err) => {
+        fs.writeFileSync(link, jsonData, (err) => {
             if (err) {
                 console.error('Error Saving New Pattern Entry: ', err)
             } else {
@@ -114,11 +120,11 @@ const saveNewResponseBasedOnTypeAndPattern = (response, type, pattern) => {
     const {responseFound, typeIndex} = isResponseExist(response, type, pattern)
 
     if (!responseFound) {
-        let responseArray = dataArray[typeIndex]['Response']
+        let responseArray = dataArray[typeIndex]['response']
         responseArray.push(response)
 
         const jsonData = JSON.stringify(data)
-        fs.writeFileSync('behavior.json', jsonData, (err) => {
+        fs.writeFileSync(link, jsonData, (err) => {
             if (err) {
                 console.error('Error Saving New Response Entry: ', err)
             } else {
@@ -129,7 +135,13 @@ const saveNewResponseBasedOnTypeAndPattern = (response, type, pattern) => {
     return typeIndex
 }
 
-saveNewPatternBasedOnType('Can you delete this task?', 'Query')
+console.log(dataArray)
+//saveNewResponseBasedOnTypeAndPattern("Yep sure! Please wait a moment!", "DeleteTask", "Delete a Task")
+//saveNewPatternBasedOnType("Can you delete this task for me please?", "DeleteTask")
+//saveNewPatternBasedOnType("Add a Task", "AddTask")
+//saveNewPatternBasedOnType("Add Task", "AddTask")
+saveNewResponseBasedOnTypeAndPattern("Hmm... I like ice cream! ...And talking to you!", "Hobby", "What do you like?")
+
 
 // saveNewPatternBasedOnType("What is the weather today?" , "Weather")
 
