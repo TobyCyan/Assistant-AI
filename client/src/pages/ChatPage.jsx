@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import NavBar from "../components/NavBar/NavBar.jsx";
 import { useTokenContext } from "../components/TokenContext/TokenContext";
 import getCurrentPositionWeather from "../../../ChatBot/static/API Calls/weather";
+import AIBox from "../components/AIBox/AIBox.jsx";
 
 const ChatPage = () => {
+    const [chatting, setChatting] = useState(false)
     const [input, setInput] = useState('')
-    const [response, setResponse] = useState('Your Response will Appear here!')
+    const [response, setResponse] = useState('Arona is thinking...')
     const {tokenStatus, userInfo, userTasks} = useTokenContext()
     /**
      * The current token and setter function to update it.
@@ -36,6 +38,8 @@ const ChatPage = () => {
     */
     const handleInput = async () => {
         if (removeSpaces(input) != '') {
+            setChatting(true)
+
             const model = 'model.tflearn'
             const dataToPost = {
                 method: 'POST',
@@ -53,9 +57,7 @@ const ChatPage = () => {
                     console.log(res.statusText)
                 }
             })
-            .then(reply => {
-                setResponse('')
-                
+            .then(reply => {      
                 const output = reply.response
                 setResponse(output)
                 setInput('')
@@ -84,21 +86,26 @@ const ChatPage = () => {
     return (
         <>
             <NavBar />
-            <h1>ChatBot</h1>
-            <div className="container" id="responsebox">{response}</div>
-            <input 
-                className="container" 
-                id="chatbox" 
-                onChange={(e) => setInput(e.target.value)} 
-                value={input} 
-                placeholder="Enter an Input"
-                onKeyDown={(e) => {
-                    if (e.key == 'Enter') {
-                        handleInput()
-                    }
-                }}
-                >
-            </input>
+            <h1>Arona???</h1>
+
+            <label className="container">
+                <input 
+                    id="chatbox" 
+                    onChange={(e) => setInput(e.target.value)} 
+                    value={input} 
+                    placeholder="Enter an Input"
+                    onKeyDown={(e) => {
+                        if (e.key == 'Enter') {
+                            handleInput()
+                        }
+                    }}
+                    >
+                </input>
+                <span className="border"></span>
+            </label>
+
+            <AIBox response={response} setResponse={setResponse} chatting={chatting} setChatting={setChatting}/>
+
         </>
     )
 }

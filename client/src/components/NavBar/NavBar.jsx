@@ -46,7 +46,7 @@ const NavBar = () => {
                     <li><Link to="/" className="navBarLinks">Assistant AI</Link></li>
                     {token && <li><Link to={token ? "/tasks" : "/login"} className="navBarLinks">My Tasks</Link></li>}
                     {token && <li><Link to={token ? "/reminder" : "/login"} className="navBarLinks">Reminder</Link></li>}
-                    {token && <li><Link to={token ? "/ChatPage" : "/login"} className="navBarLinks">ChatBot</Link></li>}
+                    {token && <li><Link to={token ? "/ChatPage" : "/login"} className="navBarLinks">Totally Not Arona</Link></li>}
                 </ul>
             </div>
             <UserInfo/>

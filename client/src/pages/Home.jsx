@@ -170,6 +170,15 @@ const Home = () => {
      */
     const priorityTasks = uncompletedTasks.sort(compareTasksPriority)
 
+    /**
+     * Dummy function that returns nothing.
+     * @param {*} dummy Dummy argument.
+     * @returns absolutely nothing.
+     */
+    const dummyFunction = (dummy) => {
+        return
+    }
+
     return (
         <>
             <NavBar />
@@ -204,7 +213,7 @@ const Home = () => {
                                     </div>
                                 </div>
 
-                                <AIBox />
+                                <AIBox chatting={false} setChatting={dummyFunction}/>
 
                             </div>
                             )}

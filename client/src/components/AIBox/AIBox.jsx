@@ -9,7 +9,7 @@ import avatarImg from '../../../../images/TempAvatar.png'
  * @component
  * @returns {ReactNode} A React element that renders the AI assistant.
  */
-const AIBox = () => {
+const AIBox = ({response, setResponse, chatting, setChatting}) => {
     const {tokenStatus, userInfo} = useTokenContext()
 
     /**
@@ -68,24 +68,40 @@ const AIBox = () => {
 
     /**
      * @function useEffect
-     * @description Sets the AI assistant's chat bubble with a random dialogue at random intervals.
+     * @description If not chatting, sets the AI assistant's chat bubble with a random dialogue at random intervals.
      */
     useEffect(() => {
-        let popUpTimer = setInterval(fetchVoiceLine, randIntervalGenerator())
+        if (!chatting) {
+            let popUpTimer = setInterval(fetchVoiceLine, randIntervalGenerator())
         
-        function fetchVoiceLine() {
-            const newRand = randIntervalGenerator()  
+            function fetchVoiceLine() {
+                const newRand = randIntervalGenerator()  
 
-            setDialogue(getRandomVoiceLine())
+                setDialogue(getRandomVoiceLine())
 
-            clearInterval(popUpTimer)
-            popUpTimer = setInterval(fetchVoiceLine, newRand) 
+                clearInterval(popUpTimer)
+                popUpTimer = setInterval(fetchVoiceLine, newRand) 
+            }
+
+            return () => {
+                clearInterval(popUpTimer)
+            }
+        } else {
+            const idleTimeOut = setTimeout(handleIdleTimeOut, 10000)
         }
+    }, [chatting])
 
-        return () => {
-            clearInterval(popUpTimer)
-        }
-    }, [])
+    const handleIdleTimeOut = () => {
+        setResponse('Thanks for chatting with me!')
+        setTimeout(stopChatting, 5000)
+    }  
+    
+    /**
+     * Stops chatting with the assistant.
+     */
+    const stopChatting = () => {
+        setChatting(false)
+    }
 
     /**
      * @function useEffect
@@ -95,7 +111,8 @@ const AIBox = () => {
         const AIBox = document.getElementById('AIBox')
         if (AIBox) {
             AIBox.addEventListener('click', () => {
-                setDialogue(getRandomVoiceLine())
+                setChatting(false)
+                setDialogue(getRandomVoiceLine()) 
             })
         } else {
             console.log('AIBox does not exist.')
@@ -115,7 +132,7 @@ const AIBox = () => {
         <>
             <div className="invisibleBox">
                 <div className="AIBox" id="AIBox">
-                    <p>{dialogue}</p>
+                    <p>{chatting? response : dialogue}</p>
                 </div>
             </div>
             <img src={avatarImg} id="assistantAvatar"/>
