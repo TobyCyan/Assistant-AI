@@ -15,7 +15,7 @@ import AIBox from '../components/AIBox/AIBox.jsx';
  * @returns {ReactNode} A React element that renders the home page.
  */
 const Home = () => {
-    const {tokenStatus, userInfo} = useTokenContext()
+    const {tokenStatus, userInfo, userTasks} = useTokenContext()
     /**
      * The current token and setter function to update it.
      * @type {[string, function]}
@@ -32,7 +32,7 @@ const Home = () => {
      * The current user tasks and setter function to update it.
      * @type {[Array<Object>, function]}
      */
-    const [tasks, setTasks] = useState([])
+    const [tasks, setTasks] = userTasks
 
     /**
      * Filters the uncompleted task and sort them by the deadline.
@@ -60,99 +60,6 @@ const Home = () => {
         type: "del",
         data: null,
     })
-
-    /**
-     * @function useEffect
-     * @description On First Load, Get User Info and User Tasks if there is token.
-     */
-    useEffect(() => {
-        if(token) {
-            localStorage.setItem('token', token);
-            setToken(token)
-            getUserInfo()
-            getUserTasks()
-        }
-    }, [])
-
-    /**
-     * @function useEffect
-     * @description Get User Info and User Tasks if there is token
-     */
-    useEffect(() => {
-        if (token) {
-            console.log("Token Set")
-            localStorage.setItem('token', token);
-            getUserInfo();
-            getUserTasks();
-        }
-    }, [token]);
-
-    /** 
-     * Async GET method to get user tasks.
-     * @async
-     * @returns {Promise<void>} A promise that gets the current user's tasks.
-     * @throws {Error} Throws an error if getting user tasks fails.
-     */
-    const getUserTasks = async () => {
-        const dataToPost = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        };
-
-        try {
-            const res = await fetch('http://localhost:5001/Tasks', dataToPost)
-            if(res.ok) {
-                console.log("Tasks successfully retrieved")
-            } else {
-                console.log("Invalid User/Tasks")
-            }
-
-            const data = await res.json()
-            if(data) {
-                console.log('Type of Tasks: ' + typeof data.tasks + ', Tasks: ' + data.tasks + ', isArray? ' + Array.isArray(data.tasks))
-                setTasks(data.tasks)
-                console.log(data.tasks)
-            }
-        } catch (error) {
-            console.error('Failed to Fetch Tasks!', error)
-        }
-    }
-
-    /** 
-     * Async GET method to get user data.
-     * @async
-     * @returns {Promise<void>} A promise that gets the current user's data.
-     * @throws {Error} Throws an error if getting user data fails.
-     */
-    const getUserInfo = async () => {
-        const dataToPost = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        };
-
-        try {
-            const res = await fetch('http://localhost:5001/GetUserInfo', dataToPost)
-            if(res.ok) {
-                console.log("UserInfo successfully retrieved")
-            } else {
-                console.log("Invalid User/Info")
-            }
-
-            const data = await res.json()
-            if(data) {
-                console.log(data)
-                setUserData(data)
-            }
-        } catch (error) {
-            console.error('Failed to Fetch User Info!', error)
-        }
-    }
 
     /**
      * Closes the Add Edit Task Modal.
@@ -318,7 +225,6 @@ const Home = () => {
                     type={addEditModalOpen.type}
                     taskData={addEditModalOpen.data}
                     onClose={closeAddEditModal}
-                    getAllTasks={getUserTasks}
                 />
             </Modal>
             <Modal
@@ -336,8 +242,6 @@ const Home = () => {
                     type={compDelModalOpen.type}
                     taskData={compDelModalOpen.data}
                     onClose={closeCompDelModal}
-                    getAllTasks={getUserTasks}
-                    getUserInfo={getUserInfo}
                 />
             </Modal>
         </>

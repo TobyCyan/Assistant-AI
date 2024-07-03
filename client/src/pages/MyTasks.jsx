@@ -8,7 +8,6 @@ import AddEditTasks from "../components/Tasks/AddEditTasks";
 import CompleteDeleteTasks from "../components/Tasks/CompleteDeleteTasks";
 import {compareTasksDeadline} from "../utilities/utilities.js";
 import Modal from 'react-modal';
-import { parseToken } from './Login.jsx';
 
 /**
  * A Functional React component that displays all user tasks based on their categories, level of priority and completion status, and allows user to perform task operations such as add, edit, complete, uncomplete and delete.
@@ -16,13 +15,40 @@ import { parseToken } from './Login.jsx';
  * @returns {ReactNode} A React element that renders lists of tasks based on category, priority level and state of completion.
  */
 function MyTasks() {
-    const {tokenStatus, userInfo} = useTokenContext()
+    const {tokenStatus, userInfo, userTasks} = useTokenContext()
+    /**
+     * The current token and setter function to update it.
+     * @type {[string, function]}
+     */
     const [token, setToken] = tokenStatus
+
+    /**
+     * The current user data and setter function to update it.
+     * @type {[Object, function]}
+     */
     const [userData, setUserData] = userInfo
-    const [tasks, setTasks] = useState([])
+
+    /**
+     * The current user tasks and setter function to update it.
+     * @type {[Array<Object>, function]}
+     */
+    const [tasks, setTasks] = userTasks
+
+    /**
+     * The current user tasks being displayed and setter function to update it.
+     * @type {[Array<Object>, function]}
+     */
     const [displayTasks, setDisplayTasks] = useState(tasks)
+
+    /**
+     * The current filter type and setter function to update it.
+     * @type {[string, function]}
+     */
     const [filter, setFilter] = useState('All')
 
+    useEffect(() => {
+        console.log('token is: ' + token)
+    }, [])
     /**
      * The current state of AddEditModal and setter function to update it.
      * @type {[Object, function]}
@@ -45,37 +71,13 @@ function MyTasks() {
 
     /** 
      * @function useEffect
-     * @description Set User Data if there is token.
-     */
-    useEffect(() => {
-        if (token) {
-            setToken(token)
-            const tokenData = parseToken(token)
-            setUserData({username: tokenData[0], userId: tokenData[1]})
-        }
-    }, [])
-
-    /** 
-     * @function useEffect
-     * @description Get User Info and User Tasks if there is token.
-     */
-    useEffect(() => {
-        if (token) {
-            console.log("Token Set")
-            localStorage.setItem('token', token);
-            getUserInfo();
-            getUserTasks();
-        }
-    }, [token]);
-
-    /** 
-     * @function useEffect
      * @description Sort the tasks by deadline, set the tasks to display and filter the tasks if there is any changes to the user tasks.
      */
     useEffect(() => {
         tasks.sort(compareTasksDeadline)
         setDisplayTasks(tasks)
         filterTasks(filter)
+        console.log('tasks: ' + JSON.stringify(tasks))
     }, [tasks]);
 
     /** 
@@ -139,6 +141,7 @@ function MyTasks() {
      */
     const filterTasks = (value) => {
         if(value === 'All') {
+            console.log('uncompleted: ' + uncompletedTasks)
             setDisplayTasks(uncompletedTasks)
         } else if (value === 'Completed') {
             setDisplayTasks(tasks.filter(each => each.completed))
@@ -197,74 +200,6 @@ function MyTasks() {
             type: "uncomp",
             data: taskData,
         })
-    }
-
-    /** 
-     * Async GET method to get user tasks.
-     * @async
-     * @returns {Promise<void>} A promise that gets the current user's tasks.
-     * @throws {Error} Throws an error if getting user tasks fails.
-     */
-    const getUserTasks = async () => {
-        const dataToPost = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        };
-
-        try {
-            const res = await fetch('http://localhost:5001/Tasks', dataToPost)
-            if(res.ok) {
-                console.log("Tasks successfully retrieved")
-            } else {
-                console.log("Invalid User/Tasks")
-            }
-
-            const data = await res.json()
-            if(data) {
-                console.log('Type of Tasks: ' + typeof data.tasks + ', Tasks: ' + data.tasks + ', isArray? ' + Array.isArray(data.tasks))
-                console.log(data.tasks[0])
-                setTasks(data.tasks)
-                setDisplayTasks(tasks)
-            }
-        } catch (error) {
-            console.error('Failed to Fetch Tasks!', error)
-        }
-    }
-
-    /** 
-     * Async GET method to get user info.
-     * @async
-     * @returns {Promise<void>} A promise that gets the current user's info.
-     * @throws {Error} Throws an error if getting user info fails.
-     */
-    const getUserInfo = async () => {
-        const dataToPost = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        };
-
-        try {
-            const res = await fetch('http://localhost:5001/GetUserInfo', dataToPost)
-            if(res.ok) {
-                console.log("UserInfo successfully retrieved")
-            } else {
-                console.log("Invalid User/Info")
-            }
-
-            const data = await res.json()
-            if(data) {
-                console.log(data)
-                setUserData(data)
-            }
-        } catch (error) {
-            console.error('Failed to Fetch User Info!', error)
-        }
     }
 
     /**
@@ -333,7 +268,6 @@ function MyTasks() {
                     type={addEditModalOpen.type}
                     taskData={addEditModalOpen.data}
                     onClose={closeAddEditModal}
-                    getAllTasks={getUserTasks}
                 />
             </Modal>
             <Modal
@@ -353,8 +287,6 @@ function MyTasks() {
                     type={compDelModalOpen.type}
                     taskData={compDelModalOpen.data}
                     onClose={() => closeCompDelModal()}
-                    getAllTasks={getUserTasks}
-                    getUserInfo={getUserInfo}
                 />
             </Modal>
         </>

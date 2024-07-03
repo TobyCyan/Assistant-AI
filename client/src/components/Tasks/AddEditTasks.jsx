@@ -7,13 +7,30 @@ import RenderError from '../RenderError/RenderError';
  * @component
  * @param {Object} taskData The data of the current task.
  * @param {string} type The type of operation - add or edit.
- * @param {function} getAllTasks fetch request to get all user tasks.
  * @param {function} onClose Function to close the modal.
  * @returns {ReactNode} A React element that renders the AddEditTasks modal.
  */
-const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
-    const {tokenStatus} = useTokenContext()
+const AddEditTasks = ({taskData, type, onClose}) => {
+    const {tokenStatus, userInfo, userTasks} = useTokenContext()
+
+    /**
+     * The current token and setter function to update it.
+     * @type {[string, function]}
+     */
     const [token, setToken] = tokenStatus
+
+    /**
+     * The current user data and setter function to update it.
+     * @type {[Object, function]}
+     */
+    const [userData, setUserData] = userInfo
+
+    /**
+     * The current user tasks and setter function to update it.
+     * @type {[Array<Object>, function]}
+     */
+    const [tasks, setTasks] = useState([])
+
 
     /**
      * The current task title and setter function to update it.
@@ -108,7 +125,6 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
             setPriority('')
             setReminderDate('')
             //setReminderTime('')
-            getAllTasks()
             onClose()
         })
         .catch(err => {
@@ -165,7 +181,6 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
             }
         })
         .then(task => {
-            getAllTasks()
             onClose()
         })
         .catch(err => {

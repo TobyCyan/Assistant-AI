@@ -20,6 +20,12 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
      */
     const [token, setToken] = tokenStatus
 
+    /**
+     * The current user data and setter function to update it.
+     * @type {[Object, function]}
+     */
+    const [userData, setUserData] = userInfo
+
     /** 
      * Get the Difference between Current Time and Deadline Time.
      * @param {Object} task The task data.
@@ -101,7 +107,7 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
                 console.log(`Task successfully completed, user gained ${toEarn} points!`)
             }
             getAllTasks()
-            getUserInfo()
+            getUserInfo(token, setUserData, 'hey')
             onClose()
         } catch (error) {
             console.error('Failed to Complete task!', error)
@@ -131,7 +137,7 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
                 console.log("Task successfully uncompleted")
             }
             getAllTasks()
-            getUserInfo()
+            getUserInfo(token, setUserData, 'completetask')
             onClose()
         } catch (error) {
             console.error('Failed to uncomplete task!', error)

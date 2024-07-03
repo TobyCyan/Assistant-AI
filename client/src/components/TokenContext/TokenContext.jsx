@@ -17,6 +17,7 @@ export const TokenProvider = (props) => {
         dateOfBirth: null,
         points: null,
     })
+    const [tasks, setTasks] = useState([])
 
     // Debugging for token.
     useEffect(() => {
@@ -39,6 +40,7 @@ export const TokenProvider = (props) => {
         value={{
             tokenStatus: [token, setToken], 
             userInfo: [userData, setUserData],
+            userTasks: [tasks, setTasks]
         }}>
             {props.children}
         </TokenContext.Provider>

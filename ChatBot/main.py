@@ -168,15 +168,16 @@ def predict_behavior_type_from_prompt(prompt, model):
 
 @app.route('/startchat', methods=['POST'])
 def start_chat():
-    data = request.json
-    chatText = data['chatText']
+    data = request.get_json()
+    print(data)
+    chatText = data['input']
     model_name = data['model']
 
-    print('Type bye, quit, leave or stop to stop chatting!')
     quit_prompt = ['q', 'bye', 'quit', 'leave', 'stop']
 
     if chatText.lower() in quit_prompt:
         return jsonify({'response': 'Goodbye!'})
+    
     model = load_model(model_name, training, output)
     prompt_behavior_type = predict_behavior_type_from_prompt(chatText, model)
 
@@ -188,10 +189,9 @@ def start_chat():
     response = responseArr[int(rand * (len(responseArr) - 1))]
 
     if prompt_behavior_type == 'Weather':
-        print('Weather')
-        return jsonify({'response': response, 'code_name': 'Weather'})
-
-    return jsonify({'response': response})
+        return jsonify({'response': response, 'code_name': 'Weather', 'type': prompt_behavior_type})
+    
+    return jsonify({'response': response, 'type': prompt_behavior_type})
     
 training, output, input_words, behavior_types = prepare_training_input_and_output()
 

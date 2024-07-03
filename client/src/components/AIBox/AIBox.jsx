@@ -2,6 +2,7 @@ import React, { useEffect, useState, ReactNode } from "react";
 import '../../index.css'
 import voice_lines from "../../../../ChatBot/static/js/medium";
 import { useTokenContext } from "../TokenContext/TokenContext";
+import avatarImg from '../../../../images/TempAvatar.png'
 
 /**
  * A React component that displays the region where the AI assistant can be seen, this includes the assistant itself and any dialogues.
@@ -117,6 +118,7 @@ const AIBox = () => {
                     <p>{dialogue}</p>
                 </div>
             </div>
+            <img src={avatarImg} id="assistantAvatar"/>
         </>
     )
 }
