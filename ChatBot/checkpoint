@@ -1,2 +1,2 @@
-model_checkpoint_path: "C:\\Users\\ernes\\OneDrive\\Documents\\Godot Game Projects\\temp\\ChatBot\\model.tflearn"
-all_model_checkpoint_paths: "C:\\Users\\ernes\\OneDrive\\Documents\\Godot Game Projects\\temp\\ChatBot\\model.tflearn"
+model_checkpoint_path: "C:\\Users\\ernes\\OneDrive\\Documents\\Godot Game Projects\\temp\\Assistant-AI\\ChatBot\\model.tflearn"
+all_model_checkpoint_paths: "C:\\Users\\ernes\\OneDrive\\Documents\\Godot Game Projects\\temp\\Assistant-AI\\ChatBot\\model.tflearn"

@@ -66,7 +66,7 @@ function PrivateRoutes() {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${localToken}`
             }
         };
 
@@ -79,13 +79,14 @@ function PrivateRoutes() {
             }
 
             const data = await res.json()
+            console.log('data: ' + data)
             if(data) {
                 console.log('Type of Tasks: ' + typeof data.tasks + ', Tasks: ' + data.tasks + ', isArray? ' + Array.isArray(data.tasks))
                 setTasks(data.tasks)
                 console.log(data.tasks)
             }
-        } catch (error) {
-            console.error('Failed to Fetch Tasks!', error)
+        } catch (err) {
+            console.error('Failed to Fetch Tasks!', err)
         }
     }
 
@@ -101,7 +102,7 @@ function PrivateRoutes() {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${localToken}`
             }
         };
 
@@ -118,8 +119,8 @@ function PrivateRoutes() {
                 console.log(data)
                 setUserData(data)
             }
-        } catch (error) {
-            console.error('Failed to Fetch User Info!', error)
+        } catch (err) {
+            console.error('Failed to Fetch User Info!', err)
         }
     }
 

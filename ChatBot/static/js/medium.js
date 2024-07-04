@@ -1,5 +1,3 @@
-import { getCurrentPositionWeather } from "../API Calls/weather.js"
-
 export const voice_lines = [
     'Hello!',
     'Aik Chun is very handsome!',
@@ -8,6 +6,19 @@ export const voice_lines = [
     'Blue Archive is peak.'
 ]
 
+const retrainbutton = document.getElementById('retrain')
+
+if (retrainbutton) {
+    retrainbutton.addEventListener('click', async () => {
+        try {
+            const response = await fetch('/retrain')
+            const message = await response.json()
+            console.log(message.message)
+        } catch (err) {
+            console.error('Error Retraining Bot: ', err)
+        }
+    })
+}
 
 export default voice_lines
 
@@ -68,9 +79,9 @@ export default voice_lines
 //     }
 // })
 
-function handleCodeName(code_name) {
-    if (code_name == 'Weather') {
-        getCurrentPositionWeather()
-        return
-    }
-}
+// function handleCodeName(code_name) {
+//     if (code_name == 'Weather') {
+//         getCurrentPositionWeather()
+//         return
+//     }
+// }

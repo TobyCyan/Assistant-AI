@@ -1,4 +1,4 @@
-import React, { useEffect, useState, ReactNode } from 'react'
+import React, { useEffect, useState, ReactNode, useRef } from 'react'
 import NavBar from "../components/NavBar/NavBar.jsx";
 import TasksBox from "../components/TasksBox/TasksBox";
 import Modal from 'react-modal';
@@ -6,8 +6,10 @@ import { useTokenContext } from "../components/TokenContext/TokenContext";
 import AddEditTasks from "../components/Tasks/AddEditTasks";
 import CompleteDeleteTasks from "../components/Tasks/CompleteDeleteTasks";
 import ProductivityBar from "../components/ProductivityBar/ProductivityBar.jsx";
-import {compareTasksPriority, compareTasksDeadline, calculateTaskProductivity} from "../utilities/utilities.js";
+import {isTodayBirthday, isTodayNextDayOfBirthday, compareTasksPriority, compareTasksDeadline, calculateTaskProductivity} from "../utilities/utilities.js";
 import AIBox from '../components/AIBox/AIBox.jsx';
+import BirthdayCard from '../components/Birthday/BirthdayCard.jsx';
+import BirthdayCardBackground from '../../../images/birthdaycardbackground.png'
 
 /**
  * A React component that displays the home page and a brief layout of the current user tasks, including the navigation bar, 4 task boxes, and the modal to add or edit tasks.
@@ -33,7 +35,7 @@ const Home = () => {
      * @type {[Array<Object>, function]}
      */
     const [tasks, setTasks] = userTasks
-
+    
     /**
      * Filters the uncompleted task and sort them by the deadline.
      * @type {Array<Object>} The list of uncompleted tasks sorted by deadline.
@@ -61,6 +63,14 @@ const Home = () => {
         data: null,
     })
 
+     /**
+     * The current state of BirthdayModal and setter function to update it.
+     * @type {[Object, function]}
+     */
+    const [birthdayModalOpen, setBirthdayModalOpen] = useState({
+        isShown: true
+    })
+    
     /**
      * Closes the Add Edit Task Modal.
      */
@@ -81,6 +91,13 @@ const Home = () => {
             type: "del",
             data: null,
         })
+    }
+
+    const closeBirthdayModal = () => {
+        setBirthdayModalOpen({
+            isShown: false
+        })
+        localStorage.setItem('birthdayShown', true)
     }
 
     /**
@@ -131,6 +148,15 @@ const Home = () => {
         })
     }
 
+    /**
+     * Open modal when it's the user's birthday.
+     */
+    const handleBirthday = () => {
+        setBirthdayModalOpen({
+            isShown: true,
+        })
+    }
+
     /** 
      * To compare current date.
      * @type {Date}
@@ -169,6 +195,47 @@ const Home = () => {
      * @type {Array<Object>}
      */
     const priorityTasks = uncompletedTasks.sort(compareTasksPriority)
+
+    /**
+     * @function useEffect
+     * @description Checks if birthdayShown exists in the local storage, sets it if not.
+     */
+    useEffect(() => {
+        const birthdayShownStored = localStorage.getItem('birthdayShown')
+
+        if (!birthdayShownStored) {
+            localStorage.setItem('birthdayShown', false)
+        }
+    }, [])
+
+    /**
+     * @function useEffect
+     * @description Checks whether today is user's birthday and shows the birthday card if it is.
+     */
+    useEffect(() => {
+        //const birthday = userData.dateOfBirth
+        const birthday = '2003-07-04T00:00:00.000Z'
+        if (!birthday) {
+            return
+        }
+
+        const birthdayShown = JSON.parse(localStorage.getItem('birthdayShown'))
+        if (isTodayBirthday(birthday) && !birthdayShown) {
+            handleBirthday()
+        }
+    }, [userData])
+
+    /**
+     * @function useEffect
+     * @description Resets birthdayShown state the next day after user's birthday.
+     */
+    useEffect(() => {
+        const birthday = userData.dateOfBirth
+        //const birthday = 'Thu Jul 03 2024 17:46:09 GMT+0800 (Malaysia Time)'
+        if (isTodayNextDayOfBirthday(birthday)) {
+            localStorage.setItem('birthdayShown', false)
+        }
+    }, [])
 
     /**
      * Dummy function that returns nothing.
@@ -213,7 +280,7 @@ const Home = () => {
                                     </div>
                                 </div>
 
-                                <AIBox chatting={false} setChatting={dummyFunction}/>
+                                <AIBox stylingCondition={'Home'} chatting={false} setChatting={dummyFunction}/>
 
                             </div>
                             )}
@@ -251,6 +318,20 @@ const Home = () => {
                     type={compDelModalOpen.type}
                     taskData={compDelModalOpen.data}
                     onClose={closeCompDelModal}
+                />
+            </Modal>
+            <Modal
+                isOpen = {birthdayModalOpen.isShown}
+                onRequestClose={closeBirthdayModal}
+                style={{
+                    overlay: {
+                        backgroundColor: "rgba(0, 0, 0, 0.2)"
+                    }
+                }}
+                className="BirthdayCardModal"
+                >
+                <BirthdayCard 
+                    onClose={closeBirthdayModal}
                 />
             </Modal>
         </>

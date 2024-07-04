@@ -23,6 +23,29 @@ export const getDDMMYY = (date) => {
 }
 
 /**
+ * Converts today's date string and a birthday date string into DDMM format, and compares them to see if they match.
+ * @param {string} birthday Birthday string to convert into DDMM format.
+ * @returns {boolean} true or false.
+ * @example
+ * // Returns false if today isn't 25th Febuary, else returns true.
+ * isDateBirthday('2003-02-25T00:00:00.000Z')
+ */
+export const isTodayBirthday = (birthday) => {
+    const todayDate = today.toISOString().split('T')[0]
+    const birthdayDate = birthday.split('T')[0]
+
+    const todayDateInDDMM = getDDMM(todayDate)
+    const birthdayDateInDDMM = getDDMM(birthdayDate)
+
+    return todayDateInDDMM == birthdayDateInDDMM
+}
+
+export const isTodayNextDayOfBirthday = (birthday) => {
+    const birthdayDate = new Date(birthday)
+    return getDaysDifference(birthdayDate, today) == 1
+}
+
+/**
  * Checks whether the given password is a strong password.
  * @param {string} password Password to check.
  * @returns {boolean} true or false.

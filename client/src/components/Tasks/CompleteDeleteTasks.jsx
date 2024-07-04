@@ -11,7 +11,7 @@ import React, { ReactNode } from 'react'
  * @param {function} onClose Function to close the modal.
  * @returns {ReactNode} A React element that renders the completing and deleting of user tasks.
  */
-const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}) => {
+const CompleteDeleteTasks = ({taskData, type, onClose}) => {
     const {tokenStatus, userInfo} = useTokenContext()
 
     /**
@@ -106,8 +106,8 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
             if(res.ok) {
                 console.log(`Task successfully completed, user gained ${toEarn} points!`)
             }
-            getAllTasks()
-            getUserInfo(token, setUserData, 'hey')
+            getUserTasks()
+            getUserInfo()
             onClose()
         } catch (error) {
             console.error('Failed to Complete task!', error)
@@ -136,8 +136,8 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
             if(res.ok) {
                 console.log("Task successfully uncompleted")
             }
-            getAllTasks()
-            getUserInfo(token, setUserData, 'completetask')
+            getUserTasks()
+            getUserInfo()
             onClose()
         } catch (error) {
             console.error('Failed to uncomplete task!', error)
@@ -166,7 +166,7 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
             if(res) {
                 console.log("Task successfully deleted")
                 const data = await res.json()
-                getAllTasks()
+                getUserTasks()
                 onClose()
             }
 
@@ -185,6 +185,74 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
             completeTask()
         } else {
             uncompleteTask()
+        }
+    }
+
+    /** 
+     * Async GET method to get user tasks.
+     * @async
+     * @returns {Promise<void>} A promise that gets the current user's tasks.
+     * @throws {Error} Throws an error if getting user tasks fails.
+     */
+    const getUserTasks = async () => {
+        const dataToPost = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        try {
+            const res = await fetch('http://localhost:5001/Tasks', dataToPost)
+            if(res.ok) {
+                console.log("Tasks successfully retrieved")
+            } else {
+                console.log("Invalid User/Tasks")
+            }
+
+            const data = await res.json()
+            if(data) {
+                console.log('Type of Tasks: ' + typeof data.tasks + ', Tasks: ' + data.tasks + ', isArray? ' + Array.isArray(data.tasks))
+                setTasks(data.tasks)
+                console.log(data.tasks)
+            }
+        } catch (error) {
+            console.error('Failed to Fetch Tasks!', error)
+        }
+    }
+
+    /** 
+     * Async GET method to get user data.
+     * @async
+     * @returns {Promise<void>} A promise that gets the current user's data.
+     * @throws {Error} Throws an error if getting user data fails.
+     */
+    const getUserInfo = async () => {
+
+        const dataToPost = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        try {
+            const res = await fetch('http://localhost:5001/GetUserInfo', dataToPost)
+            if(res.ok) {
+                console.log("UserInfo successfully retrieved")
+            } else {
+                console.log("Invalid User/Info")
+            }
+
+            const data = await res.json()
+            if(data) {
+                console.log(data)
+                setUserData(data)
+            }
+        } catch (error) {
+            console.error('Failed to Fetch User Info!', error)
         }
     }
 

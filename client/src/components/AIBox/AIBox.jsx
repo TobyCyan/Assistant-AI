@@ -9,7 +9,7 @@ import avatarImg from '../../../../images/TempAvatar.png'
  * @component
  * @returns {ReactNode} A React element that renders the AI assistant.
  */
-const AIBox = ({response, setResponse, chatting, setChatting}) => {
+const AIBox = ({stylingCondition, response, setResponse, chatting, setChatting}) => {
     const {tokenStatus, userInfo} = useTokenContext()
 
     /**
@@ -128,14 +128,17 @@ const AIBox = ({response, setResponse, chatting, setChatting}) => {
         return voice_lines[rand_index]
     }
 
+
     return (
         <>
-            <div className="invisibleBox">
-                <div className="AIBox" id="AIBox">
-                    <p>{chatting? response : dialogue}</p>
+            <div className={stylingCondition}>
+                <div className="invisibleBox">
+                    <div className="AIBox" id="AIBox">
+                        <p>{chatting? response : dialogue}</p>
+                    </div>
                 </div>
+                <img src={avatarImg} id="assistantAvatar"/>
             </div>
-            <img src={avatarImg} id="assistantAvatar"/>
         </>
     )
 }
