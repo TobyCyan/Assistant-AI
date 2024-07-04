@@ -12,6 +12,9 @@ import avatarImg from '../../../../images/TempAvatar.png'
 const AIBox = ({stylingCondition, response, setResponse, chatting, setChatting}) => {
     const {tokenStatus, userInfo} = useTokenContext()
 
+    useEffect(() => {
+        console.log(stylingCondition)
+    }, [])
     /**
      * The current user data and setter function to update it.
      * @type {[Object, function]}
@@ -137,7 +140,10 @@ const AIBox = ({stylingCondition, response, setResponse, chatting, setChatting})
                         <p>{chatting? response : dialogue}</p>
                     </div>
                 </div>
-                <img src={avatarImg} id="assistantAvatar"/>
+
+                <div className="assistantAvatarDiv">
+                    <img src={avatarImg} id="assistantAvatar"/>
+                </div>
             </div>
         </>
     )

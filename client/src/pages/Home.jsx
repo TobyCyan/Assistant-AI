@@ -68,7 +68,7 @@ const Home = () => {
      * @type {[Object, function]}
      */
     const [birthdayModalOpen, setBirthdayModalOpen] = useState({
-        isShown: true
+        isShown: false
     })
     
     /**

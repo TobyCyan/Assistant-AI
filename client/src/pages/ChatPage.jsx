@@ -1,9 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ReactNode } from "react";
 import NavBar from "../components/NavBar/NavBar.jsx";
 import { useTokenContext } from "../components/TokenContext/TokenContext";
 import getCurrentPositionWeather from "../../../ChatBot/static/API Calls/weather";
 import AIBox from "../components/AIBox/AIBox.jsx";
 
+/**
+ * A React component that displays the page where users can interact and chat with the AI Assistant.
+ * @component
+ * @returns {ReactNode} A React element that renders the chatbot page.
+ */
 const ChatPage = () => {
     const [chatting, setChatting] = useState(false)
     const [input, setInput] = useState('')
@@ -104,7 +109,7 @@ const ChatPage = () => {
                 <span className="border"></span>
             </label>
 
-            <AIBox response={response} setResponse={setResponse} chatting={chatting} setChatting={setChatting}/>
+            <AIBox stylingCondition={'ChatPage'} response={response} setResponse={setResponse} chatting={chatting} setChatting={setChatting}/>
 
         </>
     )

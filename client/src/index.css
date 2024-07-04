@@ -686,7 +686,7 @@ ul {
   justify-content: center;
 }
 
-.userDisplayBox, .AIbox {
+.userDisplayBox {
   /* border: 1px dotted #000; */
   height: 40%;
   width: 90%;
@@ -709,16 +709,26 @@ ul {
 }
 
 .invisibleBox {
-  height: 120px
+  height: 110px;
+  /* border: 1px solid red; */
+  z-index: 4;
 }
 
-.AIBox {
-  height: auto;
-  justify-content: center;
-  display: inline-block;
+.Home .invisibleBox {
   position: relative;
-  margin-left: auto;
-  margin-right: auto;
+  display: inline-block;
+}
+
+.ChatPage .invisibleBox {
+  position: absolute;
+  left: 25%;
+  top: 40%;
+  /* border: 2px solid blue; */
+}
+
+
+.AIBox {
+  justify-content: center;
   border: 10px solid rgb(11, 82, 187);
   border-radius: 20px;
   border-width: 4px;
@@ -731,22 +741,44 @@ ul {
   font-size: large;
   color: #000000;
   background-color: rgb(202, 240, 255);
-  opacity: 1;
+  z-index: 4;
+}
 
-  &:hover {
-    transform: scale(1.02);
-  }
+.AIBox:hover {
+  transform: scale(1.02);
+}
+
+#assistantAvatar {
+  z-index: 3;
+  border: 1px solid black;
+  border-radius: 50%;
+  pointer-events: none;
 }
 
 .Home #assistantAvatar {
-  height: auto;
-  width: 100%;
-  justify-content: center;
-  display: inline-block;
+  height: 200px;
+  width: 200px;
   position: relative;
-  margin-left: auto;
-  margin-right: auto;
-  pointer-events: none;
+  margin-top: 8px;
+}
+
+.ChatPage {
+  /* border: 1px solid black; */
+  position: relative;
+}
+
+.ChatPage #assistantAvatar {
+  height: 370px;
+  width: 350px;
+  top: 30%;
+  right: 20%;
+}
+
+.ChatPage .assistantAvatarDiv{
+  /* border: 1px solid red; */
+  width: 400px;
+  position: absolute;
+  left: 50%;
 }
 
 .fadeIn {
@@ -876,6 +908,7 @@ ul {
   display:inline-block;
   top: 550px;
   right: 100px;
+  pointer-events: none;
 }
 
 

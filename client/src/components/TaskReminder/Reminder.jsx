@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import RecognitionConfig from "./RecognitionConfig";
+import NavBar from "../NavBar/NavBar";
 
 export const Reminder = () => {
     const [texts, setTexts] = useState('')
@@ -59,6 +60,7 @@ export const Reminder = () => {
 
     return (
         <>
+        <NavBar />
         <button onClick={() => startStopListening()}>{!isListening? 'Start Listening' : 'Stop Listening'} </button>
         <div>{texts}</div>
         </>
