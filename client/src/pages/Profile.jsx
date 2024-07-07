@@ -1,0 +1,77 @@
+import React, {useEffect} from 'react';
+import NavBar from "../components/NavBar/NavBar.jsx";
+import TasksBox from "../components/TasksBox/TasksBox.jsx";
+import ProductivityBar from "../components/ProductivityBar/ProductivityBar.jsx";
+import AIBox from "../components/AIBox/AIBox.jsx";
+import Modal from "react-modal";
+import AddEditTasks from "../components/Tasks/AddEditTasks.jsx";
+import CompleteDeleteTasks from "../components/Tasks/CompleteDeleteTasks.jsx";
+import BirthdayCard from "../components/Birthday/BirthdayCard.jsx";
+import {useParams} from "react-router-dom";
+import {useState} from 'react'
+import {useTokenContext} from "../components/TokenContext/TokenContext.jsx";
+
+const Profile = () => {
+    const {tokenStatus, userInfo} = useTokenContext()
+    /**
+     * The current token and setter function to update it.
+     * @type {[string, function]}
+     */
+    const [token, setToken] = tokenStatus
+
+    /**
+     * The current user data and setter function to update it.
+     * @type {[Object, function]}
+     */
+    const [userData, setUserData] = userInfo
+    const {username} = useParams()
+    const [displayUser, setDisplayUserInfo] = useState(null)
+
+
+    /*
+    const getUserDataByUsername = async () => {
+        try {
+            const response = await fetch(`http://localhost:5001/${username}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('User not found');
+            }
+
+            const data = await response.json();
+            setDisplayUserInfo(data);
+            console.log(displayUser)
+        } catch (err) {
+            console.log(`Error getting by username`)
+        }
+    }
+
+    useEffect(() => {
+        getUserDataByUsername()
+    }, [username]);
+
+    */
+
+
+
+    return (
+        <>
+            <NavBar />
+            <div className="profileContainer">
+                <div className="profileBox">
+                    {displayUser?.username}
+                    {displayUser?.points}
+                    {displayUser?.dateOfBirth}
+                </div>
+                <div className="friendsBox">
+
+                </div>
+            </div>
+        </>
+    );
+}
+
+export default Profile;

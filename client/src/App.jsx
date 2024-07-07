@@ -6,6 +6,7 @@ import Login from "./pages/Login.jsx"
 import SignUp from "./pages/SignUp.jsx"
 import MyTasks from "./pages/MyTasks.jsx"
 import ChatPage from "./pages/ChatPage.jsx"
+import Profile from "./pages/Profile.jsx";
 import { Reminder } from './components/TaskReminder/Reminder.jsx';
 import PrivateRoutes from "./pages/PrivateRoutes/PrivateRoutes.jsx";
 
@@ -20,9 +21,10 @@ const routes = (
             <Route path="/signup" exact element={<SignUp />} />
             <Route element={<PrivateRoutes/>}>
                 <Route path="/" exact element={<Home />} />
-                <Route path="/tasks" exact element = {<MyTasks/>} />
+                <Route path="/tasks" exact element = {<MyTasks />} />
                 <Route path="/reminder" exact element={<Reminder />} />
                 <Route path="/ChatPage" exact element={<ChatPage />} />
+                <Route path="/:username" exact element={<Profile />} />
             </Route>
         </Routes>
     </BrowserRouter>
@@ -32,6 +34,7 @@ const routes = (
  * The React component of the web application.
  * @returns {ReactNode} A React element that renders all the available routes.
  */
+
 function App() {
     return (
         <div>

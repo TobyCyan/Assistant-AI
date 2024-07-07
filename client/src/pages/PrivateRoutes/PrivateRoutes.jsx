@@ -36,6 +36,8 @@ function PrivateRoutes() {
      */
     useEffect(() => {
         if (localToken) {
+            console.log(localToken)
+            console.log("Entering initial fetch")
             setToken(localToken)
             getUserInfo()
             getUserTasks()
@@ -54,7 +56,41 @@ function PrivateRoutes() {
             getUserTasks();
         }
     }, [token]);
-    
+
+    /**
+     * Async GET method to get user data.
+     * @async
+     * @returns {Promise<void>} A promise that gets the current user's data.
+     * @throws {Error} Throws an error if getting user data fails.
+     */
+    const getUserInfo = async () => {
+        console.log('Frontend getting user info!')
+        const dataToPost = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localToken}`
+            }
+        };
+
+        try {
+            const res = await fetch('http://localhost:5001/GetUserInfo', dataToPost)
+            if(res.ok) {
+                console.log("UserInfo successfully retrieved")
+            } else {
+                console.log("Invalid User/Info")
+            }
+
+            const data = await res.json()
+            if(data) {
+                console.log(data)
+                setUserData(data)
+            }
+        } catch (err) {
+            console.error('Failed to Fetch User Info!', err)
+        }
+    }
+
     /** 
      * Async GET method to get user tasks.
      * @async
@@ -87,40 +123,6 @@ function PrivateRoutes() {
             }
         } catch (err) {
             console.error('Failed to Fetch Tasks!', err)
-        }
-    }
-
-    /** 
-     * Async GET method to get user data.
-     * @async
-     * @returns {Promise<void>} A promise that gets the current user's data.
-     * @throws {Error} Throws an error if getting user data fails.
-     */
-    const getUserInfo = async () => {
-
-        const dataToPost = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localToken}`
-            }
-        };
-
-        try {
-            const res = await fetch('http://localhost:5001/GetUserInfo', dataToPost)
-            if(res.ok) {
-                console.log("UserInfo successfully retrieved")
-            } else {
-                console.log("Invalid User/Info")
-            }
-
-            const data = await res.json()
-            if(data) {
-                console.log(data)
-                setUserData(data)
-            }
-        } catch (err) {
-            console.error('Failed to Fetch User Info!', err)
         }
     }
 

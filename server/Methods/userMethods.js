@@ -83,6 +83,7 @@ const loginUser = async (req, res) => {
  * @param {*} res The response to the front-end.
  */
 const getUserInfo = async (req, res) => {
+    console.log('Backend getting user!')
     const { id } = req.user
 
     const findUser = await User.findOne(
@@ -108,10 +109,44 @@ const getUserInfo = async (req, res) => {
     }
 }
 
+/**
+ * Get user's info.
+ * @async
+ * @param {*} req The request from the front-end.
+ * @param {*} res The response to the front-end.
+ */
+const getUserInfoByUsername = async (req, res) => {
+    const username = req.params.username
+
+    const findUser = await User.findOne(
+        {
+            where: {
+                name: username
+            }
+        }
+    )
+
+    if(findUser) {
+        console.log(findUser)
+        const userDetails = {
+            username: findUser.name,
+            id: findUser.id,
+            dateOfBirth: findUser.dateOfBirth,
+            points: findUser.points
+        }
+        console.log(userDetails)
+        res.send(userDetails)
+    } else {
+        res.status(404).send('No Such User in DB')
+    }
+}
+
+
 
 module.exports = {
     addUser,
     loginUser,
-    getUserInfo
+    getUserInfo,
+    getUserInfoByUsername,
 }
 
