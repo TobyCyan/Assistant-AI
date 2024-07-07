@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react';
+import React, {ReactNode, useEffect} from 'react';
 import {useTokenContext} from "../../components/TokenContext/TokenContext.jsx";
 import {Navigate, Outlet} from 'react-router-dom'
 
@@ -10,6 +10,14 @@ import {Navigate, Outlet} from 'react-router-dom'
 function PrivateRoutes() {
     const {tokenStatus} = useTokenContext()
     const [token, setToken] = tokenStatus
+
+    const localToken = localStorage.getItem("token")
+
+    useEffect(() => {
+        if (localToken) {
+            setToken(localToken)
+        }
+    }, [])
 
     return (
         token ? <Outlet/> : <Navigate to="/login"/>
