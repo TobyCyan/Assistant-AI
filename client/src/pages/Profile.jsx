@@ -49,8 +49,10 @@ const Profile = () => {
     }
 
     useEffect(() => {
-        getUserDataByUsername()
-    }, [username]);
+        if(token) {
+            getUserDataByUsername()
+        }
+    }, [username, token]);
 
 
 
