@@ -43,7 +43,7 @@ app.get('/user/:username', authenticateToken(secretKey), getUserInfoByUsername)
 
 
 // Task-related Requests
-// Get User Tasks
+// Get User TaskModals
 app.get('/Tasks', authenticateToken(secretKey), getTasks)
 // Add Task
 app.post('/AddTask', authenticateToken(secretKey), addTask)

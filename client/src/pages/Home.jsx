@@ -1,10 +1,10 @@
 import React, { useEffect, useState, ReactNode, useRef } from 'react'
 import NavBar from "../components/NavBar/NavBar.jsx";
-import TasksBox from "../components/TasksBox/TasksBox";
+import TasksBox from "../components/TasksCardsAndBox/TasksBox";
 import Modal from 'react-modal';
 import { useTokenContext } from "../components/TokenContext/TokenContext";
-import AddEditTasks from "../components/Tasks/AddEditTasks";
-import CompleteDeleteTasks from "../components/Tasks/CompleteDeleteTasks";
+import AddEditTasks from "../components/TaskModals/AddEditTasks";
+import CompleteDeleteTasks from "../components/TaskModals/CompleteDeleteTasks";
 import ProductivityBar from "../components/ProductivityBar/ProductivityBar.jsx";
 import {isTodayBirthday, isTodayNextDayOfBirthday, compareTasksPriority, compareTasksDeadline, calculateTaskProductivity} from "../utilities/utilities.js";
 import AIBox from '../components/AIBox/AIBox.jsx';
@@ -57,7 +57,7 @@ const Home = () => {
 
     /**
      * @function useEffect
-     * @description Get User Info and User Tasks if there is token
+     * @description Get User Info and User TaskModals if there is token
      */
     useEffect(() => {
         if (token) {
@@ -86,19 +86,19 @@ const Home = () => {
         try {
             const res = await fetch('http://localhost:5001/Tasks', dataToPost)
             if(res.ok) {
-                console.log("Tasks successfully retrieved")
+                console.log("TaskModals successfully retrieved")
             } else {
-                console.log("Invalid User/Tasks")
+                console.log("Invalid User/TaskModals")
             }
 
             const data = await res.json()
             if(data) {
-                console.log('Type of Tasks: ' + typeof data.tasks + ', Tasks: ' + data.tasks + ', isArray? ' + Array.isArray(data.tasks))
+                console.log('Type of TaskModals: ' + typeof data.tasks + ', TaskModals: ' + data.tasks + ', isArray? ' + Array.isArray(data.tasks))
                 setTasks(data.tasks)
                 console.log(data.tasks)
             }
         } catch (error) {
-            console.error('Failed to Fetch Tasks!', error)
+            console.error('Failed to Fetch TaskModals!', error)
         }
     }
 
@@ -256,7 +256,7 @@ const Home = () => {
     const currentDate = new Date()
 
     /** 
-     * Array of Overdued Tasks.
+     * Array of Overdued TaskModals.
      * @type {Array<Object>}
      */
     const overduedTasks = uncompletedTasks.filter(each => {

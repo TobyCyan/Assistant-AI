@@ -25,7 +25,7 @@ function PrivateRoutes() {
 
     /**
      * @function useEffect
-     * @description Get User Info and User Tasks if there is token.
+     * @description Get User Info and User TaskModals if there is token.
      */
     useEffect(() => {
         if (token) {

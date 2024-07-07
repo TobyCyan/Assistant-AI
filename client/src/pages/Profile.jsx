@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
 import NavBar from "../components/NavBar/NavBar.jsx";
-import TasksBox from "../components/TasksBox/TasksBox.jsx";
+import TasksBox from "../components/TasksCardsAndBox/TasksBox.jsx";
 import ProductivityBar from "../components/ProductivityBar/ProductivityBar.jsx";
 import AIBox from "../components/AIBox/AIBox.jsx";
 import Modal from "react-modal";
-import AddEditTasks from "../components/Tasks/AddEditTasks.jsx";
-import CompleteDeleteTasks from "../components/Tasks/CompleteDeleteTasks.jsx";
+import AddEditTasks from "../components/TaskModals/AddEditTasks.jsx";
+import CompleteDeleteTasks from "../components/TaskModals/CompleteDeleteTasks.jsx";
 import BirthdayCard from "../components/Birthday/BirthdayCard.jsx";
 import {useParams} from "react-router-dom";
 import {useState} from 'react'
