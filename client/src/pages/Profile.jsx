@@ -10,6 +10,7 @@ import BirthdayCard from "../components/Birthday/BirthdayCard.jsx";
 import {useParams} from "react-router-dom";
 import {useState} from 'react'
 import {useTokenContext} from "../components/TokenContext/TokenContext.jsx";
+import {getDDMMYY} from "../utilities/utilities.js";
 
 const Profile = () => {
     const {tokenStatus, userInfo} = useTokenContext()
@@ -27,8 +28,6 @@ const Profile = () => {
     const {username} = useParams()
     const [displayUser, setDisplayUserInfo] = useState(null)
 
-
-    /*
     const getUserDataByUsername = async () => {
         try {
             const response = await fetch(`http://localhost:5001/${username}`, {
@@ -53,21 +52,30 @@ const Profile = () => {
         getUserDataByUsername()
     }, [username]);
 
-    */
-
 
 
     return (
         <>
             <NavBar />
             <div className="profileContainer">
-                <div className="profileBox">
-                    {displayUser?.username}
-                    {displayUser?.points}
-                    {displayUser?.dateOfBirth}
-                </div>
-                <div className="friendsBox">
-
+                <div className="profileInnerBox">
+                    <div className="userProfileBox">
+                        <div className="profilePic">
+                            To Shown Profile Pic
+                        </div>
+                        <div className="profileUsernameBox">
+                            {displayUser?.username}
+                        </div>
+                        <div className="profileDateOfBirthBox">
+                            {getDDMMYY(displayUser?.dateOfBirth)}
+                        </div>
+                        <div className="profilePointsBox">
+                            Points: {displayUser?.points}
+                        </div>
+                    </div>
+                    <div className="friendsBox">
+                        Friends
+                    </div>
                 </div>
             </div>
         </>
