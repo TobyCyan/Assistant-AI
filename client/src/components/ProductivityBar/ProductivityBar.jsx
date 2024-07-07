@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 
 /**
  * A React component that displays the user's productivity bar.
@@ -8,8 +8,8 @@ import React, { ReactNode } from 'react';
  */
 const ProductivityBar = ({percentage}) => {
     return (
-        <div className="productivityBar">
-            <div className="productivity" style={{ width: `${percentage}%` }}>
+        <div className="productivityBar" data-testid="productivity-bar">
+            <div className="productivity" data-testid="productivity" style={{ width: `${percentage > 100 ? 100 : percentage < 0 ? 0 : percentage}%` }}>
             </div>
         </div>
     );

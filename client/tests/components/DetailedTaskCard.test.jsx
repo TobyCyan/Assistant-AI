@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { beforeEach, vi } from 'vitest';
-import DetailedTaskCard from '../../src/components/Tasks/DetailedTaskCard.jsx';
+import DetailedTaskCard from '../../src/components/TasksCardsAndBox/DetailedTaskCard.jsx';
 
 
 describe('DetailedTaskCard Component', () => {

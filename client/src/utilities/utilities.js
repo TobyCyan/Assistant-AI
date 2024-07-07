@@ -213,3 +213,15 @@ export const calculateTaskProductivity = (tasks) => {
  */
 const today = new Date();
 
+
+/**
+ * A function that parses the JSON Web Token (JWT) and extracts the username and userId from it.
+ * @param {Object} token The JWT obtained from back-end to be parsed.
+ * @returns {[string, number]} Array of the username and userId.
+ */
+export const parseToken = (token) => {
+    const tokenPayload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))
+    const username = tokenPayload?.username
+    const userId = tokenPayload?.userId
+    return [username, userId]
+}

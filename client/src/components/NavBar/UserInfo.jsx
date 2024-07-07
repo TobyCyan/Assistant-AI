@@ -66,6 +66,15 @@ const UserInfo = () => {
         navigate("/SignUp")
     }
 
+    /**
+     *  To Profile Page if thereis
+     */
+    const onProfile = () => {
+        if (token) {
+            navigate(`/${username}`)
+        }
+    }
+
     /** 
      * Username, points and log out shown if user logged in, else sign up and login.
      */
@@ -73,8 +82,7 @@ const UserInfo = () => {
         if (token) {
             return (
                 <div className="userInfo">
-
-                    <div className="nameAndPoints">
+                    <div onClick={onProfile} className="nameAndPoints">
                         <p className="username">{username}</p>
                         <p className="points">{points} pts</p>
                     </div>

@@ -18,6 +18,7 @@ const secretKey = 'aSsiSTaNTAIiSAlwAYsHErEtOhelP020620241aM*$^0^'
 const addUser = require('./Methods/userMethods.js').addUser
 const loginUser = require('./Methods/userMethods.js').loginUser
 const getUserInfo = require('./Methods/userMethods.js').getUserInfo
+const getUserInfoByUsername = require('./Methods/userMethods.js').getUserInfoByUsername
 
 // User Methods
 const getTasks = require('./Methods/taskMethods.js').getTasks
@@ -34,12 +35,15 @@ app.post('/SignUp', addUser)
 // Post Request to Login User
 app.post('/Login', loginUser)
 
-// Post Request to Get All User Info
+// Get Request to Get All User Info
 app.get('/GetUserInfo', authenticateToken(secretKey), getUserInfo)
+
+// Get Request to get User Info by Username
+app.get('/user/:username', authenticateToken(secretKey), getUserInfoByUsername)
 
 
 // Task-related Requests
-// Get User Tasks
+// Get User TaskModals
 app.get('/Tasks', authenticateToken(secretKey), getTasks)
 // Add Task
 app.post('/AddTask', authenticateToken(secretKey), addTask)
