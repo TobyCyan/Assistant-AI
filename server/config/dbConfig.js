@@ -2,8 +2,8 @@
 
 module.exports = {
     host: 'localhost',
-    user: 'user',
-    password: '',
+    user: 'root',
+    password: 'Test1234',
     db: 'AssistantAI',
     dialect: 'mysql',
 
