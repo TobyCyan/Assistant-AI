@@ -11,7 +11,7 @@ import React, { ReactNode } from 'react'
  * @param {function} onClose Function to close the modal.
  * @returns {ReactNode} A React element that renders the completing and deleting of user tasks.
  */
-const CompleteDeleteTasks = ({taskData, type, onClose}) => {
+const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}) => {
     const {tokenStatus, userInfo} = useTokenContext()
 
     /**
@@ -21,12 +21,6 @@ const CompleteDeleteTasks = ({taskData, type, onClose}) => {
     const [token, setToken] = tokenStatus
 
     /**
-     * The current user data and setter function to update it.
-     * @type {[Object, function]}
-     */
-    const [userData, setUserData] = userInfo
-
-    /** 
      * Get the Difference between Current Time and Deadline Time.
      * @param {Object} task The task data.
      * @returns {number} The difference between current and deadline time.
@@ -40,7 +34,7 @@ const CompleteDeleteTasks = ({taskData, type, onClose}) => {
         return difference
     }
 
-    /** 
+    /**
      * Round up or down the given num.
      * @param {number} num The number to round up or down.
      * @returns {number} The rounded up or down number.
@@ -52,7 +46,7 @@ const CompleteDeleteTasks = ({taskData, type, onClose}) => {
         return decimalNum >= 0.5 ? numCeil : numFloor
     }
 
-    /** 
+    /**
      * Calculates the points based on the priority and difference between current time and deadline time.
      * @param {string} priotity The priority of the task - High, Medium, Low
      * @param {number} hours The difference in hours between current time and task deadline time.
@@ -71,7 +65,7 @@ const CompleteDeleteTasks = ({taskData, type, onClose}) => {
         return priorityMap[priority] + roundNum(hours / 24)
     }
 
-    /** 
+    /**
      * Calculate Points Earned from Completing the Task.
      * @returns {number} The task points.
      */
@@ -84,7 +78,7 @@ const CompleteDeleteTasks = ({taskData, type, onClose}) => {
         return differenceInHours < 0 ? 1 : priorityPoints + roundNum(differenceInHours * 0.25)
     }
 
-    /** 
+    /**
      * PUT Request to complete task.
      * @async
      * @returns {Promise<void>} A promise that completes the user task.
@@ -106,7 +100,7 @@ const CompleteDeleteTasks = ({taskData, type, onClose}) => {
             if(res.ok) {
                 console.log(`Task successfully completed, user gained ${toEarn} points!`)
             }
-            getUserTasks()
+            getAllTasks()
             getUserInfo()
             onClose()
         } catch (error) {
@@ -114,7 +108,7 @@ const CompleteDeleteTasks = ({taskData, type, onClose}) => {
         }
     }
 
-    /** 
+    /**
      * PUT Request to uncomplete Task.
      * @async
      * @returns {Promise<void>} A promise to uncomplete a task.
@@ -136,7 +130,7 @@ const CompleteDeleteTasks = ({taskData, type, onClose}) => {
             if(res.ok) {
                 console.log("Task successfully uncompleted")
             }
-            getUserTasks()
+            getAllTasks()
             getUserInfo()
             onClose()
         } catch (error) {
@@ -144,7 +138,7 @@ const CompleteDeleteTasks = ({taskData, type, onClose}) => {
         }
     }
 
-    /** 
+    /**
      * DELETE Request to delete Task.
      * @async
      * @returns {Promise<void>} A promise that deletes a task.
@@ -166,7 +160,7 @@ const CompleteDeleteTasks = ({taskData, type, onClose}) => {
             if(res) {
                 console.log("Task successfully deleted")
                 const data = await res.json()
-                getUserTasks()
+                getAllTasks()
                 onClose()
             }
 
@@ -175,7 +169,7 @@ const CompleteDeleteTasks = ({taskData, type, onClose}) => {
         }
     }
 
-    /** 
+    /**
      * Select which operation to execute when confirming completing, uncompleting or deleting tasks.
      */
     const handleConfirm = () => {
@@ -185,74 +179,6 @@ const CompleteDeleteTasks = ({taskData, type, onClose}) => {
             completeTask()
         } else {
             uncompleteTask()
-        }
-    }
-
-    /** 
-     * Async GET method to get user tasks.
-     * @async
-     * @returns {Promise<void>} A promise that gets the current user's tasks.
-     * @throws {Error} Throws an error if getting user tasks fails.
-     */
-    const getUserTasks = async () => {
-        const dataToPost = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        };
-
-        try {
-            const res = await fetch('http://localhost:5001/Tasks', dataToPost)
-            if(res.ok) {
-                console.log("Tasks successfully retrieved")
-            } else {
-                console.log("Invalid User/Tasks")
-            }
-
-            const data = await res.json()
-            if(data) {
-                console.log('Type of Tasks: ' + typeof data.tasks + ', Tasks: ' + data.tasks + ', isArray? ' + Array.isArray(data.tasks))
-                setTasks(data.tasks)
-                console.log(data.tasks)
-            }
-        } catch (error) {
-            console.error('Failed to Fetch Tasks!', error)
-        }
-    }
-
-    /** 
-     * Async GET method to get user data.
-     * @async
-     * @returns {Promise<void>} A promise that gets the current user's data.
-     * @throws {Error} Throws an error if getting user data fails.
-     */
-    const getUserInfo = async () => {
-
-        const dataToPost = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        };
-
-        try {
-            const res = await fetch('http://localhost:5001/GetUserInfo', dataToPost)
-            if(res.ok) {
-                console.log("UserInfo successfully retrieved")
-            } else {
-                console.log("Invalid User/Info")
-            }
-
-            const data = await res.json()
-            if(data) {
-                console.log(data)
-                setUserData(data)
-            }
-        } catch (error) {
-            console.error('Failed to Fetch User Info!', error)
         }
     }
 

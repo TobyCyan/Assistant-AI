@@ -7,30 +7,13 @@ import RenderError from '../RenderError/RenderError';
  * @component
  * @param {Object} taskData The data of the current task.
  * @param {string} type The type of operation - add or edit.
+ * @param {function} getAllTasks fetch request to get all user tasks.
  * @param {function} onClose Function to close the modal.
  * @returns {ReactNode} A React element that renders the AddEditTasks modal.
  */
-const AddEditTasks = ({taskData, type, onClose}) => {
-    const {tokenStatus, userInfo, userTasks} = useTokenContext()
-
-    /**
-     * The current token and setter function to update it.
-     * @type {[string, function]}
-     */
+const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
+    const {tokenStatus} = useTokenContext()
     const [token, setToken] = tokenStatus
-
-    /**
-     * The current user data and setter function to update it.
-     * @type {[Object, function]}
-     */
-    const [userData, setUserData] = userInfo
-
-    /**
-     * The current user tasks and setter function to update it.
-     * @type {[Array<Object>, function]}
-     */
-    const [tasks, setTasks] = useState([])
-
 
     /**
      * The current task title and setter function to update it.
@@ -75,7 +58,7 @@ const AddEditTasks = ({taskData, type, onClose}) => {
      */
     const[error, setError] = useState('');
 
-    /** 
+    /**
      * POST Request to Add Task.
      * @async
      * @returns {Promise<void>} A promise that adds the user task.
@@ -107,32 +90,33 @@ const AddEditTasks = ({taskData, type, onClose}) => {
                 'Authorization': `Bearer ${token}`
             }
         };
-        
+
         fetch('http://localhost:5001/AddTask', dataToPost)
-        .then(res => {
-            if (res.ok) {
-                console.log('Task Successfully Added!')
-                return res.json()
-            } else {
-                console.error(err => 'Add Task Failed!', err)
-            }
-        })
-        .then(task => {
-            setTitle('')
-            setDescription('')
-            setCategory('')
-            setDeadline('')
-            setPriority('')
-            setReminderDate('')
-            //setReminderTime('')
-            onClose()
-        })
-        .catch(err => {
-            console.error('Error Adding Task: ', err.message)
-        })
+            .then(res => {
+                if (res.ok) {
+                    console.log('Task Successfully Added!')
+                    return res.json()
+                } else {
+                    console.error(err => 'Add Task Failed!', err)
+                }
+            })
+            .then(task => {
+                setTitle('')
+                setDescription('')
+                setCategory('')
+                setDeadline('')
+                setPriority('')
+                setReminderDate('')
+                //setReminderTime('')
+                getAllTasks()
+                onClose()
+            })
+            .catch(err => {
+                console.error('Error Adding Task: ', err.message)
+            })
     }
 
-    /** 
+    /**
      * POST Request to Edit Task.
      * @async
      * @returns {Promise<void>} A promise that edits the user task.
@@ -172,20 +156,21 @@ const AddEditTasks = ({taskData, type, onClose}) => {
         };
 
         await fetch('http://localhost:5001/EditTask', dataToPost)
-        .then(res => {
-            if (res.ok) {
-                console.log('Task Successfully Edited!')
-                return res.json()
-            } else {
-                console.error(err => 'Edit Task Failed!', err)
-            }
-        })
-        .then(task => {
-            onClose()
-        })
-        .catch(err => {
-            console.error('Error Editing Task: ', err.message)
-        })
+            .then(res => {
+                if (res.ok) {
+                    console.log('Task Successfully Edited!')
+                    return res.json()
+                } else {
+                    console.error(err => 'Edit Task Failed!', err)
+                }
+            })
+            .then(task => {
+                getAllTasks()
+                onClose()
+            })
+            .catch(err => {
+                console.error('Error Editing Task: ', err.message)
+            })
     }
 
     /**

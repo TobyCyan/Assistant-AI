@@ -39,7 +39,7 @@ app.post('/Login', loginUser)
 app.get('/GetUserInfo', authenticateToken(secretKey), getUserInfo)
 
 // Get Request to get User Info by Username
-app.get('/:username', getUserInfoByUsername)
+app.get('/user/:username', authenticateToken(secretKey), getUserInfoByUsername)
 
 
 // Task-related Requests

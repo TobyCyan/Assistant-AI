@@ -13,8 +13,8 @@ const {getTodayDate} = require('../utilities/utilities')
  */
 const getTasks = async (req, res) => {
     const { id } = req.user
+    console.log(id)
 
-    console.log('Backend getting tasks!')
     // Finds All Task Instances of the User.
     const tasks = await Tasks.findAll(
         {

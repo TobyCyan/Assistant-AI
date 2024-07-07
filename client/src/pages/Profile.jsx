@@ -30,7 +30,7 @@ const Profile = () => {
 
     const getUserDataByUsername = async () => {
         try {
-            const response = await fetch(`http://localhost:5001/${username}`, {
+            const response = await fetch(`http://localhost:5001/user/${username}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -56,25 +56,30 @@ const Profile = () => {
 
     return (
         <>
-            <NavBar />
+            <NavBar/>
             <div className="profileContainer">
                 <div className="profileInnerBox">
                     <div className="userProfileBox">
                         <div className="profilePic">
-                            To Shown Profile Pic
+                            {/* Add profile picture logic here */}
                         </div>
                         <div className="profileUsernameBox">
                             {displayUser?.username}
                         </div>
                         <div className="profileDateOfBirthBox">
-                            {getDDMMYY(displayUser?.dateOfBirth)}
+                            {displayUser && displayUser.dateOfBirth && getDDMMYY(displayUser.dateOfBirth)}
                         </div>
                         <div className="profilePointsBox">
                             Points: {displayUser?.points}
                         </div>
                     </div>
                     <div className="friendsBox">
-                        Friends
+                        <div className="currentFriendsBox">
+
+                        </div>
+                        <div className="friendRequestsBox">
+
+                        </div>
                     </div>
                 </div>
             </div>

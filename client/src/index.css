@@ -911,6 +911,70 @@ ul {
   pointer-events: none;
 }
 
+.profileContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full height of the viewport */
+}
+
+.profileInnerBox {
+  display: flex;
+  width: 80%;
+  max-width: 1200px;
+}
+
+.userProfileBox,
+.friendsBox {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid #ccc;
+  margin: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.userProfileBox .profilePic {
+  width: 100px;
+  height: 100px;
+  background-color: #eee;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  /* Add background image and other styling here */
+}
+
+.userProfileBox .profileUsernameBox,
+.userProfileBox .profileDateOfBirthBox,
+.userProfileBox .profilePointsBox {
+  margin: 10px 0;
+}
+
+.friendsBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.currentFriendsBox {
+  flex: 7;
+  overflow-y: auto;
+  border-bottom: 1px solid #ccc;
+}
+
+.friendRequestsBox {
+  flex: 3;
+  overflow-y: auto;
+}
+
+.friend,
+.friendRequest {
+  padding: 10px;
+  margin: 5px 0;
+  border-bottom: 1px solid #ccc;
+}
+
 
 /*
   Borders for visualisation

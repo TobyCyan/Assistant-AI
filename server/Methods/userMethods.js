@@ -83,8 +83,8 @@ const loginUser = async (req, res) => {
  * @param {*} res The response to the front-end.
  */
 const getUserInfo = async (req, res) => {
-    console.log('Backend getting user!')
     const { id } = req.user
+    console.log(id)
 
     const findUser = await User.findOne(
         {
@@ -117,6 +117,7 @@ const getUserInfo = async (req, res) => {
  */
 const getUserInfoByUsername = async (req, res) => {
     const username = req.params.username
+    console.log(username)
 
     const findUser = await User.findOne(
         {

@@ -9,7 +9,7 @@ import assistantImg from '../../../../images/arona_wave.png'
  * @returns {ReactNode} A React element that renders the birthday letter.
  */
 const BirthdayCard = ({onClose}) => {
-    const {tokenStatus, userInfo, userTasks} = useTokenContext()
+    const {tokenStatus, userInfo} = useTokenContext()
     /**
      * The current token and setter function to update it.
      * @type {[string, function]}
@@ -21,12 +21,6 @@ const BirthdayCard = ({onClose}) => {
      * @type {[Object, function]}
      */
     const [userData, setUserData] = userInfo
-
-    /**
-     * The current user tasks and setter function to update it.
-     * @type {[Array<Object>, function]}
-     */
-    const [tasks, setTasks] = userTasks
 
     return (
         <>
