@@ -72,7 +72,7 @@ const ChatPage = () => {
                 }
             })
             .catch(err => {
-                console.error('Error Getting a Response: ', err.message)
+                console.error('Error Getting a Response: ', err)
             })
         }
     }
@@ -81,8 +81,21 @@ const ChatPage = () => {
         console.log('handling: ' + code_name)
         if (code_name == 'Weather') {
             const weatherResponse = await getCurrentPositionWeather()
-            console.log(weatherResponse)
             setResponse(prev => prev + weatherResponse)
+            return
+        }
+        
+        if (code_name == 'AddTask') {
+            
+            return
+        }
+        
+        if (code_name == 'EditTask') {
+            return
+        }
+        
+        if (code_name == 'DeleteTask') {
+            return
         }
     }
     

@@ -163,6 +163,8 @@ def predict_behavior_type_from_prompt(prompt, model):
     
     output = model.predict(prompt_input)
     output_type_index = np.argmax(output[0])
+    if output[0][output_type_index] < 0.7:
+        return 'Unsure'
     
     return behavior_types[output_type_index]
 
@@ -181,6 +183,9 @@ def start_chat():
     model = load_model(model_name, training, output)
     prompt_behavior_type = predict_behavior_type_from_prompt(chatText, model)
 
+    if prompt_behavior_type == 'Unsure':
+        return handle_unsure_behavior()
+    
     index = behavior_types.index(prompt_behavior_type)
     behaviorTypeArr = behavior_data['behavior'][index]
 
@@ -192,7 +197,18 @@ def start_chat():
         return jsonify({'response': response, 'code_name': 'Weather', 'type': prompt_behavior_type})
     
     return jsonify({'response': response, 'type': prompt_behavior_type})
-    
+
+
+unsure_response = ["I'm not quite sure about the answer.", 
+                   "I don't understand, could you try asking something else?",
+                   "Sorry I'm not picking up what you are trying to say..."
+                   ]
+def handle_unsure_behavior():
+    rand = random.random()
+    response = unsure_response[int(rand * (len(unsure_response) - 1))]
+    return jsonify({'response': response, 'type': 'Unsure'})
+
+
 training, output, input_words, behavior_types = prepare_training_input_and_output()
 
 @app.route('/retrain')

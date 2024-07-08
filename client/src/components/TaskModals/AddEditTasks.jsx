@@ -92,28 +92,26 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
         };
 
         fetch('http://localhost:5001/AddTask', dataToPost)
-            .then(res => {
-                if (res.ok) {
-                    console.log('Task Successfully Added!')
-                    return res.json()
-                } else {
-                    console.error(err => 'Add Task Failed!', err)
-                }
-            })
-            .then(task => {
-                setTitle('')
-                setDescription('')
-                setCategory('')
-                setDeadline('')
-                setPriority('')
-                setReminderDate('')
-                //setReminderTime('')
-                getAllTasks()
-                onClose()
-            })
-            .catch(err => {
-                console.error('Error Adding Task: ', err.message)
-            })
+        .then(res => {
+            if (res.ok) {
+                console.log('Task Successfully Added!')
+                return res.json()
+            } else {
+                console.error(err => 'Add Task Failed!', err)
+            }
+        })
+        .then(task => {
+            setTitle('')
+            setDescription('')
+            setCategory('')
+            setDeadline('')
+            setPriority('')
+            setReminderDate('')
+            onClose()
+        })
+        .catch(err => {
+            console.error('Error Adding Task: ', err.message)
+        })
     }
 
     /**
