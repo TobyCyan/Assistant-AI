@@ -37,8 +37,9 @@ Our goal is to develop a task management application that helps users to organiz
 1.  Users are required to have the following installed: Node.js, Express.js, XAMPP, and MySQL
 2.  After cloning, users need to setup a MySQL database and configure it to the config folder by matching the name and password
 3.  Run the XAMPP control panel and click on the "start" button for both Apache and MySQL.
-4.  For running the frontend, users may change directory to /client and run "npm run dev".
-5.  For running the backend, users may change directory to /server and run "npm run dev".
+4.  Create a .env file in the root directory, and add a Secret_Key and PORT variable.
+5.  For running the frontend, users may change directory to /client and run "npm run dev".
+6.  For running the backend, users may change directory to /server and run "npm run dev".
 
 ### Project Scope
 
