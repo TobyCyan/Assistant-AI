@@ -34,10 +34,11 @@ Our goal is to develop a task management application that helps users to organiz
 
 ### User Guide
 
-1.  Users are required to have the following installed: Node.js, Express.js and MySQL
+1.  Users are required to have the following installed: Node.js, Express.js, XAMPP, and MySQL
 2.  After cloning, users need to setup a MySQL database and configure it to the config folder by matching the name and password
-3.  For running the frontend, users may run "npm run dev" from /client
-4.  For running the backend, users may run "npm run server" from /server
+3.  Run the XAMPP control panel and click on the "start" button for both Apache and MySQL.
+4.  For running the frontend, users may change directory to /client and run "npm run dev".
+5.  For running the backend, users may change directory to /server and run "npm run dev".
 
 ### Project Scope
 
@@ -202,3 +203,6 @@ Assistant AI is essentially a task management system with the help of a Virtual 
 ### Project Log
 
 [https://docs.google.com/spreadsheets/d/17HxSnRviubHJgGpeZq1HtBrLmgk7EVS24I_u2EfXtiA/edit?usp=sharing](https://docs.google.com/spreadsheets/d/17HxSnRviubHJgGpeZq1HtBrLmgk7EVS24I_u2EfXtiA/edit?usp=sharing)
+
+### Try It Yourself
+*   Please refer to the User Guide above to get started.
