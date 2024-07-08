@@ -1,12 +1,17 @@
 import React from 'react';
 import {getDDMM} from "../../utilities/utilities.js";
+import {useNavigate} from "react-router-dom";
+
+
 
 function FriendRequest({username, points, onAccept, onDelete}) {
+    const navigate = useNavigate()
+
     return (
         <li>
             <div key={username} className="request">
                 <div className="requestInnerBox">
-                    <div className="nameAndPointsBox">
+                    <div onClick={() => navigate(`/${username}`)} className="nameAndPointsBox">
                         <div className="friendName">
                             {username}
                         </div>

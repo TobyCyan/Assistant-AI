@@ -37,6 +37,12 @@ const SearchBar = () => {
         setUsername(event.target.value);
     };
 
+    const handleKeyDown = (event) => {
+        if(event.key === 'Enter') {
+            handleSearch()
+        }
+    }
+
     return (
         <div className="search-bar">
             <input
@@ -44,6 +50,7 @@ const SearchBar = () => {
                 placeholder="Enter username..."
                 value={username}
                 onChange={handleInputChange}
+                onKeyDown={handleKeyDown}
             />
             <button onClick={handleSearch}>
                 S

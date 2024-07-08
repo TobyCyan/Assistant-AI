@@ -1033,6 +1033,7 @@ ul {
   flex-direction: column;
   height:100%;
   align-items: flex-start;
+  cursor: pointer;
 }
 
 .friendName, .requestName {
@@ -1054,6 +1055,12 @@ ul {
   margin-left: 2px;
 }
 
+.requestActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+}
 
 /*
   Borders for visualisation

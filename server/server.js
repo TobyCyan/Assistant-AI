@@ -28,6 +28,13 @@ const deleteTask = require('./Methods/taskMethods.js').deleteTask
 const completeTask = require('./Methods/taskMethods.js').completeTask
 const unCompleteTask = require('./Methods/taskMethods.js').uncompleteTask
 
+// Friend Methods
+const getFriends = require('./Methods/friendshipMethods.js').getFriends
+const getFriendRequests = require('./Methods/friendshipMethods.js').getFriendRequests
+const createFriendRequest = require('./Methods/friendshipMethods.js').createFriendRequest
+const updateFriendRequest = require('./Methods/friendshipMethods.js').updateFriendRequest
+const deleteFriendRequest = require('./Methods/friendshipMethods.js').deleteFriendRequest
+
 // User Related Requests
 // Post Request to Add User
 app.post('/SignUp', addUser)
@@ -55,6 +62,18 @@ app.delete('/DeleteTask', authenticateToken(secretKey), deleteTask)
 app.put('/CompleteTask',  authenticateToken(secretKey), completeTask)
 // Uncomplete Task
 app.put('/UncompleteTask',  authenticateToken(secretKey), unCompleteTask)
+
+// Friendship-related requests
+// Get Method for friends
+app.get('/Friends', authenticateToken(secretKey), getFriends)
+// Get Method for sent / received friend requests
+app.get('/FriendRequests', authenticateToken(secretKey), getFriendRequests)
+//Post Method for new Friend Request
+app.post('/requests/:username', authenticateToken(secretKey), createFriendRequest)
+//Update Method for accept request
+app.put('/requests/:username', authenticateToken(secretKey), updateFriendRequest)
+//Delete Method for friend request
+app.delete('/request/:username', authenticateToken(secretKey), deleteFriendRequest)
 
 app.listen(port, () => {
     console.log('App is listening on port 5001.')

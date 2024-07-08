@@ -79,8 +79,12 @@ module.exports = (sequelize, DataTypes) => {
         tableName: 'task'
     })
 
-    /*
-    const Friendship = sequelize.define('Friendship', {
+    const Friendships = sequelize.define('Friendships', {
+        id : {
+            primaryKey: true,
+            autoIncrement: true,
+            type: DataTypes.INTEGER,
+        },
         relatingUser: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -108,7 +112,6 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         tableName: 'friendships'
     });
-     */
 
     // Defines a one-to-many relationship between a user and their tasks.
     User.hasMany(Tasks, {
@@ -117,19 +120,18 @@ module.exports = (sequelize, DataTypes) => {
 
     Tasks.belongsTo(User, {
         foreignKey: 'userId',
-    }
+    })
 
-    /*
-    User.belongsToMany(User, {
-        through: Friendship,
-        as: 'Friend',
+    Friendships.belongsTo(User, {
         foreignKey: 'relatingUser',
-        otherKey: 'relatedUser'
+        as: 'RelatingUser'
     });
-     */
 
-    )
+    Friendships.belongsTo(User, {
+        foreignKey: 'relatedUser',
+        as: 'RelatedUser'
+    });
 
     // Returns the 2 tables in an array.
-    return [User, Tasks]
+    return [User, Tasks, Friendships]
 }

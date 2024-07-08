@@ -2,14 +2,16 @@ import React from 'react';
 import FriendRequest from "./FriendRequest.jsx";
 
 function FriendReqsBox({friendRequests, onAccept, onDelete}) {
-    const requests = friendRequests?.map((request, index) =>
+    const requests = friendRequests?.map((request, index) => (
         <FriendRequest
             key = {index}
-            username={request.username}
+            username={request.name}
             points={request.points}
-            onAccept={onAccept}
-            onDelete={onDelete}
-        />)
+            onAccept={() => onAccept(request)}
+            onDelete={() => onDelete(request)}
+        />
+        )
+    )
 
     return (
         <div className="friendRequestsContainer">

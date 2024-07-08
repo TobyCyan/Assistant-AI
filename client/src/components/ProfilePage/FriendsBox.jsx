@@ -2,10 +2,11 @@ import React from 'react';
 import Friend from "./Friend.jsx";
 
 function FriendsBox({friendsToShow}) {
+    console.log(friendsToShow)
     const friends = friendsToShow?.map((friend, index) =>
         <Friend
             key = {index}
-            username={friend.username}
+            username={friend.name}
             points={friend.points}
         />)
 

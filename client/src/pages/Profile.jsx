@@ -1,12 +1,5 @@
 import React, {useEffect} from 'react';
 import NavBar from "../components/NavBar/NavBar.jsx";
-import TasksBox from "../components/TasksCardsAndBox/TasksBox.jsx";
-import ProductivityBar from "../components/ProductivityBar/ProductivityBar.jsx";
-import AIBox from "../components/AIBox/AIBox.jsx";
-import Modal from "react-modal";
-import AddEditTasks from "../components/TaskModals/AddEditTasks.jsx";
-import CompleteDeleteTasks from "../components/TaskModals/CompleteDeleteTasks.jsx";
-import BirthdayCard from "../components/Birthday/BirthdayCard.jsx";
 import {useParams} from "react-router-dom";
 import {useState} from 'react'
 import {useTokenContext} from "../components/TokenContext/TokenContext.jsx";
@@ -14,6 +7,9 @@ import {getDDMMYY} from "../utilities/utilities.js";
 import SearchBar from "../components/ProfilePage/SearchBar.jsx";
 import FriendReqsBox from "../components/ProfilePage/FriendReqsBox.jsx";
 import FriendsBox from "../components/ProfilePage/FriendsBox.jsx";
+import Modal from 'react-modal';
+import CompleteDeleteTasks from "../components/TaskModals/CompleteDeleteTasks.jsx";
+import RequestModal from "../components/ProfilePage/RequestModal.jsx";
 
 const Profile = () => {
     const {tokenStatus, userInfo} = useTokenContext()
@@ -31,23 +27,84 @@ const Profile = () => {
     const {username} = useParams()
     const [displayUser, setDisplayUserInfo] = useState(null)
 
+    const[requestModalOpen, setRequestModalOpen] = useState({
+        isShown: false,
+        type: "accept",
+        data: null,
+    })
+
+    /*
     const[friends, setFriends] = useState([{
-        username: 'Test',
+        name: 'Test',
         points: 0},
         {
-            username: 'Test2',
+            name: 'Test2',
             points: 1},
     ])
-    // const[friends, setFriends] = useState([])
+
+     */
+
+    /*
     const[friendReqs, setFriendReqs] = useState([{
-        username: 'Test',
+        name: 'Test',
         points: 0},
         {
-            username: 'Test2',
+            name: 'Test2',
             points: 1
         },
     ])
-    // const[friendReqs, setFriendReqs] = useState([])
+     */
+
+    const[friends, setFriends] = useState([])
+    const[friendReqs, setFriendReqs] = useState([])
+    const[sentReqs, setSentReqs] = useState([])
+
+
+    /**
+     * Opens the modal to create the  friend request.
+     * @param {Object} taskData Data of the selected task to delete.
+     */
+    /*
+    const handleNewFriendRequest = (requestData) => {
+        setRequestModalOpen({
+            isShown: true,
+            type: "add",
+            data: requestData,
+        })
+    }
+    */
+
+    /**
+     * Opens the modal to accept the friend request.
+     * @param {Object} requestData Data of the selected task to complete.
+     */
+    const handleAcceptFriendRequest = (requestData) => {
+        setRequestModalOpen({
+            isShown: true,
+            type: "accept",
+            data: requestData,
+        })
+    }
+
+    /**
+     * Opens the modal to delete the friend request.
+     * @param {Object} requestData Data of the selected task to uncomplete.
+     */
+    const handleDeleteFriendRequest = (requestData) => {
+        setRequestModalOpen({
+            isShown: true,
+            type: "delete",
+            data: requestData,
+        })
+    }
+
+    const closeRequestModal = () => {
+        setRequestModalOpen({
+            isShown: false,
+            type: "accept",
+            data: null,
+        })
+    }
 
     const getUserDataByUsername = async () => {
         try {
@@ -71,10 +128,10 @@ const Profile = () => {
         }
     }
 
-    /*
+
     const getUserFriends = async () => {
         try {
-            const res = await fetch('http://localhost:5001/user/friends', {
+            const res = await fetch('http://localhost:5001/Friends', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -86,20 +143,18 @@ const Profile = () => {
                 throw new Error('Friend cannot be retrieved')
             }
 
-            const data = await response.json()
-            setFriends(data)
+            const data = await res.json()
+            console.log('Array' + data.friends)
+            setFriends(data.friends)
             console.log(friends)
         } catch (err) {
             console.log("Error getting user friends")
         }
     }
 
-     */
-
-    /*
-    const getUserFriendReqs = async () => {
+    const getUserFriendRequests = async () => {
         try {
-            const res = await fetch('http://localhost:5001/user/requests', {
+            const res = await fetch('http://localhost:5001/FriendRequests', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -111,27 +166,32 @@ const Profile = () => {
                 throw new Error('Requests cannot be retrieved')
             }
 
-            const data = await response.json()
-            setFriendReqs(data)
-            console.log(friends)
+            const data = await res.json()
+            setFriendReqs(data.receivedRequests)
+            setSentReqs(data.sentRequests)
+            console.log(friendReqs)
+            console.log(sentReqs)
+            console.log('Successfully retrieved friend reqs!')
         } catch (err) {
             console.log("Error getting user friend requests")
         }
     }
 
-     */
 
-
-    const sendFriendReq = async () => {
+    const createFriendRequest = async () => {
         try {
-            const response = await fetch(`http://localhost:5001/friendReq/${username}`, {
+            const res = await fetch(`http://localhost:5001/requests/${username}`, {
                 method: 'POST',
-                body: JSON.stringify(displayUser.id),
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 }
             })
+
+            if(res.ok) {
+                console.log(`Friend request successfully sent!`)
+            }
+            getUserFriendRequests()
         } catch (err) {
             console.log("Error sending friend request")
         }
@@ -140,24 +200,33 @@ const Profile = () => {
 
     useEffect(() => {
         if(token) {
-            //getUserFriends()
-            //getUserFriendReqs()
+            getUserFriends()
+            getUserFriendRequests()
         }
     }, [])
 
     useEffect(() => {
         if(token) {
             getUserDataByUsername()
+            getUserFriends()
+            getUserFriendRequests()
         }
-    }, [username, token]);
+    }, [username, userData, token]);
 
     const isUser = displayUser?.username === userData?.username
+    const isFriend = friends.some(friend => friend.name === username)
+    const requestFrom = friendReqs.some(request => request.name === username)
+    const requestSent = sentReqs.some(request => request.name === username)
 
-    // const isFriend =
+    let friendStatus = null;
 
-    const addFriend = (<div className="addFriendBtn">
-        <button onClick={sendFriendReq}>Add Friend</button>
-    </div>)
+    const acceptRequest = (
+        <button onClick={handleAcceptFriendRequest}>Add Friend</button>
+)
+
+    const addFriend = (
+        <button onClick={createFriendRequest}>Add Friend</button>
+    )
 
     return (
         <>
@@ -177,21 +246,49 @@ const Profile = () => {
                         <div className="profilePointsBox">
                             Points: {displayUser?.points}
                         </div>
-                        {!isUser && addFriend}
+                        <div className="friendStatus">
+                            {isUser ? null : isFriend ? "Friends" : requestSent ? "Request sent!" : requestFrom ? acceptRequest : addFriend}
+                        </div>
                     </div>
                     <div className="socialBox">
                         <SearchBar/>
-                        <FriendsBox friendsToShow={friends}/>
+                        <FriendsBox
+                            key="Friends"
+                            friendsToShow={friends}
+                        />
                         <FriendReqsBox
+                            key="Friend Requests"
                             friendRequests={friendReqs}
-                            onAccept={() => {}}
-                            onDelete={() => {}}
+                            onAccept={handleAcceptFriendRequest}
+                            onDelete={handleDeleteFriendRequest}
                         />
                     </div>
                 </div>
             </div>
+            <Modal
+                isOpen={requestModalOpen.isShown}
+                onRequestClose={() => {
+                    closeRequestModal()
+                }}
+                style={{
+                    overlay: {
+                        backgroundColor: "rgba(0, 0, 0, 0.2)"
+                    },
+                }}
+                contentLabel=""
+                className="RequestModal"
+            >
+                <RequestModal
+                    request={requestModalOpen.data}
+                    type={requestModalOpen.type}
+                    onClose={closeRequestModal}
+                    getAllFriends={getUserFriends}
+                    getAllFriendRequests={getUserFriendRequests}
+                />
+            </Modal>
         </>
     );
+
 }
 
 export default Profile;
