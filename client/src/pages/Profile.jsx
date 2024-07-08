@@ -218,11 +218,9 @@ const Profile = () => {
     const requestFrom = friendReqs.some(request => request.name === username)
     const requestSent = sentReqs.some(request => request.name === username)
 
-    let friendStatus = null;
-
     const acceptRequest = (
-        <button onClick={handleAcceptFriendRequest}>Add Friend</button>
-)
+        <button onClick={() => handleAcceptFriendRequest(friendReqs.find(request => request.name === username))}>Accept Request</button>
+    )
 
     const addFriend = (
         <button onClick={createFriendRequest}>Add Friend</button>
@@ -235,7 +233,7 @@ const Profile = () => {
             <div className="profileInnerBox">
                     <div className="userProfileBox">
                         <div className="profilePic">
-                            {/* Add profile picture logic here */}
+                            {/* To Add Profile Pic? */}
                         </div>
                         <div className="profileUsernameBox">
                             {displayUser?.username}
@@ -247,7 +245,7 @@ const Profile = () => {
                             Points: {displayUser?.points}
                         </div>
                         <div className="friendStatus">
-                            {isUser ? null : isFriend ? "Friends" : requestSent ? "Request sent!" : requestFrom ? acceptRequest : addFriend}
+                            {isUser ? " " : isFriend ? "Friends" : requestSent ? "Request sent!" : requestFrom ? acceptRequest : addFriend}
                         </div>
                     </div>
                     <div className="socialBox">

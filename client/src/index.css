@@ -246,7 +246,7 @@ button {
   width: 100%;
 }
 
-.compDelTasksContainer {
+.compDelTasksContainer, .requestContainer {
   position: relative;
   background-color: #ffffff;
   height: 100%;
@@ -278,7 +278,7 @@ button {
 
 }
 
-.confirmCompDelBtn {
+.confirmCompDelBtn, .confirmRequestButton {
   font-weight: 500;
   padding: 0.5rem;
   width: 100%;
@@ -382,7 +382,7 @@ ul {
   padding: 1.25rem;
 }
 
-.CompDelTaskModal {
+.CompDelTaskModal, .RequestModal {
   width: 30%;
   height: 20%;
   background-color: white;
@@ -1060,6 +1060,8 @@ ul {
   align-items: center;
   justify-content: space-between;
   gap: 5px;
+}
+.searchBar {
 }
 
 /*

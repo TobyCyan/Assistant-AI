@@ -44,7 +44,7 @@ const SearchBar = () => {
     }
 
     return (
-        <div className="search-bar">
+        <div className="searchBar">
             <input
                 type="text"
                 placeholder="Enter username..."
@@ -52,10 +52,10 @@ const SearchBar = () => {
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
             />
-            <button onClick={handleSearch}>
+            <button className="searchBarBtn" onClick={handleSearch}>
                 S
             </button>
-            {error && <p>{error}</p>}
+            {error && <p className="error">{error}</p>}
         </div>
     );
 };

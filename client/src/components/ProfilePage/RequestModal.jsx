@@ -82,11 +82,11 @@ const RequestModal = ({request, type, getAllFriends, getAllFriendRequests, onClo
     }
 
     return (
-        <div className="compDelTasksContainer">
+        <div className="requestContainer">
             <button className="closeSmallModalBtn" onClick={onClose}></button>
             <div></div>
             <div className="confirmMessage">{`${type ==="delete" ? "Reject" : "Accept"} ${request?.name}'s friend request?`}</div>
-            <button className="confirmCompDelBtn" onClick={handleConfirm}>{type ==="delete" ? "REJECT" : "ACCEPT"}</button>
+            <button className="confirmRequestButton" onClick={handleConfirm}>{type ==="delete" ? "REJECT" : "ACCEPT"}</button>
         </div>
     )
 }
