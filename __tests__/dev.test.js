@@ -1,5 +1,5 @@
-import { roundNum } from "../client/src/components/TasksBox/Tasks"
-import { calculatePriorityPoints } from "../client/src/components/TasksBox/Tasks"
+import { roundNum } from "../client/src/components/TasksCardsAndBox/Tasks"
+import { calculatePriorityPoints } from "../client/src/components/TasksCardsAndBox/Tasks"
 import { TaskPriorityQueue } from "../client/src/Data Structures/TaskPriorityQueue"
 
 // Unit Testing for roundNum function

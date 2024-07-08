@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react"
-import Tasks from "../../src/components/TasksBox/Tasks.jsx"
+import Tasks from "../../src/components/TasksCardsAndBox/Tasks.jsx"
 import { vi } from 'vitest'
 it("Should display tasks", async () => {
     const mockTask = {

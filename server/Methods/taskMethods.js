@@ -6,13 +6,14 @@ const {getTodayDate} = require('../utilities/utilities')
 // Refer to sequelize.org/master/manual for full API reference of queries.
 
 /**
- * Gets All the User's Tasks by the userId.
+ * Gets All the User's TaskModals by the userId.
  * @async
  * @param {*} req The request from the front-end.
  * @param {*} res The response to the front-end.
  */
 const getTasks = async (req, res) => {
     const { id } = req.user
+    console.log(id)
 
     // Finds All Task Instances of the User.
     const tasks = await Tasks.findAll(
@@ -24,12 +25,12 @@ const getTasks = async (req, res) => {
     )
     console.log(tasks)
 
-    // Sends the List of Tasks as a Response If Tasks Found.
+    // Sends the List of TaskModals as a Response If TaskModals Found.
     if (tasks) {
         res.send({tasks})
     } else {
-        // Sends an Error Message If The User is Invalid or Tasks are Not Found.
-        res.status(404).send('Invalid User/ Tasks')
+        // Sends an Error Message If The User is Invalid or TaskModals are Not Found.
+        res.status(404).send('Invalid User/ TaskModals')
     }
 }
 
@@ -65,7 +66,7 @@ const addTask = async (req, res) => {
         res.status(201).send({newTask})
         console.log(newTask.title + ' added to database!')
     } else {
-        res.status(400).send('Invalid User/ Tasks')
+        res.status(400).send('Invalid User/ TaskModals')
     }
 }
 

@@ -13,7 +13,7 @@ const ChatPage = () => {
     const [chatting, setChatting] = useState(false)
     const [input, setInput] = useState('')
     const [response, setResponse] = useState('Arona is thinking...')
-    const {tokenStatus, userInfo, userTasks} = useTokenContext()
+    const {tokenStatus, userInfo} = useTokenContext()
     /**
      * The current token and setter function to update it.
      * @type {[string, function]}

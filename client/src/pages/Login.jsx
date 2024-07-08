@@ -5,18 +5,8 @@ import '../index.css'
 import CryptoJS from 'crypto-js';
 import RenderError from "../components/RenderError/RenderError";
 import {useTokenContext} from "../components/TokenContext/TokenContext";
+import {parseToken} from "../utilities/utilities.js";
 
-/**
- * A function that parses the JSON Web Token (JWT) and extracts the username and userId from it.
- * @param {Object} token The JWT obtained from back-end to be parsed. 
- * @returns {[string, number]} Array of the username and userId.
- */
-export const parseToken = (token) => {
-    const tokenPayload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))
-    const username = tokenPayload?.username
-    const userId = tokenPayload?.userId
-    return [username, userId]
-}
 
 /**
  * A React component that displays the Login page and handles any error while logging in.
@@ -137,6 +127,7 @@ const Login = () => {
                     const token = tokenResponse.token
                     localStorage.setItem('token', token);
                     setToken(token)
+                    console.log(token)
                     const tokenData = parseToken(token)
                     setUserData({username: tokenData[0], userId: tokenData[1]})
                     sendToHomePage();

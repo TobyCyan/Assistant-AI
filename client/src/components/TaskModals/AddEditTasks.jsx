@@ -7,30 +7,13 @@ import RenderError from '../RenderError/RenderError';
  * @component
  * @param {Object} taskData The data of the current task.
  * @param {string} type The type of operation - add or edit.
+ * @param {function} getAllTasks fetch request to get all user tasks.
  * @param {function} onClose Function to close the modal.
  * @returns {ReactNode} A React element that renders the AddEditTasks modal.
  */
-const AddEditTasks = ({taskData, type, onClose}) => {
-    const {tokenStatus, userInfo, userTasks} = useTokenContext()
-
-    /**
-     * The current token and setter function to update it.
-     * @type {[string, function]}
-     */
+const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
+    const {tokenStatus} = useTokenContext()
     const [token, setToken] = tokenStatus
-
-    /**
-     * The current user data and setter function to update it.
-     * @type {[Object, function]}
-     */
-    const [userData, setUserData] = userInfo
-
-    /**
-     * The current user tasks and setter function to update it.
-     * @type {[Array<Object>, function]}
-     */
-    const [tasks, setTasks] = useState([])
-
 
     /**
      * The current task title and setter function to update it.
@@ -54,7 +37,7 @@ const AddEditTasks = ({taskData, type, onClose}) => {
      * The current task deadline and setter function to update it.
      * @type {[string, function]}
      */
-    const [deadline, setDeadline] = useState(taskData?.deadline.substring(0, 10) || '');
+    const [deadline, setDeadline] = useState(taskData?.deadline?.substring(0, 10) || '');
 
     /**
      * The current task priority and setter function to update it.
@@ -66,7 +49,7 @@ const AddEditTasks = ({taskData, type, onClose}) => {
      * The current task reminder date and setter function to update it.
      * @type {[string, function]}
      */
-    const [reminderDate, setReminderDate] = useState(taskData?.reminder.substring(0,10) || '');
+    const [reminderDate, setReminderDate] = useState(taskData?.reminder?.substring(0,10) || '');
     // const [reminderTime, setReminderTime] = useState(taskData?.reminder.substring(11,16) || '');
 
     /**
@@ -75,7 +58,7 @@ const AddEditTasks = ({taskData, type, onClose}) => {
      */
     const[error, setError] = useState('');
 
-    /** 
+    /**
      * POST Request to Add Task.
      * @async
      * @returns {Promise<void>} A promise that adds the user task.
@@ -107,7 +90,7 @@ const AddEditTasks = ({taskData, type, onClose}) => {
                 'Authorization': `Bearer ${token}`
             }
         };
-        
+
         fetch('http://localhost:5001/AddTask', dataToPost)
         .then(res => {
             if (res.ok) {
@@ -131,7 +114,7 @@ const AddEditTasks = ({taskData, type, onClose}) => {
         })
     }
 
-    /** 
+    /**
      * POST Request to Edit Task.
      * @async
      * @returns {Promise<void>} A promise that edits the user task.
@@ -171,20 +154,21 @@ const AddEditTasks = ({taskData, type, onClose}) => {
         };
 
         await fetch('http://localhost:5001/EditTask', dataToPost)
-        .then(res => {
-            if (res.ok) {
-                console.log('Task Successfully Edited!')
-                return res.json()
-            } else {
-                console.error(err => 'Edit Task Failed!', err)
-            }
-        })
-        .then(task => {
-            onClose()
-        })
-        .catch(err => {
-            console.error('Error Editing Task: ', err.message)
-        })
+            .then(res => {
+                if (res.ok) {
+                    console.log('Task Successfully Edited!')
+                    return res.json()
+                } else {
+                    console.error(err => 'Edit Task Failed!', err)
+                }
+            })
+            .then(task => {
+                getAllTasks()
+                onClose()
+            })
+            .catch(err => {
+                console.error('Error Editing Task: ', err.message)
+            })
     }
 
     /**
@@ -258,10 +242,11 @@ const AddEditTasks = ({taskData, type, onClose}) => {
     return (
         <div className="addEditTaskContainer">
             <button className="closeAddEditModalBtn" onClick={onClose}></button>
-            <div className="titleBox">
-                <label>Title</label>
+            <div className="titleBox" >
+                <label htmlFor="titleInput">Title</label>
                 <input
                     type="text"
+                    id="titleInput"
                     className="titleInput"
                     placeholder="Title"
                     value={title}
@@ -271,9 +256,10 @@ const AddEditTasks = ({taskData, type, onClose}) => {
             {RenderError.renderNoTaskTitleError(error)}
 
             <div className="descriptionBox">
-                <label>Description</label>
+                <label htmlFor="descriptionInput">Description</label>
                 <textarea
                     type="text"
+                    id="descriptionInput"
                     className="descriptionInput"
                     placeholder="Description"
                     rows={12}
@@ -284,9 +270,10 @@ const AddEditTasks = ({taskData, type, onClose}) => {
 
             {RenderError.renderNoTaskCategoryError(error)}
             <div className="categoryBox">
-                <label>Category</label>
+                <label htmlFor="categoryInput">Category</label>
                 <input
                     type="text"
+                    id="categoryInput"
                     className="categoryInput"
                     placeholder="Category"
                     value={category}
@@ -298,7 +285,7 @@ const AddEditTasks = ({taskData, type, onClose}) => {
             <div className="priorityAndDatesBox">
 
                 <div className="priorityBox">
-                    <label>Priority</label>
+                    <label htmlFor="priority">Priority</label>
                     <select id="priority" value={priority} onChange={e => setPriority(e.target.value)}>
                         <option value="">--Please Choose--</option>
                         <option value="Low">Low</option>
@@ -308,14 +295,14 @@ const AddEditTasks = ({taskData, type, onClose}) => {
                 </div>
 
                 <div className="deadlineBox">
-                    <label>Deadline:</label>
-                    <input className="deadlineInput" type="date" value={deadline}
+                    <label htmlFor="deadlineInput">Deadline:</label>
+                    <input id="deadlineInput" className="deadlineInput" type="date" value={deadline}
                            onChange={e => setDeadline(e.target.value)}/>
                 </div>
 
                 <div className="reminderBox">
-                    <label>Reminder Date:</label>
-                    <input className="reminderInput" type="date" value={reminderDate}
+                    <label htmlFor="reminderInput">Reminder Date:</label>
+                    <input id="reminderInput" className="reminderInput" type="date" value={reminderDate}
                            onChange={e => setReminderDate(e.target.value)}/>
                 </div>
             </div>

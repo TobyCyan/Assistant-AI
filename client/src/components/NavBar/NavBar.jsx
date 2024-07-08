@@ -23,21 +23,6 @@ const NavBar = () => {
      * @type {[Object, function]}
      */
     const [userData, setUserData] = userInfo
-    const navigate = useNavigate()
-
-    /**
-     * Redirects to Home page.
-     */
-    const onHome = () => {
-        navigate("/")
-    }
-
-    /**
-     * Redirects to Task page.
-     */
-    const onMyTasks = () => {
-        navigate("/tasks")
-    }
 
     return(
         <div className="navBar">
