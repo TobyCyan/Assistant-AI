@@ -168,6 +168,7 @@ button {
 
 .addEditTaskContainer {
   position: relative;
+  z-index: 10;
 }
 
 .closeAddEditModalBtn {
@@ -710,8 +711,8 @@ ul {
 
 .invisibleBox {
   height: 110px;
+  position: relative;
   /* border: 1px solid red; */
-  z-index: 4;
 }
 
 .Home .invisibleBox {
@@ -723,6 +724,7 @@ ul {
   position: absolute;
   left: 25%;
   top: 40%;
+  z-index: 4;
   /* border: 2px solid blue; */
 }
 
@@ -749,7 +751,6 @@ ul {
 }
 
 #assistantAvatar {
-  z-index: 3;
   border: 1px solid black;
   border-radius: 50%;
   pointer-events: none;
@@ -772,6 +773,7 @@ ul {
   width: 350px;
   top: 30%;
   right: 20%;
+  z-index: 3;
 }
 
 .ChatPage .assistantAvatarDiv{

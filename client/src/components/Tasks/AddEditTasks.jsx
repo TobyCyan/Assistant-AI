@@ -124,7 +124,6 @@ const AddEditTasks = ({taskData, type, onClose}) => {
             setDeadline('')
             setPriority('')
             setReminderDate('')
-            //setReminderTime('')
             onClose()
         })
         .catch(err => {
