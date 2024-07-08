@@ -79,13 +79,55 @@ module.exports = (sequelize, DataTypes) => {
         tableName: 'task'
     })
 
+    /*
+    const Friendship = sequelize.define('Friendship', {
+        relatingUser: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: User,
+                key: 'id'
+            },
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
+        },
+        relatedUser: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: User,
+                key: 'id'
+            },
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
+        },
+        type: {
+            type: DataTypes.STRING,
+            allowNull: false
+        }
+    }, {
+        tableName: 'friendships'
+    });
+     */
+
     // Defines a one-to-many relationship between a user and their tasks.
     User.hasMany(Tasks, {
         foreignKey: 'userId',
     })
+
     Tasks.belongsTo(User, {
         foreignKey: 'userId',
     }
+
+    /*
+    User.belongsToMany(User, {
+        through: Friendship,
+        as: 'Friend',
+        foreignKey: 'relatingUser',
+        otherKey: 'relatedUser'
+    });
+     */
+
     )
 
     // Returns the 2 tables in an array.

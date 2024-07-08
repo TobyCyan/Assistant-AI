@@ -147,7 +147,7 @@ const Login = () => {
                     <form onSubmit={handleLogin}>
                         <h4 className="accountFormHeader">Login</h4>
 
-                        {RenderError.renderEmptyUsernameError(error)}
+                        {RenderError.renderUsernameError(error)}
                         {RenderError.renderInvalidCredentialsError(error)}
                         <input
                             type="text"

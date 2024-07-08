@@ -5,11 +5,17 @@ import React, { ReactNode } from "react"
  * @param {string} error Error that the user may encounter when signing up.
  * @returns {ReactNode} A React element that renders the empty username sign up error.
  */
-const renderEmptyUsernameError = (error) => {
+const renderUsernameError = (error) => {
     if (error == 'UsernameError') {
         return (
             <div className='error'>
                 Username Must Not Be Empty!
+            </div>
+        )
+    } else if (error == 'UsernameSpaceError') {
+        return (
+            <div className='error'>
+                Username Cannot Have Space!
             </div>
         )
     }
@@ -31,6 +37,12 @@ const renderPWError = (error) => {
         return (
             <div className='error'>
                 Passwords Must Not Be Empty!
+            </div>
+        )
+    } else if (error == 'SpacePW') {
+        return (
+            <div className='error'>
+                Password cannot have space!
             </div>
         )
     }
@@ -188,7 +200,7 @@ const renderWeakPWError = (error) => {
 
 export default {
     renderDateOfBirthError,
-    renderEmptyUsernameError,
+    renderUsernameError,
     renderPWError,
     renderSignUpError,
     renderInvalidCredentialsError,

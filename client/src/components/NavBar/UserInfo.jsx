@@ -38,10 +38,43 @@ const UserInfo = () => {
     const [points, setPoints] = useState(0)
 
     useEffect(() => {
+        if(token) {
+            getUserInfo()
+        }
+    },[token])
+
+    useEffect(() => {
         console.log(userData)
         setUsername(userData?.username)
         setPoints(userData?.points)
     }, [userData]);
+
+    const getUserInfo = async () => {
+        const dataToPost = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        try {
+            const res = await fetch('http://localhost:5001/GetUserInfo', dataToPost)
+            if(res.ok) {
+                console.log("UserInfo successfully retrieved")
+            } else {
+                console.log("Invalid User/Info")
+            }
+
+            const data = await res.json()
+            if(data) {
+                console.log(data)
+                setUserData(data)
+            }
+        } catch (error) {
+            console.error('Failed to Fetch User Info!', error)
+        }
+    }
 
     /** 
      * Clears token and userData on log out, to login page.

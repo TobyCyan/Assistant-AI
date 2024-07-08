@@ -11,6 +11,9 @@ import {useParams} from "react-router-dom";
 import {useState} from 'react'
 import {useTokenContext} from "../components/TokenContext/TokenContext.jsx";
 import {getDDMMYY} from "../utilities/utilities.js";
+import SearchBar from "../components/ProfilePage/SearchBar.jsx";
+import FriendReqsBox from "../components/ProfilePage/FriendReqsBox.jsx";
+import FriendsBox from "../components/ProfilePage/FriendsBox.jsx";
 
 const Profile = () => {
     const {tokenStatus, userInfo} = useTokenContext()
@@ -28,10 +31,30 @@ const Profile = () => {
     const {username} = useParams()
     const [displayUser, setDisplayUserInfo] = useState(null)
 
+    const[friends, setFriends] = useState([{
+        username: 'Test',
+        points: 0},
+        {
+            username: 'Test2',
+            points: 1},
+    ])
+    // const[friends, setFriends] = useState([])
+    const[friendReqs, setFriendReqs] = useState([{
+        username: 'Test',
+        points: 0},
+        {
+            username: 'Test2',
+            points: 1
+        },
+    ])
+    // const[friendReqs, setFriendReqs] = useState([])
+
     const getUserDataByUsername = async () => {
         try {
             const response = await fetch(`http://localhost:5001/user/${username}`, {
+                method: 'GET',
                 headers: {
+                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 }
             });
@@ -48,19 +71,99 @@ const Profile = () => {
         }
     }
 
+    /*
+    const getUserFriends = async () => {
+        try {
+            const res = await fetch('http://localhost:5001/user/friends', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+
+            if(!res.ok) {
+                throw new Error('Friend cannot be retrieved')
+            }
+
+            const data = await response.json()
+            setFriends(data)
+            console.log(friends)
+        } catch (err) {
+            console.log("Error getting user friends")
+        }
+    }
+
+     */
+
+    /*
+    const getUserFriendReqs = async () => {
+        try {
+            const res = await fetch('http://localhost:5001/user/requests', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+
+            if(!res.ok) {
+                throw new Error('Requests cannot be retrieved')
+            }
+
+            const data = await response.json()
+            setFriendReqs(data)
+            console.log(friends)
+        } catch (err) {
+            console.log("Error getting user friend requests")
+        }
+    }
+
+     */
+
+
+    const sendFriendReq = async () => {
+        try {
+            const response = await fetch(`http://localhost:5001/friendReq/${username}`, {
+                method: 'POST',
+                body: JSON.stringify(displayUser.id),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+        } catch (err) {
+            console.log("Error sending friend request")
+        }
+    }
+
+
+    useEffect(() => {
+        if(token) {
+            //getUserFriends()
+            //getUserFriendReqs()
+        }
+    }, [])
+
     useEffect(() => {
         if(token) {
             getUserDataByUsername()
         }
     }, [username, token]);
 
+    const isUser = displayUser?.username === userData?.username
 
+    // const isFriend =
+
+    const addFriend = (<div className="addFriendBtn">
+        <button onClick={sendFriendReq}>Add Friend</button>
+    </div>)
 
     return (
         <>
             <NavBar/>
             <div className="profileContainer">
-                <div className="profileInnerBox">
+            <div className="profileInnerBox">
                     <div className="userProfileBox">
                         <div className="profilePic">
                             {/* Add profile picture logic here */}
@@ -74,14 +177,16 @@ const Profile = () => {
                         <div className="profilePointsBox">
                             Points: {displayUser?.points}
                         </div>
+                        {!isUser && addFriend}
                     </div>
-                    <div className="friendsBox">
-                        <div className="currentFriendsBox">
-
-                        </div>
-                        <div className="friendRequestsBox">
-
-                        </div>
+                    <div className="socialBox">
+                        <SearchBar/>
+                        <FriendsBox friendsToShow={friends}/>
+                        <FriendReqsBox
+                            friendRequests={friendReqs}
+                            onAccept={() => {}}
+                            onDelete={() => {}}
+                        />
                     </div>
                 </div>
             </div>

@@ -156,6 +156,20 @@ function SignUp() {
     }
 
     /**
+     * Updates the sign up error when password is weak.
+     */
+    function handleSpaceUsername() {
+        setError('UsernameSpaceError')
+    }
+
+    /**
+     * Updates the sign up error when password is weak.
+     */
+    function handleSpacePassword() {
+        setError('SpacePW')
+    }
+
+    /**
      * Updates the sign up error when username is already taken.
      */
     function handleFailedSignUp(error) {
@@ -184,10 +198,17 @@ function SignUp() {
         e.preventDefault()
         setError('')
 
-        if (userData.username == '') {
+        if (userData.username === '') {
             console.log('Username cannot be empty!')
             handleEmptyUsername()
             return
+        }
+
+
+        if(userData.username.includes(' ')) {
+            console.log('Username cannot have space!')
+            handleSpaceUsername()
+            return;
         }
 
         if (userData.dateOfBirth == '') {
@@ -208,6 +229,12 @@ function SignUp() {
         if (userData.password == '') {
             console.log('Password cannot be Empty!')
             handleEmptyPW()
+            return
+        }
+
+        if(userData.password.includes(' ')) {
+            console.log('Spacing not allowed in password')
+            handleSpacePassword()
             return
         }
 
@@ -264,7 +291,7 @@ function SignUp() {
                     <form onSubmit={handleSignUp}>
                         <h4 className="accountFormHeader">Sign Up</h4>
 
-                        {RenderError.renderEmptyUsernameError(error)}
+                        {RenderError.renderUsernameError(error)}
                         {RenderError.renderSignUpError(error)}
                         <div className="signUpBox">
                             <input type='text'
