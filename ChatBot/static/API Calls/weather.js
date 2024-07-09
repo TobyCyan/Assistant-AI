@@ -21,7 +21,6 @@ export const getCurrentPositionWeather = async () => {
                         const weather_info = weather.weather[0]
                         const weather_description = weather_info.description
                         const weatherResponse = " Today's weather is " + weather_description + "!"
-                        console.log(weatherResponse)
                         resolve(weatherResponse)
                     }
                 } catch (err) {

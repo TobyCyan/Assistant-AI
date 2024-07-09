@@ -9,12 +9,9 @@ import avatarImg from '../../../../images/TempAvatar.png'
  * @component
  * @returns {ReactNode} A React element that renders the AI assistant.
  */
-const AIBox = ({stylingCondition, response, setResponse, chatting, setChatting}) => {
+const AIBox = ({stylingCondition, response, setResponse, chatting, setChatting, handleDailyReminder}) => {
     const {tokenStatus, userInfo} = useTokenContext()
 
-    useEffect(() => {
-        console.log(stylingCondition)
-    }, [])
     /**
      * The current user data and setter function to update it.
      * @type {[Object, function]}
@@ -44,33 +41,6 @@ const AIBox = ({stylingCondition, response, setResponse, chatting, setChatting})
 
     /**
      * @function useEffect
-     * @description Attaches the script that will communicate with the AI assistant API.
-     */
-    useEffect(() => {
-        fetch('http://localhost:5500/api/get_medium_script')
-        .then(res => {
-            if (res.ok) {
-                return res.json()
-            }
-        })
-        .then(url => {
-            const medium_script_url = url.script
-            const script = document.createElement('script')
-            script.type = 'module'
-            script.async = true
-            script.src = medium_script_url
-            script.onload = () => console.log('script loaded')
-            document.body.appendChild(script)
-
-            return () => {
-                document.body.removeChild(script)
-            }
-        })
-
-    }, [])
-
-    /**
-     * @function useEffect
      * @description If not chatting, sets the AI assistant's chat bubble with a random dialogue at random intervals.
      */
     useEffect(() => {
@@ -90,7 +60,7 @@ const AIBox = ({stylingCondition, response, setResponse, chatting, setChatting})
                 clearInterval(popUpTimer)
             }
         } else {
-            const idleTimeOut = setTimeout(handleIdleTimeOut, 10000)
+            setTimeout(handleIdleTimeOut, 10000)
         }
     }, [chatting])
 
@@ -142,11 +112,8 @@ const AIBox = ({stylingCondition, response, setResponse, chatting, setChatting})
                 </div>
 
                 <div className="assistantAvatarDiv">
-                    <img src={avatarImg} id="assistantAvatar"/>
+                    <img src={avatarImg} id="assistantAvatar" onClick={handleDailyReminder}/>
                 </div>
-            </div>
-            <div className="chatcontainer">
-
             </div>
         </>
     )

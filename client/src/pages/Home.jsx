@@ -9,6 +9,7 @@ import ProductivityBar from "../components/ProductivityBar/ProductivityBar.jsx";
 import {isTodayBirthday, isTodayNextDayOfBirthday, compareTasksPriority, compareTasksDeadline, calculateTaskProductivity} from "../utilities/utilities.js";
 import AIBox from '../components/AIBox/AIBox.jsx';
 import BirthdayCard from '../components/Birthday/BirthdayCard.jsx';
+import ChatRoom from '../components/ChatRoom/ChatRoom.jsx';
 import BirthdayCardBackground from '../../../images/birthdaycardbackground.png'
 
 /**
@@ -162,6 +163,14 @@ const Home = () => {
     const [birthdayModalOpen, setBirthdayModalOpen] = useState({
         isShown: false
     })
+
+    /**
+     * The current state of ChatRoomModal and setter function to update it.
+     * @type {[Object, function]}
+     */
+    const [chatRoomModalOpen, setChatRoomModalOpen] = useState({
+        isShown: false
+    })
     
     /**
      * Closes the Add Edit Task Modal.
@@ -185,11 +194,23 @@ const Home = () => {
         })
     }
 
+    /**
+     * Closes the Birthday Modal.
+     */
     const closeBirthdayModal = () => {
         setBirthdayModalOpen({
             isShown: false
         })
         localStorage.setItem('birthdayShown', true)
+    }
+
+    /**
+     * Closes the Chat Room Modal.
+     */
+    const closeChatRoomModal = () => {
+        setChatRoomModalOpen({
+            isShown: false
+        })
     }
 
     /**
@@ -245,6 +266,15 @@ const Home = () => {
      */
     const handleBirthday = () => {
         setBirthdayModalOpen({
+            isShown: true,
+        })
+    }
+
+    /**
+     * Open modal for daily reminder.
+     */
+    const handleDailyReminder = () => {
+        setChatRoomModalOpen({
             isShown: true,
         })
     }
@@ -330,6 +360,14 @@ const Home = () => {
     }, [])
 
     /**
+     * @function useEffect
+     * @description Opens the Chat Room modal everyday for the daily reminder.
+     */
+    useEffect(() => {
+        handleDailyReminder()
+    }, [])
+
+    /**
      * Dummy function that returns nothing.
      * @param {*} dummy Dummy argument.
      * @returns absolutely nothing.
@@ -372,7 +410,7 @@ const Home = () => {
                                     </div>
                                 </div>
 
-                                <AIBox stylingCondition={'Home'} chatting={false} setChatting={dummyFunction}/>
+                                <AIBox stylingCondition={'Home'} chatting={false} setChatting={dummyFunction} handleDailyReminder={handleDailyReminder}/>
 
                             </div>
                             )}
@@ -428,6 +466,18 @@ const Home = () => {
                 <BirthdayCard 
                     onClose={closeBirthdayModal}
                 />
+            </Modal>
+            <Modal
+                isOpen = {chatRoomModalOpen.isShown}
+                style={{
+                    overlay: {
+                        backgroundColor: "rgba(0, 0, 0, 0.2)"
+                    }
+                }}
+                className="ChatRoomModal"
+            >
+
+                <ChatRoom closeChatRoomModal={closeChatRoomModal}/>
             </Modal>
         </>
     )

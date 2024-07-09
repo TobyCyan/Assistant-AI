@@ -756,7 +756,12 @@ ul {
 #assistantAvatar {
   border: 1px solid black;
   border-radius: 50%;
-  pointer-events: none;
+  cursor: pointer;
+  /* pointer-events: none; */
+}
+
+#assistantAvatar:hover {
+  transform: scale(1.02);
 }
 
 .Home #assistantAvatar {
@@ -937,6 +942,19 @@ ul {
 .receive {
   border: solid rgb(157, 235, 255);
   float: left;
+}
+
+.ChatRoomModal {
+  height: 57%;
+  min-width: 480px;
+  max-width: 50%;
+  background-color: white;
+  border-radius: 8px;
+}
+
+.oneWayChatRoom {
+  margin-top: 6px;
+  width: 470px;
 }
 
 .BirthdayCardModal {
