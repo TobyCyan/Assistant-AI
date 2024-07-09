@@ -10,7 +10,6 @@ import {isTodayBirthday, isTodayNextDayOfBirthday, compareTasksPriority, compare
 import AIBox from '../components/AIBox/AIBox.jsx';
 import BirthdayCard from '../components/Birthday/BirthdayCard.jsx';
 import ChatRoom from '../components/ChatRoom/ChatRoom.jsx';
-import BirthdayCardBackground from '../../../images/birthdaycardbackground.png'
 
 /**
  * A React component that displays the home page and a brief layout of the current user tasks, including the navigation bar, 4 task boxes, and the modal to add or edit tasks.
