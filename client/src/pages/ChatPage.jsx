@@ -119,14 +119,21 @@ const ChatPage = () => {
      */
     const addNewUserMessage = (input) => {
         const chatRoom = document.getElementById('chatroom')
+
+        // Creates a div with messageContainer and sendContainer classes.
+        // Acts as the container that will bundle the Avatar and message box.
         const messageContainer = document.createElement('div')
         messageContainer.classList.add('messageContainer')
         messageContainer.classList.add('sendContainer')
 
+        // Creates an img field with src attribute.
+        // Acts as the Avatar.
         const profilePicture = document.createElement('img')
         profilePicture.classList.add('chatRoomAvatar')
         profilePicture.setAttribute('src', UserAvatar)
 
+        // Creates a div with msgbox and send classes.
+        // Acts as the user input message text box.
         const newMessage = document.createElement('div')
         newMessage.classList.add('msgbox')
         newMessage.classList.add('send')
@@ -134,7 +141,9 @@ const ChatPage = () => {
         messageContainer.appendChild(newMessage)
         messageContainer.appendChild(profilePicture)
 
+        // Append the message container to the chatRoom and automatically scrolls to the bottom.
         chatRoom.appendChild(messageContainer)
+        chatRoom.scrollTop = chatRoom.scrollHeight;
     }
 
     /**
@@ -143,22 +152,32 @@ const ChatPage = () => {
      */
     const addNewChatBotResponse = (response) => {
         const chatRoom = document.getElementById('chatroom')
+        
+        // Creates a div with messageContainer and receiveContainer classes.
+        // Acts as the container that will bundle the Avatar and message box.
         const messageContainer = document.createElement('div')
         messageContainer.classList.add('messageContainer')
         messageContainer.classList.add('receiveContainer')
 
+        // Creates an img field with src attribute.
+        // Acts as the Avatar.
         const profilePicture = document.createElement('img')
         profilePicture.classList.add('chatRoomAvatar')
         profilePicture.setAttribute('src', AIAvatar)
 
+        // Creates a div with msgbox and receive classes.
+        // Acts as the response message text box.
         const newMessage = document.createElement('div')
         newMessage.classList.add('msgbox')
         newMessage.classList.add('receive')
         newMessage.innerHTML = response
+        // Adjusts the positions of the Avatar and Message box.
         messageContainer.insertBefore(profilePicture, newMessage.firstElementChild)
         messageContainer.appendChild(newMessage)
-
+        
+        // Append the message container to the chatRoom and automatically scrolls to the bottom.
         chatRoom.appendChild(messageContainer)
+        chatRoom.scrollTop = chatRoom.scrollHeight;
     }
 
     /**
@@ -168,14 +187,14 @@ const ChatPage = () => {
     useEffect(() => {
         const chatRoom = document.getElementById('chatroom')
         chatRoom.innerHTML = ''
-        const startingResponse = `Hey ${userData.username}! How can I help you today?`
+        const startingResponse = `Hey${userData.username ? ' ' + userData.username : ''}! How can I help you today?`
         addNewChatBotResponse(startingResponse)
     }, [])
 
     return (
         <>
             <NavBar />
-            <h1>Arona</h1>
+            <h1>Assistant Window</h1>
             <div className="chatpageContainer">
 
                 <div className="chatroom" id="chatroom">

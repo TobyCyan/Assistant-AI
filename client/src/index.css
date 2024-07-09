@@ -869,6 +869,16 @@ ul {
   display: flex;
   align-items: center;
   margin: 10px 5px;
+  animation: messagePopUp 0.15s ease;
+}
+
+@keyframes messagePopUp {
+  80% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .receiveContainer {
