@@ -749,7 +749,7 @@ ul {
   z-index: 4;
 }
 
-.AIBox:hover {
+.AIBox:hover, #assistantAvatar:hover  {
   transform: scale(1.02);
 }
 
@@ -758,10 +758,6 @@ ul {
   border-radius: 50%;
   cursor: pointer;
   /* pointer-events: none; */
-}
-
-#assistantAvatar:hover {
-  transform: scale(1.02);
 }
 
 .Home #assistantAvatar {
