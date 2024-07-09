@@ -3,6 +3,8 @@ import NavBar from "../components/NavBar/NavBar.jsx";
 import { useTokenContext } from "../components/TokenContext/TokenContext";
 import getCurrentPositionWeather from "../../../ChatBot/static/API Calls/weather";
 import AIBox from "../components/AIBox/AIBox.jsx";
+import AIAvatar from '../../../images/arona_wave.png'
+import UserAvatar from '../../../images/TempAvatar.png'
 
 /**
  * A React component that displays the page where users can interact and chat with the AI Assistant.
@@ -110,29 +112,70 @@ const ChatPage = () => {
             return
         }
     }
-    
+
+    /**
+     * Creates a user message instance that will show up in the chat room.
+     * @param {string} input Input message from the user.
+     */
     const addNewUserMessage = (input) => {
         const chatRoom = document.getElementById('chatroom')
+        const messageContainer = document.createElement('div')
+        messageContainer.classList.add('messageContainer')
+        messageContainer.classList.add('sendContainer')
+
+        const profilePicture = document.createElement('img')
+        profilePicture.classList.add('chatRoomAvatar')
+        profilePicture.setAttribute('src', UserAvatar)
+
         const newMessage = document.createElement('div')
         newMessage.classList.add('msgbox')
         newMessage.classList.add('send')
         newMessage.innerHTML = input
-        chatRoom.appendChild(newMessage)
+        messageContainer.appendChild(newMessage)
+        messageContainer.appendChild(profilePicture)
+
+        chatRoom.appendChild(messageContainer)
     }
 
+    /**
+     * Creates a response message instance that will show up in the chat room.
+     * @param {string} response Response message from the AI Assistant.
+     */
     const addNewChatBotResponse = (response) => {
         const chatRoom = document.getElementById('chatroom')
+        const messageContainer = document.createElement('div')
+        messageContainer.classList.add('messageContainer')
+        messageContainer.classList.add('receiveContainer')
+
+        const profilePicture = document.createElement('img')
+        profilePicture.classList.add('chatRoomAvatar')
+        profilePicture.setAttribute('src', AIAvatar)
+
         const newMessage = document.createElement('div')
         newMessage.classList.add('msgbox')
         newMessage.classList.add('receive')
         newMessage.innerHTML = response
-        chatRoom.appendChild(newMessage)
+        messageContainer.insertBefore(profilePicture, newMessage.firstElementChild)
+        messageContainer.appendChild(newMessage)
+
+        chatRoom.appendChild(messageContainer)
     }
+
+    /**
+     * @function useEffect
+     * @description Initial message from the AI Assistant.
+     */
+    useEffect(() => {
+        const chatRoom = document.getElementById('chatroom')
+        chatRoom.innerHTML = ''
+        const startingResponse = `Hey ${userData.username}! How can I help you today?`
+        addNewChatBotResponse(startingResponse)
+    }, [])
 
     return (
         <>
             <NavBar />
-            <h1>Arona???</h1>
+            <h1>Arona</h1>
             <div className="chatpageContainer">
 
                 <div className="chatroom" id="chatroom">
@@ -145,6 +188,7 @@ const ChatPage = () => {
                         onChange={(e) => setInput(e.target.value)} 
                         value={input} 
                         placeholder="Enter an Input"
+                        autoComplete="off"
                         onKeyDown={(e) => {
                             if (e.key == 'Enter') {
                                 handleInput()

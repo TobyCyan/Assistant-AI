@@ -9,9 +9,7 @@ import {TokenProvider} from "./components/TokenContext/TokenContext.jsx";
 Modal.setAppElement('#root');
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
       <TokenProvider>
           <App />
       </TokenProvider>
-  </React.StrictMode>,
 )
