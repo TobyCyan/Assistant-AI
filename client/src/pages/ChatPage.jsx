@@ -12,7 +12,7 @@ import AIBox from "../components/AIBox/AIBox.jsx";
 const ChatPage = () => {
     const [chatting, setChatting] = useState(false)
     const [input, setInput] = useState('')
-    const [response, setResponse] = useState('Arona is thinking...')
+    const [response, setResponse] = useState('Arona thinks...')
     const {tokenStatus, userInfo} = useTokenContext()
     /**
      * The current token and setter function to update it.
@@ -35,15 +35,45 @@ const ChatPage = () => {
         return text.replace(/\s+/g, '')
     }
 
+    /**
+     * @async
+     * @returns {Promise<void>} A promise that returns a response.
+     * @throws {Error} Throws an error if chatting fails.
+     * @param {Object} dataToPost The data to post to the chatbot's back-end to obtain a response.
+     */
+    const fetchResponse = async (dataToPost) => {
+        console.log(JSON.stringify(dataToPost))
+        fetch('http://localhost:5500/startchat', dataToPost)
+            .then(res => {
+                if (res.ok) {
+                    return res.json()
+                } else {
+                    console.log(res.statusText)
+                }
+            })
+            .then(reply => {      
+                const output = reply.response
+                addNewChatBotResponse(output)
+                
+                console.log('Response Type: ' + reply.type)
+                if (reply.code_name) {
+                    handleCodeName(reply.code_name)
+                }
+            })
+            .catch(err => {
+                console.error('Error Getting a Response: ', err)
+            })
+    }
+
     /** 
-    * POST Request to Chat with the Assistant.
+    * Handles user chat input and POST Request to Chat with the Assistant.
     * @async
-    * @returns {Promise<void>} A promise that returns a response.
-    * @throws {Error} Throws an error if chatting fails.
     */
     const handleInput = async () => {
         if (removeSpaces(input) != '') {
             setChatting(true)
+            setInput('')
+            addNewUserMessage(input)
 
             const model = 'model.tflearn'
             const dataToPost = {
@@ -54,26 +84,7 @@ const ChatPage = () => {
                     'Authorization': `Bearer ${token}`
                 }
             }
-            fetch('http://localhost:5500/startchat', dataToPost)
-            .then(res => {
-                if (res.ok) {
-                    return res.json()
-                } else {
-                    console.log(res.statusText)
-                }
-            })
-            .then(reply => {      
-                const output = reply.response
-                setResponse(output)
-                setInput('')
-                console.log('Response Type: ' + reply.type)
-                if (reply.code_name) {
-                    handleCodeName(reply.code_name)
-                }
-            })
-            .catch(err => {
-                console.error('Error Getting a Response: ', err)
-            })
+            fetchResponse(dataToPost)
         }
     }
 
@@ -81,7 +92,8 @@ const ChatPage = () => {
         console.log('handling: ' + code_name)
         if (code_name == 'Weather') {
             const weatherResponse = await getCurrentPositionWeather()
-            setResponse(prev => prev + weatherResponse)
+            const createWeatherResponse = response + weatherResponse
+            addNewChatBotResponse(createWeatherResponse)
             return
         }
         
@@ -99,30 +111,53 @@ const ChatPage = () => {
         }
     }
     
-    
+    const addNewUserMessage = (input) => {
+        const chatRoom = document.getElementById('chatroom')
+        const newMessage = document.createElement('div')
+        newMessage.classList.add('msgbox')
+        newMessage.classList.add('send')
+        newMessage.innerHTML = input
+        chatRoom.appendChild(newMessage)
+    }
+
+    const addNewChatBotResponse = (response) => {
+        const chatRoom = document.getElementById('chatroom')
+        const newMessage = document.createElement('div')
+        newMessage.classList.add('msgbox')
+        newMessage.classList.add('receive')
+        newMessage.innerHTML = response
+        chatRoom.appendChild(newMessage)
+    }
 
     return (
         <>
             <NavBar />
             <h1>Arona???</h1>
+            <div className="chatpageContainer">
 
-            <label className="container">
-                <input 
-                    id="chatbox" 
-                    onChange={(e) => setInput(e.target.value)} 
-                    value={input} 
-                    placeholder="Enter an Input"
-                    onKeyDown={(e) => {
-                        if (e.key == 'Enter') {
-                            handleInput()
-                        }
-                    }}
-                    >
-                </input>
-                <span className="border"></span>
-            </label>
+                <div className="chatroom" id="chatroom">
 
-            <AIBox stylingCondition={'ChatPage'} response={response} setResponse={setResponse} chatting={chatting} setChatting={setChatting}/>
+                </div>
+                
+                <div className="chatboxContainer">
+                    <input 
+                        id="chatbox" 
+                        onChange={(e) => setInput(e.target.value)} 
+                        value={input} 
+                        placeholder="Enter an Input"
+                        onKeyDown={(e) => {
+                            if (e.key == 'Enter') {
+                                handleInput()
+                            }
+                        }}
+                        >
+                            
+                    </input>
+                    <button onClick= {() => handleInput()}className="sendButton"></button>
+                    <span className="border"></span>
+                </div>
+
+            </div>
 
         </>
     )

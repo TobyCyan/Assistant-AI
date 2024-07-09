@@ -134,6 +134,7 @@ def load_model(model_name: str, training_data, output_data):
     model = tfl.DNN(network=network)
 
     try:
+        print('Loading Model...')
         model.load(model_file=model_name)
         print('Model Loaded: ' + model_name)
         return model
@@ -163,7 +164,9 @@ def predict_behavior_type_from_prompt(prompt, model):
     
     output = model.predict(prompt_input)
     output_type_index = np.argmax(output[0])
-    if output[0][output_type_index] < 0.7:
+    output_type_probability = output[0][output_type_index]
+    print('Highest Predicted Probability: ' + str(output_type_probability))
+    if output_type_probability < 0.5:
         return 'Unsure'
     
     return behavior_types[output_type_index]
@@ -181,6 +184,7 @@ def start_chat():
         return jsonify({'response': 'Goodbye!'})
     
     model = load_model(model_name, training, output)
+
     prompt_behavior_type = predict_behavior_type_from_prompt(chatText, model)
 
     if prompt_behavior_type == 'Unsure':

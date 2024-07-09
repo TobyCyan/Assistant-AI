@@ -137,13 +137,16 @@ const AIBox = ({stylingCondition, response, setResponse, chatting, setChatting})
             <div className={stylingCondition}>
                 <div className="invisibleBox">
                     <div className="AIBox" id="AIBox">
-                        <p>{chatting? response : dialogue}</p>
+                        {chatting? response : dialogue}
                     </div>
                 </div>
 
                 <div className="assistantAvatarDiv">
                     <img src={avatarImg} id="assistantAvatar"/>
                 </div>
+            </div>
+            <div className="chatcontainer">
+
             </div>
         </>
     )

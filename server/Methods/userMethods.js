@@ -4,8 +4,7 @@ const jwt = require('jsonwebtoken')
 const User = db.user
 const Tasks = db.tasks
 
-// Secret Key Must Not Be Leaked for Security Purposes.
-const secretKey = 'aSsiSTaNTAIiSAlwAYsHErEtOhelP020620241aM*$^0^'
+const secretKey = process.env.Secret_Key
 
 /**
  * Adds a new user to the database.
