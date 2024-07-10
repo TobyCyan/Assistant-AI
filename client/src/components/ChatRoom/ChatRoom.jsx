@@ -46,11 +46,12 @@ const ChatRoom = ({closeChatRoomModal, overduedTasks, remindersTasks, upcomingTa
     const [token, setToken] = tokenStatus
     const [userData, setUserData] = userInfo
     
+    /**
+     * @function useEffect
+     * @description Debug statement to show the list of upcoming tasks.
+     */
     useEffect(() => {
-        console.log('Overdued: ' + JSON.stringify(overduedTasks) + '\n')
-        console.log('Reminders: ' + JSON.stringify(remindersTasks)+ '\n')
         console.log('Upcoming: ' + JSON.stringify(upcomingTasks)+ '\n')
-        console.log('Priority: ' + JSON.stringify(priorityTasks))
     }, [])
     
     /**
@@ -94,21 +95,55 @@ const ChatRoom = ({closeChatRoomModal, overduedTasks, remindersTasks, upcomingTa
         return 'Hello!'
     }
 
+    /**
+     * Returns the dialogue line depending on the number of overdue tasks at hand.
+     * @param {Array<Object>} overduedTasks The list of overdued tasks.
+     * @returns {string} The dialogue that is printed regarding the user's overdued tasks.
+     */
     const getOverdueTasksDialogue = (overduedTasks) => {
-        return
+        const overduedTasksLength = overduedTasks.length
+        if (overduedTasksLength == 0) return 'There is no task overdue.'
+        return `There ${overduedTasksLength == 1 ? `is 1 task` : `are ${overduedTasksLength} tasks`} overdue.`
     }
 
+    /**
+     * Returns the dialogue line depending on the tasks at hand that need to be reminded of.
+     * @param {Array<Object>} remindersTasks The list of tasks to be reminded of.
+     * @returns {string} The dialogue that is printed regarding the user's reminder tasks.
+     */
     const getRemindersTasksDialogue = (remindersTasks) => {
-        return
+
+        return ''
     }
 
+    /**
+     * Returns the dialogue line depends on the nearest upcoming task at hand.
+     * @param {Array<Object>} upcomingTasks The list of upcoming tasks.
+     * @returns {string} The dialogue that is printed regarding the user's nearest upcoming task.
+     */
     const getUpcomingTasksDialogue = (upcomingTasks) => {
-
-        return
+        if (upcomingTasks.length >= 1) {
+            const nearestUpcomingTask = upcomingTasks[0]
+            const nearestUpcomingTaskTitle = nearestUpcomingTask['title']
+            const nearestUpcomingTaskDeadline = nearestUpcomingTask['deadline']
+            return `Your nearest upcoming task is ${nearestUpcomingTaskTitle} which ends on ${nearestUpcomingTaskDeadline}!`
+        }
+        return `You haven't added any tasks yet! Try adding some!`
     }
 
+    /**
+     * Returns the dialogue line depends on the highest prioritised task at hand.
+     * @param {Array<Object>} priorityTasks The list of priority tasks.
+     * @returns {string} The dialogue that is printed regarding the user's highest prioritised task.
+     */
     const getPriorityTasksDialogue = (priorityTasks) => {
-        return
+        if (priorityTasks.length >= 1) {
+            const highestPriorityTask = priorityTasks[0]
+            const highestPriorityTaskTitle = highestPriorityTask['title']
+            const highestPriorityTaskDeadline = highestPriorityTask['deadline']
+            return `The highest prioritised task on your list is ${highestPriorityTask}.`
+        }
+        return `I don't have any task to recommend to you either!`
     }
 
     /**
@@ -131,7 +166,7 @@ const ChatRoom = ({closeChatRoomModal, overduedTasks, remindersTasks, upcomingTa
      */
     const reminderDialogueFlow = [
         getGreetingDialogue(timeOfTheDay),
-        'Your Task for today is...',
+        'Your Tasks for today are as follows...',
         getOverdueTasksDialogue(overduedTasks),
         getRemindersTasksDialogue(remindersTasks),
         getUpcomingTasksDialogue(upcomingTasks),

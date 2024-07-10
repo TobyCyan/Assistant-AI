@@ -855,6 +855,7 @@ ul {
   width: 90%;
   height: 90%;
   overflow: auto;
+  overflow-x: hidden;
 }
 
 .chatRoomAvatar {
@@ -988,13 +989,18 @@ ul {
 }
 
 #birthdayCard {
-  background: url('/client/src/AppImages/birthdaycardbackground.png');
+  background: url('/src/AppImages/birthdaycardbackground.png');
   width: 100%;
   height: 100%;
   max-width: 500px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.birthdayCardBackground {
+  position: absolute;
+  left: 20%;
 }
 
 .birthdayMessageTitle {

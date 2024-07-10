@@ -6,7 +6,7 @@ import {useTokenContext} from "../components/TokenContext/TokenContext";
 import AddEditTasks from "../components/TaskModals/AddEditTasks";
 import CompleteDeleteTasks from "../components/TaskModals/CompleteDeleteTasks";
 import ProductivityBar from "../components/ProductivityBar/ProductivityBar.jsx";
-import {isTodayBirthday, isTodayNextDayOfBirthday, compareTasksPriority, compareTasksDeadline, calculateTaskProductivity} from "../utilities/utilities.js";
+import {isTaskOverdue, isTaskNeededToBeReminded, isTaskUpcoming, isTodayBirthday, isTodayNextDayOfBirthday, compareTasksPriority, compareTasksDeadline, calculateTaskProductivity} from "../utilities/utilities.js";
 import AIBox from '../components/AIBox/AIBox.jsx';
 import BirthdayCard from '../components/Birthday/BirthdayCard.jsx';
 import ChatRoom from '../components/ChatRoom/ChatRoom.jsx';
@@ -288,28 +288,19 @@ const Home = () => {
      * Array of Overdued TaskModals.
      * @type {Array<Object>}
      */
-    const overduedTasks = uncompletedTasks.filter(each => {
-        const deadlineDate = new Date(each.deadline)
-        return deadlineDate < currentDate
-    })
+    const overduedTasks = uncompletedTasks.filter(each => isTaskOverdue(each))
 
     /**
-     * Array of tasks with reminders past current date.
+     * Array of tasks with reminders before or equals to current date and isn't overdue.
      * @type {Array<Object>}
      */
-    const remindersTasks = uncompletedTasks.filter(each => {
-        const reminderDate = new Date(each.reminder)
-        return reminderDate <= currentDate
-    })
+    const remindersTasks = uncompletedTasks.filter(each => isTaskNeededToBeReminded(each) && !isTaskOverdue(each))
 
     /** 
      * Array of upcoming tasks.
      * @type {Array<Object>}
      */
-    const upcomingTasks = uncompletedTasks.filter(each => {
-        const deadlineDate = new Date(each.deadline)
-        return deadlineDate > currentDate
-    });
+    const upcomingTasks = uncompletedTasks.filter(each => isTaskUpcoming(each));
 
     /**
      * Array of tasks sorted from high to low priority.

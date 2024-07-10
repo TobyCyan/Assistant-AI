@@ -23,6 +23,12 @@ export const getDDMMYY = (date) => {
 }
 
 /**
+ * Today's date.
+ * @type {Date}
+ */
+const today = new Date();
+
+/**
  * Converts today's date string and a birthday date string into DDMM format, and compares them to see if they match.
  * @param {string} birthday Birthday string to convert into DDMM format.
  * @returns {boolean} true or false.
@@ -40,9 +46,44 @@ export const isTodayBirthday = (birthday) => {
     return todayDateInDDMM == birthdayDateInDDMM
 }
 
+/**
+ * Checks if today is the next day of the user's birthday by checking if the difference in days is 1.
+ * @param {string} birthday Birthday string to compare with the today.
+ * @returns {boolean} true or false.
+ */
 export const isTodayNextDayOfBirthday = (birthday) => {
     const birthdayDate = new Date(birthday)
     return getDaysDifference(birthdayDate, today) == 1
+}
+
+/**
+ * Checks if the task is overdue.
+ * @param {Object} task The task object.
+ * @returns {boolean} true or false.
+ */
+export const isTaskOverdue = (task) => {
+    const deadlineDate = new Date(task.deadline)
+    return deadlineDate < today
+}
+
+/**
+ * Checks if the task needs to be reminded of.
+ * @param {Object} task The task object.
+ * @returns {boolean} true or false.
+ */
+export const isTaskNeededToBeReminded = (task) => {
+    const reminderDate = new Date(task.reminder)
+    return reminderDate <= today
+}
+
+/**
+ * Checks if the task is upcoming.
+ * @param {Object} task The task object.
+ * @returns {boolean} true or false.
+ */
+export const isTaskUpcoming = (task) => {
+    const deadlineDate = new Date(task.deadline)
+    return deadlineDate > today
 }
 
 /**
@@ -206,13 +247,6 @@ export const calculateTaskProductivity = (tasks) => {
     const result = allPoints >= tasks.length ? 100 : allPoints < 0 ? 0 : 100 * allPoints / tasks.length
     return result.toFixed(2)
 }
-
-/**
- * Today's date.
- * @type {Date}
- */
-const today = new Date();
-
 
 /**
  * A function that parses the JSON Web Token (JWT) and extracts the username and userId from it.
