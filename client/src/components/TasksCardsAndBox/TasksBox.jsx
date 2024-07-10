@@ -1,4 +1,4 @@
-import React, {useEffect, ReactNode} from 'react';
+import React, {useEffect, useState, ReactNode} from 'react';
 import "../../index.css"
 import Tasks from "./Tasks.jsx";
 
@@ -12,35 +12,41 @@ import Tasks from "./Tasks.jsx";
  * @param {function} onComplete Function to complete the current task.
  * @returns {ReactNode} A React element that renders the task box that shows the list of tasks.
  */
-const TasksBox = ({title, tasksToShow, onEdit, onDelete, onComplete}) => {
-
+const TasksBox = ({title, tasks, tasksToShow, onEdit, onDelete, onComplete}) => {
+    const [taskList, setTaskList] = useState([])
     useEffect(() => {
         console.log('tasksToShow: ' + tasksToShow)
     },[])
 
-    /** 
-     * ? checks whether tasks exists.
+    /**
+     * @function useEffect
+     * @description Maps each task onto their details to convert into a Task component.
      */
-    const tasks = tasksToShow?.map((task, index) => (<Tasks 
-        key={index}
-        taskId = {task.id}
-        title={task.title}
-        deadline = {task.deadline}
-        priority = {task.priority}
-        category = {task.category}
-        onEdit={() => onEdit(task)}
-        onComplete={() => onComplete(task)}
-        onDelete={() => onDelete(task)}
-    />))
+    useEffect(() => {
+        const tasks = tasksToShow?.map((task, index) => (<Tasks 
+            key={index}
+            taskId = {task.id}
+            title={task.title}
+            deadline = {task.deadline}
+            priority = {task.priority}
+            category = {task.category}
+            onEdit={() => onEdit(task)}
+            onComplete={() => onComplete(task)}
+            onDelete={() => onDelete(task)}
+        />))
+
+        setTaskList(tasks)
+
+    }, [tasks])
 
     return (
         <div className="tasksContainer">
             <div className="tasksBoxTitleBox">
-                <h3>{title} ({tasks.length})</h3>
+                <h3>{title} ({taskList.length})</h3>
             </div>
             <div className="tasksBox">
                 <ul>
-                    {tasks}
+                    {taskList}
                 </ul>
             </div>
         </div>

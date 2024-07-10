@@ -10,7 +10,7 @@ import {useTokenContext} from "../TokenContext/TokenContext.jsx";
  * @returns {ReactNode} A React element that renders the navigation bar.
  */
 const NavBar = () => {
-    const {tokenStatus, userInfo} = useTokenContext()
+    const {tokenStatus} = useTokenContext()
 
     /**
      * The current token and setter function to update it.
@@ -18,20 +18,13 @@ const NavBar = () => {
      */
     const [token, setToken] = tokenStatus
 
-    /**
-     * The current user data and setter function to update it.
-     * @type {[Object, function]}
-     */
-    const [userData, setUserData] = userInfo
-
     return(
         <div className="navBar">
             <div className="navBarLinkBox">
                 <ul className="navList">
                     <li><Link to="/" className="navBarLinks">Assistant AI</Link></li>
                     {token && <li><Link to={token ? "/tasks" : "/login"} className="navBarLinks">My Tasks</Link></li>}
-                    {token && <li><Link to={token ? "/reminder" : "/login"} className="navBarLinks">Reminder</Link></li>}
-                    {token && <li><Link to={token ? "/ChatPage" : "/login"} className="navBarLinks">Totally Not Arona</Link></li>}
+                    {token && <li><Link to={token ? "/shop" : "/login"} className="navBarLinks">Shop</Link></li>}
                 </ul>
             </div>
             <UserInfo/>

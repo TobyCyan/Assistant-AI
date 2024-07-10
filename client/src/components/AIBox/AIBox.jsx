@@ -3,14 +3,16 @@ import '../../index.css'
 import voice_lines from "../../../../ChatBot/static/js/medium";
 import {useTokenContext} from "../TokenContext/TokenContext";
 import avatarImg from '../../AppImages/TempAvatar.png'
+import {useNavigate} from "react-router-dom";
 
 /**
  * A React component that displays the region where the AI assistant can be seen, this includes the assistant itself and any dialogues.
  * @component
  * @returns {ReactNode} A React element that renders the AI assistant.
  */
-const AIBox = ({stylingCondition, response, setResponse, chatting, setChatting, handleDailyReminder}) => {
-    const {tokenStatus, userInfo} = useTokenContext()
+const AIBox = ({stylingCondition}) => {
+    const {userInfo} = useTokenContext()
+    const navigate = useNavigate()
 
     /**
      * The current user data and setter function to update it.
@@ -37,44 +39,30 @@ const AIBox = ({stylingCondition, response, setResponse, chatting, setChatting, 
      */
     useEffect(() => {
         setDialogue(`Welcome Back! ${ userData.username ? userData.username : ''}`)
-    }, [])
+    }, [userData])
 
     /**
      * @function useEffect
      * @description If not chatting, sets the AI assistant's chat bubble with a random dialogue at random intervals.
      */
     useEffect(() => {
-        if (!chatting) {
-            let popUpTimer = setInterval(fetchVoiceLine, randIntervalGenerator())
-        
-            function fetchVoiceLine() {
-                const newRand = randIntervalGenerator()  
-
-                setDialogue(getRandomVoiceLine())
-
-                clearInterval(popUpTimer)
-                popUpTimer = setInterval(fetchVoiceLine, newRand) 
-            }
-
-            return () => {
-                clearInterval(popUpTimer)
-            }
-        } else {
-            setTimeout(handleIdleTimeOut, 10000)
-        }
-    }, [chatting])
-
-    const handleIdleTimeOut = () => {
-        setResponse('Thanks for chatting with me!')
-        setTimeout(stopChatting, 5000)
-    }  
+   
+        let popUpTimer = setInterval(fetchVoiceLine, randIntervalGenerator())
     
-    /**
-     * Stops chatting with the assistant.
-     */
-    const stopChatting = () => {
-        setChatting(false)
-    }
+        function fetchVoiceLine() {
+            const newRand = randIntervalGenerator()  
+
+            setDialogue(getRandomVoiceLine())
+
+            clearInterval(popUpTimer)
+            popUpTimer = setInterval(fetchVoiceLine, newRand) 
+        }
+
+        return () => {
+            clearInterval(popUpTimer)
+        }
+    
+    }, [])
 
     /**
      * @function useEffect
@@ -84,7 +72,6 @@ const AIBox = ({stylingCondition, response, setResponse, chatting, setChatting, 
         const AIBox = document.getElementById('AIBox')
         if (AIBox) {
             AIBox.addEventListener('click', () => {
-                setChatting(false)
                 setDialogue(getRandomVoiceLine()) 
             })
         } else {
@@ -96,9 +83,16 @@ const AIBox = ({stylingCondition, response, setResponse, chatting, setChatting, 
      * Returns a random voice line from the array.
      * @returns A random voice line.
      */
-    function getRandomVoiceLine() {
+    const getRandomVoiceLine = () => {
         const rand_index = Math.floor(Math.random() * len);
         return voice_lines[rand_index]
+    }
+
+    /**
+     * Navigates to the Chat Page to chat with the AI Assistant.
+     */
+    const toAssistantWindow = () => {
+        navigate('/ChatPage')
     }
 
 
@@ -107,13 +101,14 @@ const AIBox = ({stylingCondition, response, setResponse, chatting, setChatting, 
             <div className={stylingCondition}>
                 <div className="invisibleBox">
                     <div className="AIBox" id="AIBox">
-                        {chatting? response : dialogue}
+                        {dialogue}
                     </div>
                 </div>
 
                 <div className="assistantAvatarDiv">
-                    <img src={avatarImg} id="assistantAvatar" onClick={handleDailyReminder}/>
+                    <img src={avatarImg} id="assistantAvatar" onClick={toAssistantWindow}/>
                 </div>
+                <div className="instructionText">Click on the icon to chat!</div>
             </div>
         </>
     )

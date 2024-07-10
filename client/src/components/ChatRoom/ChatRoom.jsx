@@ -1,5 +1,6 @@
 import React, {useEffect, ReactNode} from "react";
 import AIAvatar from '../../AppImages/arona_wave.png'
+import {isTodayNextDayOfBirthday, getDDMM} from "../../utilities/utilities";
 
 /**
  * Creates a response message instance that will show up in the chat room.
@@ -39,7 +40,7 @@ export const addNewChatBotResponse = (response) => {
  * A React component that displays the chat room where the AI Assistant can talk to the user.
  * @returns {ReactNode} A React element that renders the chat room.
  */
-const ChatRoom = ({closeChatRoomModal}) => {
+const ChatRoom = ({closeChatRoomModal, overduedTasks, remindersTasks, upcomingTasks, priorityTasks}) => {
     /**
      * Gets the time of the day depending of the current time in hours.
      * @returns {string} A string that represents the time of the day.
@@ -65,7 +66,7 @@ const ChatRoom = ({closeChatRoomModal}) => {
      * @param {string} timeOfTheDay A string that represents the time of the day.
      * @returns {string} A string that represents the greeting dialogue.
      */
-    const getGreeting = (timeOfTheDay) => {
+    const getGreetingDialogue = (timeOfTheDay) => {
         if (timeOfTheDay == 'EarlyMorning') {
             return "Oh you're still awake? Don't push yourself too hard!"
         }
@@ -80,16 +81,43 @@ const ChatRoom = ({closeChatRoomModal}) => {
         }
         return 'Hello!'
     }
+
+    const getOverdueTasksDialogue = (overduedTasks) => {
+        return
+    }
+
+    const getRemindersTasksDialogue = (remindersTasks) => {
+
+    }
+
+    const getUpcomingTasksDialogue = (upcomingTasks) => {
+        return
+    }
+
+    const getPriorityTasksDialogue = (priorityTasks) => {
+        return
+    }
+    
     /**
      * @type {string} The time of the day.
      */
     const timeOfTheDay = getTimeOfTheDay()
 
     /**
+     * @type {Date} Today's date.
+     */
+    const today = new Date()
+
+    /**
+     * @type {Number} Today's date in terms of the day of the month.
+     */
+    const todayDate = today.getDate()
+
+    /**
      * @type {Array} The flow of the dialogue.
      */
     const reminderDialogueFlow = [
-        getGreeting(timeOfTheDay),
+        getGreetingDialogue(timeOfTheDay),
         'Your Task for today is...',
         'I believe you can do it!!',
         'Filler',
@@ -99,37 +127,56 @@ const ChatRoom = ({closeChatRoomModal}) => {
 
     /**
      * @function useEffect
-     * @description Clears the Chat Room.
+     * @description Resets the reminder array in the localStorage if it does not exist, or user has been reminded and today is a different day than the recorded one.
      */
     useEffect(() => {
-        const chatRoom = document.getElementById('chatroom')
-        chatRoom.innerHTML = ''
+        let reminder = localStorage.getItem(timeOfTheDay)
+        reminder = JSON.parse(reminder)
+
+        if (!reminder || reminder['reminded'] && reminder['date'] != todayDate) {
+            localStorage.setItem(timeOfTheDay, JSON.stringify({reminded: false, date: todayDate}))
+        } 
     }, [])
 
     /**
      * @function useEffect
-     * @description Sets the interval between showing each dialogue in the reminderDialogueFlow array.
+     * @description Clears the Chat Room and sets the interval between showing each dialogue in the reminderDialogueFlow array.
      */
     useEffect(() => {
-        const messageInterval = 1800
-        let index = 0
-        let messageTimer = setInterval(nextMessage, messageInterval)
+        /**
+         * A boolean that indicates whether the user has been reminded during this time of the day.
+         * @type {boolean} true or false.
+         */
+        const hasReminded = JSON.parse(localStorage.getItem(timeOfTheDay))['reminded']
 
-        function nextMessage() {
-            if (index == reminderDialogueFlow.length) {
-                clearInterval(messageTimer)
-                closeChatRoomModal()
+        if (!hasReminded) {
+            const chatRoom = document.getElementById('chatroom')
+            chatRoom.innerHTML = ''
+
+            const messageInterval = 1600
+            let index = 0
+            let messageTimer = setInterval(nextMessage, messageInterval)
+    
+            function nextMessage() {
+                if (index == reminderDialogueFlow.length) {
+                    localStorage.setItem(timeOfTheDay, JSON.stringify({reminded: true, date: todayDate}))
+                    clearInterval(messageTimer)
+                    closeChatRoomModal()
+                }
+                const newMessage = reminderDialogueFlow[index]
+                addNewChatBotResponse(newMessage)
+                index += 1
             }
-            const newMessage = reminderDialogueFlow[index]
-            addNewChatBotResponse(newMessage)
-            index += 1
-        }
-        
-        return () => {
-            clearInterval(messageTimer)
+            
+            return () => {
+                clearInterval(messageTimer)
+            }
+        } else {
+            closeChatRoomModal()
         }
 
     }, [])
+
 
     return (
         <>   

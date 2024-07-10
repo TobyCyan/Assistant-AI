@@ -1,4 +1,4 @@
-import React, { useEffect, useState, ReactNode, useRef } from 'react'
+import React, {useEffect, useState, ReactNode} from 'react'
 import NavBar from "../components/NavBar/NavBar.jsx";
 import TasksBox from "../components/TasksCardsAndBox/TasksBox";
 import Modal from 'react-modal';
@@ -299,7 +299,7 @@ const Home = () => {
      */
     const remindersTasks = uncompletedTasks.filter(each => {
         const reminderDate = new Date(each.reminder)
-        return reminderDate < currentDate
+        return reminderDate <= currentDate
     })
 
     /** 
@@ -334,8 +334,7 @@ const Home = () => {
      * @description Checks whether today is user's birthday and shows the birthday card if it is.
      */
     useEffect(() => {
-        //const birthday = userData.dateOfBirth
-        const birthday = '2003-07-04T00:00:00.000Z'
+        const birthday = userData.dateOfBirth
         if (!birthday) {
             return
         }
@@ -366,26 +365,17 @@ const Home = () => {
         handleDailyReminder()
     }, [])
 
-    /**
-     * Dummy function that returns nothing.
-     * @param {*} dummy Dummy argument.
-     * @returns absolutely nothing.
-     */
-    const dummyFunction = (dummy) => {
-        return
-    }
-
     return (
         <>
             <NavBar />
             <div className="homepageContainer">
                 <div className="overdueAndRemindersBox">
-                    <TasksBox id="overdueBox" key="Overdued" title="Overdued" tasksToShow={overduedTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
-                    <TasksBox key="Reminders" title="Reminders" tasksToShow={remindersTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask} />
+                    <TasksBox id="overdueBox" key="Overdued" title="Overdued" tasks={tasks} tasksToShow={overduedTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
+                    <TasksBox key="Reminders" title="Reminders" tasks={tasks} tasksToShow={remindersTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask} />
                 </div>
                 <div className="upcomingAndPriorityBox">
-                    <TasksBox key="Upcoming" title="Upcoming" tasksToShow={upcomingTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
-                    <TasksBox key="Priority" title="Priority" tasksToShow={priorityTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
+                    <TasksBox key="Upcoming" title="Upcoming" tasks={tasks} tasksToShow={upcomingTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
+                    <TasksBox key="Priority" title="Priority" tasks={tasks} tasksToShow={priorityTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
                 </div>
 
                     {!token ? (
@@ -409,7 +399,7 @@ const Home = () => {
                                     </div>
                                 </div>
 
-                                <AIBox stylingCondition={'Home'} chatting={false} setChatting={dummyFunction} handleDailyReminder={handleDailyReminder}/>
+                                <AIBox stylingCondition={'Home'}/>
 
                             </div>
                             )}
@@ -468,6 +458,7 @@ const Home = () => {
             </Modal>
             <Modal
                 isOpen = {chatRoomModalOpen.isShown}
+                onRequestClose={closeChatRoomModal}
                 style={{
                     overlay: {
                         backgroundColor: "rgba(0, 0, 0, 0.2)"
@@ -476,7 +467,13 @@ const Home = () => {
                 className="ChatRoomModal"
             >
 
-                <ChatRoom closeChatRoomModal={closeChatRoomModal}/>
+                <ChatRoom 
+                    closeChatRoomModal={closeChatRoomModal} 
+                    overduedTasks={overduedTasks} 
+                    remindersTasks={remindersTasks} 
+                    upcomingTasks={upcomingTasks} 
+                    priorityTasks={priorityTasks}
+                />
             </Modal>
         </>
     )

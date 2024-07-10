@@ -87,26 +87,29 @@ const ChatPage = () => {
     }
 
     const handleCodeName = async (code_name) => {
-        if (code_name == 'Weather') {
-            const weatherResponse = await getCurrentPositionWeather()
-            const createWeatherResponse = weatherResponse
-            addNewChatBotResponse(createWeatherResponse)
-            return
-        }
-        
-        if (code_name == 'AddTask') {
+        switch (code_name) {
+            case 'Weather':
+                const weatherResponse = await getCurrentPositionWeather()
+                const createWeatherResponse = weatherResponse
+                addNewChatBotResponse(createWeatherResponse)
+                break
             
-            return
-        }
+            case 'AddTask':
+                break
         
-        if (code_name == 'EditTask') {
-            return
-        }
-        
-        if (code_name == 'DeleteTask') {
-            return
+            case 'EditTask':
+                break
+            
+            case 'DeleteTask':
+                break
+            
+            case 'Priority':
+                break
+            
         }
     }
+
+    
 
     /**
      * Creates a user message instance that will show up in the chat room.
@@ -151,7 +154,7 @@ const ChatPage = () => {
         chatRoom.innerHTML = ''
         const startingResponse = `Hey${userData.username ? ' ' + userData.username : ''}! How can I help you today?`
         addNewChatBotResponse(startingResponse)
-    }, [])
+    }, [userData])
 
     return (
         <>
