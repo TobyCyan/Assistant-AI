@@ -1,6 +1,6 @@
-import React, {useEffect, ReactNode} from "react";
+import React,  { useEffect, ReactNode } from "react";
 import AIAvatar from '../../AppImages/arona_wave.png'
-import {isTodayNextDayOfBirthday, getDDMM} from "../../utilities/utilities";
+import { useTokenContext } from "../TokenContext/TokenContext";
 
 /**
  * Creates a response message instance that will show up in the chat room.
@@ -41,6 +41,18 @@ export const addNewChatBotResponse = (response) => {
  * @returns {ReactNode} A React element that renders the chat room.
  */
 const ChatRoom = ({closeChatRoomModal, overduedTasks, remindersTasks, upcomingTasks, priorityTasks}) => {
+    const {userInfo, tokenStatus} = useTokenContext()
+
+    const [token, setToken] = tokenStatus
+    const [userData, setUserData] = userInfo
+    
+    useEffect(() => {
+        console.log('Overdued: ' + JSON.stringify(overduedTasks) + '\n')
+        console.log('Reminders: ' + JSON.stringify(remindersTasks)+ '\n')
+        console.log('Upcoming: ' + JSON.stringify(upcomingTasks)+ '\n')
+        console.log('Priority: ' + JSON.stringify(priorityTasks))
+    }, [])
+    
     /**
      * Gets the time of the day depending of the current time in hours.
      * @returns {string} A string that represents the time of the day.
@@ -87,17 +99,18 @@ const ChatRoom = ({closeChatRoomModal, overduedTasks, remindersTasks, upcomingTa
     }
 
     const getRemindersTasksDialogue = (remindersTasks) => {
-
+        return
     }
 
     const getUpcomingTasksDialogue = (upcomingTasks) => {
+
         return
     }
 
     const getPriorityTasksDialogue = (priorityTasks) => {
         return
     }
-    
+
     /**
      * @type {string} The time of the day.
      */
@@ -119,10 +132,11 @@ const ChatRoom = ({closeChatRoomModal, overduedTasks, remindersTasks, upcomingTa
     const reminderDialogueFlow = [
         getGreetingDialogue(timeOfTheDay),
         'Your Task for today is...',
-        'I believe you can do it!!',
-        'Filler',
-        'Filler',
-        'Bye!'
+        getOverdueTasksDialogue(overduedTasks),
+        getRemindersTasksDialogue(remindersTasks),
+        getUpcomingTasksDialogue(upcomingTasks),
+        getPriorityTasksDialogue(priorityTasks),
+        'Bye and have fun!'
     ]
 
     /**
@@ -164,6 +178,7 @@ const ChatRoom = ({closeChatRoomModal, overduedTasks, remindersTasks, upcomingTa
                     closeChatRoomModal()
                 }
                 const newMessage = reminderDialogueFlow[index]
+
                 addNewChatBotResponse(newMessage)
                 index += 1
             }

@@ -363,7 +363,7 @@ const Home = () => {
      */
     useEffect(() => {
         handleDailyReminder()
-    }, [])
+    }, [userData])
 
     return (
         <>
