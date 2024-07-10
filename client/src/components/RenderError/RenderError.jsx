@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react"
+import React, {ReactNode} from "react"
 
 /**
  * This component renders the empty username error.

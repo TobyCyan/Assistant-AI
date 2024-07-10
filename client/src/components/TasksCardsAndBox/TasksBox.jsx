@@ -1,4 +1,4 @@
-import React, { useEffect, ReactNode } from 'react';
+import React, {useEffect, ReactNode} from 'react';
 import "../../index.css"
 import Tasks from "./Tasks.jsx";
 

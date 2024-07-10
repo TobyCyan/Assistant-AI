@@ -1,10 +1,9 @@
-import React, { useState, useEffect, ReactNode } from "react";
+import React, {useState, useEffect, ReactNode} from "react";
 import NavBar from "../components/NavBar/NavBar.jsx";
-import { useTokenContext } from "../components/TokenContext/TokenContext";
+import {useTokenContext} from "../components/TokenContext/TokenContext";
 import getCurrentPositionWeather from "../../../ChatBot/static/API Calls/weather";
-import ChatRoom from "../components/ChatRoom/ChatRoom.jsx";
-import { addNewChatBotResponse } from "../components/ChatRoom/ChatRoom.jsx";
-import UserAvatar from '../../../images/TempAvatar.png'
+import {addNewChatBotResponse} from "../components/ChatRoom/ChatRoom.jsx";
+import UserAvatar from '../AppImages/TempAvatar.png'
 
 /**
  * A React component that displays the page where users can interact and chat with the AI Assistant.

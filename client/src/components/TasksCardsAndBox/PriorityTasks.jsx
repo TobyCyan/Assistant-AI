@@ -1,6 +1,6 @@
-import React, { useEffect, useState, ReactNode } from "react";
+import React, {useEffect, useState, ReactNode} from "react";
 import TasksBox from "./TasksBox";
-import { TaskPriorityQueue } from "../../Data Structures/TaskPriorityQueue";
+import {TaskPriorityQueue} from "../../Data Structures/TaskPriorityQueue";
 
 /**
  * A React component that creates a custom priority queue, pushes all current tasks into it, sorts by the task priority and displays them.

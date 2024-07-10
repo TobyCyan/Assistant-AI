@@ -2,7 +2,7 @@ import React, { useEffect, useState, ReactNode, useRef } from 'react'
 import NavBar from "../components/NavBar/NavBar.jsx";
 import TasksBox from "../components/TasksCardsAndBox/TasksBox";
 import Modal from 'react-modal';
-import { useTokenContext } from "../components/TokenContext/TokenContext";
+import {useTokenContext} from "../components/TokenContext/TokenContext";
 import AddEditTasks from "../components/TaskModals/AddEditTasks";
 import CompleteDeleteTasks from "../components/TaskModals/CompleteDeleteTasks";
 import ProductivityBar from "../components/ProductivityBar/ProductivityBar.jsx";

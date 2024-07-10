@@ -1,7 +1,7 @@
-import React, { useState, useEffect, ReactNode } from 'react'
+import React, {useState, useEffect, ReactNode} from 'react'
 import '../../index.css'
-import { useNavigate } from "react-router-dom";
-import { useTokenContext } from "../TokenContext/TokenContext.jsx";
+import {useNavigate} from "react-router-dom";
+import {useTokenContext} from "../TokenContext/TokenContext.jsx";
 
 /**
  * A React component that retrieves the current user data and points to display them.

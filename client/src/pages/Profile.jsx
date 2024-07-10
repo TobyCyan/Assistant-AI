@@ -8,7 +8,6 @@ import SearchBar from "../components/ProfilePage/SearchBar.jsx";
 import FriendReqsBox from "../components/ProfilePage/FriendReqsBox.jsx";
 import FriendsBox from "../components/ProfilePage/FriendsBox.jsx";
 import Modal from 'react-modal';
-import CompleteDeleteTasks from "../components/TaskModals/CompleteDeleteTasks.jsx";
 import RequestModal from "../components/ProfilePage/RequestModal.jsx";
 
 const Profile = () => {

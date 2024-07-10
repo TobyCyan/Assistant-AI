@@ -1,7 +1,7 @@
-import React, { ReactNode } from 'react'
+import React, {ReactNode} from 'react'
 import UserInfo from "./UserInfo.jsx";
 import '../../index.css'
-import { useNavigate, Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {useTokenContext} from "../TokenContext/TokenContext.jsx";
 
 /**

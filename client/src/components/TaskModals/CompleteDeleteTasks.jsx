@@ -1,5 +1,5 @@
 import {useTokenContext} from "../TokenContext/TokenContext.jsx";
-import React, { ReactNode } from 'react'
+import React, {ReactNode} from 'react'
 
 /**
  * A React component that calculates the task points and assign it to the user when completing task, deduct when uncompleting, and removes the task when deleting.

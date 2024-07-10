@@ -1,5 +1,5 @@
 import React, {useEffect, ReactNode} from "react";
-import AIAvatar from '../../../../images/arona_wave.png'
+import AIAvatar from '../../AppImages/arona_wave.png'
 
 /**
  * Creates a response message instance that will show up in the chat room.

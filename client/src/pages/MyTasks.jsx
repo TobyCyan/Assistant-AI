@@ -1,6 +1,5 @@
 import React, {useEffect, useState, ReactNode} from 'react'
 import NavBar from "../components/NavBar/NavBar.jsx";
-
 import '../index.css'
 import {useTokenContext} from "../components/TokenContext/TokenContext";
 import DetailedTaskCard from "../components/TasksCardsAndBox/DetailedTaskCard.jsx";

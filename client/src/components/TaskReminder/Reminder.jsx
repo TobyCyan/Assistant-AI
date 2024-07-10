@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, {useEffect, useState, useRef} from "react";
 import RecognitionConfig from "./RecognitionConfig";
 import NavBar from "../NavBar/NavBar";
 

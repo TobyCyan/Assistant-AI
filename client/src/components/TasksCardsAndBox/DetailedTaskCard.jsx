@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, {ReactNode} from 'react';
 import {getDDMM, getDDMMYY} from '../../utilities/utilities.js'
 
 /**

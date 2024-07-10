@@ -1,5 +1,5 @@
-import React, { useState, useEffect, ReactNode } from 'react';
-import { useTokenContext } from '../TokenContext/TokenContext';
+import React, {useState, ReactNode} from 'react';
+import {useTokenContext} from '../TokenContext/TokenContext';
 import RenderError from '../RenderError/RenderError';
 
 /**

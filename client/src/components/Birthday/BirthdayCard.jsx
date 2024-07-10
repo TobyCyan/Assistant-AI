@@ -1,6 +1,6 @@
 import React, {ReactNode} from "react";
-import { useTokenContext } from "../TokenContext/TokenContext";
-import assistantImg from '../../../../images/arona_wave.png'
+import {useTokenContext} from "../TokenContext/TokenContext";
+import assistantImg from '../../AppImages/arona_wave.png'
 
 /**
  * A React component that displays a birthday card from the AI Assistant on the user's birthday.
