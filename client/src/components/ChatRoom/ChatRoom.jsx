@@ -1,5 +1,6 @@
 import React,  { useEffect, ReactNode } from "react";
-import AIAvatar from '../../AppImages/arona_wave.png'
+import AIAvatar from '../../AppImages/arona_wave.png';
+import { getDDMM } from "../../utilities/utilities";
 import { useTokenContext } from "../TokenContext/TokenContext";
 
 /**
@@ -40,7 +41,7 @@ export const addNewChatBotResponse = (response) => {
  * A React component that displays the chat room where the AI Assistant can talk to the user.
  * @returns {ReactNode} A React element that renders the chat room.
  */
-const ChatRoom = ({closeChatRoomModal, overduedTasks, remindersTasks, upcomingTasks, priorityTasks}) => {
+const ChatRoom = ({closeChatRoomModal, taskData}) => {
     const {userInfo, tokenStatus} = useTokenContext()
 
     const [token, setToken] = tokenStatus
@@ -51,8 +52,8 @@ const ChatRoom = ({closeChatRoomModal, overduedTasks, remindersTasks, upcomingTa
      * @description Debug statement to show the list of upcoming tasks.
      */
     useEffect(() => {
-        console.log('Upcoming: ' + JSON.stringify(upcomingTasks)+ '\n')
-    }, [])
+        console.log('data: ' + JSON.stringify(taskData.overduedTasks)+ '\n')
+    }, [taskData])
     
     /**
      * Gets the time of the day depending of the current time in hours.
@@ -101,6 +102,7 @@ const ChatRoom = ({closeChatRoomModal, overduedTasks, remindersTasks, upcomingTa
      * @returns {string} The dialogue that is printed regarding the user's overdued tasks.
      */
     const getOverdueTasksDialogue = (overduedTasks) => {
+        console.log('overdued: ' + JSON.stringify(overduedTasks))
         const overduedTasksLength = overduedTasks.length
         if (overduedTasksLength == 0) return 'There is no task overdue.'
         return `There ${overduedTasksLength == 1 ? `is 1 task` : `are ${overduedTasksLength} tasks`} overdue.`
@@ -125,7 +127,7 @@ const ChatRoom = ({closeChatRoomModal, overduedTasks, remindersTasks, upcomingTa
         if (upcomingTasks.length >= 1) {
             const nearestUpcomingTask = upcomingTasks[0]
             const nearestUpcomingTaskTitle = nearestUpcomingTask['title']
-            const nearestUpcomingTaskDeadline = nearestUpcomingTask['deadline']
+            const nearestUpcomingTaskDeadline = getDDMM(nearestUpcomingTask['deadline'])
             return `Your nearest upcoming task is ${nearestUpcomingTaskTitle} which ends on ${nearestUpcomingTaskDeadline}!`
         }
         return `You haven't added any tasks yet! Try adding some!`
@@ -141,7 +143,7 @@ const ChatRoom = ({closeChatRoomModal, overduedTasks, remindersTasks, upcomingTa
             const highestPriorityTask = priorityTasks[0]
             const highestPriorityTaskTitle = highestPriorityTask['title']
             const highestPriorityTaskDeadline = highestPriorityTask['deadline']
-            return `The highest prioritised task on your list is ${highestPriorityTask}.`
+            return `The highest prioritised task on your list is ${highestPriorityTaskTitle}.`
         }
         return `I don't have any task to recommend to you either!`
     }
@@ -167,10 +169,10 @@ const ChatRoom = ({closeChatRoomModal, overduedTasks, remindersTasks, upcomingTa
     const reminderDialogueFlow = [
         getGreetingDialogue(timeOfTheDay),
         'Your Tasks for today are as follows...',
-        getOverdueTasksDialogue(overduedTasks),
-        getRemindersTasksDialogue(remindersTasks),
-        getUpcomingTasksDialogue(upcomingTasks),
-        getPriorityTasksDialogue(priorityTasks),
+        getOverdueTasksDialogue(taskData.overduedTasks),
+        getRemindersTasksDialogue(taskData.remindersTasks),
+        getUpcomingTasksDialogue(taskData.upcomingTasks),
+        getPriorityTasksDialogue(taskData.priorityTasks),
         'Bye and have fun!'
     ]
 
@@ -211,9 +213,10 @@ const ChatRoom = ({closeChatRoomModal, overduedTasks, remindersTasks, upcomingTa
                     localStorage.setItem(timeOfTheDay, JSON.stringify({reminded: true, date: todayDate}))
                     clearInterval(messageTimer)
                     closeChatRoomModal()
+                    return
                 }
                 const newMessage = reminderDialogueFlow[index]
-
+                console.log('message: ' + newMessage)
                 addNewChatBotResponse(newMessage)
                 index += 1
             }

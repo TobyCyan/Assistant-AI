@@ -1,8 +1,8 @@
-import React, {useState, useEffect, ReactNode} from "react";
+import React, { useState, useEffect, ReactNode } from "react";
 import NavBar from "../components/NavBar/NavBar.jsx";
-import {useTokenContext} from "../components/TokenContext/TokenContext";
+import { useTokenContext } from "../components/TokenContext/TokenContext";
 import getCurrentPositionWeather from "../../../ChatBot/static/API Calls/weather";
-import {addNewChatBotResponse} from "../components/ChatRoom/ChatRoom.jsx";
+import { addNewChatBotResponse } from "../components/ChatRoom/ChatRoom.jsx";
 import UserAvatar from '../AppImages/TempAvatar.png'
 
 /**
@@ -55,7 +55,7 @@ const ChatPage = () => {
                 addNewChatBotResponse(output)
                 
                 if (reply.code_name) {
-                    handleCodeName(reply.code_name)
+                    handleCodeName(reply.code_name, reply.API_Key)
                 }
             })
             .catch(err => {
@@ -86,15 +86,16 @@ const ChatPage = () => {
         }
     }
 
-    const handleCodeName = async (code_name) => {
+    const handleCodeName = async (code_name, API_Key) => {
         switch (code_name) {
             case 'Weather':
-                const weatherResponse = await getCurrentPositionWeather()
+                const weatherResponse = await getCurrentPositionWeather(API_Key)
                 const createWeatherResponse = weatherResponse
                 addNewChatBotResponse(createWeatherResponse)
                 break
             
             case 'AddTask':
+
                 break
         
             case 'EditTask':
@@ -181,7 +182,7 @@ const ChatPage = () => {
                         >
                             
                     </input>
-                    <button onClick= {() => handleInput()}className="sendButton"></button>
+                    <button onClick= {() => handleInput()} className="sendButton"></button>
                     <span className="border"></span>
                 </div>
 

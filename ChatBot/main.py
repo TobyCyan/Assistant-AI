@@ -16,13 +16,16 @@ import json
 import pickle
 from flask import Flask, request, jsonify, render_template, url_for
 from flask_cors import CORS
+from dotenv import load_dotenv
 
+Weather_API_Key = os.environ.get('Weather_API_Key')
 
 file = open('behavior.json')
 behavior_data = json.load(file)
 
 app = Flask(__name__)
 CORS(app)
+load_dotenv()
 
 @app.route('/')
 def home():
@@ -198,7 +201,7 @@ def start_chat():
     response = responseArr[int(rand * (len(responseArr) - 1))]
 
     if prompt_behavior_type == 'Weather':
-        return jsonify({'response': response, 'code_name': 'Weather', 'type': prompt_behavior_type})
+        return jsonify({'response': response, 'code_name': 'Weather', 'type': prompt_behavior_type, 'API_Key': Weather_API_Key})
     
     return jsonify({'response': response, 'type': prompt_behavior_type})
 
@@ -219,6 +222,7 @@ training, output, input_words, behavior_types = prepare_training_input_and_outpu
 def retrain():
     model = train_model_and_load('model.tflearn', training, output)
     return jsonify({'message': 'Retrain Successful!'}), 200
+
 
 @app.route('/behaviorarray')
 def behavior_array():

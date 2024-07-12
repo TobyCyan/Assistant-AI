@@ -34,13 +34,15 @@ Our goal is to develop a task management application that helps users to organiz
 
 ### User Guide
 
-1.  Users are required to have the following installed: Node.js, Express.js, XAMPP, and MySQL
-2.  After cloning, users need to setup a MySQL database and configure it to the config folder by matching the name and password
+1.  Users are required to have the following installed: Node.js, Express.js, XAMPP, and MySQL.
+2.  After cloning, users need to setup a MySQL database and configure it to the config folder by matching the name and password.
 3.  Run the XAMPP control panel and click on the "start" button for both Apache and MySQL.
-4.  Create a .env file in the root directory, and add a Secret_Key and PORT variable.
-5.  Run "npm install" in the terminal to install all dependencies.
-6.  For running the frontend, users may change directory to /client and run "npm run dev".
-7.  For running the backend, users may change directory to /server and run "npm run dev".
+4. If you wish to test out getting weather information from the AI Assistant, you will have to obtain an API key from OpenWeatherMap.org.
+5.  Create a .env file in the root directory, and add a Secret_Key, a PORT, and the Weather_API_Key variable.
+6. Run "pip3 install" in the terminal of the root directory to install all python dependencies.
+7.  For running the frontend, users may change directory to /client, run "npm install" in the terminal to install all dependencies, and run "npm run dev".
+8.  For running the backend, users may change directory to /server, run "npm install" in the terminal to install all dependencies, and run "npm run dev".
+9. For running the chatbot, users may change directory to /ChatBot, and run "python main.py".
 
 ### Project Scope
 

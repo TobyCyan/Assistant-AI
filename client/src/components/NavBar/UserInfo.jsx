@@ -1,7 +1,10 @@
-import React, {useState, useEffect, ReactNode} from 'react'
+import React, { useState, useEffect, ReactNode } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import '../../index.css'
 import {useNavigate} from "react-router-dom";
-import {useTokenContext} from "../TokenContext/TokenContext.jsx";
+import { useTokenContext } from "../TokenContext/TokenContext.jsx";
+import { lib } from 'crypto-js';
 
 /**
  * A React component that retrieves the current user data and points to display them.
@@ -115,6 +118,9 @@ const UserInfo = () => {
         if (token) {
             return (
                 <div className="userInfo">
+                    <div className="notification">
+                        <FontAwesomeIcon icon={faEnvelope} />
+                    </div>
                     <div onClick={onProfile} className="nameAndPoints">
                         <p className="username">{username}</p>
                         <p className="points">{points} pts</p>
