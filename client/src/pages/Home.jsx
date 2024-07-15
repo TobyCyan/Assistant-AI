@@ -1,15 +1,16 @@
 import React, { useCallback, useEffect, useState, ReactNode } from 'react'
-import NavBar from "../components/NavBar/NavBar.jsx";
-import TasksBox from "../components/TasksCardsAndBox/TasksBox";
+import NavBar from "../components/NavBar/NavBar.jsx"
+import TasksBox from "../components/TasksCardsAndBox/TasksBox"
 import Modal from 'react-modal';
-import { useTokenContext } from "../components/TokenContext/TokenContext";
-import AddEditTasks from "../components/TaskModals/AddEditTasks";
-import CompleteDeleteTasks from "../components/TaskModals/CompleteDeleteTasks";
-import ProductivityBar from "../components/ProductivityBar/ProductivityBar.jsx";
-import { isTaskOverdue, isTaskNeededToBeReminded, isTaskUpcoming, isTodayBirthday, isTodayNextDayOfBirthday, compareTasksPriority, compareTasksDeadline, calculateTaskProductivity } from "../utilities/utilities.js";
-import AIBox from '../components/AIBox/AIBox.jsx';
-import BirthdayCard from '../components/Birthday/BirthdayCard.jsx';
-import ChatRoom from '../components/ChatRoom/ChatRoom.jsx';
+import { useTokenContext } from "../components/TokenContext/TokenContext"
+import AddEditTasks from "../components/TaskModals/AddEditTasks"
+import CompleteDeleteTasks from "../components/TaskModals/CompleteDeleteTasks"
+import ProductivityBar from "../components/ProductivityBar/ProductivityBar.jsx"
+import { isTaskOverdue, isTaskNeededToBeReminded, isTaskUpcoming, isTodayBirthday, isTodayNextDayOfBirthday, compareTasksPriority, compareTasksDeadline, calculateTaskProductivity } from "../utilities/utilities.js"
+import AIBox from '../components/AIBox/AIBox.jsx'
+import BirthdayCard from '../components/Birthday/BirthdayCard.jsx'
+import ChatRoom from '../components/ChatRoom/ChatRoom.jsx'
+import { wait } from '../components/ChatRoom/ChatRoom.jsx'
 
 /**
  * A React component that displays the home page and a brief layout of the current user tasks, including the navigation bar, 4 task boxes, and the modal to add or edit tasks.
@@ -284,9 +285,9 @@ const Home = () => {
     }
 
     /** 
-         * Array of Overdued TaskModals.
-         * @type {Array<Object>}
-         */
+     * Array of Overdued TaskModals.
+     * @type {Array<Object>}
+     */
     const overduedTasks = uncompletedTasks.filter(each => isTaskOverdue(each))
 
     /**
@@ -352,7 +353,11 @@ const Home = () => {
      * @description Opens the Chat Room modal everyday for the daily reminder.
      */
     useEffect(() => {
-        handleDailyReminder()
+        const waitForABit = async () => {
+            await wait(5000)
+            handleDailyReminder()
+        }
+        waitForABit()
     }, [])
 
     return (

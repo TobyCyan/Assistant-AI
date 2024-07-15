@@ -1,5 +1,5 @@
-import React, {useState, ReactNode} from 'react';
-import {useTokenContext} from '../TokenContext/TokenContext';
+import React, { useState, ReactNode } from 'react';
+import  { useTokenContext } from '../TokenContext/TokenContext';
 import RenderError from '../RenderError/RenderError';
 
 /**
@@ -65,7 +65,6 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
      * @throws {Error} Throws an error if adding task fails.
      */
     const addNewTask = async () => {
-        console.log(reminderDate)
         // console.log(reminderTime)
         const newTask = {
             title: title,
@@ -138,7 +137,6 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
             completed: taskData.completed,
             points: taskData.points,
         }
-        console.log(deadline)
 
         /**
          * Data to post and make the API call.

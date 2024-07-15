@@ -35,12 +35,6 @@ with open("behavior.json") as file:
         data = json.load(file)
 
 
-@app.route('/api/get_medium_script')
-def get_medium_script():
-    script = url_for('static', filename='js/medium.js', _external=True)
-    return jsonify({'script': script})
-
-
 def tokenize_and_stem_string(string: str):
     punctuations = '.?!,'
     result = nltk.word_tokenize(string)
@@ -201,7 +195,7 @@ def start_chat():
     response = responseArr[int(rand * (len(responseArr) - 1))]
 
     if prompt_behavior_type == 'Weather':
-        return jsonify({'response': response, 'code_name': 'Weather', 'type': prompt_behavior_type, 'API_Key': Weather_API_Key})
+        return jsonify({'response': response, 'type': prompt_behavior_type, 'API_Key': Weather_API_Key})
     
     return jsonify({'response': response, 'type': prompt_behavior_type})
 

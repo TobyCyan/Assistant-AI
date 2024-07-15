@@ -3,11 +3,14 @@ import AIAvatar from '../../AppImages/arona_wave.png';
 import { getDDMM } from "../../utilities/utilities";
 import { useTokenContext } from "../TokenContext/TokenContext";
 
+export const wait = (n) => new Promise((resolve) => setTimeout(resolve, n))
+
 /**
  * Creates a response message instance that will show up in the chat room.
+ * @async
  * @param {string} response Response message from the AI Assistant.
  */
-export const addNewChatBotResponse = (response) => {
+export const addNewChatBotResponse = async (response) => {
     const chatRoom = document.getElementById('chatroom')
     
     // Creates a div with messageContainer and receiveContainer classes.
@@ -29,9 +32,10 @@ export const addNewChatBotResponse = (response) => {
     newMessage.classList.add('receive')
     newMessage.innerHTML = response
     // Adjusts the positions of the Avatar and Message box.
-    messageContainer.insertBefore(profilePicture, newMessage.firstElementChild)
+    messageContainer.insertBefore(profilePicture, messageContainer.nextSibling)
     messageContainer.appendChild(newMessage)
     
+    await wait(500)
     // Append the message container to the chatRoom and automatically scrolls to the bottom.
     chatRoom.appendChild(messageContainer)
     chatRoom.scrollTop = chatRoom.scrollHeight;

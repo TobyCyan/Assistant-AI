@@ -874,7 +874,6 @@ ul {
 .messageContainer {
   clear: both;
   display: flex;
-  align-items: center;
   margin: 10px 5px;
   animation: messagePopUp 0.15s ease;
 }
