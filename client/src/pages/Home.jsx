@@ -72,14 +72,14 @@ const Home = () => {
 
         try {
             const res = await fetch('http://localhost:5001/Tasks', dataToPost)
-            if(res.ok) {
+            if (res.ok) {
                 console.log("TaskModals successfully retrieved")
             } else {
                 console.log("Invalid User/TaskModals")
             }
 
             const data = await res.json()
-            if(data) {
+            if (data) {
                 console.log('Type of TaskModals: ' + typeof data.tasks + ', TaskModals: ' + data.tasks + ', isArray? ' + Array.isArray(data.tasks))
                 setTasks(data.tasks)
                 console.log(data.tasks)
@@ -106,14 +106,14 @@ const Home = () => {
 
         try {
             const res = await fetch('http://localhost:5001/GetUserInfo', dataToPost)
-            if(res.ok) {
+            if (res.ok) {
                 console.log("UserInfo successfully retrieved")
             } else {
                 console.log("Invalid User/Info")
             }
 
             const data = await res.json()
-            if(data) {
+            if (data) {
                 console.log(data)
                 setUserData(data)
             }
