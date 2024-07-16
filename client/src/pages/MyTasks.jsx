@@ -1,13 +1,13 @@
-import React, {useEffect, useState, ReactNode} from 'react'
+import React, { useEffect, useState, ReactNode } from 'react'
 import NavBar from "../components/NavBar/NavBar.jsx";
 import '../index.css'
-import {useTokenContext} from "../components/TokenContext/TokenContext";
+import { useTokenContext } from "../components/TokenContext/TokenContext";
 import DetailedTaskCard from "../components/TasksCardsAndBox/DetailedTaskCard.jsx";
 import AddEditTasks from "../components/TaskModals/AddEditTasks";
 import CompleteDeleteTasks from "../components/TaskModals/CompleteDeleteTasks";
-import {compareTasksDeadline} from "../utilities/utilities.js";
+import { compareTasksDeadline } from "../utilities/utilities.js";
 import Modal from 'react-modal';
-import {parseToken} from "../utilities/utilities.js";
+import { parseToken } from "../utilities/utilities.js";
 
 /**
  * A Functional React component that displays all user tasks based on their categories, level of priority and completion status, and allows user to perform task operations such as add, edit, complete, uncomplete and delete.
@@ -65,18 +65,6 @@ function MyTasks() {
         type: "del",
         data: null,
     })
-
-    /**
-     * @function useEffect
-     * @description Set User Data if there is token.
-     */
-    useEffect(() => {
-        if (token) {
-            setToken(token)
-            const tokenData = parseToken(token)
-            setUserData({username: tokenData[0], userId: tokenData[1]})
-        }
-    }, [])
 
     /**
      * @function useEffect

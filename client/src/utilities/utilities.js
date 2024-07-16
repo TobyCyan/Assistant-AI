@@ -249,6 +249,64 @@ export const calculateTaskProductivity = (tasks) => {
 }
 
 /**
+ * Get the Difference between Current Time and Deadline Time.
+ * @param {Object} task The task data.
+ * @returns {number} The difference between current and deadline time.
+ */
+export const getTimeDifference = (task) => {
+    const deadlineDate = new Date(task.deadline)
+    const currDate = new Date()
+    const currTime = currDate.getTime()
+    const deadlineTime = deadlineDate.getTime()
+    const difference = deadlineTime - currTime
+    return difference
+}
+
+/**
+ * Round up or down the given num.
+ * @param {number} num The number to round up or down.
+ * @returns {number} The rounded up or down number.
+ */
+export const roundNum = (num) => {
+    const numCeil = Math.ceil(num)
+    const numFloor = Math.floor(num)
+    const decimalNum = num - numFloor
+    return decimalNum >= 0.5 ? numCeil : numFloor
+}
+
+/**
+ * Calculates the points based on the priority and difference between current time and deadline time.
+ * @param {string} priotity The priority of the task - High, Medium, Low
+ * @param {number} hours The difference in hours between current time and task deadline time.
+ * @returns {number} The priority points of the task.
+ */
+export const calculatePriorityPoints = (priority, hours) => {
+    /**
+     * Map points to priority with different weightages.
+     * @type {Object}
+     */
+    const priorityMap = {
+        High: 3,
+        Medium: 2,
+        Low: 1
+    }
+    return priorityMap[priority] + roundNum(hours / 24)
+}
+
+/**
+ * Calculate Points Earned from Completing the Task.
+ * @returns {number} The task points.
+ */
+export const calculateTaskPoints = (taskData) => {
+    const priority = taskData.priority
+    const difference = getTimeDifference(taskData)
+    const differenceInHours = difference / 1000 / 60 / 60
+    const priorityPoints = calculatePriorityPoints(priority, differenceInHours)
+
+    return differenceInHours < 0 ? 1 : priorityPoints + roundNum(differenceInHours * 0.25)
+}
+
+/**
  * A function that parses the JSON Web Token (JWT) and extracts the username and userId from it.
  * @param {Object} token The JWT obtained from back-end to be parsed.
  * @returns {[string, number]} Array of the username and userId.

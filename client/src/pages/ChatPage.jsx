@@ -5,6 +5,7 @@ import getCurrentPositionWeather from "../../../ChatBot/static/API Calls/weather
 import { addNewChatBotResponse } from "../components/ChatRoom/ChatRoom.jsx";
 import UserAvatar from '../AppImages/TempAvatar.png'
 import { wait } from "../components/ChatRoom/ChatRoom.jsx";
+import { getDDMM } from "../utilities/utilities.js";
 
 /**
  * A React component that displays the page where users can interact and chat with the AI Assistant.
@@ -19,11 +20,85 @@ const ChatPage = () => {
     const [inputFlow, setInputFlow] = useState([])
     const [index, setIndex] = useState(0)
     const [taskData, setTaskData] = useState(null)
+    const [tasks, setTasks] = useState([])
 
-    
+    /**
+     * Array of inputs to quit input mode.
+     * @type {Array<String>}
+     */
     const quitInputs = ['quit', 'q', 'bye', 'stop', 'leave']
+
+    /**
+     * Array of inputs to go back to the previous input stage.
+     * @type {Array<String>}
+     */
+    const backInputs = ['back', 'go back', 'previous']
+
+    /**
+     * Array of inputs to confirm.
+     * @type {Array<String>}
+     */
+    const confirmInputs = ['confirm', 'yes', 'sure', 'okay', 'no problem']
+
+    /**
+     * Array of inputs to unconfirm.
+     * @type {Array<String>}
+     */
+    const unconfirmInputs = ['no']
+
+    /**
+     * Array of inputs to indicate priority level.
+     * @type {Array<String>}
+     */
     const priorities = ['High', 'Medium', 'Low']
-    const confirmationPrompts = ['confirm', 'yes', 'sure', 'okay', 'no problem']
+
+    /**
+     * Array of strings to indicate each stage during addition of a new task.
+     * @type {Array<String>}
+     */
+    const addTaskFlow = ['title', 'description', 'category', 'deadline', 'priority', 'reminder']
+
+    /**
+     * A string of the quit inputs that dynamically changes depending on the quitInput array.
+     * The string looks like this: 'quitInput(1), quitInput(2), ... , or quitInput(n)'
+     * @type {string}
+     */
+    const quitInputsString = quitInputs.slice(0, -1).join(', ') + `, or ${quitInputs.slice(-1)}`
+
+    /**
+     * A string of the back inputs that dynamically changes depending on the backInput array.
+     * The string looks like this: 'backInput(1), backInput(2), ... , or backInput(n)'
+     * @type {string}
+     */
+    const backInputsString = backInputs.slice(0, -1).join(', ') + `, or ${backInputs.slice(-1)}`
+
+    /**
+     * A string of the confirm inputs that dynamically changes depending on the confirmInput array.
+     * The string looks like this: 'confirmInput(1), confirmInput(2), ... , or confirmInput(n)'
+     * @type {string}
+     */
+    const confirmInputsString = confirmInputs.slice(0, -1).join(', ') + `, or ${confirmInputs.slice(-1)}`
+
+    /**
+     * A string of the unconfirm inputs that dynamically changes depending on the unconfirmInput array.
+     * The string looks like this: 'unconfirmInput(1), unconfirmInput(2), ... , or unconfirmInput(n)'
+     * @type {string}
+     */
+    const unconfirmInputsString = unconfirmInputs.slice(0, -1).join(', ') + `, or ${unconfirmInputs.slice(-1)}`
+
+    /**
+     * An array of strings that shows the index, title, category and deadline in the DDMM format of each task.
+     * @type {Array<string>}
+     */
+    const taskList = tasks.map((task, index) => {
+        return `${(index + 1)}. ${task.title}, ${task.category}, ${getDDMM(task.deadline)}`
+    })
+
+    /**
+     * The string after joining all the strings in the taskList array, separating them by a line break element.
+     * @type {string}
+     */
+    const taskListText = taskList.join('<br>')
 
     /**
      * The current task title and setter function to update it.
@@ -76,6 +151,18 @@ const ChatPage = () => {
     const [userData, setUserData] = userInfo
 
     /**
+     * @function useEffect
+     * @description Get User Info and User TaskModals if there is token.
+     */
+    useEffect(() => {
+        if (token) {
+            localStorage.setItem('token', token)
+            getUserTasks()
+        }
+    }, [token])
+
+
+    /**
      * POST Request to Add Task.
      * @async
      * @returns {Promise<void>} A promise that adds the user task.
@@ -123,10 +210,73 @@ const ChatPage = () => {
             setDeadline('')
             setPriority('')
             setReminderDate('')
+            getUserTasks()
         })
         .catch(err => {
             console.error('Error Adding Task: ', err.message)
         })
+    }
+
+    /**
+     * Async GET method to get user tasks.
+     * @async
+     * @returns {Promise<void>} A promise that gets the current user's tasks.
+     * @throws {Error} Throws an error if getting user tasks fails.
+     */
+    const getUserTasks = async () => {
+        const dataToPost = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        try {
+            const res = await fetch('http://localhost:5001/Tasks', dataToPost)
+            if (res.ok) {
+                console.log("TaskModals successfully retrieved")
+            } else {
+                console.log("Invalid User/TaskModals")
+            }
+
+            const data = await res.json()
+            if (data) {
+                setTasks(data.tasks)
+                console.log('task fetched!')
+            }
+        } catch (error) {
+            console.error('Failed to Fetch TaskModals!', error)
+        }
+    }
+
+    /**
+     * DELETE Request to delete Task.
+     * @async
+     * @param {Number} taskId The task ID to post.
+     * @returns {Promise<void>} A promise that deletes a task.
+     * @throws {Error} Throws an error if deleting task fails.
+     */
+    const deleteTask = async (taskId) => {
+        const dataToPost = {
+            method: 'DELETE',
+            body: JSON.stringify({taskId}),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        try {
+            const res = await fetch('http://localhost:5001/DeleteTask', dataToPost)
+            if(res) {
+                await res.json()
+                getUserTasks()
+            }
+
+        } catch (error) {
+            console.error('Failed to Delete task!', error)
+        }
     }
 
     /**
@@ -203,7 +353,24 @@ const ChatPage = () => {
     }
 
     /**
+     * Switches to input mode to take user inputs to add to database.
+     * @async
+     * @param {string} inputType The input type to switch to.
+     * @returns {void} Returns nothing.
+     */
+    const switchToInputMode = async (inputType) => {
+        const inputModeText = 'Entering input mode... Please wait a moment.'
+
+        setTakingInput(true)
+        setInputType(inputType)
+        setIndex(0)
+        await addNewChatBotResponse(inputModeText)
+        return
+    }
+    
+    /**
      * Handles the specified response type and pass in an API key if it exists to receive a custom response from the chat bot.
+     * @async
      * @param {string} responseType The response type to handle.
      * @param {string} apiKey The API Key to pass in to get certain information. 
      */
@@ -216,25 +383,35 @@ const ChatPage = () => {
                 break
             
             case 'AddTask':
-                const addTaskFlow = ['title', 'description', 'category', 'deadline', 'priority', 'reminder']
                 setInputFlow(addTaskFlow)
 
+                const quitInstructionText = `All set! Please say either of ${quitInputsString} to quit input mode!`
+                const backInstructionText = `You can also say ${backInputsString} to go back to the previous field if you ever change your mind!`
+                const titleInputText = 'Please start by entering the title of your new task~'
                 await switchToInputMode(responseType)
-                await addNewChatBotResponse('All set! Please start by entering the title of your new task~')
-                await addNewChatBotResponse('Please say quit, q, bye, stop, or leave to quit input mode!')
+                await addNewChatBotResponse(quitInstructionText)
+                await addNewChatBotResponse(backInstructionText)
+                await addNewChatBotResponse(titleInputText)
                 break
         
             case 'EditTask':
-                setTakingInput(true)
+
                 break
             
             case 'DeleteTask':
-                setTakingInput(true)
+                const obtainingTaskText = 'Obtaining all of your tasks...'
+                await switchToInputMode(responseType)
+                await addNewChatBotResponse(obtainingTaskText)
+                await getUserTasks()
+                await addNewChatBotResponse('All set!')
+
+                const showTaskListText = `Please enter the index number of the task to delete it (which means ${taskList.length == 1 ? 1 : `1 - ${taskList.length}`})!<br> ${taskListText}`
+                await addNewChatBotResponse(showTaskListText)
                 break
             
             case 'Priority':
-                break
-            
+
+                break    
         }
     }
 
@@ -248,29 +425,42 @@ const ChatPage = () => {
         if (quitInputs.includes(input.toLowerCase())) {
             setTakingInput(false)
             setInConfirmation(false)
+            setIndex(0)
             await addNewChatBotResponse('Quitting input mode.')
             await addNewChatBotResponse('Back to normal! What would you like to do next?')
             return
         }
+
+        if (index > 0 && backInputs.includes(input.toLowerCase())) {
+            setIndex(index - 1)
+            await addNewChatBotResponse('Understood!')
+            await addNewChatBotResponse(`Please re-input the value for the ${inputFlow[index - 1]}.`)
+            return
+        }
+
+        if (index == 0 && backInputs.includes(input.toLowerCase())) {
+            await addNewChatBotResponse('We are already at the beginning!')
+            return
+        }
+
         switch (inputType) {
             case 'AddTask':
                 redirectInputToAddTask(input)
                 break
+
+            case 'EditTask':
+
+                break
+
+            case 'DeleteTask':
+                redirectInputToDeleteTask(input)
+                break
+
+            case 'Priority':
+
+                break
+
         }
-    }
-
-    /**
-     * Switches to input mode to take user inputs to add to database.
-     * @param {string} inputType The input type to switch to.
-     * @returns {void} Returns nothing.
-     */
-    const switchToInputMode = async (inputType) => {
-        const inputModeText = 'Entering input mode... Please wait a moment.'
-
-        setTakingInput(true)
-        setInputType(inputType)
-        await addNewChatBotResponse(inputModeText)
-        return
     }
 
     /**
@@ -373,6 +563,7 @@ const ChatPage = () => {
      */
     const redirectInputToAddTask = async (input) => {
         const currFlowStage = inputFlow[index]
+        console.log('index: ' + index)
 
         switch (currFlowStage) {
             case 'title':
@@ -421,44 +612,98 @@ const ChatPage = () => {
         setIndex(index + 1)
 
         if (index + 1 == inputFlow.length) {
-            await generateConfirmation()
+            await generateConfirmation(inputType)
             return
         }
+    } 
+
+    /**
+     * Once in input mode, all user inputs are redirected here to set the inputs for deleting an existing task.
+     * @async
+     * @param {string} input The user input.
+     * @returns {void}
+     */
+    const redirectInputToDeleteTask = async (input) => {
+        if (isNaN(input)) {
+            const notANumberText = 'Input must be a number!'
+            await addNewChatBotResponse(notANumberText)
+            return
+        }
+        if (input < 1 || input > tasks.length) {
+            const indexOutOfRangeText = 'Your index is out of range, please tell me a valid one to delete.'
+            await addNewChatBotResponse(indexOutOfRangeText)
+            return
+        }
+
+        setIndex(parseInt(input))
+        await generateConfirmation(inputType, input)
+        return
     }
 
-    const generateConfirmation = async () => {
+    const generateConfirmation = async (inputType, input) => {
         setInConfirmation(true)
         await addNewChatBotResponse('Hold on a moment...')
         await wait(1000)
-        const summaryText = `Your new task to be added will be: <br>
-        Title: ${title} <br>
-        Description: ${description} <br>
-        Category: ${category} <br>
-        Deadline: ${deadline} <br>
-        Priority: ${priority} <br> 
-        Reminder: ${reminderDate} <br> 
-        Would that be okay?`
 
-        const confirmationText = 'Please enter confirm, yes, sure, okay, or no problem to proceed.'
-        await addNewChatBotResponse(summaryText)
-        await addNewChatBotResponse(confirmationText)
-        setIndex(0)
+        const generalConfirmationText = `Please enter ${confirmInputsString} to proceed. <br> Or enter ${unconfirmInputsString} to leave`
+        switch (inputType) {
+            case 'AddTask':
+                const summaryText = `Your new task to be added will be: <br>
+                Title: ${title} <br>
+                Description: ${description} <br>
+                Category: ${category} <br>
+                Deadline: ${deadline} <br>
+                Priority: ${priority} <br> 
+                Reminder: ${reminderDate} <br> 
+                Would that be okay?`
+
+
+                await addNewChatBotResponse(summaryText)
+                await addNewChatBotResponse(generalConfirmationText)
+                setIndex(0)
+                break
+
+            case 'DeleteTask':
+                const taskIndex = input - 1
+                const deleteTaskConfirmationText = `Task ${taskList[taskIndex]} will be deleted.`
+                await addNewChatBotResponse(deleteTaskConfirmationText)
+                await addNewChatBotResponse(generalConfirmationText)
+                break
+
+        }
         setTakingInput(false)
     }
 
     const applyConfirmation = async (input) => {
+        if (unconfirmInputs.includes(input.toLowerCase()) || quitInputs.includes(input.toLowerCase())) {
+            setTakingInput(false)
+            setInConfirmation(false)
+            await addNewChatBotResponse('Leaving confirmation mode...')
+            await addNewChatBotResponse('Back to normal! What would you like to do next?')
+            return
+        }
+
         if (!confirmationPrompts.includes(input.toLowerCase())) {
             await addNewChatBotResponse('Your confirmation is not clear enough, please try again.')
             return
         }
         switch (inputType) {
             case 'AddTask':
-                console.log('adding task')
-                addNewTask()
+                await addNewTask()
+
+                const addTaskSuccessMessage = 'Task has been successfully added!'
+                await addNewChatBotResponse(addTaskSuccessMessage)
                 break
+            
+            case 'DeleteTask':
+                console.log('tasks, ', tasks[index], index)
+                const taskId = tasks[index - 1].id
+                await deleteTask(taskId)
+                const deleteTaskSuccessMessage = 'Task has been successfully deleted!'
+                await addNewChatBotResponse(deleteTaskSuccessMessage)
         }
         setInputType('')
-        setTakingInput(false)
+        setIndex(0)
         setInConfirmation(false)
     }
 
