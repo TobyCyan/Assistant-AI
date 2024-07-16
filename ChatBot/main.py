@@ -215,7 +215,7 @@ training, output, input_words, behavior_types = prepare_training_input_and_outpu
 @app.route('/retrain')
 def retrain():
     model = train_model_and_load('model.tflearn', training, output)
-    return jsonify({'message': 'Retrain Successful!'}), 200
+    return None
 
 
 @app.route('/behaviorarray')
@@ -228,8 +228,6 @@ def behavior_array():
 
 if __name__ == "__main__":
     app.run(debug=True, port=5500)
-
-
 
 
 

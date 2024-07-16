@@ -3,9 +3,9 @@ import NavBar from "../components/NavBar/NavBar.jsx";
 import { useTokenContext } from "../components/TokenContext/TokenContext";
 import getCurrentPositionWeather from "../../../ChatBot/static/API Calls/weather";
 import { addNewChatBotResponse } from "../components/ChatRoom/ChatRoom.jsx";
-import UserAvatar from '../AppImages/TempAvatar.png'
 import { wait } from "../components/ChatRoom/ChatRoom.jsx";
 import { getDDMM } from "../utilities/utilities.js";
+import { checkDeadline, checkPriority, checkReminder, addNewUserMessage } from "../utilities/ChatPageUtilities.js";
 
 /**
  * A React component that displays the page where users can interact and chat with the AI Assistant.
@@ -47,16 +47,16 @@ const ChatPage = () => {
     const unconfirmInputs = ['no']
 
     /**
-     * Array of inputs to indicate priority level.
-     * @type {Array<String>}
-     */
-    const priorities = ['High', 'Medium', 'Low']
-
-    /**
      * Array of strings to indicate each stage during addition of a new task.
      * @type {Array<String>}
      */
     const addTaskFlow = ['title', 'description', 'category', 'deadline', 'priority', 'reminder']
+
+    /**
+     * Array of strings to indicate each stage during editing of an existing task.
+     * @type {Array<String>}
+     */
+    const editTaskFlow = ['select', 'show', 'edit']
 
     /**
      * A string of the quit inputs that dynamically changes depending on the quitInput array.
@@ -84,7 +84,7 @@ const ChatPage = () => {
      * The string looks like this: 'unconfirmInput(1), unconfirmInput(2), ... , or unconfirmInput(n)'
      * @type {string}
      */
-    const unconfirmInputsString = unconfirmInputs.slice(0, -1).join(', ') + `, or ${unconfirmInputs.slice(-1)}`
+    const unconfirmInputsString = `${unconfirmInputs.slice(-1)}`
 
     /**
      * An array of strings that shows the index, title, category and deadline in the DDMM format of each task.
@@ -104,37 +104,37 @@ const ChatPage = () => {
      * The current task title and setter function to update it.
      * @type {[string, function]}
      */
-    const [title, setTitle] = useState(taskData?.title || '');
+    const [title, setTitle] = useState('');
 
     /**
      * The current task description and setter function to update it.
      * @type {[string, function]}
      */
-    const [description, setDescription] = useState(taskData?.description  || '');
+    const [description, setDescription] = useState('');
 
     /**
      * The current task category and setter function to update it.
      * @type {[string, function]}
      */
-    const [category, setCategory] = useState(taskData?.category || '');
+    const [category, setCategory] = useState('');
 
     /**
      * The current task deadline and setter function to update it.
      * @type {[string, function]}
      */
-    const [deadline, setDeadline] = useState(taskData?.deadline?.substring(0, 10) || '');
+    const [deadline, setDeadline] = useState('');
 
     /**
      * The current task priority and setter function to update it.
      * @type {[string, function]}
      */
-    const [priority, setPriority] = useState(taskData?.priority || '');
+    const [priority, setPriority] = useState('');
 
     /**
      * The current task reminder date and setter function to update it.
      * @type {[string, function]}
      */
-    const [reminderDate, setReminderDate] = useState(taskData?.reminder?.substring(0,10) || '');
+    const [reminderDate, setReminderDate] = useState('');
 
     const {tokenStatus, userInfo} = useTokenContext()
 
@@ -160,7 +160,6 @@ const ChatPage = () => {
             getUserTasks()
         }
     }, [token])
-
 
     /**
      * POST Request to Add Task.
@@ -288,6 +287,66 @@ const ChatPage = () => {
         return text.replace(/\s+/g, '')
     }
 
+    /** POST Request to Edit Task.
+    * @async
+    * @returns {Promise<void>} A promise that edits the user task.
+    * @throws {Error} Throws an error if editing task fails.
+    */
+   const editTask = async (taskData) => {
+
+       /**
+        * Data of the edited task.
+        * @type {Object}
+        */
+       const editedTask = {
+           taskId: taskData.id,
+           title: title,
+           description: description,
+           category: category,
+           deadline: deadline,
+           priority: priority,
+           reminder: reminderDate,
+           //reminder: `${reminderDate}T${reminderTime}:00`,
+           completed: taskData.completed,
+           points: taskData.points,
+       }
+
+       /**
+        * Data to post and make the API call.
+        * @type {Object}
+        */
+       const dataToPost = {
+           method: 'PUT',
+           body: JSON.stringify(editedTask),
+           headers: {
+               'Content-Type': 'application/json',
+               'Authorization': `Bearer ${token}`
+           }
+       };
+
+       await fetch('http://localhost:5001/EditTask', dataToPost)
+           .then(res => {
+               if (res.ok) {
+                   console.log('Task Successfully Edited!')
+                   return res.json()
+               } else {
+                   console.error(err => 'Edit Task Failed!', err)
+               }
+           })
+           .then(task => {
+                setTitle('')
+                setDescription('')
+                setCategory('')
+                setDeadline('')
+                setPriority('')
+                setReminderDate('')
+                getAllTasks()
+           })
+           .catch(err => {
+               console.error('Error Editing Task: ', err.message)
+           })
+   }
+
     /**
      * @async
      * @returns {Promise<void>} A promise that returns a response.
@@ -375,6 +434,12 @@ const ChatPage = () => {
      * @param {string} apiKey The API Key to pass in to get certain information. 
      */
     const handleResponseType = async (responseType, apiKey) => {
+        const obtainingTaskText = 'Obtaining all of your tasks...'
+        const showTaskListText = `Please enter the index number of the task to ${responseType == 'DeleteTask' ? 'delete' : 'edit'} it (which means ${taskList.length == 1 ? 1 : `1 - ${taskList.length}`})!<br> ${taskListText}`
+        const quitInstructionText = `Please say either of ${quitInputsString} to quit input mode!`
+        const backInstructionText = `You can also say ${backInputsString} to go back to the previous field if you ever change your mind!`
+        const titleInputText = 'Please start by entering the title of your new task~'
+
         switch (responseType) {
             case 'Weather':
                 const weatherResponse = await getCurrentPositionWeather(apiKey)
@@ -385,27 +450,28 @@ const ChatPage = () => {
             case 'AddTask':
                 setInputFlow(addTaskFlow)
 
-                const quitInstructionText = `All set! Please say either of ${quitInputsString} to quit input mode!`
-                const backInstructionText = `You can also say ${backInputsString} to go back to the previous field if you ever change your mind!`
-                const titleInputText = 'Please start by entering the title of your new task~'
                 await switchToInputMode(responseType)
                 await addNewChatBotResponse(quitInstructionText)
                 await addNewChatBotResponse(backInstructionText)
+                await addNewChatBotResponse('All set!')
                 await addNewChatBotResponse(titleInputText)
                 break
         
             case 'EditTask':
+                setInputFlow(editTaskFlow)
 
+                await switchToInputMode(responseType)
+                await addNewChatBotResponse(quitInstructionText)
+                await addNewChatBotResponse(backInstructionText)
+                await addNewChatBotResponse(obtainingTaskText)
+                await addNewChatBotResponse('All set!')
+                await addNewChatBotResponse(showTaskListText)
                 break
             
             case 'DeleteTask':
-                const obtainingTaskText = 'Obtaining all of your tasks...'
                 await switchToInputMode(responseType)
                 await addNewChatBotResponse(obtainingTaskText)
-                await getUserTasks()
                 await addNewChatBotResponse('All set!')
-
-                const showTaskListText = `Please enter the index number of the task to delete it (which means ${taskList.length == 1 ? 1 : `1 - ${taskList.length}`})!<br> ${taskListText}`
                 await addNewChatBotResponse(showTaskListText)
                 break
             
@@ -449,7 +515,7 @@ const ChatPage = () => {
                 break
 
             case 'EditTask':
-
+                redirectInputToEditTask(input)
                 break
 
             case 'DeleteTask':
@@ -463,94 +529,43 @@ const ChatPage = () => {
         }
     }
 
-    /**
-     * Checks if the given input date has the correct format of YYYY-MM-DD.
-     * @param {string} date The date to check. 
-     * @returns {boolean} true or false.
-     */
-    const correctDateFormat = (date) => {
-        /**
-         * Array in the format of [YYYY, MM, DD]
-         * @type {Array<String>}
-         */
-        const dateArray = date.split('-')
-        const dateObject = new Date(date)
-        const formatLengthMatches = dateArray[0].length == 4 && dateArray[1].length == 2 && dateArray[2].length == 2
-        return !isNaN(dateObject) && formatLengthMatches
-    }
+    const processInputBasedOnStage = async (inputStage) => {
+        switch (inputStage) {
+            case 'title':
+                setTitle(input)
+                break
 
-    /**
-     * Checks if the given input date comes after today.
-     * @param {string} date The date to check.
-     * @returns {boolean} true or false.
-     */
-    const dateAfterToday = (date) => {
-        const currentDate = new Date()
-        const dateObj = new Date(date)
-        return !(dateObj < currentDate)
-    }
+            case 'description':
+                setDescription(input)
+                break
 
-    /**
-     * Checks if the given input reminder date comes before the deadline.
-     * @param {string} reminder The reminder date.
-     * @param {string} deadline The deadline date.
-     * @returns {boolean} true or false.
-     */
-    const reminderBeforeDeadline = (reminder, deadline) => {
-        const reminderDate = new Date(reminder)
-        const deadlineDate = new Date(deadline)
-        return reminderDate < deadlineDate
-    }
+            case 'category':
+                setCategory(input)
+                break
 
-    /**
-     * Checks for the input deadline format.
-     * @async
-     * @param {string} deadline The input deadline.
-     * @returns {boolean} true or false.
-     */
-    const checkDeadline = async (deadline) => {
-        if (!correctDateFormat(deadline)) {
-            await addNewChatBotResponse('Wrong format, please try again.')
-            return false
-        }
-        if (!dateAfterToday(deadline)) {
-            await addNewChatBotResponse('Deadline should not come before today you silly! Please try again.')
-            return false
-        }
-        return true
-    }
+            case 'deadline':
+                const isDeadlineValid = await checkDeadline(input)
+                if (!isDeadlineValid) {
+                    return false
+                }    
+                setDeadline(input)
+                break
 
-    /**
-     * Checks for the input priorty format.
-     * @async
-     * @param {string} priority The input priority.
-     * @returns {boolean} true or false.
-     */
-    const checkPriority = async (priority) => {
-        if (!priorities.includes(priority)) {
-            await addNewChatBotResponse('For consistency please use the exact words for priority!')
-            return false
-        }
-        return true
-    }
+            case 'priority':
+                const isPriorityValid = await checkPriority(input)
+                if (!isPriorityValid) {
+                    return false
+                }
+                setPriority(input)
+                break
 
-    /**
-     * Checks for the input reminder format.
-     * @param {string} reminder The input reminder.
-     * @returns {boolean} true or false.
-     */
-    const checkReminder = async (reminder) => {
-        if (!correctDateFormat(reminder)) {
-            await addNewChatBotResponse('Wrong format, please try again.')
-            return false
-        }
-        if (!dateAfterToday(reminder)) {
-            await addNewChatBotResponse('Reminder should not come before today you silly! Please try again.')
-            return false
-        }
-        if (!reminderBeforeDeadline(reminder, deadline)) {
-            await addNewChatBotResponse('I have to reminder you before the deadline remember? Please try again.')
-            return false
+            case 'reminder':
+                const isReminderValid = await checkReminder(input, deadline)
+                if (!isReminderValid) {
+                    return false
+                }
+                setReminderDate(input)
+                break
         }
         return true
     }
@@ -564,58 +579,49 @@ const ChatPage = () => {
     const redirectInputToAddTask = async (input) => {
         const currFlowStage = inputFlow[index]
         console.log('index: ' + index)
+        const inputAccepted = await processInputBasedOnStage(currFlowStage)
 
-        switch (currFlowStage) {
-            case 'title':
-                setTitle(input)
-                await addNewChatBotResponse(`Sweet! Please enter the ${inputFlow[index + 1]}.`)
-                break
+        if (inputAccepted) {
+            const next = index + 1
+            const nextStage = inputFlow[next]
+            
+            setIndex(next)
+    
+            index == inputFlow.length - 1 ? 
+                await generateConfirmation(inputType) : 
+                await generateNextStageMessage(nextStage)
+        }
+    } 
 
+    /**
+     * Generates messages for the next stage of user input.
+     * @param {string} nextStage The next stage in the current input flow.
+     * @returns {void}
+     */
+    const generateNextStageMessage = async (nextStage) => {
+        switch (nextStage) {
             case 'description':
-                setDescription(input)
                 await addNewChatBotResponse(`Sweet! Please enter the ${inputFlow[index + 1]}.`)
                 break
 
             case 'category':
-                setCategory(input)
+                await addNewChatBotResponse(`Sweet! Please enter the ${inputFlow[index + 1]}.`)
+                break
+            
+            case 'deadline':
                 await addNewChatBotResponse('Great! Please enter the deadline in the format of YYYY-MM-DD.')
                 break
-
-            case 'deadline':
-                const isDeadlineValid = await checkDeadline(input)
-                if (!isDeadlineValid) {
-                    return
-                }    
-                setDeadline(input)
+            
+            case 'priority':
                 await addNewChatBotResponse('Nice! Please set a priority level of High, Medium or Low!')
                 break
-
-            case 'priority':
-                const isPriorityValid = await checkPriority(input)
-                if (!isPriorityValid) {
-                    return
-                }
-                setPriority(input)
+            
+            case 'reminder':
                 await addNewChatBotResponse('Great! Please enter the reminder date in the format of YYYY-MM-DD.')
                 break
-
-            case 'reminder':
-                const isReminderValid = await checkReminder(input)
-                if (!isReminderValid) {
-                    return
-                }
-                setReminderDate(input)
-                break
-
         }
-
-        setIndex(index + 1)
-
-        if (index + 1 == inputFlow.length) {
-            await generateConfirmation(inputType)
-            return
-        }
-    } 
+        return
+    }
 
     /**
      * Once in input mode, all user inputs are redirected here to set the inputs for deleting an existing task.
@@ -624,14 +630,7 @@ const ChatPage = () => {
      * @returns {void}
      */
     const redirectInputToDeleteTask = async (input) => {
-        if (isNaN(input)) {
-            const notANumberText = 'Input must be a number!'
-            await addNewChatBotResponse(notANumberText)
-            return
-        }
-        if (input < 1 || input > tasks.length) {
-            const indexOutOfRangeText = 'Your index is out of range, please tell me a valid one to delete.'
-            await addNewChatBotResponse(indexOutOfRangeText)
+        if (!isInputNumberValid(input)) {
             return
         }
 
@@ -640,12 +639,69 @@ const ChatPage = () => {
         return
     }
 
+    /**
+     * Once in input mode, all user inputs are redirected here to set the inputs for editing an existing task.
+     * @async
+     * @param {string} input The user input.
+     * @returns {void}
+     */
+    const redirectInputToEditTask = async (input) => {
+        const currFlowStage = inputFlow[index]
+
+        switch (currFlowStage) {
+            case 'select':
+                const isInputValid = await isInputNumberValid(input)
+                if (!isInputValid) {
+                    return
+                }
+                break
+            
+            case 'show':
+                const taskToEdit = tasks[input - 1]
+                const showTaskToEditText = `Your selected task is as follows: <br>
+                                                Title: ${taskToEdit.title} <br>
+                                                Description: ${taskToEdit.description} <br>
+                                                Category: ${taskToEdit.category} <br>
+                                                Deadline: ${getDDMM(taskToEdit.deadline)} <br>
+                                                Priority: ${taskToEdit.priority} <br>
+                                                Reminder: ${getDDMM(taskToEdit.reminder)}`
+                const selectFieldToEditText = 'Please select a field to edit!'
+            
+                await addNewChatBotResponse(showTaskToEditText)
+                await addNewChatBotResponse(selectFieldToEditText)
+
+                break
+
+            case 'edit':
+                const showEditedTaskText = `Task edited! <br>
+                                                Title: ${taskToEdit.title} <br>
+                                                Description: ${taskToEdit.description} <br>
+                                                Category: ${taskToEdit.category} <br>
+                                                Deadline: ${getDDMM(taskToEdit.deadline)} <br>
+                                                Priority: ${taskToEdit.priority} <br>
+                                                Reminder: ${getDDMM(taskToEdit.reminder)}`
+                
+                await addNewChatBotResponse(showEditedTaskText)                    
+                break
+        }
+
+        const next = index + 1
+        setIndex(next)
+        return
+    }
+
+    /**
+     * Generates the confirmation text and asks for confirmation from the user based on the input type.
+     * @async
+     * @param {string} inputType The input type (i.e. AddTask, EditTask, DeleteTask etc.).
+     * @param {string} input The user input.
+     */
     const generateConfirmation = async (inputType, input) => {
         setInConfirmation(true)
         await addNewChatBotResponse('Hold on a moment...')
         await wait(1000)
 
-        const generalConfirmationText = `Please enter ${confirmInputsString} to proceed. <br> Or enter ${unconfirmInputsString} to leave`
+        const generalConfirmationText = `Please enter ${confirmInputsString} to proceed. <br> Or enter ${unconfirmInputsString} to leave.`
         switch (inputType) {
             case 'AddTask':
                 const summaryText = `Your new task to be added will be: <br>
@@ -663,6 +719,10 @@ const ChatPage = () => {
                 setIndex(0)
                 break
 
+            case 'EditTask':
+
+                break
+
             case 'DeleteTask':
                 const taskIndex = input - 1
                 const deleteTaskConfirmationText = `Task ${taskList[taskIndex]} will be deleted.`
@@ -672,6 +732,20 @@ const ChatPage = () => {
 
         }
         setTakingInput(false)
+    }
+
+    const isInputNumberValid = async (input) => {
+        if (isNaN(input)) {
+            const notANumberText = 'Input must be a number!'
+            await addNewChatBotResponse(notANumberText)
+            return false
+        }
+        if (input < 1 || input > tasks.length) {
+            const indexOutOfRangeText = 'Your index is out of range, please tell me a valid one to delete.'
+            await addNewChatBotResponse(indexOutOfRangeText)
+            return false
+        }
+        return true
     }
 
     const applyConfirmation = async (input) => {
@@ -705,39 +779,6 @@ const ChatPage = () => {
         setInputType('')
         setIndex(0)
         setInConfirmation(false)
-    }
-
-    /**
-     * Creates a user message instance that will show up in the chat room.
-     * @param {string} input Input message from the user.
-     */
-    const addNewUserMessage = (input) => {
-        const chatRoom = document.getElementById('chatroom')
-
-        // Creates a div with messageContainer and sendContainer classes.
-        // Acts as the container that will bundle the Avatar and message box.
-        const messageContainer = document.createElement('div')
-        messageContainer.classList.add('messageContainer')
-        messageContainer.classList.add('sendContainer')
-
-        // Creates an img field with src attribute.
-        // Acts as the Avatar.
-        const profilePicture = document.createElement('img')
-        profilePicture.classList.add('chatRoomAvatar')
-        profilePicture.setAttribute('src', UserAvatar)
-
-        // Creates a div with msgbox and send classes.
-        // Acts as the user input message text box.
-        const newMessage = document.createElement('div')
-        newMessage.classList.add('msgbox')
-        newMessage.classList.add('send')
-        newMessage.innerHTML = input
-        messageContainer.appendChild(newMessage)
-        messageContainer.appendChild(profilePicture)
-
-        // Append the message container to the chatRoom and automatically scrolls to the bottom.
-        chatRoom.appendChild(messageContainer)
-        chatRoom.scrollTop = chatRoom.scrollHeight;
     }
 
     /**
