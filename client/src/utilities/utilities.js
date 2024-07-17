@@ -4,7 +4,7 @@
  * @returns {string} The given date in the DDMM format.
  * @example
  * // Returns "10/08"
- * getDDMM('2024-08-10')
+ * getDDMM('2024-08-10') or getDDMM('2024-08-10T00:00:00.000Z')
  */
 export const getDDMM = (date) => {
     return `${date.substring(8, 10)}/${date.substring(5, 7)}`
@@ -16,10 +16,22 @@ export const getDDMM = (date) => {
  * @returns {string} The given date in the DDMMYY format.
  * @example
  * // Returns "10/08/24"
- * getDDMM('2024-08-10')
+ * getDDMM('2024-08-10') or getDDMM('2024-08-10T00:00:00.000Z')
  */
 export const getDDMMYY = (date) => {
     return `${date.substring(8, 10)}/${date.substring(5, 7)}/${date.substring(2,4)}`
+}
+
+/**
+ * Converts a date string into YYYY-MM-DD format.
+ * @param {string} date Date string to convert into YYYY-MM-DD format.
+ * @returns {string} The given date in the YYYY-MM-DD format.
+ * @example
+ * // Returns "2024-08-10"
+ * getDDMM('2024-08-10T00:00:00.000Z')
+ */
+export const getYYYYMMDD = (date) => {
+    return date.split('T')[0]
 }
 
 /**

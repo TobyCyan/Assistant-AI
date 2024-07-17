@@ -11,26 +11,13 @@ import RenderError from '../RenderError/RenderError';
  * @returns {ReactNode} A React element that renders the AddEditTasks modal.
  */
 const AddEditTasks = ({taskData, type, onClose}) => {
-    const {tokenStatus, userInfo, userTasks} = useTokenContext()
+    const {tokenStatus} = useTokenContext()
 
     /**
      * The current token and setter function to update it.
      * @type {[string, function]}
      */
     const [token, setToken] = tokenStatus
-
-    /**
-     * The current user data and setter function to update it.
-     * @type {[Object, function]}
-     */
-    const [userData, setUserData] = userInfo
-
-    /**
-     * The current user tasks and setter function to update it.
-     * @type {[Array<Object>, function]}
-     */
-    const [tasks, setTasks] = useState([])
-
 
     /**
      * The current task title and setter function to update it.
@@ -66,7 +53,7 @@ const AddEditTasks = ({taskData, type, onClose}) => {
      * The current task reminder date and setter function to update it.
      * @type {[string, function]}
      */
-    const [reminderDate, setReminderDate] = useState(taskData?.reminder.substring(0,10) || '');
+    const [reminder, setreminder] = useState(taskData?.reminder.substring(0,10) || '');
     // const [reminderTime, setReminderTime] = useState(taskData?.reminder.substring(11,16) || '');
 
     /**
@@ -82,7 +69,7 @@ const AddEditTasks = ({taskData, type, onClose}) => {
      * @throws {Error} Throws an error if adding task fails.
      */
     const addNewTask = async () => {
-        console.log(reminderDate)
+        console.log(reminder)
         // console.log(reminderTime)
         const newTask = {
             title: title,
@@ -90,7 +77,7 @@ const AddEditTasks = ({taskData, type, onClose}) => {
             category: category,
             deadline: deadline,
             priority: priority,
-            reminder: reminderDate,
+            reminder: reminder,
             completed: false,
             points: 0,
         }
@@ -123,7 +110,7 @@ const AddEditTasks = ({taskData, type, onClose}) => {
             setCategory('')
             setDeadline('')
             setPriority('')
-            setReminderDate('')
+            setreminder('')
             onClose()
         })
         .catch(err => {
@@ -150,12 +137,10 @@ const AddEditTasks = ({taskData, type, onClose}) => {
             category: category,
             deadline: deadline,
             priority: priority,
-            reminder: reminderDate,
-            //reminder: `${reminderDate}T${reminderTime}:00`,
+            reminder: reminder,
             completed: taskData.completed,
             points: taskData.points,
         }
-        console.log(deadline)
 
         /**
          * Data to post and make the API call.
@@ -211,7 +196,7 @@ const AddEditTasks = ({taskData, type, onClose}) => {
             return;
         }
 
-        if(!reminderDate) {
+        if(!reminder) {
             setError('noTaskReminder')
             return
         }
@@ -229,7 +214,7 @@ const AddEditTasks = ({taskData, type, onClose}) => {
         /**
          * @type {Date} Task reminder date.
          */
-        const reminderObj = new Date(reminderDate)
+        const reminderObj = new Date(reminder)
 
         if(deadlineObj < currentDate) {
             setError('deadlinePast')
@@ -315,8 +300,8 @@ const AddEditTasks = ({taskData, type, onClose}) => {
 
                 <div className="reminderBox">
                     <label>Reminder Date:</label>
-                    <input className="reminderInput" type="date" value={reminderDate}
-                           onChange={e => setReminderDate(e.target.value)}/>
+                    <input className="reminderInput" type="date" value={reminder}
+                           onChange={e => setreminder(e.target.value)}/>
                 </div>
             </div>
 

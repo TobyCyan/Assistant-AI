@@ -1,9 +1,9 @@
 import React, {useEffect, useState, ReactNode} from "react";
 import '../../index.css'
 import voice_lines from "../../../../ChatBot/static/js/medium";
-import {useTokenContext} from "../TokenContext/TokenContext";
-import avatarImg from '../../AppImages/TempAvatar.png'
-import {useNavigate} from "react-router-dom";
+import { useTokenContext } from "../TokenContext/TokenContext";
+import avatarImg from '../../AppImages/Mei Chibi Icons/Mei_Chibi_Wave.png'
+import { useNavigate } from "react-router-dom";
 
 /**
  * A React component that displays the region where the AI assistant can be seen, this includes the assistant itself and any dialogues.
@@ -41,28 +41,28 @@ const AIBox = ({stylingCondition}) => {
         setDialogue(`Welcome Back! ${ userData.username ? userData.username : ''}`)
     }, [userData])
 
-    /**
-     * @function useEffect
-     * @description If not chatting, sets the AI assistant's chat bubble with a random dialogue at random intervals.
-     */
-    useEffect(() => {
+    // /**
+    //  * @function useEffect
+    //  * @description If not chatting, sets the AI assistant's chat bubble with a random dialogue at random intervals.
+    //  */
+    // useEffect(() => {
    
-        let popUpTimer = setInterval(fetchVoiceLine, randIntervalGenerator())
+    //     let popUpTimer = setInterval(fetchVoiceLine, randIntervalGenerator())
     
-        function fetchVoiceLine() {
-            const newRand = randIntervalGenerator()  
+    //     function fetchVoiceLine() {
+    //         const newRand = randIntervalGenerator()  
 
-            setDialogue(getRandomVoiceLine())
+    //         setDialogue(getRandomVoiceLine())
 
-            clearInterval(popUpTimer)
-            popUpTimer = setInterval(fetchVoiceLine, newRand) 
-        }
+    //         clearInterval(popUpTimer)
+    //         popUpTimer = setInterval(fetchVoiceLine, newRand) 
+    //     }
 
-        return () => {
-            clearInterval(popUpTimer)
-        }
+    //     return () => {
+    //         clearInterval(popUpTimer)
+    //     }
     
-    }, [])
+    // }, [])
 
     /**
      * @function useEffect
@@ -98,18 +98,17 @@ const AIBox = ({stylingCondition}) => {
 
     return (
         <>
-            <div className={stylingCondition}>
-                <div className="invisibleBox">
-                    <div className="AIBox" id="AIBox">
-                        {dialogue}
-                    </div>
+            <div className="invisibleBox">
+                <div className="AIBox" id="AIBox">
+                    {dialogue}
                 </div>
-
-                <div className="assistantAvatarDiv">
-                    <img src={avatarImg} id="assistantAvatar" onClick={toAssistantWindow}/>
-                </div>
-                <div className="instructionText">Click on the icon to chat!</div>
             </div>
+
+            <div className="assistantAvatarDiv">
+                <img src={avatarImg} id="assistantAvatar" onClick={toAssistantWindow}/>
+            </div>
+            <div className="instructionText">Click on me to chat!</div>
+
         </>
     )
 }

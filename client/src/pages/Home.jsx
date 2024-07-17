@@ -10,7 +10,7 @@ import { isTaskOverdue, isTaskNeededToBeReminded, isTaskUpcoming, isTodayBirthda
 import AIBox from '../components/AIBox/AIBox.jsx'
 import BirthdayCard from '../components/Birthday/BirthdayCard.jsx'
 import ChatRoom from '../components/ChatRoom/ChatRoom.jsx'
-import { wait } from '../components/ChatRoom/ChatRoom.jsx'
+import { wait } from '../utilities/ChatPageUtilities.js';
 
 /**
  * A React component that displays the home page and a brief layout of the current user tasks, including the navigation bar, 4 task boxes, and the modal to add or edit tasks.
@@ -385,7 +385,6 @@ const Home = () => {
                                 <button className="addTaskBtn" onClick={handleAddTask}>Add Task</button>
                             </div>
                             <div className="userDisplayBox">
-                                <div>Welcome back {userData?.username}!</div>
                                 <div>Points: {userData?.points || 0}</div>
                                 <div className="productivityBox">
                                     <h3>Productivity Report</h3>

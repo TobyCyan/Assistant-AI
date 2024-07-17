@@ -1,45 +1,10 @@
-import React,  { useEffect, ReactNode } from "react";
-import AIAvatar from '../../AppImages/arona_wave.png';
+import React,  { useEffect, ReactNode, useState, useRef } from "react";
 import { getDDMM } from "../../utilities/utilities";
 import { useTokenContext } from "../TokenContext/TokenContext";
+import { wait } from "../../utilities/ChatPageUtilities";
+import ChatBotResponseElement from "../MessageElement/ChatBotResponseElement";
 
-export const wait = (n) => new Promise((resolve) => setTimeout(resolve, n))
 
-/**
- * Creates a response message instance that will show up in the chat room.
- * @async
- * @param {string} response Response message from the AI Assistant.
- */
-export const addNewChatBotResponse = async (response) => {
-    const chatRoom = document.getElementById('chatroom')
-    
-    // Creates a div with messageContainer and receiveContainer classes.
-    // Acts as the container that will bundle the Avatar and message box.
-    const messageContainer = document.createElement('div')
-    messageContainer.classList.add('messageContainer')
-    messageContainer.classList.add('receiveContainer')
-
-    // Creates an img field with src attribute.
-    // Acts as the Avatar.
-    const profilePicture = document.createElement('img')
-    profilePicture.classList.add('chatRoomAvatar')
-    profilePicture.setAttribute('src', AIAvatar)
-
-    // Creates a div with msgbox and receive classes.
-    // Acts as the response message text box.
-    const newMessage = document.createElement('div')
-    newMessage.classList.add('msgbox')
-    newMessage.classList.add('receive')
-    newMessage.innerHTML = response
-    // Adjusts the positions of the Avatar and Message box.
-    messageContainer.insertBefore(profilePicture, messageContainer.nextSibling)
-    messageContainer.appendChild(newMessage)
-    
-    await wait(500)
-    // Append the message container to the chatRoom and automatically scrolls to the bottom.
-    chatRoom.appendChild(messageContainer)
-    chatRoom.scrollTop = chatRoom.scrollHeight;
-}
 
 /**
  * A React component that displays the chat room where the AI Assistant can talk to the user.
@@ -50,6 +15,8 @@ const ChatRoom = ({closeChatRoomModal, taskData}) => {
 
     const [token, setToken] = tokenStatus
     const [userData, setUserData] = userInfo
+    const [chatMessages, setChatMessages] = useState([])
+    const lastMessage = useRef(null)
     
     /**
      * @function useEffect
@@ -59,6 +26,23 @@ const ChatRoom = ({closeChatRoomModal, taskData}) => {
         console.log('data: ' + JSON.stringify(taskData.overduedTasks)+ '\n')
     }, [taskData])
     
+    /**
+     * @function useEffect
+     * @description Scrolls the last message into view whenever there is a change in chatMessages.
+     */
+    useEffect(() => {
+        lastMessage.current?.lastElementChild?.scrollIntoView({ behavior: "smooth" });
+    }, [chatMessages])
+
+    /**
+     * Adds on the new chat bot response into the chat room.
+     * @param {string} response The chat bot response.
+     */
+    const addNewChatBotResponse = async (response) => {
+        await wait(800)
+        setChatMessages(prevMessages => [...prevMessages, <ChatBotResponseElement response={response} />])
+    }
+
     /**
      * Gets the time of the day depending of the current time in hours.
      * @returns {string} A string that represents the time of the day.
@@ -238,9 +222,9 @@ const ChatRoom = ({closeChatRoomModal, taskData}) => {
     return (
         <>   
             <div className="chatpageContainer oneWayChatRoom">
-                <div className="chatroom" id="chatroom">
-    
-                </div>   
+                <div className="chatroom" id="chatroom" ref={lastMessage}>
+                    {...chatMessages}
+                </div> 
             </div>
         </>
     )

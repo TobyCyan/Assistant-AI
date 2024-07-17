@@ -13,13 +13,9 @@ import Tasks from "./Tasks.jsx";
  * @returns {ReactNode} A React element that renders the task box that shows the list of tasks.
  */
 const TasksBox = ({title, tasksToShow, onEdit, onDelete, onComplete}) => {
-
-    useEffect(() => {
-        console.log('tasksToShow: ' + tasksToShow)
-    },[])
-
-    /** 
-     * ? checks whether tasks exists.
+    /**
+     * Maps each task into the Tasks component to be shown.
+     * @type {Component}
      */
     const tasks = tasksToShow?.map((task, index) => (<Tasks 
         key = {index}
