@@ -91,9 +91,9 @@ const ChatRoom = ({closeChatRoomModal, taskData}) => {
      */
     const getOverdueTasksDialogue = (overduedTasks) => {
         console.log('overdued: ' + JSON.stringify(overduedTasks))
-        const overduedTasksLength = overduedTasks.length
-        if (overduedTasksLength == 0) return 'There is no task overdue.'
-        return `There ${overduedTasksLength == 1 ? `is 1 task` : `are ${overduedTasksLength} tasks`} overdue.`
+
+        if (overduedTasks == 0) return 'There is no task overdue.'
+        return `There ${overduedTasks == 1 ? `is 1 task` : `are ${overduedTasks} tasks`} overdue.`
     }
 
     /**
@@ -158,9 +158,9 @@ const ChatRoom = ({closeChatRoomModal, taskData}) => {
         getGreetingDialogue(timeOfTheDay),
         'Your Tasks for today are as follows...',
         getOverdueTasksDialogue(taskData.overduedTasks),
-        getRemindersTasksDialogue(taskData.remindersTasks),
-        getUpcomingTasksDialogue(taskData.upcomingTasks),
-        getPriorityTasksDialogue(taskData.priorityTasks),
+        // getRemindersTasksDialogue(taskData.remindersTasks),
+        // getUpcomingTasksDialogue(taskData.upcomingTasks),
+        // getPriorityTasksDialogue(taskData.priorityTasks),
         'Bye and have fun!'
     ]
 

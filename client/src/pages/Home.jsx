@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, ReactNode } from 'react'
+import React, { useRef, useEffect, useState, ReactNode } from 'react'
 import NavBar from "../components/NavBar/NavBar.jsx"
 import TasksBox from "../components/TasksCardsAndBox/TasksBox"
 import Modal from 'react-modal';
@@ -44,6 +44,30 @@ const Home = () => {
     const uncompletedTasks = tasks.filter(task => !task.completed).sort(compareTasksDeadline) || []
     const productivity = calculateTaskProductivity(tasks)
 
+    /** 
+     * Array of Overdued TaskModals.
+     * @type {Array<Object>}
+     */
+    const overduedTasks = uncompletedTasks.filter(each => isTaskOverdue(each))
+
+    /**
+     * Array of tasks with reminders before or equals to current date and isn't overdue.
+     * @type {Array<Object>}
+     */
+    const remindersTasks = uncompletedTasks.filter(each => isTaskNeededToBeReminded(each) && !isTaskOverdue(each))
+
+    /** 
+     * Array of upcoming tasks.
+     * @type {Array<Object>}
+     */
+    const upcomingTasks = uncompletedTasks.filter(each => isTaskUpcoming(each));
+
+    /**
+     * Array of tasks sorted from high to low priority.
+     * @type {Array<Object>}
+     */
+    const priorityTasks = uncompletedTasks.sort(compareTasksPriority)
+
     /**
      * @function useEffect
      * @description Get User Info and User TaskModals if there is token
@@ -81,12 +105,10 @@ const Home = () => {
 
             const data = await res.json()
             if (data) {
-                console.log('Type of TaskModals: ' + typeof data.tasks + ', TaskModals: ' + data.tasks + ', isArray? ' + Array.isArray(data.tasks))
                 setTasks(data.tasks)
-                console.log(data.tasks)
             }
         } catch (error) {
-            console.error('Failed to Fetch TaskModals!', error)
+            console.error('Failed to Fetch TaskModals!', error.message)
         }
     }
 
@@ -115,7 +137,6 @@ const Home = () => {
 
             const data = await res.json()
             if (data) {
-                console.log(data)
                 setUserData(data)
             }
         } catch (error) {
@@ -158,10 +179,10 @@ const Home = () => {
     const [chatRoomModalOpen, setChatRoomModalOpen] = useState({
         isShown: false,
         data: {
-            overduewdTasks: [],
-            remindersTasks: [],
-            upcomingTasks: [],
-            priorityTasks: [],
+            overduedTasks: overduedTasks,
+            remindersTasks: remindersTasks,
+            upcomingTasks: upcomingTasks,
+            priorityTasks: priorityTasks,
         },
     })
     
@@ -283,30 +304,6 @@ const Home = () => {
             }
         })
     }
-
-    /** 
-     * Array of Overdued TaskModals.
-     * @type {Array<Object>}
-     */
-    const overduedTasks = uncompletedTasks.filter(each => isTaskOverdue(each))
-
-    /**
-     * Array of tasks with reminders before or equals to current date and isn't overdue.
-     * @type {Array<Object>}
-     */
-    const remindersTasks = uncompletedTasks.filter(each => isTaskNeededToBeReminded(each) && !isTaskOverdue(each))
-
-    /** 
-     * Array of upcoming tasks.
-     * @type {Array<Object>}
-     */
-    const upcomingTasks = uncompletedTasks.filter(each => isTaskUpcoming(each));
-
-    /**
-     * Array of tasks sorted from high to low priority.
-     * @type {Array<Object>}
-     */
-    const priorityTasks = uncompletedTasks.sort(compareTasksPriority)
 
     /**
      * @function useEffect
