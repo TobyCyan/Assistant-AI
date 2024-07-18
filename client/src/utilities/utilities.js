@@ -329,3 +329,13 @@ export const parseToken = (token) => {
     const userId = tokenPayload?.userId
     return [username, userId]
 }
+
+/**
+ * Obtains a random element from the given array.
+ * @param {Array} array The array to get the random element from.
+ * @returns {*} A random element from the given array.
+ */
+export const randomItem = (array) => {
+    const randomNum = Math.floor(Math.random() * array.length)
+    return array[randomNum]
+}

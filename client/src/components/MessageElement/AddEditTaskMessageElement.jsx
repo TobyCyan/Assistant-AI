@@ -14,7 +14,7 @@ import { getYYYYMMDD } from "../../utilities/utilities";
  * @param {function} setReminderDate The setter function to set the reminder date.
  * @returns {ReactNode} A React element that renders the edit task element.
  */
-const EditTaskElement = ({applyConfirmation, taskToEdit}) => {
+const AddEditTaskMessageElement = ({applyConfirmation, taskToEdit}) => {
     /**
      * The current task title and setter function to update it.
      * @type {[string, function]}
@@ -103,23 +103,24 @@ const EditTaskElement = ({applyConfirmation, taskToEdit}) => {
      * Submits the edited task data to apply confirmation.
      * @param {Event} e The click event.
      */
-    const handleConfirmEdit = (e) => {
+    const handleConfirm = (e) => {
         /**
         * Data of the edited task.
         * @type {Object}
         */
-        const editedTaskData = {
-            taskId: taskToEdit.id,
+        const taskData = {
+            taskId: taskToEdit?.id,
             title: title,
             description: description,
             category: category,
             deadline: deadline,
             priority: priority,
             reminder: reminder,
-            completed: taskToEdit.completed,
-            points: taskToEdit.points,
+            completed: taskToEdit?.completed,
+            points: taskToEdit?.points,
         }
-        applyConfirmation('confirm', editedTaskData)
+        console.log('task data: ', taskData)
+        applyConfirmation('confirm', taskData)
         return
     }
 
@@ -137,10 +138,10 @@ const EditTaskElement = ({applyConfirmation, taskToEdit}) => {
                         </select> <br/>
                 Reminder: <input type="date" value={getYYYYMMDD(reminder)} className="inputField" onChange={handleReminderChange}/> <br/>
 
-                <button className="confirmEditButton" onClick={handleConfirmEdit}>Confirm</button>
+                <button className="confirmEditButton" onClick={handleConfirm}>Confirm</button>
             </div>
         
     )
 }
 
-export default EditTaskElement
+export default AddEditTaskMessageElement
