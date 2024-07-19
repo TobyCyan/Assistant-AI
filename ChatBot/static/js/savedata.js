@@ -140,8 +140,11 @@ console.log(dataArray)
 //saveNewPatternBasedOnType("Can you delete this task for me please?", "DeleteTask")
 //saveNewPatternBasedOnType("Add a Task", "AddTask")
 //saveNewPatternBasedOnType("Add Task", "AddTask")
-saveNewResponseBasedOnTypeAndPattern("Hmm... I like ice cream! ...And talking to you!", "Hobby", "What do you like?")
-
+saveNewResponseBasedOnTypeAndPattern("Your productivity report shows how efficient you’ve been in terms of completing your tasks on time. You can do it!", "ProductivityReport", "Productivity Report.")
+//saveNewResponseBasedOnTypeAndPattern("Understood!", "PriorityTask", "Highest prioritised task.")
+//saveNewResponseBasedOnTypeAndPattern("You got it!", "PriorityTask", "What tasks should I prioritise.")
+saveNewPatternBasedOnType("What is my productivity report?", "ProductivityReport")
+saveNewPatternBasedOnType("Tell me about the productivity report.", "ProductivityReport")
 
 // saveNewPatternBasedOnType("What is the weather today?" , "Weather")
 
