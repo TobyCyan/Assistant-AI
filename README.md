@@ -1,4 +1,4 @@
-## NUS Orbital - Milestone 2 Submission
+## NUS Orbital - Milestone 3 Submission
 
 ### Team Name :
 
