@@ -314,8 +314,11 @@ export const calculateTaskPoints = (taskData) => {
     const difference = getTimeDifference(taskData)
     const differenceInHours = difference / 1000 / 60 / 60
     const priorityPoints = calculatePriorityPoints(priority, differenceInHours)
+    const maxThreshold = 50
+    const totalPoints = priorityPoints + roundNum(differenceInHours * 0.25)
+    const finalPoints = Math.min(totalPoints, maxThreshold)
 
-    return differenceInHours < 0 ? 1 : priorityPoints + roundNum(differenceInHours * 0.25)
+    return differenceInHours < 0 ? 5 : finalPoints
 }
 
 /**
