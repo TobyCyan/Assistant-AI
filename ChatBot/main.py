@@ -13,8 +13,7 @@ tf.compat.v1.disable_eager_execution()
 import numpy as np
 import random
 import json
-import pickle
-from flask import Flask, request, jsonify, render_template, url_for
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from dotenv import load_dotenv
 
