@@ -360,109 +360,111 @@ const Home = () => {
     return (
         <>
         <NavBar />
-        <div className="homepageContainer">
-            <div className="overdueAndRemindersBox">
-                <TasksBox id="overdueBox" key="Overdued" title="Overdued" tasks={tasks} tasksToShow={overduedTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
-                <TasksBox key="Reminders" title="Reminders" tasks={tasks} tasksToShow={remindersTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask} />
-            </div>
-            <div className="upcomingAndPriorityBox">
-                <TasksBox key="Upcoming" title="Upcoming" tasks={tasks} tasksToShow={upcomingTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
-                <TasksBox key="Priority" title="Priority" tasks={tasks} tasksToShow={priorityTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
-            </div>
+        <div className="homepageBg">
+            <div className="homepageContainer">
+                <div className="overdueAndRemindersBox">
+                    <TasksBox id="overdueBox" key="Overdued" title="Overdued" tasks={tasks} tasksToShow={overduedTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
+                    <TasksBox key="Reminders" title="Reminders" tasks={tasks} tasksToShow={remindersTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask} />
+                </div>
+                <div className="upcomingAndPriorityBox">
+                    <TasksBox key="Upcoming" title="Upcoming" tasks={tasks} tasksToShow={upcomingTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
+                    <TasksBox key="Priority" title="Priority" tasks={tasks} tasksToShow={priorityTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
+                </div>
 
-                {!token ? (
-                    <div className="assistantCharacterBox">
-                        <div>
-                            <h2>Please Log In or Sign Up to Add Tasks!</h2>
-                        </div>
-                    </div>
-                        ) : (
+                    {!token ? (
                         <div className="assistantCharacterBox">
-                            <div className="addButtonBox">
-                                <button className="addTaskBtn" onClick={handleAddTask}>Add Task</button>
+                            <div>
+                                <h2>Please Log In or Sign Up to Add Tasks!</h2>
                             </div>
-                            <div className="userDisplayBox">
-                                <div>Points: {userData?.points || 0}</div>
-                                <div className="productivityBox">
-                                    <h3>Productivity Report</h3>
-                                    <ProductivityBar percentage={productivity}/>
-                                    <h3>{productivity}%</h3>
+                        </div>
+                            ) : (
+                            <div className="assistantCharacterBox">
+                                <div className="addButtonBox">
+                                    <button className="addTaskBtn" onClick={handleAddTask}>Add Task</button>
                                 </div>
-                            </div>
+                                <div className="userDisplayBox">
+                                    <div>Points: {userData?.points || 0}</div>
+                                    <div className="productivityBox">
+                                        <h3>Productivity Report</h3>
+                                        <ProductivityBar percentage={productivity}/>
+                                        <h3>{productivity}%</h3>
+                                    </div>
+                                </div>
 
-                            <AIBox stylingCondition={'Home'}/>
+                                <AIBox stylingCondition={'Home'}/>
+
+                            </div>
+                            )}
 
                         </div>
-                        )}
-
-                    </div>
-                    <Modal
-                    isOpen={addEditModalOpen.isShown}
-            onRequestClose={closeAddEditModal}
-            style={{
-                overlay: {
-                    backgroundColor: "rgba(0, 0, 0, 0.2)"
-                },
-            }}
-            contentLabel=""
-            className="AddEditTaskModal"
-        >
-            <AddEditTasks
-                type={addEditModalOpen.type}
-                taskData={addEditModalOpen.data}
-                onClose={closeAddEditModal}
-                getAllTasks={getUserTasks}
-            />
-        </Modal>
-        <Modal
-            isOpen={compDelModalOpen.isShown}
-            onRequestClose={closeCompDelModal}
-            style={{
-                overlay: {
-                    backgroundColor: "rgba(0, 0, 0, 0.2)"
-                },
-            }}
-            contentLabel=""
-            className="CompDelTaskModal"
-        >
-            <CompleteDeleteTasks
-                type={compDelModalOpen.type}
-                taskData={compDelModalOpen.data}
-                onClose={closeCompDelModal}
-                getAllTasks={getUserTasks}
-                getUserInfo={getUserInfo}
-            />
-        </Modal>
-        <Modal
-            isOpen = {birthdayModalOpen.isShown}
-            onRequestClose={closeBirthdayModal}
-            style={{
-                overlay: {
-                    backgroundColor: "rgba(0, 0, 0, 0.2)"
-                }
-            }}
-            className="BirthdayCardModal"
+                        <Modal
+                        isOpen={addEditModalOpen.isShown}
+                onRequestClose={closeAddEditModal}
+                style={{
+                    overlay: {
+                        backgroundColor: "rgba(0, 0, 0, 0.2)"
+                    },
+                }}
+                contentLabel=""
+                className="AddEditTaskModal"
             >
-            <BirthdayCard 
-                onClose={closeBirthdayModal}
-            />
-        </Modal>
-        <Modal
-            isOpen = {chatRoomModalOpen.isShown}
-            onRequestClose={closeChatRoomModal}
-            style={{
-                overlay: {
-                    backgroundColor: "rgba(0, 0, 0, 0.2)"
-                }
-            }}
-            className="ChatRoomModal"
-        >
+                <AddEditTasks
+                    type={addEditModalOpen.type}
+                    taskData={addEditModalOpen.data}
+                    onClose={closeAddEditModal}
+                    getAllTasks={getUserTasks}
+                />
+            </Modal>
+            <Modal
+                isOpen={compDelModalOpen.isShown}
+                onRequestClose={closeCompDelModal}
+                style={{
+                    overlay: {
+                        backgroundColor: "rgba(0, 0, 0, 0.2)"
+                    },
+                }}
+                contentLabel=""
+                className="CompDelTaskModal"
+            >
+                <CompleteDeleteTasks
+                    type={compDelModalOpen.type}
+                    taskData={compDelModalOpen.data}
+                    onClose={closeCompDelModal}
+                    getAllTasks={getUserTasks}
+                    getUserInfo={getUserInfo}
+                />
+            </Modal>
+            <Modal
+                isOpen = {birthdayModalOpen.isShown}
+                onRequestClose={closeBirthdayModal}
+                style={{
+                    overlay: {
+                        backgroundColor: "rgba(0, 0, 0, 0.2)"
+                    }
+                }}
+                className="BirthdayCardModal"
+                >
+                <BirthdayCard 
+                    onClose={closeBirthdayModal}
+                />
+            </Modal>
+            <Modal
+                isOpen = {chatRoomModalOpen.isShown}
+                onRequestClose={closeChatRoomModal}
+                style={{
+                    overlay: {
+                        backgroundColor: "rgba(0, 0, 0, 0.2)"
+                    }
+                }}
+                className="ChatRoomModal"
+            >
 
-            <ChatRoom 
-                closeChatRoomModal={closeChatRoomModal} 
-                taskData={chatRoomModalOpen.data}
-            />
-        </Modal>
+                <ChatRoom 
+                    closeChatRoomModal={closeChatRoomModal} 
+                    taskData={chatRoomModalOpen.data}
+                />
+            </Modal>
+        </div>
         </>
     )
     

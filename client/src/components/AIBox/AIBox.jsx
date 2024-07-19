@@ -92,7 +92,7 @@ const AIBox = ({stylingCondition}) => {
      * Navigates to the Chat Page to chat with the AI Assistant.
      */
     const toAssistantWindow = () => {
-        navigate('/ChatPage')
+        navigate('/chatpage')
     }
 
 

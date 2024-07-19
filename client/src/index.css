@@ -143,6 +143,17 @@ button {
   margin: 0.25rem 0.5rem;
 }
 
+.homepageBg {
+  background: url(./AppImages/Classroom_Bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 100%;
+  width: 100%;
+  position: relative;
+
+}
+
 .homepageContainer {
   display: flex;
   justify-content: space-around;
@@ -151,7 +162,7 @@ button {
   width: 950px;
   padding: 0.5rem;
   cursor: default;
-  border: 1px solid black;
+  border: 2px solid red;
 }
 
 .overdueAndRemindersBox, .upcomingAndPriorityBox, .assistantCharacterBox{
@@ -442,6 +453,13 @@ ul {
 
 .tasksSidebar ul li:hover {
   background-color: #ddd;
+}
+
+.detailedTasksContainer {
+  background-image: url(./AppImages/Blackboard.jpg);
+  background-position: center -200px;
+  background-repeat: no-repeat;
+  background-size: auto;
 }
 
 .detailedTasksContainer {

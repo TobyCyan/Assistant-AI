@@ -81,28 +81,28 @@ const ChatPage = () => {
      * The string looks like this: 'quitInput(1), quitInput(2), ... , or quitInput(n)'
      * @type {string}
      */
-    const quitInputsString = quitInputs.slice(0, -1).join(', ') + `, or ${quitInputs.slice(-1)}`
+    const quitInputsString = quitInputs.length == 1 ? `${quitInputs.slice(-1)}` : quitInputs.slice(0, -1).join(', ') + `, or ${quitInputs.slice(-1)}`
 
     /**
      * A string of the back inputs that dynamically changes depending on the backInput array.
      * The string looks like this: 'backInput(1), backInput(2), ... , or backInput(n)'
      * @type {string}
      */
-    const backInputsString = backInputs.slice(0, -1).join(', ') + `, or ${backInputs.slice(-1)}`
+    const backInputsString = backInputs.length == 1 ? `${backInputs.slice(-1)}` : backInputs.slice(0, -1).join(', ') + `, or ${backInputs.slice(-1)}`
 
     /**
      * A string of the confirm inputs that dynamically changes depending on the confirmInput array.
      * The string looks like this: 'confirmInput(1), confirmInput(2), ... , or confirmInput(n)'
      * @type {string}
      */
-    const confirmInputsString = confirmInputs.slice(0, -1).join(', ') + `, or ${confirmInputs.slice(-1)}`
+    const confirmInputsString = confirmInputs.length == 1 ? `${confirmInputs.slice(-1)}` : confirmInputs.slice(0, -1).join(', ') + `, or ${confirmInputs.slice(-1)}`
 
     /**
      * A string of the unconfirm inputs that dynamically changes depending on the unconfirmInput array.
      * The string looks like this: 'unconfirmInput(1), unconfirmInput(2), ... , or unconfirmInput(n)'
      * @type {string}
      */
-    const unconfirmInputsString = `${unconfirmInputs.slice(-1)}`
+    const unconfirmInputsString = unconfirmInputs.length == 1 ? `${unconfirmInputs.slice(-1)}` : unconfirmInputs.slice(0, -1).join(', ') + `, or ${unconfirmInputs.slice(-1)}`
 
     /**
      * An array of strings that shows the index, title, category and deadline in the DDMM format of each task.
@@ -358,7 +358,7 @@ const ChatPage = () => {
             return
         }
 
-        const model = 'model.tflearn'
+        const model = 'model.mei_v1'
         const dataToPost = {
             method: 'POST',
             body: JSON.stringify({input, model}),
@@ -525,6 +525,8 @@ const ChatPage = () => {
     const redirectInputToDeleteTask = async (input) => {
         const isInputValid = await isInputNumberValid(input, tasks)
         if (!isInputValid) {
+            await addNewChatBotResponse(<ListMessageElement list={errorListRef.current}/>)
+            errorListRef.current = []
             return
         }
 
