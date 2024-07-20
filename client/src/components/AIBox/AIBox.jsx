@@ -2,7 +2,7 @@ import React, {useEffect, useState, ReactNode} from "react";
 import '../../index.css'
 import { useTokenContext } from "../TokenContext/TokenContext";
 import avatarImgWave from '../../AppImages/Mei Chibi Icons/Mei_Chibi_Wave.png'
-import avatarImgDefault from '../../AppImages/Mei Chibi Icons/Mei_Chibi_Default.png'
+import avatarImgWink from '../../AppImages/Mei Chibi Icons/Mei_Chibi_Wink.png'
 import { useNavigate } from "react-router-dom";
 import { voice_lines } from "../../utilities/utilities";
 
@@ -108,7 +108,7 @@ const AIBox = () => {
 
                 <div className="assistantAvatarDiv">
                     <img src={avatarImgWave} className="assistantAvatar wave" onClick={toAssistantWindow}/>
-                    <img src={avatarImgDefault} className="assistantAvatar default" onClick={toAssistantWindow}/>
+                    <img src={avatarImgWink} className="assistantAvatar wink" onClick={toAssistantWindow}/>
                 </div>
                 <div className="instructionText">Click on me to chat!</div>
             </div>

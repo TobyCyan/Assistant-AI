@@ -784,7 +784,7 @@ ul {
   transform: scale(1.02);
 }
 
-.assistantAvatarDiv:hover .assistantAvatar.default  {
+.assistantAvatarDiv:hover .assistantAvatar.wink  {
   opacity: 1;
   transform: scale(1.02);
 }
@@ -797,7 +797,7 @@ ul {
   transition: opacity 0.2s;
 }
 
-.assistantAvatar.default {
+.assistantAvatar.wink {
   opacity: 0;
   transition: opacity 0.2s;
 }
