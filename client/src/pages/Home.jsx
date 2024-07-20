@@ -360,8 +360,30 @@ const Home = () => {
     return (
         <>
         <NavBar />
-        <div className="homepageBg">
-            <div className="homepageContainer">
+        <div className="homepageContainer">
+            {!token ? (
+                <div className="extraInfoTab homepageChildDiv">
+                    <div>
+                        <h2>Please Log In or Sign Up to Add Tasks!</h2>
+                    </div>
+                </div>
+                    ) : (
+                    <div className="extraInfoTab">
+                        <div className="addButtonBox">
+                            <button className="addTaskBtn" onClick={handleAddTask}>Add Task</button>
+                        </div>
+                        <div className="userDisplayBox">
+                            <div>Points: {userData?.points || 0}</div>
+                            <div className="productivityBox">
+                                <h3>Productivity Report</h3>
+                                <ProductivityBar percentage={productivity}/>
+                                <h3>{productivity}%</h3>
+                            </div>
+                        </div>
+
+                    </div>
+            )}
+            <div className="homepageTaskContainer homepageChildDiv">
                 <div className="overdueAndRemindersBox">
                     <TasksBox id="overdueBox" key="Overdued" title="Overdued" tasks={tasks} tasksToShow={overduedTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
                     <TasksBox key="Reminders" title="Reminders" tasks={tasks} tasksToShow={remindersTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask} />
@@ -371,38 +393,16 @@ const Home = () => {
                     <TasksBox key="Priority" title="Priority" tasks={tasks} tasksToShow={priorityTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
                 </div>
 
-                    {!token ? (
-                        <div className="assistantCharacterBox">
-                            <div>
-                                <h2>Please Log In or Sign Up to Add Tasks!</h2>
-                            </div>
-                        </div>
-                            ) : (
-                            <div className="assistantCharacterBox">
-                                <div className="addButtonBox">
-                                    <button className="addTaskBtn" onClick={handleAddTask}>Add Task</button>
-                                </div>
-                                <div className="userDisplayBox">
-                                    <div>Points: {userData?.points || 0}</div>
-                                    <div className="productivityBox">
-                                        <h3>Productivity Report</h3>
-                                        <ProductivityBar percentage={productivity}/>
-                                        <h3>{productivity}%</h3>
-                                    </div>
-                                </div>
-
-                                <AIBox stylingCondition={'Home'}/>
-
-                            </div>
-                            )}
-
-                        </div>
-                        <Modal
-                        isOpen={addEditModalOpen.isShown}
+            </div>
+    
+            <AIBox />
+            
+            <Modal
+                isOpen={addEditModalOpen.isShown}
                 onRequestClose={closeAddEditModal}
                 style={{
                     overlay: {
-                        backgroundColor: "rgba(0, 0, 0, 0.2)"
+                    backgroundColor: "rgba(0, 0, 0, 0.2)"
                     },
                 }}
                 contentLabel=""
@@ -415,6 +415,7 @@ const Home = () => {
                     getAllTasks={getUserTasks}
                 />
             </Modal>
+
             <Modal
                 isOpen={compDelModalOpen.isShown}
                 onRequestClose={closeCompDelModal}
@@ -434,6 +435,7 @@ const Home = () => {
                     getUserInfo={getUserInfo}
                 />
             </Modal>
+
             <Modal
                 isOpen = {birthdayModalOpen.isShown}
                 onRequestClose={closeBirthdayModal}
@@ -448,6 +450,7 @@ const Home = () => {
                     onClose={closeBirthdayModal}
                 />
             </Modal>
+            
             <Modal
                 isOpen = {chatRoomModalOpen.isShown}
                 onRequestClose={closeChatRoomModal}

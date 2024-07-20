@@ -109,7 +109,7 @@ const ChatPage = () => {
      * @type {Array<string>}
      */
     const taskList = tasks.map((task, index) => {
-        return `${(index + 1)}. ${task.title}, ${task.category}, ${getDDMM(task.deadline)}`
+        return `${(index + 1)}. ${task.title}, ${task.category}, ${getDDMM(task.deadline)}, ${task.priority}`
     })
 
     /**
@@ -177,7 +177,7 @@ const ChatPage = () => {
             completed: false,
             points: 0,
         }
-        console.log('new task, ', newTask)
+
         /**
          * Data to post and make the API call.
          * @type {Object}
@@ -235,7 +235,6 @@ const ChatPage = () => {
             const data = await res.json()
             if (data) {
                 setTasks(data.tasks)
-                console.log('task fetched!')
             }
         } catch (error) {
             console.error('Failed to Fetch TaskModals!', error)
@@ -437,10 +436,11 @@ const ChatPage = () => {
 
                 break
             
-            case 'AllTasks':
+            case 'AllTask':
                 for (const text of allTasksResponseFlow) {
                     await addNewChatBotResponse(text)
                 }
+                break
         }
         return
     }

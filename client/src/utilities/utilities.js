@@ -342,3 +342,17 @@ export const randomItem = (array) => {
     const randomNum = Math.floor(Math.random() * array.length)
     return array[randomNum]
 }
+
+/**
+ * Array of voice lines that can be said by the Assistant at the home page.
+ * @type {Array<string>}
+ */
+export const voice_lines = [
+    'Hello!',
+    'Got something you want me to do for you?',
+    'How can I help you today?',
+    'Today is another day to be productive!',
+    'You look tired, want me to sing a song for you?',
+    "Don't forget to get your tasks done on time!",
+    
+]

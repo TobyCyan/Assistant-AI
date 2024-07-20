@@ -1,11 +1,3 @@
-export const voice_lines = [
-    'Hello!',
-    'Aik Chun is very handsome!',
-    'How can I help you today?',
-    'I love Valorant.',
-    'Blue Archive is peak.'
-]
-
 const retrainbutton = document.getElementById('retrain')
 
 if (retrainbutton) {
