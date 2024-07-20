@@ -113,6 +113,87 @@ module.exports = (sequelize, DataTypes) => {
         tableName: 'friendships'
     });
 
+    const Items = sequelize.define('Items', {
+        id:{
+            primaryKey: true,
+            autoIncrement: true,
+            type: DataTypes.INTEGER,
+        },
+        userId: {
+            allowNull: false,
+            type:DataTypes.INTEGER,
+        },
+        itemId: {
+            allowNull: false,
+            type:DataTypes.INTEGER,
+        },
+    }, {
+        tableName: 'items'
+    });
+
+    /*
+    const RecurringTasks = sequelize.define('RecurringTasks', {
+        id : {
+            primaryKey: true,
+            autoIncrement: true,
+            type: DataTypes.INTEGER,
+        },
+        userId: {
+            allowNull: false,
+            type:DataTypes.INTEGER,
+        },
+        title: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+        },
+        description: {
+            type: DataTypes.TEXT,
+            allowNull: false
+        },
+        category: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        deadline: {
+            type: DataTypes.DATE,
+            allowNull: false
+        },
+        priority: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        reminder: {
+            type: DataTypes.DATE,
+            allowNull: false
+        },
+        interval: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        startToDeadline: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        startToDeadline: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        lastCreated: {
+            type: DataTypes.DATE,
+            allowNull: true
+        },
+        nextCreation: {
+            type: DataTypes.DATE,
+            allowNull: false
+        }
+    }, {
+        tableName: 'recurringTasks'
+    })
+
+
+     */
+
+
     // Defines a one-to-many relationship between a user and their tasks.
     User.hasMany(Tasks, {
         foreignKey: 'userId',
@@ -132,6 +213,25 @@ module.exports = (sequelize, DataTypes) => {
         as: 'RelatedUser'
     });
 
+    User.hasMany(Items, {
+        foreignKey: 'userId',
+    })
+
+    Items.belongsTo(User, {
+        foreignKey: 'userId',
+    })
+
+    /*
+    User.hasMany(RecurringTasks, {
+        foreignKey: 'userId',
+    })
+
+    RecurringTasks.belongsTo(User, {
+        foreignKey: 'userId',
+    })
+
+    */
+
     // Returns the 2 tables in an array.
-    return [User, Tasks, Friendships]
+    return [User, Tasks, Friendships, Items]
 }

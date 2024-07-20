@@ -9,6 +9,7 @@ import ChatPage from "./pages/ChatPage.jsx"
 import Shop from './pages/Shop.jsx';
 import Profile from "./pages/Profile.jsx";
 import PrivateRoutes from "./pages/PrivateRoutes/PrivateRoutes.jsx";
+import RecurringTasks from "./pages/RecurringTasks.jsx";
 
 /**
  * The routes of the web application.
@@ -24,7 +25,8 @@ const routes = (
                 <Route path="/tasks" exact element = {<MyTasks />} />
                 <Route path="/shop" exact element={<Shop />} />
                 <Route path="/ChatPage" exact element={<ChatPage />} />
-                <Route path="/:username" exact element={<Profile />} />
+                <Route path="/users/:username" exact element={<Profile />} />
+                <Route path="/recurringTasks" exact element={<RecurringTasks/>}/>
             </Route>
         </Routes>
     </BrowserRouter>

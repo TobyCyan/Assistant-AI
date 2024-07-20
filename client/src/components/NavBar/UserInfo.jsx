@@ -107,7 +107,7 @@ const UserInfo = () => {
      */
     const onProfile = () => {
         if (token) {
-            navigate(`/${username}`)
+            navigate(`/users/${username}`)
         }
     }
 

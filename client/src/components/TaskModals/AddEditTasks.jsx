@@ -1,6 +1,7 @@
 import React, { useState, ReactNode } from 'react';
 import  { useTokenContext } from '../TokenContext/TokenContext';
 import RenderError from '../RenderError/RenderError';
+import {getTodayYYYYMMDD} from "../../utilities/utilities.js";
 
 /**
  * A React component to add or edit tasks.
@@ -52,11 +53,25 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
     const [reminderDate, setReminderDate] = useState(taskData?.reminder?.substring(0,10) || '');
     // const [reminderTime, setReminderTime] = useState(taskData?.reminder.substring(11,16) || '');
 
+    const [recurring, setRecurring] = useState(taskData?.recurring || false)
+
+    const [startDate, setStartDate] = useState(taskData?.startDate || getTodayYYYYMMDD())
+
+    const [interval, setInterval] = useState(taskData?.interval || '')
+
     /**
      * The current task error and setter function to update it.
      * @type {[string, function]}
      */
     const[error, setError] = useState('');
+
+    const handleCheckboxChange = (event) => {
+        setRecurring(event.target.checked);
+        if (!event.target.checked) {
+            setStartDate(getTodayYYYYMMDD());
+            setInterval('');
+        }
+    }
 
     /**
      * POST Request to Add Task.
@@ -106,6 +121,7 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
             setDeadline('')
             setPriority('')
             setReminderDate('')
+            getAllTasks()
             onClose()
         })
         .catch(err => {
@@ -120,6 +136,106 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
      * @throws {Error} Throws an error if editing task fails.
      */
     const editTask = async () => {
+
+        /**
+         * Data of the edited task.
+         * @type {Object}
+         */
+        const editedTask = {
+            taskId: taskData.id,
+            title: title,
+            description: description,
+            category: category,
+            deadline: deadline,
+            priority: priority,
+            reminder: reminderDate,
+            //reminder: `${reminderDate}T${reminderTime}:00`,
+            completed: taskData.completed,
+            points: taskData.points,
+        }
+
+        /**
+         * Data to post and make the API call.
+         * @type {Object}
+         */
+        const dataToPost = {
+            method: 'PUT',
+            body: JSON.stringify(editedTask),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        await fetch('http://localhost:5001/EditTask', dataToPost)
+            .then(res => {
+                if (res.ok) {
+                    console.log('Task Successfully Edited!')
+                    return res.json()
+                } else {
+                    console.error(err => 'Edit Task Failed!', err)
+                }
+            })
+            .then(task => {
+                getAllTasks()
+                onClose()
+            })
+            .catch(err => {
+                console.error('Error Editing Task: ', err.message)
+            })
+    }
+
+    const addRecurringTask = async () => {
+        // console.log(reminderTime)
+        const newTask = {
+            title: title,
+            description: description,
+            category: category,
+            deadline: deadline,
+            priority: priority,
+            reminder: reminderDate,
+            completed: false,
+            points: 0,
+        }
+
+        /**
+         * Data to post and make the API call.
+         * @type {Object}
+         */
+        const dataToPost = {
+            method: 'POST',
+            body: JSON.stringify(newTask),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        fetch('http://localhost:5001/AddTask', dataToPost)
+            .then(res => {
+                if (res.ok) {
+                    console.log('Task Successfully Added!')
+                    return res.json()
+                } else {
+                    console.error(err => 'Add Task Failed!', err)
+                }
+            })
+            .then(task => {
+                setTitle('')
+                setDescription('')
+                setCategory('')
+                setDeadline('')
+                setPriority('')
+                setReminderDate('')
+                getAllTasks()
+                onClose()
+            })
+            .catch(err => {
+                console.error('Error Adding Task: ', err.message)
+            })
+    }
+
+    const editRecurringTask = async () => {
 
         /**
          * Data of the edited task.
@@ -279,9 +395,27 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
                 />
             </div>
 
+            <div className="recurringDetailsBox">
+                <div className="recurringCheckBox">
+                    <label htmlFor="recurringInput">Recurring</label>
+                    <input id="recurringInput" type="checkbox" className="recurringInput" value={recurring} onChange={handleCheckboxChange}/>
+                </div>
+
+                {recurring && (
+                    <div className="recurringDateBox">
+                    <label htmlFor="recurringDateInput">Start Date:</label>
+                    <input id="recurringDateInput" className="recurringDateInput" type="date" value={startDate}
+                           onChange={e => setDeadline(e.target.value)}/>
+                </div>)}
+
+                {recurring && (<div className="recurringIntervalBox">
+                    <label htmlFor="intervalInput">Interval (Days):</label>
+                    <input id="intervalInput" className="intervalInput" type="number" value={interval}
+                           onChange={e => setDeadline(e.target.value)}/>
+                </div>)}
+            </div>
 
             <div className="priorityAndDatesBox">
-
                 <div className="priorityBox">
                     <label htmlFor="priority">Priority</label>
                     <select id="priority" value={priority} onChange={e => setPriority(e.target.value)}>

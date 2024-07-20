@@ -22,7 +22,7 @@ const SearchBar = () => {
             }
             const exists = await response.json();
             if (exists) {
-                navigate(`/${username}`);
+                navigate(`/users/${username}`);
                 setError('')
             } else {
                 setError(`User '${username}' not found`);

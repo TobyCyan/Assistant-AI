@@ -24,6 +24,7 @@ const NavBar = () => {
                 <ul className="navList">
                     <li><Link to="/" className="navBarLinks">Assistant AI</Link></li>
                     {token && <li><Link to={token ? "/tasks" : "/login"} className="navBarLinks">My Tasks</Link></li>}
+                    {token && <li><Link to={token ? "/recurringTasks" : "/login"} className="navBarLinks">Recurring Tasks</Link></li>}
                     {token && <li><Link to={token ? "/shop" : "/login"} className="navBarLinks">Shop</Link></li>}
                 </ul>
             </div>

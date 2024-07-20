@@ -11,7 +11,7 @@ function FriendRequest({username, points, onAccept, onDelete}) {
         <li>
             <div key={username} className="request">
                 <div className="requestInnerBox">
-                    <div onClick={() => navigate(`/${username}`)} className="nameAndPointsBox">
+                    <div onClick={() => navigate(`/users/${username}`)} className="nameAndPointsBox">
                         <div className="friendName">
                             {username}
                         </div>

@@ -2,6 +2,8 @@ const express = require('express')
 const cors = require('cors')
 const {authenticateToken} = require('./utilities/utilities')
 
+require('dotenv').config()
+
 const app = express()
 const port = process.env.PORT
 
@@ -32,6 +34,10 @@ const getFriendRequests = require('./Methods/friendshipMethods.js').getFriendReq
 const createFriendRequest = require('./Methods/friendshipMethods.js').createFriendRequest
 const updateFriendRequest = require('./Methods/friendshipMethods.js').updateFriendRequest
 const deleteFriendRequest = require('./Methods/friendshipMethods.js').deleteFriendRequest
+
+// Item Methods
+const getItems = require('./Methods/itemMethods').getItems
+const createUserItem = require('./Methods/itemMethods').createUserItem
 
 // User Related Requests
 // Post Request to Add User
@@ -72,6 +78,10 @@ app.post('/requests/:username', authenticateToken(secretKey), createFriendReques
 app.put('/requests/:username', authenticateToken(secretKey), updateFriendRequest)
 //Delete Method for friend request
 app.delete('/request/:username', authenticateToken(secretKey), deleteFriendRequest)
+
+// Item-related requests
+app.get('/Items', authenticateToken(secretKey), getItems)
+app.post('/CreateUserItem', authenticateToken(secretKey), createUserItem)
 
 app.listen(port, () => {
     console.log('App is listening on port 5001')

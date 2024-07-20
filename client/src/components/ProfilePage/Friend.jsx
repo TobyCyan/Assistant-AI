@@ -9,7 +9,7 @@ function Friend({username, points}) {
         <li>
             <div key={username} className="friend">
                 <div className="friendInnerBox">
-                    <div onClick={() => navigate(`/${username}`)} className="nameAndPointsBox">
+                    <div onClick={() => navigate(`/users/${username}`)} className="nameAndPointsBox">
                         <div className="friendName">
                             {username}
                         </div>

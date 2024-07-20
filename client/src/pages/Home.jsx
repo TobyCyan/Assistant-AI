@@ -158,7 +158,7 @@ const Home = () => {
     const [chatRoomModalOpen, setChatRoomModalOpen] = useState({
         isShown: false,
         data: {
-            overduewdTasks: [],
+            overduedTasks: [],
             remindersTasks: [],
             upcomingTasks: [],
             priorityTasks: [],
