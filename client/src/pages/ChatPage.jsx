@@ -750,37 +750,39 @@ const ChatPage = () => {
     }
 
     return (
-        <>
+        <div style={{overflow: 'hidden'}}>
             <NavBar />
-            <h1>Assistant Window</h1>
             <div className="chatpageContainer">
+                <div className="chatroomContainer">
 
-                <div className="chatroom" id="chatroom" ref={lastMessage}>
-                    {...chatMessages}
-                </div> 
-                
-                <div className="chatboxContainer">
-                    <input 
-                        id="chatbox" 
-                        onChange={(e) => setInput(e.target.value)} 
-                        value={input} 
-                        placeholder="Enter an Input"
-                        autoComplete="off"
-                        onKeyDown={(e) => {
-                            if (e.key == 'Enter') {
-                                handleInput()
-                            }
-                        }}
-                        >
-                            
-                    </input>
-                    <button onClick= {() => handleInput()} className="sendButton"></button>
-                    <span className="border"></span>
+                    <div className="chatroom" id="chatroom" ref={lastMessage}>
+                        <h1>Assistant Window</h1>
+                        {...chatMessages}
+                    </div> 
+                    
+                    <div className="chatboxContainer">
+                        <input 
+                            id="chatbox" 
+                            onChange={(e) => setInput(e.target.value)} 
+                            value={input} 
+                            placeholder="Enter an Input"
+                            autoComplete="off"
+                            onKeyDown={(e) => {
+                                if (e.key == 'Enter') {
+                                    handleInput()
+                                }
+                            }}
+                            >
+                                
+                        </input>
+                        <button onClick= {() => handleInput()} className="sendButton"></button>
+                        <span className="border"></span>
+                    </div>
+
                 </div>
-
             </div>
-
-        </>
+        </div>
+        
     )
 }
 

@@ -836,9 +836,10 @@ ul {
   border-radius: 10px;
 }
 
-.ChatPage {
-  /* border: 1px solid black; */
-  position: relative;
+.chatpageContainer {
+  background-color: #010c3d;
+  height: 92vh;
+  overflow: hidden;
 }
 
 .fadeIn {
@@ -851,7 +852,10 @@ ul {
 
 .chatboxContainer {
   margin: 15px;
-  border: 2px solid transparent;
+  border: 2px solid black;
+  /* border-left: 2px solid black;
+  border-right: 2px solid black; */
+  border-radius: 0px 0px 15px 15px;
   padding: 15px;
   word-wrap: break-word;
   background: 
@@ -859,16 +863,18 @@ ul {
     linear-gradient(90deg, grey, grey) left bottom/100% 3px no-repeat,
     linear-gradient(90deg, rgb(255, 255, 255), rgb(255, 255, 255)) left bottom/100% no-repeat;
   transition: background-size 0.3s ease;
-
+  position: absolute;
+  width: 85.2%;
+  bottom: 0px;
+  left: 13.5px;
 }
 
-.chatboxContainer:focus-within {
-  border: 2px solid black;
-  border-radius: 5px;
+/* .chatboxContainer:focus-within {
+  border-top: 2px solid black;
   transition: 
     width 0.3s ease 0.3s,
     height 0.3s ease 0.3s;
-}
+} */
 
 #chatbox::placeholder {
   transition: 0.3s ease;
@@ -894,22 +900,28 @@ ul {
   outline: none;
 }
 
-.chatpageContainer {
+.chatroomContainer {
   border: 2px solid rgb(0, 0, 0);
-  border-radius: 5px;
-  height: 500px;
-  width: 650px;
+  border-radius: 12px;
+  height: 88vh;
+  width: 620px;
   margin: auto;
+  margin-top: 15px;
+  background-color: rgb(160, 241, 255);
+  position: relative;
 }
 
 .chatroom {
   margin: auto;
-  margin-top: 10px;
+  margin-top: 30px;
   border: 2px solid black;
+  border-bottom: none;
+  border-radius: 12px 12px 0px 0px;
   width: 90%;
-  height: 90%;
+  height: 85.5%;
   overflow: auto;
   overflow-x: hidden;
+  background-color: rgb(255, 255, 231);
 }
 
 .chatRoomAvatar {
@@ -957,6 +969,7 @@ ul {
   box-shadow: 5px 5px grey;
   cursor: default;
   text-align: left;
+  background-color: white;
 }
 
 .sendButton {
