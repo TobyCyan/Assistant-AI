@@ -6,7 +6,7 @@ import { useTokenContext } from "../components/TokenContext/TokenContext"
 import AddEditTasks from "../components/TaskModals/AddEditTasks"
 import CompleteDeleteTasks from "../components/TaskModals/CompleteDeleteTasks"
 import ProductivityBar from "../components/ProductivityBar/ProductivityBar.jsx"
-import { isTaskOverdue, isTaskNeededToBeReminded, isTaskUpcoming, isTodayBirthday, isTodayNextDayOfBirthday, compareTasksPriority, compareTasksDeadline, calculateTaskProductivity } from "../utilities/utilities.js"
+import { isTaskOverdue, isTaskNeededToBeReminded, isTaskUpcoming, isTodayBirthday, isTodayNextDayOfBirthday, compareTasksPriority, compareTasksDeadline, calculateTaskProductivity, getProductivityBarComments } from "../utilities/utilities.js"
 import AIBox from '../components/AIBox/AIBox.jsx'
 import BirthdayCard from '../components/Birthday/BirthdayCard.jsx'
 import ChatRoom from '../components/ChatRoom/ChatRoom.jsx'
@@ -378,6 +378,7 @@ const Home = () => {
                                 <h3>Productivity Report</h3>
                                 <ProductivityBar percentage={productivity}/>
                                 <h3>{productivity}%</h3>
+                                <p>{getProductivityBarComments(productivity)}</p>
                             </div>
                         </div>
 

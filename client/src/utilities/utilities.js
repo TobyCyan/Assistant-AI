@@ -354,5 +354,23 @@ export const voice_lines = [
     'Today is another day to be productive!',
     'You look tired, want me to sing a song for you?',
     "Don't forget to get your tasks done on time!",
-    
+
 ]
+
+/**
+ * Gets a comment based on the user's productivity.
+ * @param {Number} productivity The user's productivity.
+ * @returns {String} A string that comments about the user's productivity.
+ */
+export const getProductivityBarComments = (productivity) => {
+    if (productivity >= 80) {
+        return 'Good Progress! Keep It Up!'
+    }
+    if (productivity >= 50) {
+        return "You are getting there! I believe in you!"
+    }
+    if (productivity >= 20) {
+        return "Hmm... You may need some work... But it's still doable!"
+    }
+    return "... Maybe the productivity is the memories we made along the way!"
+}

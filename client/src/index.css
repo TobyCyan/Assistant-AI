@@ -802,6 +802,10 @@ ul {
   transition: opacity 0.2s;
 }
 
+.assistantAvatarDiv>img {
+  filter: drop-shadow(5px 8px 8px rgb(255, 183, 183));
+}
+
 .assistantAvatar {
   cursor: pointer;
   /* scale: 0.75; */

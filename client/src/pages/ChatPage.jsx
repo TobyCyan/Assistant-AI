@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, ReactNode } from "react";
 import NavBar from "../components/NavBar/NavBar.jsx";
 import { useTokenContext } from "../components/TokenContext/TokenContext";
 import getCurrentPositionWeather from "../../../ChatBot/static/API Calls/weather";
-import { getDDMM, randomItem } from "../utilities/utilities.js";
+import { getDDMM, randomItem, compareTasksPriority } from "../utilities/utilities.js";
 import ChatBotResponseElement from "../components/MessageElement/ChatBotResponseElement.jsx";
 import UserMessageElement from "../components/MessageElement/UserMessageElement.jsx";
 import { dateAfterToday, reminderBeforeDeadline, wait, removeSpaces } from "../utilities/ChatPageUtilities.js";
@@ -105,14 +105,6 @@ const ChatPage = () => {
     const unconfirmInputsString = unconfirmInputs.length == 1 ? `${unconfirmInputs.slice(-1)}` : unconfirmInputs.slice(0, -1).join(', ') + `, or ${unconfirmInputs.slice(-1)}`
 
     /**
-     * An array of strings that shows the index, title, category and deadline in the DDMM format of each task.
-     * @type {Array<string>}
-     */
-    const taskList = tasks.map((task, index) => {
-        return `${(index + 1)}. ${task.title}, ${task.category}, ${getDDMM(task.deadline)}, ${task.priority}`
-    })
-
-    /**
      * The array of possible dialogues that the assistant can say when user tries to say something while waiting for user's input to add task.
      * @type {Array<string>}
      */
@@ -124,6 +116,37 @@ const ChatPage = () => {
      */
     const quittedConfirmationTalk = ["? It seems that you are trying to submit another form.. Just let me know what you want to do and I'll prepare it for you again!", "Calm down, I'll give you another one. Just say so!", "Hmm? What would you like to do? You can always tell me :)"]
 
+    /**
+     * Filters the uncompleted task and sort them by the deadline.
+     * @type {Array<Object>} The list of uncompleted tasks sorted by deadline.
+     */
+    const uncompletedTasks = tasks.filter(task => !task.completed)
+
+    /**
+     * Gets a string of the task information.
+     * @param {Object} task The task.
+     * @param {Number} index The index number.
+     * @returns {String} A string that shows information of the given task object.
+     */
+    const taskInfoString = (task, index) => `${(index + 1)}. ${task.title}, ${task.category}, ${getDDMM(task.deadline)}, ${task.priority}`
+    
+    /**
+     * An array of strings that shows the index, title, category and deadline in the DDMM format of each task.
+     * @type {Array<string>}
+     */
+    const taskList = uncompletedTasks.map((task, index) => {
+        return taskInfoString(task, index)
+    })
+
+    /**
+     * Array of tasks sorted from high to low priority.
+     * @type {Array<Object>}
+     */
+    const priorityTasks = uncompletedTasks.sort(compareTasksPriority)
+
+    const priorityTasksList = priorityTasks.map((task, index) => {
+        return taskInfoString(task, index)
+    })
     /**
      * @function useEffect
      * @description Get User Info and User TaskModals if there is token.
@@ -397,10 +420,11 @@ const ChatPage = () => {
         const backInstructionText = `You can also say ${backInputsString} to go back to the previous field if you ever change your mind!`
         const titleInputText = 'Please enter the information of your new task~'
         const readyText = ['All set!', 'Ready!', 'Here they are!']
-        const addTaskResponseFlow = [quitInstructionText, backInstructionText, randomItem(readyText), titleInputText, <AddEditTaskMessageElement applyConfirmation={applyConfirmation} taskToEdit={null} />]
-        const editTaskResponseFlow = [quitInstructionText, backInstructionText, obtainingTaskText, randomItem(readyText), showTaskListText, <ListMessageElement list={taskList} />]
-        const deleteTaskResponseFlow = [obtainingTaskText, randomItem(readyText), showTaskListText, <ListMessageElement list={taskList} />]
-        const allTasksResponseFlow = [obtainingTaskText, <ListMessageElement list={taskList} />]
+        const addTaskResponseFlow = () => [quitInstructionText, backInstructionText, randomItem(readyText), titleInputText, <AddEditTaskMessageElement applyConfirmation={applyConfirmation} taskToEdit={null} />]
+        const editTaskResponseFlow = () => [quitInstructionText, backInstructionText, obtainingTaskText, randomItem(readyText), showTaskListText, <ListMessageElement list={taskList} />]
+        const deleteTaskResponseFlow = () => [obtainingTaskText, randomItem(readyText), showTaskListText, <ListMessageElement list={taskList} />]
+        const allTasksResponseFlow = () => [obtainingTaskText, <ListMessageElement list={taskList} />]
+        const priorityTaskResponseFlow = () => [randomItem(readyText), <ListMessageElement list={priorityTasksList} />, `I would recommend you to start with top prioritised task: ${taskInfoString(priorityTasks[0], 0)}`]
 
         switch (responseType) {
             case 'Weather':
@@ -411,7 +435,7 @@ const ChatPage = () => {
             
             case 'AddTask':
                 switchToInputMode(responseType)
-                for (const text of addTaskResponseFlow) {
+                for (const text of addTaskResponseFlow()) {
                     await addNewChatBotResponse(text)
                 }
                 break
@@ -420,24 +444,26 @@ const ChatPage = () => {
                 switchToInputMode(responseType)
                 setInputFlow(editTaskFlow)
 
-                for (const text of editTaskResponseFlow) {
+                for (const text of editTaskResponseFlow()) {
                     await addNewChatBotResponse(text)
                 }
                 break
             
             case 'DeleteTask':
                 switchToInputMode(responseType)
-                for (const text of deleteTaskResponseFlow) {
+                for (const text of deleteTaskResponseFlow()) {
                     await addNewChatBotResponse(text)
                 }
                 break
             
-            case 'Priority':
-
+            case 'PriorityTask':
+                for (const text of priorityTaskResponseFlow()) {
+                    await addNewChatBotResponse(text)
+                }
                 break
             
             case 'AllTask':
-                for (const text of allTasksResponseFlow) {
+                for (const text of allTasksResponseFlow()) {
                     await addNewChatBotResponse(text)
                 }
                 break
