@@ -13,12 +13,12 @@ tf.compat.v1.disable_eager_execution()
 import numpy as np
 import random
 import json
-import pickle
-from flask import Flask, request, jsonify, render_template, url_for
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from dotenv import load_dotenv
 
 Weather_API_Key = os.environ.get('Weather_API_Key')
+model_in_use = 'model.mei_v1'
 
 file = open('behavior.json')
 behavior_data = json.load(file)
@@ -162,11 +162,13 @@ def predict_behavior_type_from_prompt(prompt, model):
     output = model.predict(prompt_input)
     output_type_index = np.argmax(output[0])
     output_type_probability = output[0][output_type_index]
-    print('Highest Predicted Probability: ' + str(output_type_probability))
+
+    output_type = behavior_types[output_type_index]
+    print('Highest Predicted Probability: ' + str(output_type_probability), output_type)
     if output_type_probability < 0.5:
         return 'Unsure'
     
-    return behavior_types[output_type_index]
+    return output_type
 
 @app.route('/startchat', methods=['POST'])
 def start_chat():
@@ -214,7 +216,7 @@ training, output, input_words, behavior_types = prepare_training_input_and_outpu
 
 @app.route('/retrain')
 def retrain():
-    model = train_model_and_load('model.tflearn', training, output)
+    model = train_model_and_load(model_in_use, training, output)
     return None
 
 
@@ -227,6 +229,7 @@ def behavior_array():
 
 
 if __name__ == "__main__":
+    # retrain()
     app.run(debug=True, port=5500)
 
 

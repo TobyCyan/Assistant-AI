@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, ReactNode } from 'react'
+import React, { useRef, useEffect, useState, ReactNode } from 'react'
 import NavBar from "../components/NavBar/NavBar.jsx"
 import TasksBox from "../components/TasksCardsAndBox/TasksBox"
 import Modal from 'react-modal';
@@ -6,7 +6,7 @@ import { useTokenContext } from "../components/TokenContext/TokenContext"
 import AddEditTasks from "../components/TaskModals/AddEditTasks"
 import CompleteDeleteTasks from "../components/TaskModals/CompleteDeleteTasks"
 import ProductivityBar from "../components/ProductivityBar/ProductivityBar.jsx"
-import { isTaskOverdue, isTaskNeededToBeReminded, isTaskUpcoming, isTodayBirthday, isTodayNextDayOfBirthday, compareTasksPriority, compareTasksDeadline, calculateTaskProductivity } from "../utilities/utilities.js"
+import { isTaskOverdue, isTaskNeededToBeReminded, isTaskUpcoming, isTodayBirthday, isTodayNextDayOfBirthday, compareTasksPriority, compareTasksDeadline, calculateTaskProductivity, getProductivityBarComments } from "../utilities/utilities.js"
 import AIBox from '../components/AIBox/AIBox.jsx'
 import BirthdayCard from '../components/Birthday/BirthdayCard.jsx'
 import ChatRoom from '../components/ChatRoom/ChatRoom.jsx'
@@ -43,6 +43,30 @@ const Home = () => {
      */
     const uncompletedTasks = tasks.filter(task => !task.completed).sort(compareTasksDeadline) || []
     const productivity = calculateTaskProductivity(tasks)
+
+    /** 
+     * Array of Overdued TaskModals.
+     * @type {Array<Object>}
+     */
+    const overduedTasks = uncompletedTasks.filter(each => isTaskOverdue(each))
+
+    /**
+     * Array of tasks with reminders before or equals to current date and isn't overdue.
+     * @type {Array<Object>}
+     */
+    const remindersTasks = uncompletedTasks.filter(each => isTaskNeededToBeReminded(each) && !isTaskOverdue(each))
+
+    /** 
+     * Array of upcoming tasks.
+     * @type {Array<Object>}
+     */
+    const upcomingTasks = uncompletedTasks.filter(each => isTaskUpcoming(each));
+
+    /**
+     * Array of tasks sorted from high to low priority.
+     * @type {Array<Object>}
+     */
+    const priorityTasks = uncompletedTasks.sort(compareTasksPriority)
 
     /**
      * @function useEffect
@@ -81,12 +105,10 @@ const Home = () => {
 
             const data = await res.json()
             if (data) {
-                console.log('Type of TaskModals: ' + typeof data.tasks + ', TaskModals: ' + data.tasks + ', isArray? ' + Array.isArray(data.tasks))
                 setTasks(data.tasks)
-                console.log(data.tasks)
             }
         } catch (error) {
-            console.error('Failed to Fetch TaskModals!', error)
+            console.error('Failed to Fetch TaskModals!', error.message)
         }
     }
 
@@ -115,7 +137,6 @@ const Home = () => {
 
             const data = await res.json()
             if (data) {
-                console.log(data)
                 setUserData(data)
             }
         } catch (error) {
@@ -158,10 +179,10 @@ const Home = () => {
     const [chatRoomModalOpen, setChatRoomModalOpen] = useState({
         isShown: false,
         data: {
-            overduedTasks: [],
-            remindersTasks: [],
-            upcomingTasks: [],
-            priorityTasks: [],
+            overduedTasks: overduedTasks,
+            remindersTasks: remindersTasks,
+            upcomingTasks: upcomingTasks,
+            priorityTasks: priorityTasks,
         },
     })
     
@@ -284,30 +305,6 @@ const Home = () => {
         })
     }
 
-    /** 
-     * Array of Overdued TaskModals.
-     * @type {Array<Object>}
-     */
-    const overduedTasks = uncompletedTasks.filter(each => isTaskOverdue(each))
-
-    /**
-     * Array of tasks with reminders before or equals to current date and isn't overdue.
-     * @type {Array<Object>}
-     */
-    const remindersTasks = uncompletedTasks.filter(each => isTaskNeededToBeReminded(each) && !isTaskOverdue(each))
-
-    /** 
-     * Array of upcoming tasks.
-     * @type {Array<Object>}
-     */
-    const upcomingTasks = uncompletedTasks.filter(each => isTaskUpcoming(each));
-
-    /**
-     * Array of tasks sorted from high to low priority.
-     * @type {Array<Object>}
-     */
-    const priorityTasks = uncompletedTasks.sort(compareTasksPriority)
-
     /**
      * @function useEffect
      * @description Checks if birthdayShown exists in the local storage, sets it if not.
@@ -364,108 +361,114 @@ const Home = () => {
         <>
         <NavBar />
         <div className="homepageContainer">
-            <div className="overdueAndRemindersBox">
-                <TasksBox id="overdueBox" key="Overdued" title="Overdued" tasks={tasks} tasksToShow={overduedTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
-                <TasksBox key="Reminders" title="Reminders" tasks={tasks} tasksToShow={remindersTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask} />
-            </div>
-            <div className="upcomingAndPriorityBox">
-                <TasksBox key="Upcoming" title="Upcoming" tasks={tasks} tasksToShow={upcomingTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
-                <TasksBox key="Priority" title="Priority" tasks={tasks} tasksToShow={priorityTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
-            </div>
-
-                {!token ? (
-                    <div className="assistantCharacterBox">
-                        <div>
-                            <h2>Please Log In or Sign Up to Add Tasks!</h2>
-                        </div>
+            {!token ? (
+                <div className="extraInfoTab homepageChildDiv">
+                    <div>
+                        <h2>Please Log In or Sign Up to Add Tasks!</h2>
                     </div>
-                        ) : (
-                        <div className="assistantCharacterBox">
-                            <div className="addButtonBox">
-                                <button className="addTaskBtn" onClick={handleAddTask}>Add Task</button>
-                            </div>
-                            <div className="userDisplayBox">
-                                <div>Points: {userData?.points || 0}</div>
-                                <div className="productivityBox">
-                                    <h3>Productivity Report</h3>
-                                    <ProductivityBar percentage={productivity}/>
-                                    <h3>{productivity}%</h3>
-                                </div>
-                            </div>
-
-                            <AIBox stylingCondition={'Home'}/>
-
+                </div>
+                    ) : (
+                    <div className="extraInfoTab">
+                        <div className="addButtonBox">
+                            <button className="addTaskBtn" onClick={handleAddTask}>Add Task</button>
                         </div>
-                        )}
+                        <div className="userDisplayBox">
+                            <div>Points: {userData?.points || 0}</div>
+                            <div className="productivityBox">
+                                <h3>Productivity Report</h3>
+                                <ProductivityBar percentage={productivity}/>
+                                <h3>{productivity}%</h3>
+                                <p>{getProductivityBarComments(productivity)}</p>
+                            </div>
+                        </div>
 
                     </div>
-                    <Modal
-                    isOpen={addEditModalOpen.isShown}
-            onRequestClose={closeAddEditModal}
-            style={{
-                overlay: {
+            )}
+            <div className="homepageTaskContainer homepageChildDiv">
+                <div className="overdueAndRemindersBox">
+                    <TasksBox id="overdueBox" key="Overdued" title="Overdued" tasks={tasks} tasksToShow={overduedTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
+                    <TasksBox key="Reminders" title="Reminders" tasks={tasks} tasksToShow={remindersTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask} />
+                </div>
+                <div className="upcomingAndPriorityBox">
+                    <TasksBox key="Upcoming" title="Upcoming" tasks={tasks} tasksToShow={upcomingTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
+                    <TasksBox key="Priority" title="Priority" tasks={tasks} tasksToShow={priorityTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
+                </div>
+
+            </div>
+    
+            <AIBox />
+            
+            <Modal
+                isOpen={addEditModalOpen.isShown}
+                onRequestClose={closeAddEditModal}
+                style={{
+                    overlay: {
                     backgroundColor: "rgba(0, 0, 0, 0.2)"
-                },
-            }}
-            contentLabel=""
-            className="AddEditTaskModal"
-        >
-            <AddEditTasks
-                type={addEditModalOpen.type}
-                taskData={addEditModalOpen.data}
-                onClose={closeAddEditModal}
-                getAllTasks={getUserTasks}
-            />
-        </Modal>
-        <Modal
-            isOpen={compDelModalOpen.isShown}
-            onRequestClose={closeCompDelModal}
-            style={{
-                overlay: {
-                    backgroundColor: "rgba(0, 0, 0, 0.2)"
-                },
-            }}
-            contentLabel=""
-            className="CompDelTaskModal"
-        >
-            <CompleteDeleteTasks
-                type={compDelModalOpen.type}
-                taskData={compDelModalOpen.data}
-                onClose={closeCompDelModal}
-                getAllTasks={getUserTasks}
-                getUserInfo={getUserInfo}
-            />
-        </Modal>
-        <Modal
-            isOpen = {birthdayModalOpen.isShown}
-            onRequestClose={closeBirthdayModal}
-            style={{
-                overlay: {
-                    backgroundColor: "rgba(0, 0, 0, 0.2)"
-                }
-            }}
-            className="BirthdayCardModal"
+                    },
+                }}
+                contentLabel=""
+                className="AddEditTaskModal"
             >
-            <BirthdayCard 
-                onClose={closeBirthdayModal}
-            />
-        </Modal>
-        <Modal
-            isOpen = {chatRoomModalOpen.isShown}
-            onRequestClose={closeChatRoomModal}
-            style={{
-                overlay: {
-                    backgroundColor: "rgba(0, 0, 0, 0.2)"
-                }
-            }}
-            className="ChatRoomModal"
-        >
+                <AddEditTasks
+                    type={addEditModalOpen.type}
+                    taskData={addEditModalOpen.data}
+                    onClose={closeAddEditModal}
+                    getAllTasks={getUserTasks}
+                />
+            </Modal>
 
-            <ChatRoom 
-                closeChatRoomModal={closeChatRoomModal} 
-                taskData={chatRoomModalOpen.data}
-            />
-        </Modal>
+            <Modal
+                isOpen={compDelModalOpen.isShown}
+                onRequestClose={closeCompDelModal}
+                style={{
+                    overlay: {
+                        backgroundColor: "rgba(0, 0, 0, 0.2)"
+                    },
+                }}
+                contentLabel=""
+                className="CompDelTaskModal"
+            >
+                <CompleteDeleteTasks
+                    type={compDelModalOpen.type}
+                    taskData={compDelModalOpen.data}
+                    onClose={closeCompDelModal}
+                    getAllTasks={getUserTasks}
+                    getUserInfo={getUserInfo}
+                />
+            </Modal>
+
+            <Modal
+                isOpen = {birthdayModalOpen.isShown}
+                onRequestClose={closeBirthdayModal}
+                style={{
+                    overlay: {
+                        backgroundColor: "rgba(0, 0, 0, 0.2)"
+                    }
+                }}
+                className="BirthdayCardModal"
+                >
+                <BirthdayCard 
+                    onClose={closeBirthdayModal}
+                />
+            </Modal>
+            
+            <Modal
+                isOpen = {chatRoomModalOpen.isShown}
+                onRequestClose={closeChatRoomModal}
+                style={{
+                    overlay: {
+                        backgroundColor: "rgba(0, 0, 0, 0.2)"
+                    }
+                }}
+                className="ChatRoomModal"
+            >
+
+                <ChatRoom 
+                    closeChatRoomModal={closeChatRoomModal} 
+                    taskData={chatRoomModalOpen.data}
+                />
+            </Modal>
+        </div>
         </>
     )
     

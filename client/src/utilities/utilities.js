@@ -334,8 +334,11 @@ export const calculateTaskPoints = (taskData) => {
     const difference = getTimeDifference(taskData)
     const differenceInHours = difference / 1000 / 60 / 60
     const priorityPoints = calculatePriorityPoints(priority, differenceInHours)
+    const maxThreshold = 50
+    const totalPoints = priorityPoints + roundNum(differenceInHours * 0.25)
+    const finalPoints = Math.min(totalPoints, maxThreshold)
 
-    return differenceInHours < 0 ? 1 : priorityPoints + roundNum(differenceInHours * 0.25)
+    return differenceInHours < 0 ? 5 : finalPoints
 }
 
 /**
@@ -386,3 +389,45 @@ export const Items = [{
     imageURL: item7Image,
     points: 75
 }]
+
+/**
+ * Obtains a random element from the given array.
+ * @param {Array} array The array to get the random element from.
+ * @returns {*} A random element from the given array.
+ */
+export const randomItem = (array) => {
+    const randomNum = Math.floor(Math.random() * array.length)
+    return array[randomNum]
+}
+
+/**
+ * Array of voice lines that can be said by the Assistant at the home page.
+ * @type {Array<string>}
+ */
+export const voice_lines = [
+    'Hello!',
+    'Got something you want me to do for you?',
+    'How can I help you today?',
+    'Today is another day to be productive!',
+    'You look tired, want me to sing a song for you?',
+    "Don't forget to get your tasks done on time!",
+
+]
+
+/**
+ * Gets a comment based on the user's productivity.
+ * @param {Number} productivity The user's productivity.
+ * @returns {String} A string that comments about the user's productivity.
+ */
+export const getProductivityBarComments = (productivity) => {
+    if (productivity >= 80) {
+        return 'Good Progress! Keep It Up!'
+    }
+    if (productivity >= 50) {
+        return "You are getting there! I believe in you!"
+    }
+    if (productivity >= 20) {
+        return "Hmm... You may need some work... But it's still doable!"
+    }
+    return "... Maybe the productivity is the memories we made along the way!"
+}

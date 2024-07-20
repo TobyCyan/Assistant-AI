@@ -1,21 +1,4 @@
 /**
- * Checks if the given input date has the correct format of YYYY-MM-DD.
- * @param {string} date The date to check. 
- * @returns {boolean} true or false.
- */
-export const correctDateFormat = (date) => {
-    console.log('date, ', date)
-    /**
-     * Array in the format of [YYYY, MM, DD]
-     * @type {Array<String>}
-     */
-    const dateArray = date.split('-')
-    const dateObject = new Date(date)
-    const formatLengthMatches = dateArray.length == 3 && dateArray[0].length == 4 && dateArray[1].length == 2 && dateArray[2].length == 2
-    return !isNaN(dateObject) && formatLengthMatches
-}
-
-/**
  * Checks if the given input date comes after today.
  * @param {string} date The date to check.
  * @returns {boolean} true or false.

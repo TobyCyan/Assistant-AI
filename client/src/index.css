@@ -20,7 +20,7 @@ button {
 }
 
 .navBar {
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -144,17 +144,54 @@ button {
 }
 
 .homepageContainer {
+  background: url(./AppImages/Classroom_Bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  width: 100%;
+  position: relative;
   display: flex;
-  justify-content: space-around;
-  margin: auto;
-  height: 800px;
-  width: 950px;
-  padding: 0.5rem;
-  cursor: default;
-  border: 1px solid black;
+  /* border: 2px solid yellow; */
+  justify-content: space-between;
+  overflow: hidden;
 }
 
-.overdueAndRemindersBox, .upcomingAndPriorityBox, .assistantCharacterBox{
+.homepageTaskContainer {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-around;
+  height: 95%;
+  min-width: 500px;
+  max-width: 900px;
+  padding: 0.5rem;
+  cursor: default;
+  /* border: 3px solid red; */
+  float: left;
+}
+
+.extraInfoTab {
+  border: 6px solid rgb(63, 23, 23);
+  width: 300px;
+  height: 800px;
+  float: left;
+  background-image: url(./AppImages/Cream_Bg.jpg);
+}
+
+.homepageChildDiv {
+  flex: 1;
+}
+
+.AIBoxContainer {
+  /* border: 3px solid green; */
+  width: 500px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.overdueAndRemindersBox, .upcomingAndPriorityBox, .extraInfoTab{
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -168,10 +205,6 @@ button {
 .overdueAndRemindersBox, .upcomingAndPriorityBox {
   width: 37.5%;
   flex: 1;
-}
-
-.assistantCharacterBox {
-  width: 25%
 }
 
 .addEditTaskContainer {
@@ -303,7 +336,8 @@ button {
 
 .tasksContainer {
   background-color: #f0f0f0;
-  width: 300px;
+  max-width: 100%;
+  width: 370px;
   height: 150px;
   color: black;
   padding: 0rem;
@@ -348,7 +382,7 @@ button {
 .titleAndPriorityBox {
   display: flex;
   flex-direction: column;
-  height:100%;
+  height: 100%;
   align-items: flex-start;
 }
 
@@ -450,6 +484,13 @@ ul {
 
 .tasksSidebar ul li:hover {
   background-color: #ddd;
+}
+
+.detailedTasksContainer {
+  background-image: url(./AppImages/Blackboard.jpg);
+  background-position: center -200px;
+  background-repeat: no-repeat;
+  background-size: auto;
 }
 
 .detailedTasksContainer {
@@ -709,6 +750,7 @@ ul {
   height: 400px;
   width: 200px;
   display: flex;
+  font-weight: bold;
 }
 
 .userDisplayBox {
@@ -726,17 +768,12 @@ ul {
   100% { opacity: 0; }
 }
 
-.invisibleBox {
-  height: 110px;
-  position: relative;
-  /* border: 1px solid red; */
-}
-
-.AIBox {
+.assistantDialogue {
   justify-content: center;
-  border: 10px solid rgb(11, 82, 187);
+  border: 10px solid rgb(159, 255, 255);
   border-radius: 20px;
   border-width: 4px;
+  box-shadow: grey 5px 5px;
   padding: 13px;
   width: fit-content;
   word-wrap: break-word;
@@ -746,40 +783,71 @@ ul {
   font-weight: bold;
   font-size: large;
   color: #000000;
-  background-color: rgb(202, 240, 255);
+  background-color: rgb(255, 255, 255);
   margin-top: 20px;
   z-index: 4;
 }
 
-.AIBox:hover, #assistantAvatar:hover  {
+.assistantDialogueContainer:hover {
   transform: scale(1.02);
 }
 
-.assistantAvatarDiv img {
+.assistantAvatarDiv:hover .assistantAvatar.wink  {
+  opacity: 1;
+  transform: scale(1.02);
+}
+
+.assistantAvatarDiv:hover .assistantAvatar.wave  {
+  opacity: 0;
+}
+
+.assistantAvatar.wave {
+  transition: opacity 0.2s;
+}
+
+.assistantAvatar.wink {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.assistantAvatarDiv>img {
+  filter: drop-shadow(5px 8px 8px rgb(255, 183, 183));
+}
+
+.assistantAvatar {
   cursor: pointer;
-  scale: 0.35;
+  /* scale: 0.75; */
   position: absolute;
   margin-bottom: 8px;
   translate: -50% -50%;
   top: 50%;
   left: 50%;
+  max-width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .assistantAvatarDiv {
   position: relative;
-  height: 350px;
+  height: 100%;
   width: 100%;
   display: flex;
+  /* border: 2px solid black; */
 }
 
 .instructionText {
-  margin-bottom: 5px;
+  margin-bottom: 40px;
   font-weight: bold;
+  font-size: 25px;
+  border-bottom: 2px solid rgb(161, 103, 255);
+  border-radius: 10px;
 }
 
-.ChatPage {
-  /* border: 1px solid black; */
-  position: relative;
+.chatpageContainer {
+  background-color: #010c3d;
+  height: 92vh;
+  overflow: hidden;
 }
 
 .fadeIn {
@@ -792,7 +860,10 @@ ul {
 
 .chatboxContainer {
   margin: 15px;
-  border: 2px solid transparent;
+  border: 2px solid black;
+  /* border-left: 2px solid black;
+  border-right: 2px solid black; */
+  border-radius: 0px 0px 15px 15px;
   padding: 15px;
   word-wrap: break-word;
   background: 
@@ -800,16 +871,18 @@ ul {
     linear-gradient(90deg, grey, grey) left bottom/100% 3px no-repeat,
     linear-gradient(90deg, rgb(255, 255, 255), rgb(255, 255, 255)) left bottom/100% no-repeat;
   transition: background-size 0.3s ease;
-
+  position: absolute;
+  width: 85.2%;
+  bottom: 0px;
+  left: 13.5px;
 }
 
-.chatboxContainer:focus-within {
-  border: 2px solid black;
-  border-radius: 5px;
+/* .chatboxContainer:focus-within {
+  border-top: 2px solid black;
   transition: 
     width 0.3s ease 0.3s,
     height 0.3s ease 0.3s;
-}
+} */
 
 #chatbox::placeholder {
   transition: 0.3s ease;
@@ -835,22 +908,28 @@ ul {
   outline: none;
 }
 
-.chatpageContainer {
+.chatroomContainer {
   border: 2px solid rgb(0, 0, 0);
-  border-radius: 5px;
-  height: 500px;
-  width: 650px;
+  border-radius: 12px;
+  height: 88vh;
+  width: 620px;
   margin: auto;
+  margin-top: 15px;
+  background-color: rgb(160, 241, 255);
+  position: relative;
 }
 
 .chatroom {
   margin: auto;
-  margin-top: 10px;
+  margin-top: 30px;
   border: 2px solid black;
+  border-bottom: none;
+  border-radius: 12px 12px 0px 0px;
   width: 90%;
-  height: 90%;
+  height: 85.5%;
   overflow: auto;
   overflow-x: hidden;
+  background-color: rgb(255, 255, 231);
 }
 
 .chatRoomAvatar {
@@ -898,6 +977,7 @@ ul {
   box-shadow: 5px 5px grey;
   cursor: default;
   text-align: left;
+  background-color: white;
 }
 
 .sendButton {

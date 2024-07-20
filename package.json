@@ -1,7 +1,16 @@
 {
   "dependencies": {
+    "@babel/preset-env": "^7.24.8",
+    "@babel/preset-react": "^7.24.7",
     "crypto-js": "^4.2.0",
     "dotenv": "^16.4.5",
+    "jest-extended": "^4.0.2",
     "react-modal": "^3.16.1"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
