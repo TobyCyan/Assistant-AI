@@ -401,18 +401,22 @@ export const randomItem = (array) => {
 }
 
 /**
- * Array of voice lines that can be said by the Assistant at the home page.
- * @type {Array<string>}
- */
-export const voice_lines = [
-    'Hello!',
-    'Got something you want me to do for you?',
-    'How can I help you today?',
-    'Today is another day to be productive!',
-    'You look tired, want me to sing a song for you?',
-    "Don't forget to get your tasks done on time!",
+* A random interval generator.
+* @returns A random time in milliseconds between the minInterval and maxInterval.
+*/
+export const randIntervalGenerator = (minInterval, maxInterval) => {
+   return Math.random() * (maxInterval - minInterval) + minInterval
+}
 
-]
+/**
+ * Returns a random voice line from the array.
+ * @param {Array} voiceLines An array of voice lines.
+ * @returns A random voice line.
+ */
+export const getRandomVoiceLine = (voiceLines) => {
+    const randIndex = Math.floor(Math.random() * voiceLines.length);
+    return voiceLines[randIndex]
+}
 
 /**
  * Gets a comment based on the user's productivity.

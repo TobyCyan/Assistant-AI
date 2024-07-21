@@ -1,16 +1,17 @@
-import React, { useRef, useEffect, useState, ReactNode } from 'react'
-import NavBar from "../components/NavBar/NavBar.jsx"
-import TasksBox from "../components/TasksCardsAndBox/TasksBox"
+import React, { useEffect, useState, ReactNode } from 'react';
+import NavBar from "../components/NavBar/NavBar.jsx";
+import TasksBox from "../components/TasksCardsAndBox/TasksBox";
 import Modal from 'react-modal';
-import { useTokenContext } from "../components/TokenContext/TokenContext"
-import AddEditTasks from "../components/TaskModals/AddEditTasks"
-import CompleteDeleteTasks from "../components/TaskModals/CompleteDeleteTasks"
-import ProductivityBar from "../components/ProductivityBar/ProductivityBar.jsx"
-import { isTaskOverdue, isTaskNeededToBeReminded, isTaskUpcoming, isTodayBirthday, isTodayNextDayOfBirthday, compareTasksPriority, compareTasksDeadline, calculateTaskProductivity, getProductivityBarComments } from "../utilities/utilities.js"
-import AIBox from '../components/AIBox/AIBox.jsx'
-import BirthdayCard from '../components/Birthday/BirthdayCard.jsx'
-import ChatRoom from '../components/ChatRoom/ChatRoom.jsx'
+import { useTokenContext } from "../components/TokenContext/TokenContext";
+import AddEditTasks from "../components/TaskModals/AddEditTasks";
+import CompleteDeleteTasks from "../components/TaskModals/CompleteDeleteTasks";
+import ProductivityBar from "../components/ProductivityBar/ProductivityBar.jsx";
+import { isTaskOverdue, isTaskNeededToBeReminded, isTaskUpcoming, isTodayBirthday, isTodayNextDayOfBirthday, compareTasksPriority, compareTasksDeadline, calculateTaskProductivity, getProductivityBarComments } from "../utilities/utilities.js";
+import AIBox from '../components/AIBox/AIBox.jsx';
+import BirthdayCard from '../components/Birthday/BirthdayCard.jsx';
+import ChatRoom from '../components/ChatRoom/ChatRoom.jsx';
 import { wait } from '../utilities/ChatPageUtilities.js';
+import IntroElement from '../components/IntroElements/IntroElement.jsx';
 
 /**
  * A React component that displays the home page and a brief layout of the current user tasks, including the navigation bar, 4 task boxes, and the modal to add or edit tasks.
@@ -36,6 +37,43 @@ const Home = () => {
      * @type {[Array<Object>, function]}
      */
     const [tasks, setTasks] = useState([])
+
+    const [activateIntro, setActivateIntro] = useState(false)
+    const [activateReminder, setActivateReminder] = useState(false)
+
+    /**
+     * The steps for the webpage intro.
+     * @returns {Array<Object>} An array of objects that specify the element to highlight or the intro value.
+     */
+    const introSteps = () => [
+        {
+            intro: 'Welcome to AssistantAI!',
+        },
+        {
+            element: '.homepageTaskContainer',
+            intro: 'These are your tasks.',
+        },
+        {
+            element: '.overdueAndRemindersBox',
+            intro: "Your overdued tasks will be shown here, as well as your reminders so you don't forget!",
+        },
+        {
+            element: '.upcomingAndPriorityBox',
+            intro: "All of your upcoming tasks will be displayed here. I will also rank your tasks in terms of their priority so be sure to do them first!"
+        },
+        {
+            element: '.extraInfoTab',
+            intro: 'When you finish a task, you earn points! And your total points can be found here alongside your productivity report!',
+        },
+        {
+            element: '.addButtonBox',
+            intro: 'Feel free to use this button to add new tasks, or you can come talk to me personally for me to add them for you! hehe~',
+        },
+        {
+            element: '.AIBoxContainer',
+            intro: 'I will be here in case you need me, just click on me to talk! :)'
+        }
+    ]
 
     /**
      * Filters the uncompleted task and sort them by the deadline.
@@ -305,6 +343,12 @@ const Home = () => {
         })
     }
 
+    useEffect(() => {
+        setTimeout(() => {
+            setActivateIntro(true)
+        }, 500)
+    }, [])
+
     /**
      * @function useEffect
      * @description Checks if birthdayShown exists in the local storage, sets it if not.
@@ -347,18 +391,19 @@ const Home = () => {
 
     /**
      * @function useEffect
-     * @description Opens the Chat Room modal everyday for the daily reminder.
+     * @description Opens the Chat Room modal everyday for the daily reminder only when it's active so it does not clash with the intro.
      */
     useEffect(() => {
-        const waitForABit = async () => {
-            await wait(5000)
-            handleDailyReminder()
+        if (activateReminder) {
+            setTimeout(() => {
+                handleDailyReminder()
+            }, 1000)
         }
-        waitForABit()
-    }, [])
+    }, [activateReminder])
 
     return (
         <>
+        <IntroElement steps={introSteps()} activate={activateIntro} setActivate={setActivateIntro} setActivateReminder={setActivateReminder}/>
         <NavBar />
         <div className="homepageContainer">
             {!token ? (
@@ -386,12 +431,12 @@ const Home = () => {
             )}
             <div className="homepageTaskContainer homepageChildDiv">
                 <div className="overdueAndRemindersBox">
-                    <TasksBox id="overdueBox" key="Overdued" title="Overdued" tasks={tasks} tasksToShow={overduedTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
-                    <TasksBox key="Reminders" title="Reminders" tasks={tasks} tasksToShow={remindersTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask} />
+                    <TasksBox id="overdueBox" key="Overdued" title="Overdued" className='overdueBox' tasks={tasks} tasksToShow={overduedTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
+                    <TasksBox id="reminderBox" key="Reminders" title="Reminders" tasks={tasks} tasksToShow={remindersTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask} />
                 </div>
                 <div className="upcomingAndPriorityBox">
-                    <TasksBox key="Upcoming" title="Upcoming" tasks={tasks} tasksToShow={upcomingTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
-                    <TasksBox key="Priority" title="Priority" tasks={tasks} tasksToShow={priorityTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
+                    <TasksBox id="upcomingBox" key="Upcoming" title="Upcoming" tasks={tasks} tasksToShow={upcomingTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
+                    <TasksBox id="priorityBox" key="Priority" title="Priority" tasks={tasks} tasksToShow={priorityTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
                 </div>
 
             </div>

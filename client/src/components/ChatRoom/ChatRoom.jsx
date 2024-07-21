@@ -107,7 +107,6 @@ const ChatRoom = ({closeChatRoomModal, taskData}) => {
                     return
                 }
                 const newMessage = reminderDialogueFlow[index]
-                console.log('message: ' + newMessage)
                 addNewChatBotResponse(newMessage)
                 index += 1
             }
@@ -124,7 +123,7 @@ const ChatRoom = ({closeChatRoomModal, taskData}) => {
 
     return (
         <>   
-            <div className="chatpageContainer oneWayChatRoom">
+            <div className="chatroomContainer oneWayChatRoom">
                 <div className="chatroom" id="chatroom" ref={lastMessage}>
                     {...chatMessages}
                 </div> 
