@@ -40,6 +40,7 @@ const Home = () => {
 
     const [activateIntro, setActivateIntro] = useState(false)
     const [activateReminder, setActivateReminder] = useState(false)
+    const [activateBirthday, setActivateBirthday] = useState(false)
 
     /**
      * The steps for the webpage intro.
@@ -372,10 +373,12 @@ const Home = () => {
         }
 
         const birthdayShown = JSON.parse(localStorage.getItem('birthdayShown'))
-        if (isTodayBirthday(birthday) && !birthdayShown) {
-            handleBirthday()
+        if (isTodayBirthday(birthday) && !birthdayShown && activateBirthday) {
+            hsetTimeout(() => {
+                handleBirthday()
+            }, 500)
         }
-    }, [userData])
+    }, [userData, activateBirthday])
 
     /**
      * @function useEffect
@@ -511,6 +514,7 @@ const Home = () => {
                 <ChatRoom 
                     closeChatRoomModal={closeChatRoomModal} 
                     taskData={chatRoomModalOpen.data}
+                    setActivateBirthday={setActivateBirthday}
                 />
             </Modal>
         </div>
