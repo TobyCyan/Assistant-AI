@@ -364,15 +364,15 @@ Assistant AI is essentially a task management system with the help of a Virtual 
             
         *    For **editing an existing task**, Mei will first ask the user which task they would like to edit (by index), then a similar form but with the fields filled out will appear instead.
             
-            ![Automation Edit Task 1](./images/CoreFeaturesInstructionImg/AutomationEditTask1.png)
+           ![Automation Edit Task 1](./images/CoreFeaturesInstructionImg/AutomationEditTask1.png)
             
-            ![Automation Edit Task 2](./images/CoreFeaturesInstructionImg/AutomationEditTask2.png)
+           ![Automation Edit Task 2](./images/CoreFeaturesInstructionImg/AutomationEditTask2.png)
             
         *   For **deleting an existing task**, Mei will first ask for the index of the task the user would like to delete, then the user will have to send a confirmation input to confirm the deletion.
 
            ![Automation Delete Task 1](./images/CoreFeaturesInstructionImg/AutomationDeleteTask1.png)
             
-            ![Automation Delete Task 2](./images/CoreFeaturesInstructionImg/AutomationDeleteTask2.png)
+           ![Automation Delete Task 2](./images/CoreFeaturesInstructionImg/AutomationDeleteTask2.png)
             
         
         **Quitting an Operation/ Going back a Step**
@@ -382,7 +382,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
 
            ![Quit Or Go Back A Step 1](./images/CoreFeaturesInstructionImg/QuitOrGoBackAStep1.png)
             
-            ![Quit Or Go Back A Step 2](./images/CoreFeaturesInstructionImg/QuitOrGoBackAStep2.png)
+           ![Quit Or Go Back A Step 2](./images/CoreFeaturesInstructionImg/QuitOrGoBackAStep2.png)
             
     
 *   **Interactive Messages**
