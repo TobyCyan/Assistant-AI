@@ -14,8 +14,8 @@ const RecurringTasksTable = ({ recurringTasks, onEdit, onDelete }) => {
                 <div className="recTableColumn">Next Deadline</div>
                 <div className="recTableColumn">Intervals</div>
                 <div className="recTableColumn">Reminder Before Deadline</div>
-                <div className="recTableColumn">Edit</div>
-                <div className="recTableColumn">Delete</div>
+                <div className="recTableColumn recTableActions">Edit</div>
+                <div className="recTableColumn recTableActions">Delete</div>
             </div>
             <div className="recTableBody">
                 {recurringTasks.map((recTask, index) => (

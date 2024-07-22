@@ -1448,7 +1448,8 @@ ul {
 
 .recurringTasksTable {
   display: grid;
-  grid-template-columns: repeat(11, 1fr);
+  /*grid-template-columns: repeat(11, 1fr); */
+  grid-template-columns: 3fr 1.5fr 1fr 1fr 1fr 1fr 1fr 0.5fr 0.5fr 0.5fr 0.5fr;
   gap: 10px;
   width: 100%;
   border: 1px solid #ccc;
@@ -1479,6 +1480,29 @@ ul {
   border-bottom: 1px solid #ccc;
   text-align: center;
   word-wrap: break-word;
+}
+
+.recTableActions button {
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.recTaskDeleteButton {
+  padding: 0px !important;
+}
+
+.recTaskDeleteButton:before {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  content: "\00D7"; /* Unicode for a cross symbol */
+  font-size: 24px; /* Adjust size of the cross */
 }
 
 /*

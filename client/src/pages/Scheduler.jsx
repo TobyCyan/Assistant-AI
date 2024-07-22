@@ -282,7 +282,7 @@ function Scheduler() {
             <NavBar/>
             <div className="tasksPageContainer">
                 <div className="tasksSidebar">
-                    <button className="addTaskBtn" onClick={handleAddTask}>Add Task</button>
+                    <button className="addTaskBtn" onClick={handleAddTask}>Add Recurring Task</button>
                     <div className="categoriesSidebar">Categories</div>
                     <ul id="category-list">
                         <li onClick={() => handleFilterTasks('All')}>All ({recTasks.length})</li>
@@ -290,7 +290,7 @@ function Scheduler() {
                     </ul>
                 </div>
                 <div className="detailedTasksContainer">
-                    <RecurringTasksTable recurringTasks={recTasks} onEdit={() => {}} onDelete={handleDeleteTask}/>
+                    <RecurringTasksTable recurringTasks={displayRecTasks} onEdit={handleEditTask} onDelete={handleDeleteTask}/>
                 </div>
             </div>
             <Modal

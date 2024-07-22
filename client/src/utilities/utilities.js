@@ -200,7 +200,7 @@ const weightages = {
     },
     punctual: {
         High: 0.1,
-        Medium: 0.5,
+        Medium: 0.05,
         Low: 0.03
     },
     early: {
