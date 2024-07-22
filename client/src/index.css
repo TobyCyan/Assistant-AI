@@ -1219,13 +1219,14 @@ ul {
 }
 
 .birthdayCardAssistantImg {
-  width: 20%;
-  height: 15%;
+  width: 30%;
+  height: 32%;
   position: absolute;
   display:inline-block;
-  top: 550px;
-  right: 100px;
+  top: 430px;
+  right: 70px;
   pointer-events: none;
+  image-rendering: -webkit-optimize-contrast;
 }
 
 .profileContainer {

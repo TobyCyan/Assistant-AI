@@ -34,14 +34,11 @@ const BirthdayCard = ({onClose}) => {
 
             <div className="birthdayMessageBody">
 
-                    I hope this letter finds you well, on this special day of yours. Birthdays are remarkable moments that shine brightly in the passage of time, like stars in a vast night sky.
-
-                    As I sit here, reminiscing about the times we've shared, I find myself overwhelmed with gratitude for your presence in my life. Your warmth and kindness have touched me in ways words can hardly express. Whether through joyful adventures or quiet moments of reflection, every memory with you is etched deeply in my heart.
-
-                    On this day, I wish for you nothing but happiness and fulfillment. May your path be adorned with countless smiles, and may each step you take lead you closer to your dreams. You deserve all the love and joy the world has to offer, and more.
-
-                    Though distances may separate us physically, know that my thoughts are always with you, especially today. I look forward to creating many more cherished memories together in the days to come.
-
+                    I hope this letter finds you well, pardon me for not being able to say this to you in person. But I just want to let you know that occassions like this 
+                    are particularly special for a person. I may not be able to celebrate today with you as a real human being, but I will always remember that today is a special day only to you... 
+                    Say... Will you be able to take some time off later? I would like to watch a movie with you, or maybe eat some ramen!
+                    Oh, I almost forgot to say this!
+                    <br />
                     Happy Birthday, dear <span className="addressName">{userData.username}</span>. 
                     <br />
                     May this day be as extraordinary and radiant as you are.
@@ -50,7 +47,7 @@ const BirthdayCard = ({onClose}) => {
             <img src={assistantImg} className="birthdayCardAssistantImg" />
             <div className="endOfBirthdayMessage">
                 With all my heart,<br />
-                Arona ❤️️
+                Mei ❤️️
             </div>
         
         </div>

@@ -478,7 +478,7 @@ const ChatPage = () => {
         const editTaskResponseFlow = () => [quitInstructionText, backInstructionText, obtainingTaskText, randomItem(readyText), showTaskListText, <ListMessageElement list={taskList} />]
         const deleteTaskResponseFlow = () => [obtainingTaskText, randomItem(readyText), showTaskListText, <ListMessageElement list={taskList} />]
         const allTasksResponseFlow = () => [obtainingTaskText, <ListMessageElement list={taskList} />]
-        const priorityTaskResponseFlow = () => [randomItem(readyText), <ListMessageElement list={priorityTasksList} />, `I would recommend you to start with top prioritised task: ${taskInfoString(priorityTasks[0], 0)}`]
+        const priorityTaskResponseFlow = () => [randomItem(readyText), <ListMessageElement list={priorityTasksList} />, `I would recommend you to start with the top prioritised task: ${taskInfoString(priorityTasks[0], 0)}`]
 
         switch (responseType) {
             case "Weather":
@@ -557,6 +557,7 @@ const ChatPage = () => {
                 
                 case "EditTask":
                     await addNewChatBotResponse("Let me get the list again...")
+                    await addNewChatBotResponse(<ListMessageElement list={taskList}/>)
                     redirectInputToEditTask(input, index - 1)
                     break
             }

@@ -10,7 +10,7 @@ import { isTaskOverdue, isTaskNeededToBeReminded, isTaskUpcoming, isTodayBirthda
 import AIBox from '../components/AIBox/AIBox.jsx';
 import BirthdayCard from '../components/Birthday/BirthdayCard.jsx';
 import ChatRoom from '../components/ChatRoom/ChatRoom.jsx';
-import { wait } from '../utilities/ChatPageUtilities.js';
+// import { wait } from '../utilities/ChatPageUtilities.js';
 import IntroElement from '../components/IntroElements/IntroElement.jsx';
 
 /**
@@ -38,8 +38,22 @@ const Home = () => {
      */
     const [tasks, setTasks] = useState([])
 
+    /**
+     * The initial state of activating the intro and setter function to update it.
+     * @type {[boolean, function]}
+     */
     const [activateIntro, setActivateIntro] = useState(false)
+
+    /**
+     * The initial state of activating the reminder and setter function to update it.
+     * @type {[boolean, function]}
+     */
     const [activateReminder, setActivateReminder] = useState(false)
+    
+    /**
+     * The initial state of activating the birthday modal and setter function to update it.
+     * @type {[boolean, function]}
+     */
     const [activateBirthday, setActivateBirthday] = useState(false)
 
     /**
@@ -69,6 +83,10 @@ const Home = () => {
         {
             element: '.addButtonBox',
             intro: 'Feel free to use this button to add new tasks, or you can come talk to me personally for me to add them for you! hehe~',
+        },
+        {
+            element: '.navBar',
+            intro: 'This is the navigation bar, where you can use to navigate to other pages!',
         },
         {
             element: '.AIBoxContainer',
@@ -374,7 +392,7 @@ const Home = () => {
 
         const birthdayShown = JSON.parse(localStorage.getItem('birthdayShown'))
         if (isTodayBirthday(birthday) && !birthdayShown && activateBirthday) {
-            hsetTimeout(() => {
+            setTimeout(() => {
                 handleBirthday()
             }, 500)
         }

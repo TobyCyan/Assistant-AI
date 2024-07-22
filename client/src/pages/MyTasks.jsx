@@ -7,7 +7,7 @@ import AddEditTasks from "../components/TaskModals/AddEditTasks";
 import CompleteDeleteTasks from "../components/TaskModals/CompleteDeleteTasks";
 import { compareTasksDeadline } from "../utilities/utilities.js";
 import Modal from 'react-modal';
-import { parseToken } from "../utilities/utilities.js";
+import IntroElement from '../components/IntroElements/IntroElement.jsx';
 
 /**
  * A Functional React component that displays all user tasks based on their categories, level of priority and completion status, and allows user to perform task operations such as add, edit, complete, uncomplete and delete.
@@ -33,6 +33,41 @@ function MyTasks() {
      * @type {[Array<Object>, function]}
      */
     const [tasks, setTasks] = useState([])
+
+    /**
+     * The initial state of activating the intro and setter function to update it.
+     * @type {[boolean, function]}
+     */
+    const [activateIntro, setActivateIntro] = useState(false)
+
+    /**
+     * The steps for the webpage intro.
+     * @returns {Array<Object>} An array of objects that specify the element to highlight or the intro value.
+     */
+    const introSteps = () => [
+        {
+            intro: "Welcome to the Task Page!"
+        },
+        {
+            element: ".tasksSidebar",
+            intro: "This is your side bar! I have categorised everything into their own categories, and even by priority!"
+        },
+        {
+            element: ".addTaskBtn",
+            intro: "Another button here to add new tasks! How convenient! hehe~"
+        },
+        {
+            element: ".detailedTasksContainer",
+            intro: "This is where you can see all of your tasks in detail!"
+        },
+        {
+            element: ".detailedTasksContainer",
+            intro: "Once you have added your tasks, you should be able to see buttons to edit, complete, and delete them!"
+        },
+        {
+            intro: "That's all I have for you on this page!"
+        },
+    ]
 
     /**
      * The tasks to display and setter function to update it.
@@ -78,6 +113,12 @@ function MyTasks() {
             getUserTasks();
         }
     }, [token]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setActivateIntro(true)
+        }, 500)
+    }, [])
 
     /**
      * @function useEffect
@@ -310,6 +351,7 @@ function MyTasks() {
     return (
         <>
             <NavBar/>
+            <IntroElement steps={introSteps()} activate={activateIntro} setActivate={setActivateIntro} />
             <div className="tasksPageContainer">
                 <div className="tasksSidebar">
                     <button className="addTaskBtn" onClick={handleAddTask}>Add Task</button>
