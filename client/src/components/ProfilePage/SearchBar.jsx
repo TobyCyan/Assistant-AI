@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {useTokenContext} from "../TokenContext/TokenContext.jsx";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const SearchBar = () => {
     const {tokenStatus} = useTokenContext()
@@ -44,8 +46,9 @@ const SearchBar = () => {
     }
 
     return (
-        <div className="searchBar">
+        <div className="searchBarBox">
             <input
+                className="searchBar"
                 type="text"
                 placeholder="Enter username..."
                 value={username}
@@ -53,7 +56,7 @@ const SearchBar = () => {
                 onKeyDown={handleKeyDown}
             />
             <button className="searchBarBtn" onClick={handleSearch}>
-                S
+                <FontAwesomeIcon icon={faSearch} />
             </button>
             {error && <p className="error">{error}</p>}
         </div>

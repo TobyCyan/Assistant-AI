@@ -20,8 +20,10 @@ function RecurringTasks({recurringTask, onEdit, onDelete}) {
             <div className="recTableColumn">{nextDeadline}</div>
             <div className="recTableColumn">{interval}</div>
             <div className="recTableColumn">{reminderToDeadline}</div>
-            <div className="recTableColumn recTableActions"><button onClick={onEdit}>Edit</button></div>
-            <div className="recTableColumn recTableActions"><button className="recTaskDeleteButton" onClick={onDelete}></button></div>
+            <div className="recTableColumn recTableActions">
+                <button onClick={onEdit}>Edit</button>
+                <button className="recTaskDeleteButton" onClick={onDelete}></button>
+            </div>
         </div>
     );
 }

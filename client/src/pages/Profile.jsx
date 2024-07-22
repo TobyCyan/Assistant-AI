@@ -231,6 +231,7 @@ const Profile = () => {
             <div className="profileContainer">
             <div className="profileInnerBox">
                     <div className="userProfileBox">
+                        <SearchBar/>
                         <div className="profilePic">
                             {/* To Add Profile Pic? */}
                         </div>
@@ -238,17 +239,16 @@ const Profile = () => {
                             {displayUser?.username}
                         </div>
                         <div className="profileDateOfBirthBox">
-                            {displayUser && displayUser.dateOfBirth && getDDMMYY(displayUser.dateOfBirth)}
+                            Birthdate: {displayUser && displayUser.dateOfBirth && getDDMMYY(displayUser.dateOfBirth)}
                         </div>
                         <div className="profilePointsBox">
-                            Points: {displayUser?.points}
+                            Points: {displayUser?.points} pts
                         </div>
                         <div className="friendStatus">
                             {isUser ? " " : isFriend ? "Friends" : requestSent ? "Request sent!" : requestFrom ? acceptRequest : addFriend}
                         </div>
                     </div>
                     <div className="socialBox">
-                        <SearchBar/>
                         <FriendsBox
                             key="Friends"
                             friendsToShow={friends}

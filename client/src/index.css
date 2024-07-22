@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
 
 body {
   margin: 0 auto;
@@ -32,10 +33,24 @@ button {
 .navBar {
   background-color: rgb(255, 255, 255);
   display: flex;
+  font-family: 'Raleway', sans-serif;
   align-items: center;
   justify-content: space-between;
   padding: 0.5rem 1.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-weight: bold;
+  font-size: 16px;
+  max-height: 9vh;
+}
+
+.navBarBtn {
+  font-family: 'Raleway', sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  border: none;
+  background: none;
+  padding: 0.5rem;
+  margin: 0.25rem 0.5rem;
 }
 
 .navList {
@@ -71,6 +86,7 @@ button {
   align-items: center;
   justify-content: center;
   margin-top: 7rem;
+  font-family: 'Raleway', sans-serif;
 }
 
 .accountFormInnerBox {
@@ -78,7 +94,7 @@ button {
   border: 1px solid;
   border-radius: 0.25rem;
   background-color: #ffffff;
-  padding: 2.5rem 1.75rem;
+  padding: 0.25rem 2.5rem 1.75rem;
 }
 
 .accountFormHeader {
@@ -148,17 +164,12 @@ button {
   margin-bottom: 16px;
 }
 
-.navBarBtn {
-  padding: 0.5rem;
-  margin: 0.25rem 0.5rem;
-}
-
 .homepageContainer {
   background: url(./AppImages/Classroom_Bg.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  height: 100vh;
+  height: 91vh;
   width: 100%;
 
   position: relative;
@@ -478,7 +489,8 @@ ul {
 
 .tasksPageContainer {
   display: flex;
-  height: 80vh;
+  height: 91vh;
+  overflow-y: hidden;
 }
 
 .tasksSidebar {
@@ -486,7 +498,7 @@ ul {
   background-color: #f4f4f4;
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  height: 80vh;
+  overflow-y: hidden;
 }
 
 .tasksSidebar h2 {
@@ -522,7 +534,6 @@ ul {
   overflow: hidden;
   flex: 1;
   background-color: #f0f0f0;
-  height: 80vh;
   width: 90%;
   color: black;
   padding: 0rem;
@@ -678,8 +689,11 @@ ul {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-height: 59px;
   cursor: pointer;
+  border: solid black;
+  border-radius: 10px;
+  height: 100%;
+  padding: 0.25rem 0.25rem;
 }
 
 .username {
@@ -1241,7 +1255,8 @@ ul {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Full height of the viewport */
+  height: 91vh; /* Full height of the viewport */
+  width: 100%;
 }
 
 .profileInnerBox {
@@ -1257,7 +1272,7 @@ ul {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   padding: 20px;
   border: 1px solid #ccc;
   margin: 10px;
@@ -1265,8 +1280,8 @@ ul {
 }
 
 .userProfileBox .profilePic {
-  width: 100px;
-  height: 100px;
+  width: 200px;
+  height: 200px;
   background-color: #eee;
   border-radius: 50%;
   margin-bottom: 20px;
@@ -1293,6 +1308,7 @@ ul {
   flex-direction: column;
   overflow: hidden;
   flex: 1;
+  border-radius: 10%;
 }
 
 .friendsBoxTitleBox {
@@ -1333,6 +1349,7 @@ ul {
     flex-direction: column;
     overflow: hidden;
     flex: 1;
+    border-radius: 10%;
 }
 
 .friend, .request {
@@ -1387,8 +1404,13 @@ ul {
   gap: 5px;
 }
 
-.searchBar {
+.searchBarBox {
+  width: 100%;
+}
 
+.searchBarBtn {
+  border: none;
+  background: none;
 }
 
 .itemBox {
@@ -1449,22 +1471,37 @@ ul {
 .recurringTasksTable {
   display: grid;
   /*grid-template-columns: repeat(11, 1fr); */
-  grid-template-columns: 3fr 1.5fr 1fr 1fr 1fr 1fr 1fr 0.5fr 0.5fr 0.5fr 0.5fr;
-  gap: 10px;
+  grid-template-columns: 3fr 1.5fr 1fr 1fr 1fr 1fr 1fr 0.5fr 0.5fr 1fr;
+  gap: 5px;
   width: 100%;
-  border: 1px solid #ccc;
+  border-radius: 20px;
+  background: white;
 }
 
 .recTableHeader {
   display: contents;
+  border-radius: 20px;
+  position: sticky;
+  z-index: 1;
 }
 
-.recTableHeader .column {
+.recTableHeader .recTableColumn {
   background-color: #f5f5f5;
   padding: 10px;
   font-weight: bold;
   text-align: center;
   border-bottom: 2px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.recTableHeader .recTableTitle {
+  border-top-left-radius: 20px;
+}
+
+.recTableHeader .recTableActions {
+  border-top-right-radius: 20px;
 }
 
 .recTableBody {
@@ -1480,6 +1517,15 @@ ul {
   border-bottom: 1px solid #ccc;
   text-align: center;
   word-wrap: break-word;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.recTableActions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .recTableActions button {
