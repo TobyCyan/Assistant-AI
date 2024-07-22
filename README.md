@@ -81,6 +81,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
 
 *   **Assistant AI**
     *   Why call our web application Assistant AI when we don't even have one present, right?
+
     *   Meet our user's personal Virtual Assistant AI, Mei!
        ![Meet Our AI](./images/CoreFeaturesInstructionImg/MeetOurAI.png)
         
@@ -97,6 +98,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
         **Instructions/ Details**
         
         *   The screen below is what every new user would see when they click on the Sign Up button.
+
           ![Sign Up Page](./images/CoreFeaturesInstructionImg/SignUpPage.png)
             
         *   By entering a unique username, birthdate, and valid password, the new user can press Sign Up at the bottom of the form to submit and create a new account.
@@ -105,6 +107,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
             *   At least a number.
             *   At least 8 characters.
         *   Upon Successful sign up, the user will be brought to our home page.
+
            ![Home Page](./images/CoreFeaturesInstructionImg/HomePage.png)
     
 
@@ -118,6 +121,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
         **Instructions/ Details**
         
         *   The screen below is what every new user would see when they click on the Login button.
+
            ![Login Page](./images/CoreFeaturesInstructionImg/LoginPage.png)
             
         *   Existing users can enter their username and password, then press on the Login button at the bottom of the form to login.
@@ -138,13 +142,16 @@ Assistant AI is essentially a task management system with the help of a Virtual 
         *   There are 2 ways for users to add a new task, for this part we will be discussing the first way.
         *   Users can look out for the Add Task button (which should be quite obvious to spot).
         *   The button should look something like this.
+
            ![Home Page Add Task Button](./images/CoreFeaturesInstructionImg/HomePageAddTaskButton.png)
             
         *   When the button is pressed, a form pops up for the user to fill up.
         *   The user will need to enter all the fields as required, then click on the confirmation button to submit.
+
            ![Add Task Modal Empty](./images/CoreFeaturesInstructionImg/AddTaskModalEmpty.png)
             
         *   In the form, users can enable recurring mode to get reminders for the task in set intervals.
+
            ![Add Task Recurring Mode](./images/CoreFeaturesInstructionImg/AddTaskRecurringMode.png)
             
         *   A priority level must also be chosen (i.e. Low, Medium, or High)
@@ -155,12 +162,15 @@ Assistant AI is essentially a task management system with the help of a Virtual 
             *   The deadline and reminder date must not come before the date the task is added.
             *   The reminder date must come before the deadline (It kinda makes sense right?)
             *   Failure to comply to the above conditions will result in an error message.
+
            ![Add Task Deadline & Reminder](./images/CoreFeaturesInstructionImg/AddTaskDeadline&Reminder.png)
             
         *   Once the details are filled up and ready, just click on the ADD button to add the new task!
+
            ![Add Task Confirmation](./images/CoreFeaturesInstructionImg/AddTaskConfirmation.png)
             
         *   Afterwards, the newly added task can be found in both the Upcoming and Priority section of the task containers.
+
            ![Priority Tasks Container](./images/CoreFeaturesInstructionImg/Upcoming&PriorityTasksContainer.png)
             
     
@@ -178,16 +188,20 @@ Assistant AI is essentially a task management system with the help of a Virtual 
         
         *   To promote a flexible task managing experience, we (just like any other task management applications) allow our users to edit their existing tasks in the case where they change their minds.
         *   So how can users do it? It's simple! Users may notice 3 buttons next to each of their tasks.
+
            ![Show Task Buttons](./images/CoreFeaturesInstructionImg/ShowTaskButtons.png)
             
         *   And there's the Edit button! Similar, users may click on it to start editing their tasks.
         *   The exact same pop up screen for adding tasks would appear, however this time with the fields filled out according to the task's current data.
+
            ![Edit Task Modal Before Change](./images/CoreFeaturesInstructionImg/EditTaskModalBeforeChange.png)
             
         *   And it's also the exact same procedure as Add Task! Just change whichever fields you like, then click on the UPDATE button to edit that task!
+
            ![Edit Task Modal After Change](./images/CoreFeaturesInstructionImg/EditTaskModalAfterChange.png)
             
         *   The edited task can be found at the usual place.
+
            ![Upcoming Tasks Container](./images/CoreFeaturesInstructionImg/UpcomingTasksContainer.png)
             
 *   **Delete Tasks**
@@ -262,11 +276,13 @@ Assistant AI is essentially a task management system with the help of a Virtual 
         **Instructions/ Details**
         
         *   Do you remember the task that we have completed previously? Mei doesn't just remove it completely like how she deletes your tasks! Instead, completed tasks are stored in the Completed section of the user's My Tasks page.
+
            ![Completed Task Section](./images/CoreFeaturesInstructionImg/CompletedTaskSection.png)
             
         *   Let's zoom in a little, we can observe that instead of the Complete button, there is now an Uncomplete button!
             
         *   Users can click on it to bring their tasks back to the “Incomplete” status and the points will also be taken out!
+
            ![Completed Task Details](./images/CoreFeaturesInstructionImg/CompletedTaskDetails.png)
             
         *   As usual, a confirmation pop up window will appear in case of accidents!
@@ -283,6 +299,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
         **Instructions/ Details**
         
         *   Other than points, there is one more thing that users can view from the left-hand side in the home page, which is the productivity report!
+
            ![Home Page Left Side Bar](./images/CoreFeaturesInstructionImg/HomePageLeftSideBar.png)
             
         *    As mentioned above, only tasks completed on time would result in a higher productivity, so be sure to do them!
@@ -297,6 +314,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
         *   Mei has a pre-defined behavior that is stored as a JavaScript object, which contains the response type, user input pattern, and the possible response that Mei can give. These are all stored using arrays. (A full set of possible inputs will be appended at the end)
         *   The training data is prepared using this behavior object and is used to train the model's deep neural network.
         *   Users can navigate to the chat room by first finding Mei, who will be standing by the classroom door.
+
            ![Navigate To Chat Page 1](./images/CoreFeaturesInstructionImg/NavigateToChatPage1.png)
             
         *   By hovering over Mei, users can observe an expression change.
@@ -304,27 +322,31 @@ Assistant AI is essentially a task management system with the help of a Virtual 
             ![Navigate To Chat Page 2](./images/CoreFeaturesInstructionImg/NavigateToChatPage2.png)
             
         *   Users will then be navigated to the chat room by simply clicking on her!
+
            ![Chat Page](./images/CoreFeaturesInstructionImg/ChatPage.png)
             
-        *   This is the area where users interacts with Mei by text.
-            
+        *   This is the area where users interacts with Mei by text.           
+
             ![Chat Room Container](./images/CoreFeaturesInstructionImg/ChatRoomContainer.png)
             
         *   To write a message, simply click on the input area and start typing!
+
            ![Input Area](./images/CoreFeaturesInstructionImg/InputArea.png)
             
         *    To send the message, users can just press Enter on their keyboards, or click on the send icon on the right-hand side.
             
         *   When a message is sent, notice an expression change from Mei as she's typing a reply!
+
            ![Chat Page Texting](./images/CoreFeaturesInstructionImg/ChatPageTexting.png)
             
-        *    Mei will then return to her usual expression with a new response from her appearing in the chat room!
-            
+        *   Mei will then return to her usual expression with a new response from her appearing in the chat room!           
+
             ![Chat Page Staring](./images/CoreFeaturesInstructionImg/ChatPageStaring.png)
             
         *   When the AI model receives an input, its neural network will breakdown the sentence string and try to predict its response type.
         *   Once a response type is predicted, a random response will be selected using the random Python library and sent back to the front-end which shows on the user's screen.
         *   Of course, when Mei receives an input which she doesn't understand, the response type would simply be “Unsure” and one random response from the specified array will be returned.
+
            ![Unsure Response](./images/CoreFeaturesInstructionImg/UnsureResponse.png)
             
         *    Just like in the home page, a chat bubble is placed above Mei to hint the user in the type of inputs she can take in which changes at random intervals!
@@ -337,6 +359,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
         
         *   In the chat room, users can give commands like add task, edit task, and delete task to initiate the respective task operations.
         *   For **adding a new task**, a form like the one below will be brought up where users can enter the details before confirming.
+
            ![Automation Add Task Form](./images/CoreFeaturesInstructionImg/AutomationAddTaskForm.png)
             
         *    For **editing an existing task**, Mei will first ask the user which task they would like to edit (by index), then a similar form but with the fields filled out will appear instead.
@@ -346,6 +369,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
             ![Automation Edit Task 2](./images/CoreFeaturesInstructionImg/AutomationEditTask2.png)
             
         *   For **deleting an existing task**, Mei will first ask for the index of the task the user would like to delete, then the user will have to send a confirmation input to confirm the deletion.
+
            ![Automation Delete Task 1](./images/CoreFeaturesInstructionImg/AutomationDeleteTask1.png)
             
             ![Automation Delete Task 2](./images/CoreFeaturesInstructionImg/AutomationDeleteTask2.png)
@@ -355,6 +379,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
         
         *   At any point of time during the task operation, the user may send one of the quit inputs (i.e. quit, q, bye, stop, or leave) to quit, or use a back input (i.e. back, go back, or previous) to go back to the previous step of the process.
         *   All the necessary inputs will be mentioned by Mei in the chat room at the beginning of an operation.
+
            ![Quit Or Go Back A Step 1](./images/CoreFeaturesInstructionImg/QuitOrGoBackAStep1.png)
             
             ![Quit Or Go Back A Step 2](./images/CoreFeaturesInstructionImg/QuitOrGoBackAStep2.png)
@@ -368,12 +393,14 @@ Assistant AI is essentially a task management system with the help of a Virtual 
         *   Realise how Mei takes note of a new user's birthdate when they sign up? She has uses for them!
         *   During the user's birthday, they will receive a letter from Mei, wishing them a Happy Birthday!
         *   Every time the user logs in, the application checks whether it's their birthday, if it is, a birthday letter pops up! And the data is stored in the local storage, indicating that the user has been wished a Happy Birthday, which will reset its status on the next day.
+
            ![Birthday Card](./images/CoreFeaturesInstructionImg/BirthdayCard.png)
             
         
         **Conversational Chat Bubbles**
         
         *   There is a chat bubble right above the Meis throughout the application. These chat bubbles rotate through an array of speech lines which are set randomly at a random interval. This is to simulate a real assistant interacting with the user in a one-way manner, sometimes giving hints to what the user can do in the application.
+
            ![Conversational Chat Bubble](./images/CoreFeaturesInstructionImg/ConversationalChatBubble.png)
             
 
@@ -385,6 +412,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
 
 *   **User Onboarding**
     *   If you have been paying attention to some of the images being shown above, you may have noticed rectangular-sized guide boxes like this.
+
        ![User Onboarding](./images/CoreFeaturesInstructionImg/UserOnboarding.png)
         
     *   This is an intro guide implemented using Intro.js! Users are able to get a brief run through of our web application without much confusion. It aims to enhance new user experience getting on board our product!
@@ -395,6 +423,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
     *   To allow suggestions by AI based on the priority of task. 
     *   In the future, we can look into task priority suggestions based on the title of the task which can be implemented using text classification. (e.g. Cleaning of Dishes - Low, Meeting with Client - High)
     *   Currently, Mei is only able to tell the user their most prioritsed task in her list.
+
        ![Prioritised Task](./images/CoreFeaturesInstructionImg/PrioritisedTask.png)
         
 
@@ -410,6 +439,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
         **Instructions/ Details**
         
         *   Users can navigate to the Shop page via the Navigation Bar.
+
            ![Navigation Bar](./images/CoreFeaturesInstructionImg/NavBar.png)
             
         *  At the shop, users will be able to purchase customisables in which they can use for their profile.
