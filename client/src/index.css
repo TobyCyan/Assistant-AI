@@ -2,12 +2,13 @@
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 body {
-  margin: 0;
+  margin: 0 auto;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
   sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 code {
@@ -17,6 +18,15 @@ code {
 
 button {
   cursor: pointer;
+}
+
+.introToolTip {
+  border: 3px solid rgb(30, 90, 255);
+  background-image: url('./AppImages/Mei Chibi Icons/Mei_Chibi_Wave.png');
+  background-repeat: no-repeat;
+  background-size: 100px 175px;
+  background-position: 108% 130%;
+  image-rendering: -webkit-optimize-contrast;
 }
 
 .navBar {
@@ -150,11 +160,13 @@ button {
   background-position: center;
   height: 100vh;
   width: 100%;
+
   position: relative;
   display: flex;
   /* border: 2px solid yellow; */
   justify-content: space-between;
   overflow: hidden;
+  image-rendering: -webkit-optimize-contrast;
 }
 
 .homepageTaskContainer {
@@ -176,6 +188,10 @@ button {
   height: 800px;
   float: left;
   background-image: url(./AppImages/Cream_Bg.jpg);
+}
+
+.addButtonBox {
+  border: 2px solid transparent;
 }
 
 .homepageChildDiv {
@@ -717,6 +733,7 @@ ul {
   justify-content: center;
   width: 0;
   position: relative;
+  z-index: 0;
 }
 
 .productivity::after {
@@ -728,7 +745,6 @@ ul {
   bottom: 0;
   background-image: linear-gradient(135deg, transparent 8px, rgba(255, 255, 255, 0.5) 8px, rgba(255, 255, 255, 0.5) 16px, transparent 16px);
   background-size: 30px 30px;
-  z-index: 1;
 }
 
 .productivityPercent {
@@ -766,16 +782,6 @@ ul {
   justify-content: space-evenly;
 }
 
-@keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-@keyframes fadeOut {
-  0% { opacity: 1; }
-  100% { opacity: 0; }
-}
-
 .assistantDialogue {
   justify-content: center;
   border: 10px solid rgb(159, 255, 255);
@@ -796,7 +802,7 @@ ul {
   z-index: 4;
 }
 
-.assistantDialogueContainer:hover {
+.assistantDialogueContainer:hover, #assistantChatPageDialogue:hover {
   transform: scale(1.02);
 }
 
@@ -852,10 +858,79 @@ ul {
   border-radius: 10px;
 }
 
+.chatpage {
+  overflow-y: hidden;
+  /* position: relative; */
+}
+
 .chatpageContainer {
   background-color: #010c3d;
   height: 92vh;
+  width: 100%;
   overflow: hidden;
+  position: relative;
+  justify-content: center;
+}
+
+#assistantChatPageDialogue {
+  pointer-events: all;
+  justify-content: center;
+  position: absolute;
+  border: 2px solid pink;
+  border-radius: 20px;
+  background-color: white;
+  border-width: 4px;
+  box-shadow: grey 5px 5px;
+  padding: 13px;
+  width: fit-content;
+  word-wrap: break-word;
+  align-self: flex-end;
+  user-select: none;
+  font-weight: bold;
+  font-size: large;
+  top: 4%;
+  left: 50%;
+  translate: -50% -50%;
+  flex: 1 1 auto;
+}
+
+.chatpageAIBox {
+  position: absolute;
+  height: 86vh;
+  min-width: 520px;
+  max-width: 750px;
+  /* border: 2px solid red; */
+  flex-direction: column;
+  top: 65px;
+  left: 1150px;
+  float: left;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.chatpageAssistantStaring, .chatpageAssistantTexting {
+  /* scale: 0.90; */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  object-fit: cover;
+  object-position: center;
+  filter: drop-shadow(5px 8px 8px rgb(255, 183, 183));
+  pointer-events: none;
+  width: 100%;
+  max-height: 100%;
+  margin-top: 35px;
+  flex: 1 1 auto;
+}
+
+.chatpageAssistantTexting {
+  top: 51.5%;
+  left: 51.5%;
+  scale: 0.95;
 }
 
 .fadeIn {
@@ -868,7 +943,7 @@ ul {
 
 .chatboxContainer {
   margin: 15px;
-  border: 2px solid black;
+  border: 2px solid transparent;
   /* border-left: 2px solid black;
   border-right: 2px solid black; */
   border-radius: 0px 0px 15px 15px;
@@ -881,7 +956,7 @@ ul {
   transition: background-size 0.3s ease;
   position: absolute;
   width: 85.2%;
-  bottom: 0px;
+  bottom: 2px;
   left: 13.5px;
 }
 
@@ -917,20 +992,23 @@ ul {
 }
 
 .chatroomContainer {
-  border: 2px solid rgb(0, 0, 0);
+  border: 1px solid rgb(0, 0, 0);
   border-radius: 12px;
   height: 88vh;
   width: 620px;
   margin: auto;
-  margin-top: 15px;
+  margin-top: 60px;
   background-color: rgb(160, 241, 255);
   position: relative;
+  float: left;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .chatroom {
   margin: auto;
   margin-top: 30px;
-  border: 2px solid black;
+  /* border: 2px solid black; */
   border-bottom: none;
   border-radius: 12px 12px 0px 0px;
   width: 90%;
@@ -938,6 +1016,39 @@ ul {
   overflow: auto;
   overflow-x: hidden;
   background-color: rgb(255, 255, 231);
+}
+
+.chatroomHeader {
+  font-size: 25px;
+  color: #ffffff;
+  background-color: rgb(94, 86, 91);
+  height: 65px;
+  display: flex;
+  position: sticky;
+  top: 0;
+}
+
+.chatroomHeaderIcon {
+  max-width: 60px;
+  height: 60px;
+  flex: 1;
+  border-radius: 50%;
+  position: absolute;
+  left: 10px;
+  top: 2px;
+}
+
+.chatroomHeaderName {
+  position: absolute;
+  left: 90px;
+  top: 5px;
+}
+
+.chatroomHeaderStatus {
+  position: absolute;
+  top: 35px;
+  left: 90px;
+  font-size: 17px;
 }
 
 .chatRoomAvatar {
@@ -1024,16 +1135,20 @@ ul {
 }
 
 .ChatRoomModal {
-  height: 57%;
-  min-width: 480px;
-  max-width: 50%;
+  height: 0%;
+  width: 0%;
   background-color: white;
   border-radius: 8px;
 }
 
 .oneWayChatRoom {
-  margin-top: 6px;
   width: 470px;
+  height: 80%;
+  position: absolute;
+  left: 25%;
+  right: 25%;
+  bottom: 90px;
+  border: none;
 }
 
 .BirthdayCardModal {
@@ -1112,13 +1227,14 @@ ul {
 }
 
 .birthdayCardAssistantImg {
-  width: 20%;
-  height: 15%;
+  width: 30%;
+  height: 32%;
   position: absolute;
   display:inline-block;
-  top: 550px;
-  right: 100px;
+  top: 430px;
+  right: 70px;
   pointer-events: none;
+  image-rendering: -webkit-optimize-contrast;
 }
 
 .profileContainer {

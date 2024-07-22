@@ -12,7 +12,7 @@ import Tasks from "./Tasks.jsx";
  * @param {function} onComplete Function to complete the current task.
  * @returns {ReactNode} A React element that renders the task box that shows the list of tasks.
  */
-const TasksBox = ({title, tasksToShow, onEdit, onDelete, onComplete}) => {
+const TasksBox = ({className, title, tasksToShow, onEdit, onDelete, onComplete}) => {
     /**
      * Maps each task into the Tasks component to be shown.
      * @type {Component}
@@ -30,7 +30,7 @@ const TasksBox = ({title, tasksToShow, onEdit, onDelete, onComplete}) => {
     />))
 
     return (
-        <div className="tasksContainer">
+        <div className={`tasksContainer ${className}`}>
             <div className="tasksBoxTitleBox">
                 <h3>{title} ({tasks.length})</h3>
             </div>

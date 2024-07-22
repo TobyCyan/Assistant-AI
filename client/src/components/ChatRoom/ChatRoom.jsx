@@ -9,7 +9,7 @@ import { getTimeOfTheDay, getGreetingDialogue, getOverdueTasksDialogue, getPrior
  * A React component that displays the chat room where the AI Assistant can talk to the user.
  * @returns {ReactNode} A React element that renders the chat room.
  */
-const ChatRoom = ({closeChatRoomModal, taskData}) => {
+const ChatRoom = ({closeChatRoomModal, taskData, setActivateBirthday}) => {
     const {userInfo, tokenStatus} = useTokenContext()
 
     const [token, setToken] = tokenStatus
@@ -104,16 +104,17 @@ const ChatRoom = ({closeChatRoomModal, taskData}) => {
                     localStorage.setItem(timeOfTheDay, JSON.stringify({reminded: true, date: todayDate}))
                     clearInterval(messageTimer)
                     closeChatRoomModal()
+                    setActivateBirthday(true)
                     return
                 }
                 const newMessage = reminderDialogueFlow[index]
-                console.log('message: ' + newMessage)
                 addNewChatBotResponse(newMessage)
                 index += 1
             }
             
             return () => {
                 clearInterval(messageTimer)
+                setActivateBirthday(true)
             }
         } else {
             closeChatRoomModal()
@@ -124,7 +125,7 @@ const ChatRoom = ({closeChatRoomModal, taskData}) => {
 
     return (
         <>   
-            <div className="chatpageContainer oneWayChatRoom">
+            <div className="chatroomContainer oneWayChatRoom">
                 <div className="chatroom" id="chatroom" ref={lastMessage}>
                     {...chatMessages}
                 </div> 

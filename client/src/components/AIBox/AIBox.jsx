@@ -4,7 +4,7 @@ import { useTokenContext } from "../TokenContext/TokenContext";
 import avatarImgWave from '../../AppImages/Mei Chibi Icons/Mei_Chibi_Wave.png'
 import avatarImgWink from '../../AppImages/Mei Chibi Icons/Mei_Chibi_Wink.png'
 import { useNavigate } from "react-router-dom";
-import { voice_lines } from "../../utilities/utilities";
+import { randIntervalGenerator, getRandomVoiceLine } from "../../utilities/utilities";
 
 /**
  * A React component that displays the region where the AI assistant can be seen, this includes the assistant itself and any dialogues.
@@ -24,15 +24,21 @@ const AIBox = () => {
     const [dialogue, setDialogue] = useState('')
     const maxInterval = 12000
     const minInterval = 8000
-    const len = voice_lines.length
 
     /**
-     * A random interval generator.
-     * @returns A random time in milliseconds between the minInterval and maxInterval.
+     * Array of voice lines that can be said by the Assistant at the home page.
+     * @type {Array<string>}
      */
-    const randIntervalGenerator = () => {
-        return Math.random() * (maxInterval - minInterval) + minInterval
-    }
+    const voiceLines = [
+        'Hello!',
+        'Got something you want me to do for you?',
+        'How can I help you today?',
+        'Today is another day to be productive!',
+        'You look tired, want me to sing a song for you?',
+        "Don't forget to get your tasks done on time!",
+
+    ]
+    
 
     /**
      * @function useEffect
@@ -48,12 +54,12 @@ const AIBox = () => {
      */
     useEffect(() => {
    
-        let popUpTimer = setInterval(fetchVoiceLine, randIntervalGenerator())
+        let popUpTimer = setInterval(fetchVoiceLine, randIntervalGenerator(minInterval, maxInterval))
     
         function fetchVoiceLine() {
-            const newRand = randIntervalGenerator()  
+            const newRand = randIntervalGenerator(minInterval, maxInterval)  
 
-            setDialogue(getRandomVoiceLine())
+            setDialogue(getRandomVoiceLine(voiceLines))
 
             clearInterval(popUpTimer)
             popUpTimer = setInterval(fetchVoiceLine, newRand) 
@@ -73,21 +79,12 @@ const AIBox = () => {
         const dialogueBox = document.getElementById('assistantDialogue')
         if (dialogueBox) {
             dialogueBox.addEventListener('click', () => {
-                setDialogue(getRandomVoiceLine()) 
+                setDialogue(getRandomVoiceLine(voiceLines)) 
             })
         } else {
             console.log('dialogueBox does not exist.')
         }
     }, [])
-
-    /**
-     * Returns a random voice line from the array.
-     * @returns A random voice line.
-     */
-    const getRandomVoiceLine = () => {
-        const rand_index = Math.floor(Math.random() * len);
-        return voice_lines[rand_index]
-    }
 
     /**
      * Navigates to the Chat Page to chat with the AI Assistant.
