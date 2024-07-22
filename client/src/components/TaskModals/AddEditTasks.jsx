@@ -82,11 +82,11 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
     const addNewTask = async () => {
         // console.log(reminderTime)
         const newTask = {
-            title: title,
-            description: description,
-            category: category,
-            deadline: deadline,
-            priority: priority,
+            title,
+            description,
+            category,
+            deadline,
+            priority,
             reminder: reminderDate,
             completed: false,
             points: 0,
@@ -143,113 +143,12 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
          */
         const editedTask = {
             taskId: taskData.id,
-            title: title,
-            description: description,
-            category: category,
-            deadline: deadline,
-            priority: priority,
+            title,
+            description,
+            category,
+            deadline,
+            priority,
             reminder: reminderDate,
-            //reminder: `${reminderDate}T${reminderTime}:00`,
-            completed: taskData.completed,
-            points: taskData.points,
-        }
-
-        /**
-         * Data to post and make the API call.
-         * @type {Object}
-         */
-        const dataToPost = {
-            method: 'PUT',
-            body: JSON.stringify(editedTask),
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        };
-
-        await fetch('http://localhost:5001/EditTask', dataToPost)
-            .then(res => {
-                if (res.ok) {
-                    console.log('Task Successfully Edited!')
-                    return res.json()
-                } else {
-                    console.error(err => 'Edit Task Failed!', err)
-                }
-            })
-            .then(task => {
-                getAllTasks()
-                onClose()
-            })
-            .catch(err => {
-                console.error('Error Editing Task: ', err.message)
-            })
-    }
-
-    const addRecurringTask = async () => {
-        // console.log(reminderTime)
-        const newTask = {
-            title: title,
-            description: description,
-            category: category,
-            deadline: deadline,
-            priority: priority,
-            reminder: reminderDate,
-            completed: false,
-            points: 0,
-        }
-
-        /**
-         * Data to post and make the API call.
-         * @type {Object}
-         */
-        const dataToPost = {
-            method: 'POST',
-            body: JSON.stringify(newTask),
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        };
-
-        fetch('http://localhost:5001/AddTask', dataToPost)
-            .then(res => {
-                if (res.ok) {
-                    console.log('Task Successfully Added!')
-                    return res.json()
-                } else {
-                    console.error(err => 'Add Task Failed!', err)
-                }
-            })
-            .then(task => {
-                setTitle('')
-                setDescription('')
-                setCategory('')
-                setDeadline('')
-                setPriority('')
-                setReminderDate('')
-                getAllTasks()
-                onClose()
-            })
-            .catch(err => {
-                console.error('Error Adding Task: ', err.message)
-            })
-    }
-
-    const editRecurringTask = async () => {
-
-        /**
-         * Data of the edited task.
-         * @type {Object}
-         */
-        const editedTask = {
-            taskId: taskData.id,
-            title: title,
-            description: description,
-            category: category,
-            deadline: deadline,
-            priority: priority,
-            reminder: reminderDate,
-            //reminder: `${reminderDate}T${reminderTime}:00`,
             completed: taskData.completed,
             points: taskData.points,
         }
@@ -353,6 +252,29 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
         }
     }
 
+    // To be added
+    /*
+                <div className="recurringDetailsBox">
+                <div className="recurringCheckBox">
+                    <label htmlFor="recurringInput">Recurring</label>
+                    <input id="recurringInput" type="checkbox" className="recurringInput" value={recurring} onChange={handleCheckboxChange}/>
+                </div>
+
+                {recurring && (
+                    <div className="recurringDateBox">
+                    <label htmlFor="recurringDateInput">Start Date:</label>
+                    <input id="recurringDateInput" className="recurringDateInput" type="date" value={startDate}
+                           onChange={e => setDeadline(e.target.value)}/>
+                </div>)}
+
+                {recurring && (<div className="recurringIntervalBox">
+                    <label htmlFor="intervalInput">Interval (Days):</label>
+                    <input id="intervalInput" className="intervalInput" type="number" value={interval}
+                           onChange={e => setDeadline(e.target.value)}/>
+                </div>)}
+            </div>
+     */
+
     return (
         <div className="addEditTaskContainer">
             <button className="closeAddEditModalBtn" onClick={onClose}></button>
@@ -393,26 +315,6 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
                     value={category}
                     onChange={e => setCategory(e.target.value)}
                 />
-            </div>
-
-            <div className="recurringDetailsBox">
-                <div className="recurringCheckBox">
-                    <label htmlFor="recurringInput">Recurring</label>
-                    <input id="recurringInput" type="checkbox" className="recurringInput" value={recurring} onChange={handleCheckboxChange}/>
-                </div>
-
-                {recurring && (
-                    <div className="recurringDateBox">
-                    <label htmlFor="recurringDateInput">Start Date:</label>
-                    <input id="recurringDateInput" className="recurringDateInput" type="date" value={startDate}
-                           onChange={e => setDeadline(e.target.value)}/>
-                </div>)}
-
-                {recurring && (<div className="recurringIntervalBox">
-                    <label htmlFor="intervalInput">Interval (Days):</label>
-                    <input id="intervalInput" className="intervalInput" type="number" value={interval}
-                           onChange={e => setDeadline(e.target.value)}/>
-                </div>)}
             </div>
 
             <div className="priorityAndDatesBox">

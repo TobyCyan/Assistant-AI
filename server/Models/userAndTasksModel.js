@@ -131,8 +131,7 @@ module.exports = (sequelize, DataTypes) => {
         tableName: 'items'
     });
 
-    /*
-    const RecurringTasks = sequelize.define('RecurringTasks', {
+    const RecurringTasks = sequelize.define('recurringTasks', {
         id : {
             primaryKey: true,
             autoIncrement: true,
@@ -154,27 +153,19 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        deadline: {
-            type: DataTypes.DATE,
-            allowNull: false
-        },
         priority: {
             type: DataTypes.STRING,
-            allowNull: false
-        },
-        reminder: {
-            type: DataTypes.DATE,
             allowNull: false
         },
         interval: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        startToDeadline: {
+        creationToDeadline: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        startToDeadline: {
+        reminderToDeadline: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
@@ -189,9 +180,6 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         tableName: 'recurringTasks'
     })
-
-
-     */
 
 
     // Defines a one-to-many relationship between a user and their tasks.
@@ -221,7 +209,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'userId',
     })
 
-    /*
     User.hasMany(RecurringTasks, {
         foreignKey: 'userId',
     })
@@ -230,8 +217,8 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'userId',
     })
 
-    */
+
 
     // Returns the 2 tables in an array.
-    return [User, Tasks, Friendships, Items]
+    return [User, Tasks, Friendships, Items, RecurringTasks]
 }

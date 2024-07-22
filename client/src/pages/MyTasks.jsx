@@ -330,7 +330,7 @@ function MyTasks() {
             <Modal
                 isOpen={addEditModalOpen.isShown}
                 onRequestClose={() => {
-                    closeCompDelModal()
+                    closeAddEditModal()
                 }}
                 style={{
                     overlay: {

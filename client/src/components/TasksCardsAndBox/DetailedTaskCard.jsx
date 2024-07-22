@@ -36,8 +36,6 @@ const DetailedTaskCard = ({taskData, onEdit, onComplete, onUncomplete, onDelete}
                 <button className="taskCardCompleteBtn" onClick={taskData.completed ? onUncomplete : onComplete}>{taskData.completed ? "Uncomplete" : "Complete" }</button>
             </div>
         </div>
-
-
     );
 
 }

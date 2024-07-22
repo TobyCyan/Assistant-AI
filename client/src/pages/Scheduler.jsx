@@ -2,19 +2,18 @@ import React, { useEffect, useState, ReactNode } from 'react'
 import NavBar from "../components/NavBar/NavBar.jsx";
 import '../index.css'
 import { useTokenContext } from "../components/TokenContext/TokenContext";
-import DetailedTaskCard from "../components/TasksCardsAndBox/DetailedTaskCard.jsx";
-import AddEditTasks from "../components/TaskModals/AddEditTasks";
-import CompleteDeleteTasks from "../components/TaskModals/CompleteDeleteTasks";
+import AddRecurringTasks from "../components/TaskModals/AddRecurringTasks";
+import DeleteRecurringTask from "../components/TaskModals/DeleteRecurringTask"
+import RecurringTasksTable from "../components/RecurringTasks/RecurringTasksTable";
 import { compareTasksDeadline } from "../utilities/utilities.js";
 import Modal from 'react-modal';
-import { parseToken } from "../utilities/utilities.js";
 
 /**
  * A Functional React component that displays all user tasks based on their categories, level of priority and completion status, and allows user to perform task operations such as add, edit, complete, uncomplete and delete.
  * @component
  * @returns {ReactNode} A React element that renders lists of tasks based on category, priority level and state of completion.
  */
-function RecurringTasks() {
+function Scheduler() {
     const {tokenStatus, userInfo} = useTokenContext()
     /**
      * The current token and setter function to update it.
@@ -32,13 +31,13 @@ function RecurringTasks() {
      * The initial user data and setter function to update it.
      * @type {[Array<Object>, function]}
      */
-    const [tasks, setTasks] = useState([])
+    const [recTasks, setRecTasks] = useState([])
 
     /**
      * The tasks to display and setter function to update it.
      * @type {[Array<Object>, function]}
      */
-    const [displayTasks, setDisplayTasks] = useState(tasks)
+    const [displayRecTasks, setDisplayRecTasks] = useState(recTasks)
 
     /**
      * The filter and setter function to update it.
@@ -50,7 +49,7 @@ function RecurringTasks() {
      * The current state of AddEditModal and setter function to update it.
      * @type {[Object, function]}
      */
-    const[addEditModalOpen, setAddEditModalOpen] = useState({
+    const[addEditRecModalOpen, setAddEditRecModalOpen] = useState({
         isShown: false,
         type: "add",
         data: null,
@@ -60,9 +59,8 @@ function RecurringTasks() {
      * The current state of CompleteDeleteModal and setter function to update it.
      * @type {[Object, function]}
      */
-    const[compDelModalOpen, setCompDelModalOpen] = useState({
+    const[delRecModalOpen, setDelRecModalOpen] = useState({
         isShown: false,
-        type: "del",
         data: null,
     })
 
@@ -75,7 +73,7 @@ function RecurringTasks() {
             console.log("Token Set")
             localStorage.setItem('token', token);
             getUserInfo();
-            getUserTasks();
+            getUserRecTasks();
         }
     }, [token]);
 
@@ -84,10 +82,10 @@ function RecurringTasks() {
      * @description Sort the tasks by deadline, set the tasks to display and filter the tasks if there is any changes to the user tasks.
      */
     useEffect(() => {
-        tasks.sort(compareTasksDeadline)
-        setDisplayTasks(tasks)
+        recTasks.sort(compareTasksDeadline)
+        setDisplayRecTasks(recTasks)
         filterTasks(filter)
-    }, [tasks]);
+    }, [recTasks]);
 
     /**
      * @function useEffect
@@ -100,8 +98,8 @@ function RecurringTasks() {
     /**
      * Function that closes the add or edit modal.
      */
-    const closeAddEditModal = () => {
-        setAddEditModalOpen({
+    const closeAddEditRecModal = () => {
+        setAddEditRecModalOpen({
             isShown: false,
             type: "add",
             data: null,
@@ -111,10 +109,9 @@ function RecurringTasks() {
     /**
      * Function that closes the complete or delete modal.
      */
-    const closeCompDelModal = () => {
-        setCompDelModalOpen({
+    const closeDelRecModal = () => {
+        setDelRecModalOpen({
             isShown: false,
-            type: "del",
             data: null,
         })
     }
@@ -123,7 +120,7 @@ function RecurringTasks() {
      * Open Modal when user wants to add task, to load empty page.
      */
     const handleAddTask = () => {
-        setAddEditModalOpen({
+        setAddEditRecModalOpen({
             isShown: true,
             type: "add",
             data: null, //To add data
@@ -135,14 +132,12 @@ function RecurringTasks() {
      */
     const handleEditTask = (taskData) => {
         // To receive data
-        setAddEditModalOpen({
+        setAddEditRecModalOpen({
             isShown: true,
             type: "edit",
             data: taskData, //To add data
         })
     }
-
-    const uncompletedTasks = tasks.filter(each => !each.completed)
 
     /**
      * Function that filters the list of tasks based on All, completion status, priority level, and category, then sets the tasks to display.
@@ -150,17 +145,17 @@ function RecurringTasks() {
      */
     const filterTasks = (value) => {
         if(value === 'All') {
-            setDisplayTasks(uncompletedTasks)
+            setDisplayRecTasks(recTasks)
         } else if (value === 'Completed') {
-            setDisplayTasks(tasks.filter(each => each.completed))
+            setDisplayRecTasks(recTasks.filter(each => each.completed))
         } else if (value === 'Low') {
-            setDisplayTasks(uncompletedTasks.filter(each => each.priority === 'Low'))
+            setDisplayRecTasks(recTasks.filter(each => each.priority === 'Low'))
         } else if (value === 'Medium') {
-            setDisplayTasks(uncompletedTasks.filter(each => each.priority === 'Medium'))
+            setDisplayRecTasks(recTasks.filter(each => each.priority === 'Medium'))
         } else if (value === 'High') {
-            setDisplayTasks(uncompletedTasks.filter(each => each.priority === 'High'))
+            setDisplayRecTasks(recTasks.filter(each => each.priority === 'High'))
         } else {
-            setDisplayTasks(uncompletedTasks.filter(each => each.category === filter))
+            setDisplayRecTasks(recTasks.filter(each => each.category === filter))
         }
     }
 
@@ -178,34 +173,8 @@ function RecurringTasks() {
      * @param {Object} taskData Data of the selected task to delete.
      */
     const handleDeleteTask = (taskData) => {
-        setCompDelModalOpen({
+        setDelRecModalOpen({
             isShown: true,
-            type: "del",
-            data: taskData,
-        })
-    }
-
-    /**
-     * Opens the modal to complete the selected task.
-     * @param {Object} taskData Data of the selected task to complete.
-     */
-    const handleCompleteTask = (taskData) => {
-        setCompDelModalOpen({
-            isShown: true,
-            type: "comp",
-            data: taskData,
-        })
-    }
-
-
-    /**
-     * Opens the modal to uncomplete the selected task.
-     * @param {Object} taskData Data of the selected task to uncomplete.
-     */
-    const handleUncompleteTask = (taskData) => {
-        setCompDelModalOpen({
-            isShown: true,
-            type: "uncomp",
             data: taskData,
         })
     }
@@ -216,7 +185,7 @@ function RecurringTasks() {
      * @returns {Promise<void>} A promise that gets the current user's tasks.
      * @throws {Error} Throws an error if getting user tasks fails.
      */
-    const getUserTasks = async () => {
+    const getUserRecTasks = async () => {
         const dataToPost = {
             method: 'GET',
             headers: {
@@ -226,22 +195,23 @@ function RecurringTasks() {
         };
 
         try {
-            const res = await fetch('http://localhost:5001/Tasks', dataToPost)
+            const res = await fetch('http://localhost:5001/RecurringTasks', dataToPost)
             if(res.ok) {
-                console.log("TaskModals successfully retrieved")
+                console.log("Recurring Tasks successfully retrieved")
             } else {
-                console.log("Invalid User/TaskModals")
+                console.log("Invalid User/Recurring Tasks")
             }
 
             const data = await res.json()
+            console.log(data)
             if(data) {
-                console.log('Type of TaskModals: ' + typeof data.tasks + ', TaskModals: ' + data.tasks + ', isArray? ' + Array.isArray(data.tasks))
-                console.log(data.tasks[0])
-                setTasks(data.tasks)
-                setDisplayTasks(tasks)
+                console.log('Type of Recurring Tasks: ' + typeof data.recurringTasks + ', Recurring Tasks: ' + data.recurringTasks + ', isArray? ' + Array.isArray(data.recurringTasks))
+                console.log(data.recurringTasks[0])
+                setRecTasks(data.recurringTasks)
+                setDisplayRecTasks(recTasks)
             }
         } catch (error) {
-            console.error('Failed to Fetch TaskModals!', error)
+            console.error('Failed to Fetch Recurring Tasks!', error)
         }
     }
 
@@ -282,30 +252,30 @@ function RecurringTasks() {
      * A React component that displays a list of buttons of every unique categories of all the uncompleted tasks and the number of uncompleted tasks in each category.
      * @component
      */
-    const categories = [...new Set(uncompletedTasks.map(task => task.category))].map((eachCat, index) => (
+    const categories = [...new Set(recTasks.map(task => task.category))].map((eachCat, index) => (
         <li key={index} onClick={() => handleFilterTasks(eachCat)}>
-            {eachCat} ({uncompletedTasks.filter(each => each.category === eachCat).length})
+            {eachCat} ({recTasks.filter(each => each.category === eachCat).length})
         </li>
     ))
 
     /**
-     * A React component that displays every tasks in their own detailed cards with the edit, complete, uncomplete, and delete buttons.
+     * A React component that displays every recurring tasks in their own cards with the edit and delete buttons.
      * @component
      */
-    const tasksInGrid = (
+    /*
+    const recTasksInGrid = (
         <div className="tasksGridBox">
-            {displayTasks.map((task, index) => (
+            {displayRecTasks.map((task, index) => (
                 <DetailedTaskCard
                     key={index}
                     taskData={task}
                     onEdit={()=>handleEditTask(task)}
-                    onComplete={()=>handleCompleteTask(task)}
-                    onUncomplete={() => handleUncompleteTask(task)}
                     onDelete={()=>handleDeleteTask(task)}
                 />
             ))}
         </div>
     );
+    */
 
     return (
         <>
@@ -315,22 +285,18 @@ function RecurringTasks() {
                     <button className="addTaskBtn" onClick={handleAddTask}>Add Task</button>
                     <div className="categoriesSidebar">Categories</div>
                     <ul id="category-list">
-                        <li onClick={() => handleFilterTasks('All')}>All ({uncompletedTasks.length})</li>
-                        <li onClick={() => handleFilterTasks('Completed')}>Completed ({tasks.filter(each => each.completed).length})</li>
+                        <li onClick={() => handleFilterTasks('All')}>All ({recTasks.length})</li>
                         {categories}
-                        <li onClick={() => handleFilterTasks('High')}>High ({uncompletedTasks.filter(each => each.priority === 'High').length})</li>
-                        <li onClick={() => handleFilterTasks('Medium')}>Medium ({uncompletedTasks.filter(each => each.priority === 'Medium').length})</li>
-                        <li onClick={() => handleFilterTasks('Low')}>Low ({uncompletedTasks.filter(each => each.priority === 'Low').length})</li>
                     </ul>
                 </div>
                 <div className="detailedTasksContainer">
-                    {tasksInGrid}
+                    <RecurringTasksTable recurringTasks={recTasks} onEdit={() => {}} onDelete={handleDeleteTask}/>
                 </div>
             </div>
             <Modal
-                isOpen={addEditModalOpen.isShown}
+                isOpen={addEditRecModalOpen.isShown}
                 onRequestClose={() => {
-                    closeCompDelModal()
+                    closeDelRecModal()
                 }}
                 style={{
                     overlay: {
@@ -340,17 +306,17 @@ function RecurringTasks() {
                 contentLabel=""
                 className="AddEditTaskModal"
             >
-                <AddEditTasks
-                    type={addEditModalOpen.type}
-                    taskData={addEditModalOpen.data}
-                    onClose={closeAddEditModal}
-                    getAllTasks={getUserTasks}
+                <AddRecurringTasks
+                    type={addEditRecModalOpen.type}
+                    recurringTask={addEditRecModalOpen.data}
+                    onClose={closeAddEditRecModal}
+                    getAllTasks={getUserRecTasks}
                 />
             </Modal>
             <Modal
-                isOpen={compDelModalOpen.isShown}
+                isOpen={delRecModalOpen.isShown}
                 onRequestClose={() => {
-                    closeCompDelModal()
+                    closeDelRecModal()
                 }}
                 style={{
                     overlay: {
@@ -358,18 +324,16 @@ function RecurringTasks() {
                     },
                 }}
                 contentLabel=""
-                className="CompDelTaskModal"
+                className="DelTaskModal"
             >
-                <CompleteDeleteTasks
-                    type={compDelModalOpen.type}
-                    taskData={compDelModalOpen.data}
-                    onClose={closeCompDelModal}
-                    getAllTasks={getUserTasks}
-                    getUserInfo={getUserInfo}
+                <DeleteRecurringTask
+                    recurringTask={delRecModalOpen.data}
+                    onClose={closeDelRecModal}
+                    getAllTasks={getUserRecTasks}
                 />
             </Modal>
         </>
     )
 }
 
-export default RecurringTasks;
+export default Scheduler;

@@ -431,3 +431,14 @@ export const getProductivityBarComments = (productivity) => {
     }
     return "... Maybe the productivity is the memories we made along the way!"
 }
+
+/**
+ * Gets a date which adds number of days to that date
+ * @param{Date, Number} date, number - the date and days to add
+ * @returns {Date} A date after adding number of days
+ */
+export const addDays = (date, days) => {
+    const result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+}

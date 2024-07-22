@@ -3,6 +3,7 @@ const cors = require('cors')
 const {authenticateToken} = require('./utilities/utilities')
 
 require('dotenv').config()
+require('./cronScheduler/cronScheduler.js')
 
 const app = express()
 const port = process.env.PORT
@@ -39,6 +40,12 @@ const deleteFriendRequest = require('./Methods/friendshipMethods.js').deleteFrie
 const getItems = require('./Methods/itemMethods').getItems
 const createUserItem = require('./Methods/itemMethods').createUserItem
 
+// Recurring Task Methods
+const getRecurringTasks = require('./Methods/recurringTaskMethods.js').getRecurringTasks
+const addRecurringTask = require('./Methods/recurringTaskMethods.js').addRecurringTask
+const editRecurringTask = require('./Methods/recurringTaskMethods.js').editRecurringTask
+const deleteRecurringTask = require('./Methods/recurringTaskMethods.js').deleteRecurringTask
+
 // User Related Requests
 // Post Request to Add User
 app.post('/SignUp', addUser)
@@ -54,7 +61,7 @@ app.get('/user/:username', authenticateToken(secretKey), getUserInfoByUsername)
 
 
 // Task-related Requests
-// Get User TaskModals
+// Get User Tasks
 app.get('/Tasks', authenticateToken(secretKey), getTasks)
 // Add Task
 app.post('/AddTask', authenticateToken(secretKey), addTask)
@@ -81,7 +88,18 @@ app.delete('/request/:username', authenticateToken(secretKey), deleteFriendReque
 
 // Item-related requests
 app.get('/Items', authenticateToken(secretKey), getItems)
+
 app.post('/CreateUserItem', authenticateToken(secretKey), createUserItem)
+
+// Recurring Task Requests
+// Get User Rec Tasks
+app.get('/RecurringTasks', authenticateToken(secretKey), getRecurringTasks)
+// Add Rec Task
+app.post('/AddRecTask', authenticateToken(secretKey), addRecurringTask)
+// Edit RecTask
+app.put( '/EditRecTask',  authenticateToken(secretKey), editRecurringTask)
+// Delete Rec Task
+app.delete('/DeleteRecTask', authenticateToken(secretKey), deleteRecurringTask)
 
 app.listen(port, () => {
     console.log('App is listening on port 5001')

@@ -35,7 +35,7 @@ db.sequelize = sequelize
 db.user = require('./userAndTasksModel.js')(sequelize, DataTypes)[0]
 db.tasks = require('./userAndTasksModel.js')(sequelize, DataTypes)[1]
 db.friendships = require('./userAndTasksModel.js')(sequelize, DataTypes)[2]
-//db.recurringTasks = require('./userAndTasksModel.js')(sequelize, DataTypes)[3]
+db.recurringTasks = require('./userAndTasksModel.js')(sequelize, DataTypes)[4]
 db.items = require('./userAndTasksModel.js')(sequelize, DataTypes)[3]
 
 // Force is false to prevent database from being recreated repeatly.

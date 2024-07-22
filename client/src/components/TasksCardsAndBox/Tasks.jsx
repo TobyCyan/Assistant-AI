@@ -30,9 +30,8 @@ const Tasks = ({taskId, title, deadline, priority, category, onEdit, onComplete,
                         </div>
                     </div>
 
-                    <div className="taskMsg"></div>
                     <div className="taskActions">
-                    <button onClick={onEdit} className="taskEditButton">Edit</button>
+                        <button onClick={onEdit} className="taskEditButton">Edit</button>
                         <button onClick={onDelete} className="taskCrossButton"></button>
                         <button onClick={onComplete} className="taskTickButton"></button>
                     </div>
