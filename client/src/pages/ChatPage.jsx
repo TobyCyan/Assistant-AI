@@ -870,7 +870,7 @@ const ChatPage = () => {
                         <div className="chatroomHeader">
                             <img src={avatarIcon} className="chatroomHeaderIcon"/>
                             <div className="chatroomHeaderName">Mei</div>
-                            <div className="chatroomHeaderStatus">I"m always free</div>
+                            <div className="chatroomHeaderStatus">I'm always free</div>
                         </div>
                         {...chatMessages}
                     </div> 
