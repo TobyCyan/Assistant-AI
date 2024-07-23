@@ -6,6 +6,12 @@ import { useTokenContext } from '../TokenContext/TokenContext';
 /**
  * A React component that displays the page intro.
  * @component
+ * @param {function} steps A function that returns the intro steps.
+ * @param {boolean} activate Boolean to determine whether or not the IntroElement is activated.
+ * @param {function} setActivate Setter function to activate the intro.
+ * @param {boolean} hasDoneTutorial Boolean to determine whether the user has done the tutorial.
+ * @param {boolean} endIntro Boolean to determine whether to end the intro in the current page.
+ * @param {string} page The current page name. 
  * @returns {ReactNode} A React element that renders the intro.
  */
 const IntroElement = ({steps, activate, setActivate, hasDoneTutorial, endIntro, page}) => {
@@ -59,7 +65,7 @@ const IntroElement = ({steps, activate, setActivate, hasDoneTutorial, endIntro, 
         <div>
             <Steps 
                 enabled={activate}
-                steps={steps}
+                steps={steps()}
                 initialStep={0}
                 options={{
                     tooltipClass: 'introToolTip',

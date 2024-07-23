@@ -901,7 +901,7 @@ const ChatPage = () => {
     return (
         <div className="chatpage" >
             <NavBar />
-            <IntroElement steps={introSteps()} activate={activateIntro} setActivate={setActivateIntro} hasDoneTutorial={userData.hasDoneTutorial} endIntro={false} page={page} />
+            <IntroElement steps={introSteps} activate={activateIntro} setActivate={setActivateIntro} hasDoneTutorial={userData.hasDoneTutorial} endIntro={false} page={page} />
             <div className="chatpageContainer">
                 <div className="chatroomContainer">
 

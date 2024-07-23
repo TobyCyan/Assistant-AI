@@ -200,7 +200,7 @@ const Shop = () => {
     return (
         <>
             <NavBar />
-            <IntroElement steps={introSteps()} activate={activateIntro} setActivate={setActivateIntro} hasDoneTutorial={userData.hasDoneTutorial} endIntro={false} setUserData={setUserData} page={page} />
+            <IntroElement steps={introSteps} activate={activateIntro} setActivate={setActivateIntro} hasDoneTutorial={userData.hasDoneTutorial} endIntro={false} setUserData={setUserData} page={page} />
             <div className="shopPageContainer">
                 {itemsInGrid}
             </div>
