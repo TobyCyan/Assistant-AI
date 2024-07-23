@@ -8,7 +8,7 @@ import {Navigate, Outlet} from 'react-router-dom'
  * @returns {ReactNode} A React element that renders the outlet of navigation component depending on the token.
  */
 function PrivateRoutes() {
-    const {tokenStatus, userInfo} = useTokenContext()
+    const {tokenStatus, } = useTokenContext()
     const [token, setToken] = tokenStatus
 
     const localToken = localStorage.getItem('token')
@@ -29,7 +29,6 @@ function PrivateRoutes() {
      */
     useEffect(() => {
         if (token) {
-            console.log("Token Set")
             localStorage.setItem('token', token);
         }
     }, [token]);

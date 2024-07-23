@@ -1,8 +1,9 @@
-import React, {ReactNode} from 'react'
+import React, { ReactNode } from "react"
 import UserInfo from "./UserInfo.jsx";
-import '../../index.css'
-import {Link} from 'react-router-dom'
-import {useTokenContext} from "../TokenContext/TokenContext.jsx";
+import "../../index.css"
+import {Link} from "react-router-dom"
+import { useTokenContext } from "../TokenContext/TokenContext.jsx";
+import logoImg from "../../AppImages/Mei Chibi Icons/Mei_Chibi_Icon.png";
 
 /**
  * A React component that displays relevant information on the navigation bar depending on the user state.
@@ -22,10 +23,14 @@ const NavBar = () => {
         <div className="navBar">
             <div className="navBarLinkBox">
                 <ul className="navList">
+                    <li>
+                    <Link to="/" className="navBarLinks"><img src={logoImg} className="navBarLogo" /> abc </Link>
+             
+                    </li>
                     <li><Link to="/" className="navBarLinks">Assistant AI</Link></li>
-                    {token && <li><Link to={token ? "/tasks" : "/login"} className="navBarLinks">My Tasks</Link></li>}
-                    {token && <li><Link to={token ? "/recurringTasks" : "/login"} className="navBarLinks">Recurring Tasks</Link></li>}
-                    {token && <li><Link to={token ? "/shop" : "/login"} className="navBarLinks">Shop</Link></li>}
+                    {token && <li><Link to={token ? "/tasks" : "/login"} className="navBarLinks navBarMyTasks">My Tasks</Link></li>}
+                    {token && <li><Link to={token ? "/recurringTasks" : "/login"} className="navBarLinks navBarRecurringTasks">Recurring Tasks</Link></li>}
+                    {token && <li><Link to={token ? "/shop" : "/login"} className="navBarLinks navBarShop">Shop</Link></li>}
                 </ul>
             </div>
             <UserInfo/>

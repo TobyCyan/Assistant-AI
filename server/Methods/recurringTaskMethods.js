@@ -10,7 +10,7 @@ const {getTodayDate, getDaysDifference, addDays} = require('../utilities/utiliti
  * @param {*} res The response to the front-end.
  */
 const getRecurringTasks = async (req, res) => {
-    const {id} = req.user
+    const { id } = req.user
     console.log(id)
 
     // Finds All Task Instances of the User.
@@ -33,7 +33,7 @@ const getRecurringTasks = async (req, res) => {
 }
 
 const addRecurringTask = async (req, res) => {
-    const {id} = req.user
+    const { id } = req.user
     const data = req.body
 
     // Today in 00: 00 :00
@@ -71,7 +71,7 @@ const addRecurringTask = async (req, res) => {
 }
 
 const editRecurringTask = async (req, res) => {
-    const {id} = req.user
+    const { id } = req.user
     const data = req.body
 
     // Today in 00: 00 :00
@@ -111,7 +111,7 @@ const editRecurringTask = async (req, res) => {
 }
 
 const deleteRecurringTask = async (req, res) => {
-    const {id} = req.user
+    const { id } = req.user
     const {recTaskId} = req.body
 
     // Deletes the Task Instance from the Task Table.

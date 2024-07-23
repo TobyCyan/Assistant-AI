@@ -14,13 +14,14 @@ const secretKey = process.env.Secret_Key
  */
 const addUser = async (req, res) => {
     const data = req.body
+
     let newUserData = {
         name: data['username'],
         password: data['password'],
         points: data['points'],
         dateOfBirth: data['dateOfBirth']
     }
-    console.log(newUserData.dateOfBirth)
+
     // Username must be unique.
     const findUser = await User.findOne({
         where: {
@@ -83,7 +84,7 @@ const loginUser = async (req, res) => {
  */
 const getUserInfo = async (req, res) => {
     const { id } = req.user
-    console.log(id)
+    
 
     const findUser = await User.findOne(
         {
@@ -94,14 +95,14 @@ const getUserInfo = async (req, res) => {
     )
 
     if(findUser) {
-        console.log(findUser)
         const userDetails = {
             username: findUser.name,
             id: findUser.id,
             dateOfBirth: findUser.dateOfBirth,
-            points: findUser.points
+            points: findUser.points,
+            hasDoneTutorial: findUser.hasDoneTutorial,
         }
-        console.log(userDetails)
+        
         res.send(userDetails)
     } else {
         res.status(404).send('Invalid User')
@@ -116,7 +117,6 @@ const getUserInfo = async (req, res) => {
  */
 const getUserInfoByUsername = async (req, res) => {
     const username = req.params.username
-    console.log(username)
 
     const findUser = await User.findOne(
         {
@@ -126,18 +126,46 @@ const getUserInfoByUsername = async (req, res) => {
         }
     )
 
-    if(findUser) {
-        console.log(findUser)
+    if (findUser) {
         const userDetails = {
             username: findUser.name,
             id: findUser.id,
             dateOfBirth: findUser.dateOfBirth,
             points: findUser.points
         }
-        console.log(userDetails)
+
         res.send(userDetails)
     } else {
         res.status(404).send('No Such User in DB')
+    }
+}
+
+/**
+ * Edits the Given Task and Updates its Data.
+ * @param {*} req The request from the front-end.
+ * @param {*} res The response to the front-end.
+ */
+const setUserCompleteTutorial = async (req, res) => {
+    const { id } = req.user
+
+    // Data of the Edited Task.
+    let updateFields = {
+        hasDoneTutorial: true,
+    }
+
+    // Updates the Task Instance.
+    const userCompleteTutorial = await User.update(updateFields,
+        {
+            where: {
+                id: id,
+            }
+        }
+    )
+
+    if (userCompleteTutorial) {
+        console.log("User has completed tutorial!")
+    } else {
+        res.status(404).send("Failed to Update User Tutorial Status.")
     }
 }
 
@@ -148,5 +176,6 @@ module.exports = {
     loginUser,
     getUserInfo,
     getUserInfoByUsername,
+    setUserCompleteTutorial,
 }
 

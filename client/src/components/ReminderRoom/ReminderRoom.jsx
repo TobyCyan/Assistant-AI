@@ -6,10 +6,10 @@ import { getTimeOfTheDay, getGreetingDialogue, getOverdueTasksDialogue, getPrior
 
 
 /**
- * A React component that displays the chat room where the AI Assistant can talk to the user.
- * @returns {ReactNode} A React element that renders the chat room.
+ * A React component that displays the reminder room where the AI Assistant can talk to the user.
+ * @returns {ReactNode} A React element that renders the reminder room.
  */
-const ChatRoom = ({closeChatRoomModal, taskData, setActivateBirthday}) => {
+const ReminderRoom = ({closeReminderRoomModal, taskData, setActivateBirthday}) => {
     const {userInfo, tokenStatus} = useTokenContext()
 
     const [token, setToken] = tokenStatus
@@ -21,9 +21,9 @@ const ChatRoom = ({closeChatRoomModal, taskData, setActivateBirthday}) => {
      * @function useEffect
      * @description Debug statement to show the list of upcoming tasks.
      */
-    useEffect(() => {
-        console.log('data: ' + JSON.stringify(taskData.overduedTasks)+ '\n')
-    }, [taskData])
+    // useEffect(() => {
+    //     console.log("data: " + JSON.stringify(taskData.overduedTasks)+ "\n")
+    // }, [taskData])
     
     /**
      * @function useEffect
@@ -48,12 +48,12 @@ const ChatRoom = ({closeChatRoomModal, taskData, setActivateBirthday}) => {
     const timeOfTheDay = getTimeOfTheDay()
 
     /**
-     * @type {Date} Today's date.
+     * @type {Date} Today"s date.
      */
     const today = new Date()
 
     /**
-     * @type {Number} Today's date in terms of the day of the month.
+     * @type {number} Today"s date in terms of the day of the month.
      */
     const todayDate = today.getDate()
 
@@ -62,12 +62,12 @@ const ChatRoom = ({closeChatRoomModal, taskData, setActivateBirthday}) => {
      */
     const reminderDialogueFlow = [
         getGreetingDialogue(timeOfTheDay),
-        'Your Tasks for today are as follows...',
+        "Your Tasks for today are as follows...",
         getOverdueTasksDialogue(taskData.overduedTasks),
         // getRemindersTasksDialogue(taskData.remindersTasks),
         // getUpcomingTasksDialogue(taskData.upcomingTasks),
         // getPriorityTasksDialogue(taskData.priorityTasks),
-        'Bye and have fun!'
+        "Bye and have fun!"
     ]
 
     /**
@@ -78,7 +78,7 @@ const ChatRoom = ({closeChatRoomModal, taskData, setActivateBirthday}) => {
         let reminder = localStorage.getItem(timeOfTheDay)
         reminder = JSON.parse(reminder)
 
-        if (!reminder || reminder['reminded'] && reminder['date'] != todayDate) {
+        if (!reminder || reminder["reminded"] && reminder["date"] != todayDate) {
             localStorage.setItem(timeOfTheDay, JSON.stringify({reminded: false, date: todayDate}))
         } 
     }, [])
@@ -92,7 +92,7 @@ const ChatRoom = ({closeChatRoomModal, taskData, setActivateBirthday}) => {
          * A boolean that indicates whether the user has been reminded during this time of the day.
          * @type {boolean} true or false.
          */
-        const hasReminded = JSON.parse(localStorage.getItem(timeOfTheDay))['reminded']
+        const hasReminded = JSON.parse(localStorage.getItem(timeOfTheDay))["reminded"]
 
         if (!hasReminded) {
             const messageInterval = 1600
@@ -103,7 +103,7 @@ const ChatRoom = ({closeChatRoomModal, taskData, setActivateBirthday}) => {
                 if (index == reminderDialogueFlow.length) {
                     localStorage.setItem(timeOfTheDay, JSON.stringify({reminded: true, date: todayDate}))
                     clearInterval(messageTimer)
-                    closeChatRoomModal()
+                    closeReminderRoomModal()
                     setActivateBirthday(true)
                     return
                 }
@@ -117,7 +117,7 @@ const ChatRoom = ({closeChatRoomModal, taskData, setActivateBirthday}) => {
                 setActivateBirthday(true)
             }
         } else {
-            closeChatRoomModal()
+            closeReminderRoomModal()
         }
 
     }, [])
@@ -125,7 +125,7 @@ const ChatRoom = ({closeChatRoomModal, taskData, setActivateBirthday}) => {
 
     return (
         <>   
-            <div className="chatroomContainer oneWayChatRoom">
+            <div className="reminderroomContainer oneWayChatRoom">
                 <div className="chatroom" id="chatroom" ref={lastMessage}>
                     {...chatMessages}
                 </div> 
@@ -134,4 +134,4 @@ const ChatRoom = ({closeChatRoomModal, taskData, setActivateBirthday}) => {
     )
 }
 
-export default ChatRoom
+export default ReminderRoom

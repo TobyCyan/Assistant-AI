@@ -37,7 +37,7 @@ const getItems = async (req, res) => {
 }
 
 const createUserItem = async(req, res) => {
-    const {id} = req.user
+    const { id } = req.user
     console.log(id)
     const {itemId, points} = req.body
 
@@ -70,7 +70,7 @@ const createUserItem = async(req, res) => {
     const createdUserItem = await Items.create(userItem)
     if(createdUserItem) {
         res.status(201).send({createdUserItem})
-        console.log(`User ${id} has item ${itemId} relationship added to database`)
+        console.log(`User ${ id } has item ${itemId} relationship added to database`)
     } else {
         console.log('Could not create userItem relationship')
     }

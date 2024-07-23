@@ -131,7 +131,7 @@ export const checkStrongPW = (password) => {
 
     let isAlphabetExist = false
     let isUppercaseExist = false
-    let isNumberExist = false
+    let isnumberExist = false
     for (let i = 0; i < len; i++) {
         if (alphabets.includes(password[i])) {
             isAlphabetExist = true
@@ -140,11 +140,11 @@ export const checkStrongPW = (password) => {
             isUppercaseExist = true
         }
         if (numbers.includes(password[i])) {
-            isNumberExist = true
+            isnumberExist = true
         }
     }
 
-    return len >= 8 && isAlphabetExist && isUppercaseExist && isNumberExist
+    return len >= 8 && isAlphabetExist && isUppercaseExist && isnumberExist
 }
 
 const priorityOrder = { High: 3, Medium: 2, Low: 1 };
@@ -420,7 +420,7 @@ export const getRandomVoiceLine = (voiceLines) => {
 
 /**
  * Gets a comment based on the user's productivity.
- * @param {Number} productivity The user's productivity.
+ * @param {number} productivity The user's productivity.
  * @returns {String} A string that comments about the user's productivity.
  */
 export const getProductivityBarComments = (productivity) => {
@@ -438,11 +438,40 @@ export const getProductivityBarComments = (productivity) => {
 
 /**
  * Gets a date which adds number of days to that date
- * @param{Date, Number} date, number - the date and days to add
+ * @param {Date, number} date, number - the date and days to add
  * @returns {Date} A date after adding number of days
  */
 export const addDays = (date, days) => {
     const result = new Date(date);
     result.setDate(result.getDate() + days);
     return result;
+}
+
+/**
+ * Starts the intro if userData.username has been returned and the user has not done the tutorial.
+ * @param {Object} userData The user data.
+ */
+export const startIntro = (userData, setActivateIntro, page) => {
+    /**
+     * Checks whether the user has already skipped the intro.
+     * @type {boolean} true or false.
+     */
+    const skippedIntro = localStorage.getItem(`finishedIntroAt${page}`)
+
+    if (!JSON.parse(skippedIntro) && userData.username && !userData.hasDoneTutorial) {
+        setTimeout(() => {
+            setActivateIntro(true)
+        }, 500)
+    }
+}
+
+/**
+ * Sets the finishedIntroAtPage parameter in the local storage for that page if it does not exist yet.
+ * @param {string} page The page name.
+ */
+export const setHasFinishedIntroAtPage = (page) => {
+    const skippedIntro = localStorage.getItem(`finishedIntroAt${page}`)
+    if (!skippedIntro) {
+        localStorage.setItem(`finishedIntroAt${page}`, false)
+    }
 }

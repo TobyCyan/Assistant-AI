@@ -25,7 +25,7 @@ const routes = (
                 <Route path="/tasks" exact element = {<MyTasks />} />
                 <Route path="/shop" exact element={<Shop />} />
                 <Route path="/users/:username" exact element={<Profile />} />
-                <Route path="/recurringTasks" exact element={<Scheduler/>}/>
+                <Route path="/recurringtasks" exact element={<Scheduler/>}/>
                 <Route path="/chatpage" exact element={<ChatPage />} />
             </Route>
         </Routes>

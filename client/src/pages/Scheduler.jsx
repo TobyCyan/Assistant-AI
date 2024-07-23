@@ -5,21 +5,22 @@ import { useTokenContext } from "../components/TokenContext/TokenContext";
 import AddRecurringTasks from "../components/TaskModals/AddRecurringTasks";
 import DeleteRecurringTask from "../components/TaskModals/DeleteRecurringTask"
 import RecurringTasksTable from "../components/RecurringTasks/RecurringTasksTable";
-import { compareTasksDeadline } from "../utilities/utilities.js";
+import { compareTasksDeadline, startIntro, setHasFinishedIntroAtPage } from "../utilities/utilities.js";
 import Modal from 'react-modal';
+import IntroElement from '../components/IntroElements/IntroElement.jsx';
 
 /**
  * A Functional React component that displays all user tasks based on their categories, level of priority and completion status, and allows user to perform task operations such as add, edit, complete, uncomplete and delete.
  * @component
  * @returns {ReactNode} A React element that renders lists of tasks based on category, priority level and state of completion.
  */
-function Scheduler() {
+const Scheduler = () => {
     const {tokenStatus, userInfo} = useTokenContext()
     /**
      * The current token and setter function to update it.
      * @type {[string, function]}
      */
-    const [token, setToken] = tokenStatus
+    const [token, ] = tokenStatus
 
     /**
      * The current user data and setter function to update it.
@@ -65,12 +66,61 @@ function Scheduler() {
     })
 
     /**
+     * The initial state of activating the intro and setter function to update it.
+     * @type {[boolean, function]}
+     */
+    const [activateIntro, setActivateIntro] = useState(false)
+
+    /**
+     * The name of the current page.
+     * @type {string}
+     */
+    const page = "Scheduler"
+
+    /**
+     * The steps for the webpage intro.
+     * @returns {Array<Object>} An array of objects that specify the element to highlight or the intro value.
+     */
+    const introSteps = () => [
+        {
+            intro: "Welcome to the Recurring Tasks Page!"
+        },
+        {
+            element: ".tasksSidebar",
+            intro: "This is your side bar! It works the same way as the My Tasks page where you can see your recurring tasks by their categories!"
+        },
+        {
+            element: ".addTaskBtn",
+            intro: "This button here is for you to add a new recurring task!"
+        },
+        {
+            element: ".detailedTasksContainer",
+            intro: "This is where you can see all of your recurring tasks in detail!"
+        },
+        {
+            element: ".navBarShop",
+            intro: "Off we go to the Shop!"
+        },
+    ]
+
+    /**
+     * @function useEffect
+     * @description Sets a time out which waits for a certain duration before automatically starting the intro if the user has not done the intro.
+     */
+    useEffect(() => {
+        startIntro(userData, setActivateIntro, page)
+    }, [userData])
+
+    useEffect(() => {
+        setHasFinishedIntroAtPage(page)
+    }, [])
+
+    /**
      * @function useEffect
      * @description Get User Info and User TaskModals if there is token.
      */
     useEffect(() => {
         if (token) {
-            console.log("Token Set")
             localStorage.setItem('token', token);
             getUserInfo();
             getUserRecTasks();
@@ -165,7 +215,6 @@ function Scheduler() {
      */
     const handleFilterTasks = (value) => {
         setFilter(value)
-        console.log(value)
     }
 
     /**
@@ -196,17 +245,14 @@ function Scheduler() {
 
         try {
             const res = await fetch('http://localhost:5001/RecurringTasks', dataToPost)
-            if(res.ok) {
+            if (res.ok) {
                 console.log("Recurring Tasks successfully retrieved")
             } else {
                 console.log("Invalid User/Recurring Tasks")
             }
 
             const data = await res.json()
-            console.log(data)
-            if(data) {
-                console.log('Type of Recurring Tasks: ' + typeof data.recurringTasks + ', Recurring Tasks: ' + data.recurringTasks + ', isArray? ' + Array.isArray(data.recurringTasks))
-                console.log(data.recurringTasks[0])
+            if (data) {
                 setRecTasks(data.recurringTasks)
                 setDisplayRecTasks(recTasks)
             }
@@ -240,7 +286,6 @@ function Scheduler() {
 
             const data = await res.json()
             if(data) {
-                console.log(data)
                 setUserData(data)
             }
         } catch (error) {
@@ -280,6 +325,7 @@ function Scheduler() {
     return (
         <>
             <NavBar/>
+            <IntroElement steps={introSteps()} activate={activateIntro} setActivate={setActivateIntro} hasDoneTutorial={userData.hasDoneTutorial} endIntro={false} page={page} />
             <div className="tasksPageContainer">
                 <div className="tasksSidebar">
                     <button className="addTaskBtn" onClick={handleAddTask}>Add Recurring Task</button>
@@ -336,4 +382,4 @@ function Scheduler() {
     )
 }
 
-export default Scheduler;
+export default Scheduler

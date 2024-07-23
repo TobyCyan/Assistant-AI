@@ -41,6 +41,20 @@ button {
   font-weight: bold;
   font-size: 16px;
   max-height: 9vh;
+  position: relative;
+  list-style-type: none;
+}
+
+.navBarLogo {
+  position: absolute;
+  max-height: 80%;
+  top: 50%;
+  left: 0%;
+  translate: 0% -50%;
+  flex: 1;
+  border-radius: 50%;
+  border: 2px solid rgb(129, 255, 255);
+  margin-left: 8px;
 }
 
 .navBarBtn {
@@ -1005,7 +1019,7 @@ ul {
   outline: none;
 }
 
-.chatroomContainer {
+.reminderroomContainer, .chatroomContainer {
   border: 1px solid rgb(0, 0, 0);
   border-radius: 12px;
   height: 88vh;
@@ -1148,7 +1162,7 @@ ul {
   float: left;
 }
 
-.ChatRoomModal {
+.reminderRoomModal {
   height: 0%;
   width: 0%;
   background-color: white;

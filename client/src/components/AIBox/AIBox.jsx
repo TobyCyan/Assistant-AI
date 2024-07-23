@@ -1,8 +1,8 @@
 import React, {useEffect, useState, ReactNode} from "react";
-import '../../index.css'
+import "../../index.css"
 import { useTokenContext } from "../TokenContext/TokenContext";
-import avatarImgWave from '../../AppImages/Mei Chibi Icons/Mei_Chibi_Wave.png'
-import avatarImgWink from '../../AppImages/Mei Chibi Icons/Mei_Chibi_Wink.png'
+import avatarImgWave from "../../AppImages/Mei Chibi Icons/Mei_Chibi_Wave.png"
+import avatarImgWink from "../../AppImages/Mei Chibi Icons/Mei_Chibi_Wink.png"
 import { useNavigate } from "react-router-dom";
 import { randIntervalGenerator, getRandomVoiceLine } from "../../utilities/utilities";
 
@@ -21,20 +21,34 @@ const AIBox = () => {
      */
     const [userData, setUserData] = userInfo
 
-    const [dialogue, setDialogue] = useState('')
-    const maxInterval = 12000
+    /**
+     * The current dialogue in the chat bubble and setter function to update it.
+     * @type {[string, function]}
+     */
+    const [dialogue, setDialogue] = useState("")
+
+    /**
+     * The minimum time for the random interval in milliseconds.
+     * @type {number}
+     */
     const minInterval = 8000
+
+    /**
+     * The maximum time for the random interval in milliseconds.
+     * @type {number}
+     */
+    const maxInterval = 12000
 
     /**
      * Array of voice lines that can be said by the Assistant at the home page.
      * @type {Array<string>}
      */
     const voiceLines = [
-        'Hello!',
-        'Got something you want me to do for you?',
-        'How can I help you today?',
-        'Today is another day to be productive!',
-        'You look tired, want me to sing a song for you?',
+        "Hello!",
+        "Got something you want me to do for you?",
+        "How can I help you today?",
+        "Today is another day to be productive!",
+        "You look tired, want me to sing a song for you?",
         "Don't forget to get your tasks done on time!",
 
     ]
@@ -45,7 +59,7 @@ const AIBox = () => {
      * @description Sets the welcome message.
      */
     useEffect(() => {
-        setDialogue(`Welcome Back! ${ userData.username ? userData.username : ''}`)
+        setDialogue(`Welcome Back! ${ userData.username ? userData.username : ""}`)
     }, [userData])
 
     /**
@@ -76,13 +90,13 @@ const AIBox = () => {
      * @description Allows the dialogue in the chat bubble to be manually changed by clicking on it.
      */
     useEffect(() => {
-        const dialogueBox = document.getElementById('assistantDialogue')
+        const dialogueBox = document.getElementById("assistantDialogue")
         if (dialogueBox) {
-            dialogueBox.addEventListener('click', () => {
+            dialogueBox.addEventListener("click", () => {
                 setDialogue(getRandomVoiceLine(voiceLines)) 
             })
         } else {
-            console.log('dialogueBox does not exist.')
+            console.log("dialogueBox does not exist.")
         }
     }, [])
 
@@ -90,7 +104,7 @@ const AIBox = () => {
      * Navigates to the Chat Page to chat with the AI Assistant.
      */
     const toAssistantWindow = () => {
-        navigate('/chatpage')
+        navigate("/chatpage")
     }
 
 

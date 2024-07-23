@@ -23,7 +23,7 @@ export const reminderBeforeDeadline = (reminder, deadline) => {
 
 /**
  * Waits for a given duration in milliseconds.
- * @param {Number} n The duration to wait in milliseconds. 
+ * @param {number} n The duration to wait in milliseconds. 
  * @returns {Promise<void>} A promise that sets a time out for n milliseconds.
  */
 export const wait = (n) => {

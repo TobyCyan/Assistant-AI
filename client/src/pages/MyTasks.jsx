@@ -5,7 +5,7 @@ import { useTokenContext } from "../components/TokenContext/TokenContext";
 import DetailedTaskCard from "../components/TasksCardsAndBox/DetailedTaskCard.jsx";
 import AddEditTasks from "../components/TaskModals/AddEditTasks";
 import CompleteDeleteTasks from "../components/TaskModals/CompleteDeleteTasks";
-import { compareTasksDeadline } from "../utilities/utilities.js";
+import { compareTasksDeadline, startIntro, setHasFinishedIntroAtPage } from "../utilities/utilities.js";
 import Modal from 'react-modal';
 import IntroElement from '../components/IntroElements/IntroElement.jsx';
 
@@ -20,7 +20,7 @@ function MyTasks() {
      * The current token and setter function to update it.
      * @type {[string, function]}
      */
-    const [token, setToken] = tokenStatus
+    const [token, ] = tokenStatus
 
     /**
      * The current user data and setter function to update it.
@@ -41,12 +41,18 @@ function MyTasks() {
     const [activateIntro, setActivateIntro] = useState(false)
 
     /**
+     * The name of the current page.
+     * @type {string}
+     */
+    const page = "MyTasks"
+
+    /**
      * The steps for the webpage intro.
      * @returns {Array<Object>} An array of objects that specify the element to highlight or the intro value.
      */
     const introSteps = () => [
         {
-            intro: "Welcome to the Task Page!"
+            intro: "Welcome to the Tasks Page!"
         },
         {
             element: ".tasksSidebar",
@@ -67,7 +73,23 @@ function MyTasks() {
         {
             intro: "That's all I have for you on this page!"
         },
+        {
+            element: ".navBarRecurringTasks",
+            intro: "Let's explore the Recurring Tasks page next!"
+        }
     ]
+
+    /**
+     * @function useEffect
+     * @description Sets a time out which waits for a certain duration before automatically starting the intro if the user has not done the intro.
+     */
+    useEffect(() => {
+        startIntro(userData, setActivateIntro, page)
+    }, [userData])
+
+    useEffect(() => {
+        setHasFinishedIntroAtPage(page)
+    }, [])
 
     /**
      * The tasks to display and setter function to update it.
@@ -107,18 +129,11 @@ function MyTasks() {
      */
     useEffect(() => {
         if (token) {
-            console.log("Token Set")
             localStorage.setItem('token', token);
             getUserInfo();
             getUserTasks();
         }
     }, [token]);
-
-    useEffect(() => {
-        setTimeout(() => {
-            setActivateIntro(true)
-        }, 500)
-    }, [])
 
     /**
      * @function useEffect
@@ -351,7 +366,7 @@ function MyTasks() {
     return (
         <>
             <NavBar/>
-            <IntroElement steps={introSteps()} activate={activateIntro} setActivate={setActivateIntro} />
+            <IntroElement steps={introSteps()} activate={activateIntro} setActivate={setActivateIntro} hasDoneTutorial={userData.hasDoneTutorial} endIntro={false} page={page} />
             <div className="tasksPageContainer">
                 <div className="tasksSidebar">
                     <button className="addTaskBtn" onClick={handleAddTask}>Add Task</button>

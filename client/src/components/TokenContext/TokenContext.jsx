@@ -18,21 +18,12 @@ export const TokenProvider = (props) => {
         points: null,
     })
 
-    // Debugging for token.
     useEffect(() => {
         // This will run after the state update is complete
         if(localStorage.getItem("token") !== "undefined") {
             setToken(localStorage.getItem("token"))
         }
-        console.log('Token Updated as ' + token);
     }, [token]);
-
-    // Debugging for userInfo.
-    useEffect(() => {
-        // This will run after the state update is complete
-        console.log(userData)
-        //console.log('User Updated as Username: ' + userInfo.username + ', ID: ' + userInfo.userId);
-    }, [userData])
 
     return (
         <TokenContext.Provider 

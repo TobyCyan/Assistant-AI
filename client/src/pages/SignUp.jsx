@@ -1,11 +1,11 @@
-import React, {useState, useEffect, ReactNode} from 'react'
-import {useNavigate} from "react-router-dom";
+import React, { useState, ReactNode } from 'react'
+import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar/NavBar.jsx";
 import CryptoJS from 'crypto-js';
 import '../index.css'
 import RenderError from "../components/RenderError/RenderError";
-import {useTokenContext} from "../components/TokenContext/TokenContext.jsx";
-import {checkStrongPW} from "../utilities/utilities.js";
+import { useTokenContext } from "../components/TokenContext/TokenContext.jsx";
+import { checkStrongPW } from "../utilities/utilities.js";
 
 /**
  * A Functional React component that displays the sign up page, handles sign up errors, and communicates with the back-end to sign the user up.
@@ -19,7 +19,7 @@ function SignUp() {
      * The current token and setter function to update it.
      * @type {[string, function]}
      */
-    const [token, setToken] = tokenStatus
+    const [, setToken] = tokenStatus
 
     /**
      * The current confirmation password and setter function to update it.
@@ -32,17 +32,6 @@ function SignUp() {
      * @type {[string, function]}
      */
     const [error, setError] = useState('')
-
-    /**
-     * @function useEffect
-     * @description GET method to check for connection with the back-end.
-     */
-    useEffect(() => {
-        fetch('/', {method: 'GET'})
-        .then(res => {
-            console.log('Hello from Database~!')
-        })
-    }, [])
     
     /**
      * The current userData state and setter function to update it.
@@ -51,7 +40,6 @@ function SignUp() {
     const [userData, setUserData] = useState({
         username: '',
         password: '',
-        points: 0,
         dateOfBirth: ''
     })
 
@@ -199,20 +187,17 @@ function SignUp() {
         setError('')
 
         if (userData.username === '') {
-            console.log('Username cannot be empty!')
             handleEmptyUsername()
             return
         }
 
 
         if(userData.username.includes(' ')) {
-            console.log('Username cannot have space!')
             handleSpaceUsername()
             return;
         }
 
         if (userData.dateOfBirth == '') {
-            console.log('Date of Birth cannot be empty!')
             handleEmptyDateOfBirth()
             return
         }
@@ -221,25 +206,21 @@ function SignUp() {
         const dateOfBirthObj = new Date(userData.dateOfBirth)
 
         if (dateOfBirthObj > currentDate) {
-            console.log('Date of Birth cannot be in future!')
             handleFutureDOB()
             return
         }
 
         if (userData.password == '') {
-            console.log('Password cannot be Empty!')
             handleEmptyPW()
             return
         }
 
         if(userData.password.includes(' ')) {
-            console.log('Spacing not allowed in password')
             handleSpacePassword()
             return
         }
 
         if (!pwMatch()) {
-            console.log('Passwords do not match!')
             handleDifferentPassword()
             return
         }
@@ -266,7 +247,6 @@ function SignUp() {
             const res = await fetch('http://localhost:5001/SignUp', dataToPost)
 
             if(res.ok) {
-                console.log('Sign Up Successful!')
                 const data = await res.json()
                 const resToken = data.token
                 localStorage.setItem('token', resToken)

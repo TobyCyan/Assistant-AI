@@ -122,7 +122,7 @@ const getFriendRequests = async (req, res) => {
  */
 const createFriendRequest = async (req, res) => {
     const receiverName = req.params.username
-    const {id} = req.user
+    const { id } = req.user
 
     /**
      * Data of the New Task.
@@ -148,7 +148,7 @@ const createFriendRequest = async (req, res) => {
         if(newRequest) {
             // Sends the Added Task as a Response to be Added into the Task List.
             res.status(201).send({newRequest})
-            console.log(`Request from ${id} to ${receiver}  added to database!`)
+            console.log(`Request from ${ id } to ${receiver}  added to database!`)
         } else {
             res.status(400).send('Invalid Request')
         }
@@ -165,7 +165,7 @@ const createFriendRequest = async (req, res) => {
  */
 const updateFriendRequest = async (req, res) => {
     const requesterName = req.params.username
-    const {id} = req.user
+    const { id } = req.user
 
     const requester = await User.findOne({
         where: {
@@ -194,7 +194,7 @@ const updateFriendRequest = async (req, res) => {
         if(updateRequest) {
             // Sends the Added Task as a Response to be Added into the Task List.
             res.status(200).send({request})
-            console.log(`Request from ${requester} to ${id} accepted!`)
+            console.log(`Request from ${requester} to ${ id } accepted!`)
         } else {
             res.status(400).send('Invalid Request')
         }
@@ -204,7 +204,7 @@ const updateFriendRequest = async (req, res) => {
 }
 
 const deleteFriendRequest = async (req, res) => {
-    const {id} = req.user
+    const { id } = req.user
     const requesterName = req.params.username
 
     const requester = await User.findOne({

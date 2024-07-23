@@ -17,10 +17,16 @@ module.exports = (sequelize, DataTypes) => {
         },
         points: {
             type: DataTypes.INTEGER,
+            defaultValue: 0,
             allowNull: false
         },
         dateOfBirth: {
             type: DataTypes.DATE,
+            allowNull: false
+        },
+        hasDoneTutorial: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
             allowNull: false
         }
     }, {
@@ -65,6 +71,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         completed: {
             type: DataTypes.BOOLEAN,
+            defaultValue: false,
             allowNull: false
         },
         points: {

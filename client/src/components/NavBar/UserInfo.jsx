@@ -4,7 +4,6 @@ import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import '../../index.css'
 import {useNavigate} from "react-router-dom";
 import { useTokenContext } from "../TokenContext/TokenContext.jsx";
-import { lib } from 'crypto-js';
 
 /**
  * A React component that retrieves the current user data and points to display them.
@@ -47,7 +46,6 @@ const UserInfo = () => {
     },[token])
 
     useEffect(() => {
-        console.log(userData)
         setUsername(userData?.username)
         setPoints(userData?.points)
     }, [userData]);
@@ -71,7 +69,6 @@ const UserInfo = () => {
 
             const data = await res.json()
             if(data) {
-                console.log(data)
                 setUserData(data)
             }
         } catch (error) {
@@ -91,7 +88,6 @@ const UserInfo = () => {
             points: null,
         })
         localStorage.removeItem("token")
-        console.log(token)
         navigate("/login")
     }
 

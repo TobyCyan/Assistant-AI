@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, ReactNode } from "react";
 import NavBar from "../components/NavBar/NavBar.jsx";
 import { useTokenContext } from "../components/TokenContext/TokenContext";
 import getCurrentPositionWeather from "../../../ChatBot/static/API Calls/weather";
-import { getDDMM, randomItem, compareTasksPriority, randIntervalGenerator, getRandomVoiceLine, calculateTaskProductivity, getProductivityBarComments } from "../utilities/utilities.js";
+import { getDDMM, randomItem, compareTasksPriority, randIntervalGenerator, getRandomVoiceLine, calculateTaskProductivity, getProductivityBarComments, startIntro, setHasFinishedIntroAtPage } from "../utilities/utilities.js";
 import ChatBotResponseElement from "../components/MessageElement/ChatBotResponseElement.jsx";
 import UserMessageElement from "../components/MessageElement/UserMessageElement.jsx";
 import { dateAfterToday, reminderBeforeDeadline, wait, removeSpaces } from "../utilities/ChatPageUtilities.js";
@@ -25,13 +25,13 @@ const ChatPage = () => {
      * The current token and setter function to update it.
      * @type {[string, function]}
      */
-    const [token, setToken] = tokenStatus
+    const [token, ] = tokenStatus
 
     /**
      * The current user data and setter function to update it.
      * @type {[Object, function]}
      */
-    const [userData, setUserData] = userInfo
+    const [userData, ] = userInfo
 
     const [takingInput, setTakingInput] = useState(false)
     const [inConfirmation, setInConfirmation] = useState(false)
@@ -47,8 +47,23 @@ const ChatPage = () => {
     const inputTypeRef = useRef("")
     const errorListRef = useRef([])
 
+    /**
+     * The minimum time for the random interval in milliseconds.
+     * @type {number}
+     */
     const minInterval = 6000
+
+    /**
+     * The maximum time for the random interval in milliseconds.
+     * @type {number}
+     */
     const maxInterval = 10000
+
+    /**
+     * The name of the current page.
+     * @type {string}
+     */
+    const page = "ChatPage"
 
     /**
      * The user's productivity
@@ -103,8 +118,24 @@ const ChatPage = () => {
         {
             element: ".chatpageAIBox",
             intro: "Anyways I'll be here as always so let's get chatting! hehe~"
+        },
+        {
+            element: ".navBarMyTasks",
+            intro: "Let's go to the Tasks page next!"
         }
     ]
+
+    /**
+     * @function useEffect
+     * @description Sets a time out which waits for a certain duration before automatically starting the intro if the user has not done the intro.
+     */
+    useEffect(() => {
+        startIntro(userData, setActivateIntro, page)
+    }, [userData])
+
+    useEffect(() => {
+        setHasFinishedIntroAtPage(page)
+    }, [])
 
     /**
      * Array of inputs to quit input mode.
@@ -541,7 +572,7 @@ const ChatPage = () => {
                 }
                 break
         }
-        
+
         await wait(1000)
         setIsTexting(false)
         return
@@ -829,12 +860,6 @@ const ChatPage = () => {
         setInConfirmation(false)
     }
 
-    useEffect(() => {
-        setTimeout(() => {
-            setActivateIntro(true)
-        }, 500)
-    }, [])
-
     /**
      * @function useEffect
      * @description If not chatting, sets the AI assistant"s chat bubble with a random dialogue at random intervals.
@@ -876,7 +901,7 @@ const ChatPage = () => {
     return (
         <div className="chatpage" >
             <NavBar />
-            <IntroElement steps={introSteps()} activate={activateIntro} setActivate={setActivateIntro}/>
+            <IntroElement steps={introSteps()} activate={activateIntro} setActivate={setActivateIntro} hasDoneTutorial={userData.hasDoneTutorial} endIntro={false} page={page} />
             <div className="chatpageContainer">
                 <div className="chatroomContainer">
 

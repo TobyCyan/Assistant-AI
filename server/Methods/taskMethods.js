@@ -1,7 +1,7 @@
 const db = require('../Models/dataBase.js')
 const User = db.user
 const Tasks = db.tasks
-const {getTodayDate} = require('../utilities/utilities')
+const { getTodayDate } = require('../utilities/utilities')
 
 // Refer to sequelize.org/master/manual for full API reference of queries.
 
@@ -13,7 +13,6 @@ const {getTodayDate} = require('../utilities/utilities')
  */
 const getTasks = async (req, res) => {
     const { id } = req.user
-    console.log(id)
 
     // Finds All Task Instances of the User.
     const tasks = await Tasks.findAll(
@@ -23,7 +22,6 @@ const getTasks = async (req, res) => {
             }
         }
     )
-    console.log(tasks)
 
     // Sends the List of TaskModals as a Response If TaskModals Found.
     if (tasks) {
@@ -41,7 +39,7 @@ const getTasks = async (req, res) => {
  * @param {*} res The response to the front-end.
  */
 const addTask = async (req, res) => {
-    const {id} = req.user
+    const { id } = req.user
     const data = req.body
 
     /** 
@@ -77,7 +75,7 @@ const addTask = async (req, res) => {
  * @param {*} res The response to the front-end.
  */
 const editTask = async (req, res) => {
-    const {id} = req.user
+    const { id } = req.user
     const data = req.body
 
     // Data of the Edited Task.
@@ -115,8 +113,8 @@ const editTask = async (req, res) => {
  * @throws {Error} Throws an error if the task completion fails.
  */
 const completeTask = async (req, res) => {
-    const {id} = req.user
-    console.log(id)
+    const { id } = req.user
+
     const completedTask = req.body
     const updateFields = {
         completed: completedTask.completed,
@@ -142,7 +140,6 @@ const completeTask = async (req, res) => {
     )
     .catch(err => console.error('Error Updating Points', err))
 
-    console.log(completedTask)
     // Update the Completion Status of the Task.
     const updated = await Tasks.update(updateFields,
         {
@@ -228,7 +225,7 @@ const uncompleteTask = async (req, res) => {
  * @throws {Error} Throws an error if the task deletion fails.
  */
 const deleteTask = async (req, res) => {
-    const {id} = req.user
+    const { id } = req.user
     const {taskId} = req.body
 
     // Deletes the Task Instance from the Task Table.

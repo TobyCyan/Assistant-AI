@@ -1,5 +1,5 @@
 import React from 'react';
-import {addDays, getDDMM} from "../../utilities/utilities.js";
+import { addDays, getDDMM } from "../../utilities/utilities.js";
 
 function RecurringTasks({recurringTask, onEdit, onDelete}) {
     const{lastCreated, creationToDeadline, interval, reminderToDeadline} = recurringTask

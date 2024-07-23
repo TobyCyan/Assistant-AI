@@ -1,17 +1,17 @@
-import React, { useEffect, useState, ReactNode } from 'react';
+import React, { useEffect, useState, ReactNode } from "react";
 import NavBar from "../components/NavBar/NavBar.jsx";
 import TasksBox from "../components/TasksCardsAndBox/TasksBox";
-import Modal from 'react-modal';
+import Modal from "react-modal";
 import { useTokenContext } from "../components/TokenContext/TokenContext";
 import AddEditTasks from "../components/TaskModals/AddEditTasks";
 import CompleteDeleteTasks from "../components/TaskModals/CompleteDeleteTasks";
 import ProductivityBar from "../components/ProductivityBar/ProductivityBar.jsx";
-import { isTaskOverdue, isTaskNeededToBeReminded, isTaskUpcoming, isTodayBirthday, isTodayNextDayOfBirthday, compareTasksPriority, compareTasksDeadline, calculateTaskProductivity, getProductivityBarComments } from "../utilities/utilities.js";
-import AIBox from '../components/AIBox/AIBox.jsx';
-import BirthdayCard from '../components/Birthday/BirthdayCard.jsx';
-import ChatRoom from '../components/ChatRoom/ChatRoom.jsx';
-// import { wait } from '../utilities/ChatPageUtilities.js';
-import IntroElement from '../components/IntroElements/IntroElement.jsx';
+import { isTaskOverdue, isTaskNeededToBeReminded, isTaskUpcoming, isTodayBirthday, isTodayNextDayOfBirthday, compareTasksPriority, compareTasksDeadline, calculateTaskProductivity, getProductivityBarComments, startIntro, setHasFinishedIntroAtPage } from "../utilities/utilities.js";
+import AIBox from "../components/AIBox/AIBox.jsx";
+import BirthdayCard from "../components/Birthday/BirthdayCard.jsx";
+import ReminderRoom from "../components/ReminderRoom/ReminderRoom.jsx";
+// import { wait } from "../utilities/ChatPageUtilities.js";
+import IntroElement from "../components/IntroElements/IntroElement.jsx";
 
 /**
  * A React component that displays the home page and a brief layout of the current user tasks, including the navigation bar, 4 task boxes, and the modal to add or edit tasks.
@@ -24,7 +24,7 @@ const Home = () => {
      * The current token and setter function to update it.
      * @type {[string, function]}
      */
-    const [token, setToken] = tokenStatus
+    const [token, ] = tokenStatus
 
     /**
      * The current user data and setter function to update it.
@@ -43,18 +43,18 @@ const Home = () => {
      * @type {[boolean, function]}
      */
     const [activateIntro, setActivateIntro] = useState(false)
-
-    /**
-     * The initial state of activating the reminder and setter function to update it.
-     * @type {[boolean, function]}
-     */
-    const [activateReminder, setActivateReminder] = useState(false)
     
     /**
      * The initial state of activating the birthday modal and setter function to update it.
      * @type {[boolean, function]}
      */
     const [activateBirthday, setActivateBirthday] = useState(false)
+    
+    /**
+     * The name of the current page.
+     * @type {string}
+     */
+    const page = "Home"
 
     /**
      * The steps for the webpage intro.
@@ -62,37 +62,53 @@ const Home = () => {
      */
     const introSteps = () => [
         {
-            intro: 'Welcome to AssistantAI!',
+            intro: "Welcome to Assistant AI!",
         },
         {
-            element: '.homepageTaskContainer',
-            intro: 'These are your tasks.',
+            element: ".homepageTaskContainer",
+            intro: "These are your tasks.",
         },
         {
-            element: '.overdueAndRemindersBox',
+            element: ".overdueAndRemindersBox",
             intro: "Your overdued tasks will be shown here, as well as your reminders so you don't forget!",
         },
         {
-            element: '.upcomingAndPriorityBox',
+            element: ".upcomingAndPriorityBox",
             intro: "All of your upcoming tasks will be displayed here. I will also rank your tasks in terms of their priority so be sure to do them first!"
         },
         {
-            element: '.extraInfoTab',
-            intro: 'When you finish a task, you earn points! And your total points can be found here alongside your productivity report!',
+            element: ".extraInfoTab",
+            intro: "When you finish a task, you earn points! And your total points can be found here alongside your productivity report!",
         },
         {
-            element: '.addButtonBox',
-            intro: 'Feel free to use this button to add new tasks, or you can come talk to me personally for me to add them for you! hehe~',
+            element: ".addButtonBox",
+            intro: "Feel free to use this button to add new tasks, or you can come talk to me personally for me to add them for you! hehe~",
         },
         {
-            element: '.navBar',
-            intro: 'This is the navigation bar, where you can use to navigate to other pages!',
+            element: ".navBar",
+            intro: "This is the navigation bar, where you can use to navigate to other pages!",
         },
         {
-            element: '.AIBoxContainer',
-            intro: 'I will be here in case you need me, just click on me to talk! :)'
-        }
+            element: ".AIBoxContainer",
+            intro: "I will be here in case you need me, just click on me to talk! :)"
+        },
+        {
+            element: ".AIBoxContainer",
+            intro: "Let's head to the Chat Room first!"
+        },
     ]
+
+    /**
+     * @function useEffect
+     * @description Sets a time out which waits for a certain duration before automatically starting the intro if the user has not done the intro.
+     */
+    useEffect(() => {
+        startIntro(userData, setActivateIntro, page)
+    }, [userData])
+
+    useEffect(() => {
+        setHasFinishedIntroAtPage(page)
+    }, [])
 
     /**
      * Filters the uncompleted task and sort them by the deadline.
@@ -101,7 +117,7 @@ const Home = () => {
     const uncompletedTasks = tasks.filter(task => !task.completed).sort(compareTasksDeadline) || []
 
     /**
-     * The user's productivity
+     * The user"s productivity
      * @type {number}
      */
     const productivity = calculateTaskProductivity(tasks)
@@ -113,7 +129,7 @@ const Home = () => {
     const overduedTasks = uncompletedTasks.filter(each => isTaskOverdue(each))
 
     /**
-     * Array of tasks with reminders before or equals to current date and isn't overdue.
+     * Array of tasks with reminders before or equals to current date and isn"t overdue.
      * @type {Array<Object>}
      */
     const remindersTasks = uncompletedTasks.filter(each => isTaskNeededToBeReminded(each) && !isTaskOverdue(each))
@@ -136,7 +152,7 @@ const Home = () => {
      */
     useEffect(() => {
         if (token) {
-            localStorage.setItem('token', token);
+            localStorage.setItem("token", token);
             getUserInfo()
             getUserTasks()
         }
@@ -150,15 +166,15 @@ const Home = () => {
      */
     const getUserTasks = async () => {
         const dataToPost = {
-            method: 'GET',
+            method: "GET",
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             }
         };
 
         try {
-            const res = await fetch('http://localhost:5001/Tasks', dataToPost)
+            const res = await fetch("http://localhost:5001/Tasks", dataToPost)
             if (res.ok) {
                 console.log("TaskModals successfully retrieved")
             } else {
@@ -170,7 +186,7 @@ const Home = () => {
                 setTasks(data.tasks)
             }
         } catch (error) {
-            console.error('Failed to Fetch TaskModals!', error.message)
+            console.error("Failed to Fetch TaskModals!", error.message)
         }
     }
 
@@ -182,15 +198,15 @@ const Home = () => {
      */
     const getUserInfo = async () => {
         const dataToPost = {
-            method: 'GET',
+            method: "GET",
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             }
         };
 
         try {
-            const res = await fetch('http://localhost:5001/GetUserInfo', dataToPost)
+            const res = await fetch("http://localhost:5001/GetUserInfo", dataToPost)
             if (res.ok) {
                 console.log("UserInfo successfully retrieved")
             } else {
@@ -202,7 +218,7 @@ const Home = () => {
                 setUserData(data)
             }
         } catch (error) {
-            console.error('Failed to Fetch User Info!', error)
+            console.error("Failed to Fetch User Info!", error.message)
         }
     }
 
@@ -235,10 +251,10 @@ const Home = () => {
     })
 
     /**
-     * The current state of ChatRoomModal and setter function to update it.
+     * The current state of ReminderRoomModal and setter function to update it.
      * @type {[Object, function]}
      */
-    const [chatRoomModalOpen, setChatRoomModalOpen] = useState({
+    const [reminderRoomModalOpen, setReminderRoomModalOpen] = useState({
         isShown: false,
         data: {
             overduedTasks: overduedTasks,
@@ -277,14 +293,14 @@ const Home = () => {
         setBirthdayModalOpen({
             isShown: false,
         })
-        localStorage.setItem('birthdayShown', true)
+        localStorage.setItem("birthdayShown", true)
     }
 
     /**
      * Closes the Chat Room Modal.
      */
-    const closeChatRoomModal = () => {
-        setChatRoomModalOpen({
+    const closeReminderRoomModal = () => {
+        setReminderRoomModalOpen({
             isShown: false,
             data: {
                 overduedTasks: [],
@@ -344,7 +360,7 @@ const Home = () => {
     }
 
     /**
-     * Open modal when it's the user's birthday.
+     * Open modal when it"s the user"s birthday.
      */
     const handleBirthday = () => {
         setBirthdayModalOpen({
@@ -356,7 +372,7 @@ const Home = () => {
      * Open modal for daily reminder.
      */
     const handleDailyReminder = () => {
-        setChatRoomModalOpen({
+        setReminderRoomModalOpen({
             isShown: true,
             data: {
                 overduedTasks: overduedTasks,
@@ -367,27 +383,21 @@ const Home = () => {
         })
     }
 
-    useEffect(() => {
-        setTimeout(() => {
-            setActivateIntro(true)
-        }, 500)
-    }, [])
-
     /**
      * @function useEffect
      * @description Checks if birthdayShown exists in the local storage, sets it if not.
      */
     useEffect(() => {
-        const birthdayShownStored = localStorage.getItem('birthdayShown')
+        const birthdayShownStored = localStorage.getItem("birthdayShown")
 
         if (!birthdayShownStored) {
-            localStorage.setItem('birthdayShown', false)
+            localStorage.setItem("birthdayShown", false)
         }
     }, [])
 
     /**
      * @function useEffect
-     * @description Checks whether today is user's birthday and shows the birthday card if it is.
+     * @description Checks whether today is user"s birthday and shows the birthday card if it is.
      */
     useEffect(() => {
         const birthday = userData.dateOfBirth
@@ -395,7 +405,7 @@ const Home = () => {
             return
         }
 
-        const birthdayShown = JSON.parse(localStorage.getItem('birthdayShown'))
+        const birthdayShown = JSON.parse(localStorage.getItem("birthdayShown"))
         if (isTodayBirthday(birthday) && !birthdayShown && activateBirthday) {
             setTimeout(() => {
                 handleBirthday()
@@ -405,31 +415,31 @@ const Home = () => {
 
     /**
      * @function useEffect
-     * @description Resets birthdayShown state the next day after user's birthday.
+     * @description Resets birthdayShown state the next day after user"s birthday.
      */
     useEffect(() => {
         const birthday = userData.dateOfBirth
-        //const birthday = 'Thu Jul 03 2024 17:46:09 GMT+0800 (Malaysia Time)'
+        //const birthday = "Thu Jul 03 2024 17:46:09 GMT+0800 (Malaysia Time)"
         if (isTodayNextDayOfBirthday(birthday)) {
-            localStorage.setItem('birthdayShown', false)
+            localStorage.setItem("birthdayShown", false)
         }
     }, [])
 
     /**
      * @function useEffect
-     * @description Opens the Chat Room modal everyday for the daily reminder only when it's active so it does not clash with the intro.
+     * @description Opens the Chat Room modal everyday for the daily reminder only when it"s active so it does not clash with the intro.
      */
     useEffect(() => {
-        if (activateReminder) {
+        if (userData.hasDoneTutorial) {
             setTimeout(() => {
                 handleDailyReminder()
             }, 1000)
         }
-    }, [activateReminder])
+    }, [userData])
 
     return (
         <>
-        <IntroElement steps={introSteps()} activate={activateIntro} setActivate={setActivateIntro} setActivateReminder={setActivateReminder}/>
+        <IntroElement steps={introSteps()} activate={activateIntro} setActivate={setActivateIntro} hasDoneTutorial={userData.hasDoneTutorial} endIntro={false} page={page} />
         <NavBar />
         <div className="homepageContainer">
             {!token ? (
@@ -457,7 +467,7 @@ const Home = () => {
             )}
             <div className="homepageTaskContainer homepageChildDiv">
                 <div className="overdueAndRemindersBox">
-                    <TasksBox id="overdueBox" key="Overdued" title="Overdued" className='overdueBox' tasks={tasks} tasksToShow={overduedTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
+                    <TasksBox id="overdueBox" key="Overdued" title="Overdued" className="overdueBox" tasks={tasks} tasksToShow={overduedTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
                     <TasksBox id="reminderBox" key="Reminders" title="Reminders" tasks={tasks} tasksToShow={remindersTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask} />
                 </div>
                 <div className="upcomingAndPriorityBox">
@@ -524,19 +534,19 @@ const Home = () => {
             </Modal>
             
             <Modal
-                isOpen = {chatRoomModalOpen.isShown}
-                onRequestClose={closeChatRoomModal}
+                isOpen = {reminderRoomModalOpen.isShown}
+                onRequestClose={closeReminderRoomModal}
                 style={{
                     overlay: {
                         backgroundColor: "rgba(0, 0, 0, 0.2)"
                     }
                 }}
-                className="ChatRoomModal"
+                className="reminderRoomModal"
             >
 
-                <ChatRoom 
-                    closeChatRoomModal={closeChatRoomModal} 
-                    taskData={chatRoomModalOpen.data}
+                <ReminderRoom 
+                    closeReminderRoomModal={closeReminderRoomModal} 
+                    taskData={reminderRoomModalOpen.data}
                     setActivateBirthday={setActivateBirthday}
                 />
             </Modal>

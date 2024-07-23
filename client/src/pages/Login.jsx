@@ -1,11 +1,10 @@
-import {React, useState, ReactNode} from 'react'
+import { React, useState, ReactNode } from "react";
 import NavBar from "../components/NavBar/NavBar.jsx";
-import {Link, useNavigate} from "react-router-dom";
-import '../index.css'
-import CryptoJS from 'crypto-js';
+import { Link, useNavigate } from "react-router-dom";
+import "../index.css";
+import CryptoJS from "crypto-js";
 import RenderError from "../components/RenderError/RenderError";
-import {useTokenContext} from "../components/TokenContext/TokenContext";
-import {parseToken} from "../utilities/utilities.js";
+import { useTokenContext } from "../components/TokenContext/TokenContext";
 
 
 /**
@@ -30,7 +29,7 @@ const Login = () => {
      * The error faced by the current user while logging in and setter function to update it.
      * @type {[string, function]}
      */
-    const [error, setError] = useState('')
+    const [error, setError] = useState("")
     const {tokenStatus, userInfo} = useTokenContext()
 
     /**
@@ -39,19 +38,13 @@ const Login = () => {
      */
     const [token, setToken] = tokenStatus
 
-    /**
-     * The current user data and setter function to update it.
-     * @type {[Object, function]}
-     */
-    const [userData, setUserData] = userInfo
-
     const navigate = useNavigate()
 
     /**
      * Sends User to the Home Page.
      */
     function sendToHomePage() {
-        navigate('/')
+        navigate("/")
     }
 
     /**
@@ -59,10 +52,10 @@ const Login = () => {
      * @param {string} error Error faced by the current user while logging in.
      */
     function handleFailedLogin(error) {
-        if (error == 'Invalid Credentials') {
-            setUsername('')
-            setPassword('')
-            setError('InvalidCreds')
+        if (error == "Invalid Credentials") {
+            setUsername("")
+            setPassword("")
+            setError("InvalidCreds")
         }
     }
 
@@ -76,14 +69,14 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault()
 
-        if(username == '') {
-            setError('UsernameError')
-            return;
+        if(username == "") {
+            setError("UsernameError")
+            return
         }
 
-        if(password == '') {
-            setError('EmptyPW')
-            return;
+        if(password == "") {
+            setError("EmptyPW")
+            return
         }
 
         setError("")
@@ -92,50 +85,47 @@ const Login = () => {
          * Hashing the user password using the SHA512 hashing algorithm from CryptoJS.
          * @type {string}
          */
-        var hashedPW = CryptoJS.SHA512(password).toString();
+        var hashedPW = CryptoJS.SHA512(password).toString()
 
         /**
          * The updated user data including the hashed password.
          * @type {Object}
          */
-        const updatedData = {username, password: hashedPW};
+        const updatedData = {username, password: hashedPW}
 
         /**
          * Data to POST to the back-end to verify user credentials.
          * @type {Object}
          */
         const dataToPost = {
-            method: 'POST',
+            method: "POST",
             body: JSON.stringify(updatedData),
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json"
             }
-        };
+        }
 
-        fetch('http://localhost:5001/Login', dataToPost)
+        fetch("http://localhost:5001/Login", dataToPost)
             .then(res => {
                 if (res.ok) {
-                    console.log('Login Successful!');
+                    console.log("Login Successful!")
                     return res.json()
                 } else {
-                    res.text().then(text => handleFailedLogin(text));
+                    res.text().then(text => handleFailedLogin(text))
                 }
             })
             .then(tokenResponse => {
                 if (tokenResponse) {
                     console.log(tokenResponse);
                     const token = tokenResponse.token
-                    localStorage.setItem('token', token);
+                    localStorage.setItem("token", token)
                     setToken(token)
-                    console.log(token)
-                    const tokenData = parseToken(token)
-                    setUserData({username: tokenData[0], userId: tokenData[1]})
-                    sendToHomePage();
+                    sendToHomePage()
                 }
             })
             .catch(error => {
-                console.error('Login failed:', error);
-            });
+                console.error("Login failed:", error)
+            })
     }
 
     return (
@@ -177,4 +167,4 @@ const Login = () => {
     )
 }
 
-export default Login;
+export default Login
