@@ -450,6 +450,8 @@ export const addDays = (date, days) => {
 /**
  * Starts the intro if userData.username has been returned and the user has not done the tutorial.
  * @param {Object} userData The user data.
+ * @param {function} setActivateIntro Setter function to activate the intro.
+ * @param {string} page The page name.
  */
 export const startIntro = (userData, setActivateIntro, page) => {
     /**

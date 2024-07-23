@@ -306,7 +306,7 @@ const Profile = () => {
     return (
         <>
             <NavBar/>
-            <IntroElement steps={introSteps()} activate={activateIntro} setActivate={setActivateIntro} hasDoneTutorial={userData.hasDoneTutorial} endIntro={true} page={page} />
+            <IntroElement steps={introSteps} activate={activateIntro} setActivate={setActivateIntro} hasDoneTutorial={userData.hasDoneTutorial} endIntro={true} page={page} />
             <div className="profileContainer">
                 <div className="profileInnerBox">
                     <div className="userProfileBox">

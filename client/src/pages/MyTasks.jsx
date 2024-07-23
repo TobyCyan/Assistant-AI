@@ -366,7 +366,7 @@ function MyTasks() {
     return (
         <>
             <NavBar/>
-            <IntroElement steps={introSteps()} activate={activateIntro} setActivate={setActivateIntro} hasDoneTutorial={userData.hasDoneTutorial} endIntro={false} page={page} />
+            <IntroElement steps={introSteps} activate={activateIntro} setActivate={setActivateIntro} hasDoneTutorial={userData.hasDoneTutorial} endIntro={false} page={page} />
             <div className="tasksPageContainer">
                 <div className="tasksSidebar">
                     <button className="addTaskBtn" onClick={handleAddTask}>Add Task</button>
