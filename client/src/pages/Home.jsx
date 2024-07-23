@@ -96,9 +96,14 @@ const Home = () => {
 
     /**
      * Filters the uncompleted task and sort them by the deadline.
-     * @type {Array<Object>} The list of uncompleted tasks sorted by deadline.
+     * @type {Array<Object>}
      */
     const uncompletedTasks = tasks.filter(task => !task.completed).sort(compareTasksDeadline) || []
+
+    /**
+     * The user's productivity
+     * @type {number}
+     */
     const productivity = calculateTaskProductivity(tasks)
 
     /** 

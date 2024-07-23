@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, ReactNode } from "react";
 import NavBar from "../components/NavBar/NavBar.jsx";
 import { useTokenContext } from "../components/TokenContext/TokenContext";
 import getCurrentPositionWeather from "../../../ChatBot/static/API Calls/weather";
-import { getDDMM, randomItem, compareTasksPriority, randIntervalGenerator, getRandomVoiceLine } from "../utilities/utilities.js";
+import { getDDMM, randomItem, compareTasksPriority, randIntervalGenerator, getRandomVoiceLine, calculateTaskProductivity, getProductivityBarComments } from "../utilities/utilities.js";
 import ChatBotResponseElement from "../components/MessageElement/ChatBotResponseElement.jsx";
 import UserMessageElement from "../components/MessageElement/UserMessageElement.jsx";
 import { dateAfterToday, reminderBeforeDeadline, wait, removeSpaces } from "../utilities/ChatPageUtilities.js";
@@ -49,6 +49,12 @@ const ChatPage = () => {
 
     const minInterval = 6000
     const maxInterval = 10000
+
+    /**
+     * The user's productivity
+     * @type {number}
+     */
+    const productivity = calculateTaskProductivity(tasks)
 
     /**
      * Array of voice lines that can be said by the Assistant at the home page.
@@ -179,7 +185,7 @@ const ChatPage = () => {
     /**
      * Gets a string of the task information.
      * @param {Object} task The task.
-     * @param {Number} index The index number.
+     * @param {number} index The index number.
      * @returns {String} A string that shows information of the given task object.
      */
     const taskInfoString = (task, index) => `${(index + 1)}. ${task.title}, ${task.category}, ${getDDMM(task.deadline)}, ${task.priority}`
@@ -198,9 +204,14 @@ const ChatPage = () => {
      */
     const priorityTasks = uncompletedTasks.sort(compareTasksPriority)
 
+    /**
+     * Array of string that shows the index, title, cateogry and deadline of the tasks sorted from high to low priority.
+     * @type {Array<string>}
+     */
     const priorityTasksList = priorityTasks.map((task, index) => {
         return taskInfoString(task, index)
     })
+
     /**
      * @function useEffect
      * @description Get User Info and User TaskModals if there is token.
@@ -321,7 +332,7 @@ const ChatPage = () => {
     /**
      * DELETE Request to delete Task.
      * @async
-     * @param {Number} taskId The task ID to post.
+     * @param {number} taskId The task ID to post.
      * @returns {Promise<void>} A promise that deletes a task.
      * @throws {Error} Throws an error if deleting task fails.
      */
@@ -469,16 +480,18 @@ const ChatPage = () => {
      */
     const handleResponseType = async (responseType, apiKey) => {
         const obtainingTaskText = "Obtaining all of your tasks..."
-        const showTaskListText = `Please enter the index number of the task to ${responseType == "DeleteTask" ? "delete" : "edit"} it (which means ${taskList.length == 1 ? 1 : `1 - ${taskList.length}`})!`
+        const showTaskListText = `Please enter the index number of the task to ${responseType == "DeleteTask" ? "delete" : "edit"} it (which means ${tasks.length == 1 ? 1 : `1 - ${tasks.length}`})!`
         const quitInstructionText = `Please say either of ${quitInputsString} to quit input mode!`
         const backInstructionText = `You can also say ${backInputsString} to go back to the previous field if you ever change your mind!`
         const titleInputText = "Please enter the information of your new task~"
         const readyText = ["All set!", "Ready!", "Here they are!"]
+        const emptyTaskListResponse = () => ["Strange... I don't have anything to show right now.", "Hmm... My list is empty, why don't you try adding a task first?", "It seems that you have no tasks at hand, do you wanna maybe start adding one?", "Oops! It seems like I have nothing on my list for you. Perhaps you can tell me to 'Add Task' instead?"]
         const addTaskResponseFlow = () => [quitInstructionText, backInstructionText, randomItem(readyText), titleInputText, <AddEditTaskMessageElement applyConfirmation={applyConfirmation} taskToEdit={null} />]
-        const editTaskResponseFlow = () => [quitInstructionText, backInstructionText, obtainingTaskText, randomItem(readyText), showTaskListText, <ListMessageElement list={taskList} />]
-        const deleteTaskResponseFlow = () => [obtainingTaskText, randomItem(readyText), showTaskListText, <ListMessageElement list={taskList} />]
-        const allTasksResponseFlow = () => [obtainingTaskText, <ListMessageElement list={taskList} />]
-        const priorityTaskResponseFlow = () => [randomItem(readyText), <ListMessageElement list={priorityTasksList} />, `I would recommend you to start with the top prioritised task: ${taskInfoString(priorityTasks[0], 0)}`]
+        const editTaskResponseFlow = () => tasks.length > 0 ? [quitInstructionText, backInstructionText, obtainingTaskText, randomItem(readyText), showTaskListText, <ListMessageElement list={tasks} />] : [randomItem(emptyTaskListResponse())]
+        const deleteTaskResponseFlow = () => tasks.length > 0 ? [obtainingTaskText, randomItem(readyText), showTaskListText, <ListMessageElement list={tasks} />] : [randomItem(emptyTaskListResponse())]
+        const allTasksResponseFlow = () => tasks.length > 0 ? [obtainingTaskText, <ListMessageElement list={tasks} />] : [randomItem(emptyTaskListResponse())]
+        const priorityTaskResponseFlow = () => priorityTasksList.length > 0 ? [randomItem(readyText), <ListMessageElement list={priorityTasksList} />, `I would recommend you to start with the top prioritised task: ${taskInfoString(priorityTasks[0], 0)}`] : [randomItem(emptyTaskListResponse())]
+        const productivityReportResponseFlow = () => [`Your current productivity is at ${productivity}.`, `${getProductivityBarComments(productivity)}`]
 
         switch (responseType) {
             case "Weather":
@@ -521,7 +534,14 @@ const ChatPage = () => {
                     await addNewChatBotResponse(text)
                 }
                 break
+            
+            case "ProductivityReport":
+                for (const text of productivityReportResponseFlow()) {
+                    await addNewChatBotResponse(text)
+                }
+                break
         }
+        
         await wait(1000)
         setIsTexting(false)
         return
@@ -623,7 +643,7 @@ const ChatPage = () => {
      * Once in input mode, all user inputs are redirected here to set the inputs for editing an existing task.
      * @async
      * @param {string} input The user input.
-     * @param {Number} index The current index that indicates the flow stage.
+     * @param {number} index The current index that indicates the flow stage.
      * @returns {void}
      */
     const redirectInputToEditTask = async (input, index) => {
@@ -737,19 +757,12 @@ const ChatPage = () => {
 
         const generalConfirmationText = [`Please enter ${confirmInputsString} to proceed.`, ` Or enter ${unconfirmInputsString} to leave.`]
         switch (inputType) {
-            case "AddTask":
-                break
-
-            case "EditTask":
-                break
-
             case "DeleteTask":
                 const taskIndex = input - 1
                 const deleteTaskConfirmationText = `Task ${taskList[taskIndex]} will be deleted.`
                 await addNewChatBotResponse(deleteTaskConfirmationText)
                 await addNewChatBotResponse(generalConfirmationText)
                 break
-
         }
         setIsTexting(false)
         setTakingInput(false)

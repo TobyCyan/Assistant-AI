@@ -67,7 +67,7 @@ def prepare_training_input_and_output():
     input_words = stem_tokenized_list(input_words)
     input_words = sorted(list(set(input_words)))
 
-    print('inputWords: ' + str(input_words))
+    # print('inputWords: ' + str(input_words))
 
     training = []
     output = []
@@ -78,11 +78,11 @@ def prepare_training_input_and_output():
 
         pattern = set(stem_tokenized_list(tokenizedPattern))
 
-        print('pattern: ' + str(pattern))
+        # print('pattern: ' + str(pattern))
         for word in input_words:
             if word in pattern:
                 bag.append(1)
-                print(word)
+                # print(word)
             else:
                 bag.append(0)
         
@@ -131,9 +131,9 @@ def load_model(model_name: str, training_data, output_data):
     model = tfl.DNN(network=network)
 
     try:
-        print('Loading Model...')
+        # print('Loading Model...')
         model.load(model_file=model_name)
-        print('Model Loaded: ' + model_name)
+        # print('Model Loaded: ' + model_name)
         return model
     
     except Exception as e:
@@ -173,7 +173,7 @@ def predict_behavior_type_from_prompt(prompt, model):
 @app.route('/startchat', methods=['POST'])
 def start_chat():
     data = request.get_json()
-    print(data)
+    # print(data)
     chatText = data['input']
     model_name = data['model']
 
