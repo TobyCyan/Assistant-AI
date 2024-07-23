@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import RenderError from "../RenderError/RenderError.jsx";
 import {useTokenContext} from "../TokenContext/TokenContext.jsx";
-import {getTodayYYYYMMDD} from "../../utilities/utilities.js";
+import {getTodayYYYYMMDD, addDays} from "../../utilities/utilities.js";
 
 const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
     const {tokenStatus} = useTokenContext()
@@ -63,7 +63,14 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
      * @throws {Error} Throws an error if adding task fails.
      */
     const addNewRecurringTask = async () => {
-        const today = new Date(getTodayYYYYMMDD())
+        const parsedInterval = parseInt(interval, 10)
+        const creationToDeadline = parseInt(creationDays, 10)
+        const reminderToDeadline = parseInt(reminderDays, 10)
+
+        const deadlineDate = new Date(deadline)
+        const nextCreation = addDays(deadlineDate, -1 * creationToDeadline)
+
+        console.log(nextCreation)
 
         // console.log(reminderTime)
         const newTask = {
@@ -72,11 +79,11 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
             category,
             deadline,
             priority,
-            interval: parseInt(interval, 10),
-            creationToDeadline: parseInt(creationDays, 10),
-            reminderToDeadline: parseInt(reminderDays, 10),
+            interval: parsedInterval,
+            creationToDeadline,
+            reminderToDeadline,
             lastCreated: null,
-            nextCreation: today,
+            nextCreation,
         }
 
         /**
@@ -118,8 +125,28 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
             })
     }
 
+    /*
+        Logic:
+        It will just create the next task also
+        1. Interval change - just update interval
+        2. Deadline change - just update deadline
+        3. CreationToDeadline - just update
+        4. ReminderToDeadline - just update
+        5. nextCreation will be today and from there ->
+
+        Error Handling
+        1. Interval cannot be <= 0
+        2. ReminderToDeadline cannot be > Creation
+        3. Deadline cannot be backdated
+     */
+
     const editNewRecurringTask = async () => {
-        const today = new Date(getTodayYYYYMMDD())
+        const parsedInterval = parseInt(interval, 10)
+        const creationToDeadline = parseInt(creationDays, 10)
+        const reminderToDeadline = parseInt(reminderDays, 10)
+
+        const deadlineDate = new Date(deadline)
+        const nextCreation = addDays(deadlineDate, -1 * creationToDeadline)
 
         // console.log(reminderTime)
         const editedTask = {
@@ -129,10 +156,10 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
             category,
             deadline,
             priority,
-            interval: parseInt(interval, 10),
-            creationToDeadline: parseInt(creationDays, 10),
-            reminderToDeadline: parseInt(reminderDays, 10),
-            nextCreation: recurringTask.nextCreation,
+            interval: parsedInterval,
+            creationToDeadline,
+            reminderToDeadline,
+            nextCreation,
         }
 
         /**
@@ -151,10 +178,10 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
         fetch('http://localhost:5001/EditRecTask', dataToPost)
             .then(res => {
                 if (res.ok) {
-                    console.log('Task Successfully Added!')
+                    console.log('Task Successfully Edited!')
                     return res.json()
                 } else {
-                    console.error(err => 'Add Task Failed!', err)
+                    console.error(err => 'Edit Task Failed!', err)
                 }
             })
             .then(task => {
@@ -170,7 +197,7 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
                 onClose()
             })
             .catch(err => {
-                console.error('Error Adding Task: ', err.message)
+                console.error('Error Editing Task: ', err.message)
             })
     }
 

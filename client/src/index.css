@@ -1,6 +1,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+/* Define Grosen Light */
+@font-face {
+  font-family: 'Grosen';
+  src: url('./assets/fonts/Fontspring-DEMO-grosen-light.otf') format('opentype');
+  font-weight: 300; /* Light weight */
+  font-style: normal;
+}
+
+/* Define Grosen Normal */
+@font-face {
+  font-family: 'Grosen';
+  src: url('./assets/fonts/Fontspring-DEMO-grosen.otf') format('opentype');
+  font-weight: 400; /* Normal weight */
+  font-style: normal;
+}
+
+/* Define Grosen Heavy */
+@font-face {
+  font-family: 'Grosen';
+  src: url('./assets/fonts/Fontspring-DEMO-grosen-heavy.otf') format('opentype');
+  font-weight: 700; /* Heavy weight */
+  font-style: normal;
+}
 
 body {
   margin: 0 auto;
@@ -19,6 +44,8 @@ code {
 
 button {
   cursor: pointer;
+  font-family: 'Raleway';
+  font-weight: 600;
 }
 
 .introToolTip {
@@ -81,7 +108,8 @@ button {
 .signUpButton {
   text-decoration: none;
   margin: 0.5rem;
-  color: black;
+  color: #007bff;
+  text-decoration: underline;
 }
 
 .userInfo {
@@ -116,7 +144,7 @@ button {
   margin-bottom: 1.75rem;
 }
 
-.usernameInput, .passwordInput {
+.usernameInput, .passwordInput, .emailInput {
   width: 80%;
   font-size: 0.875rem;
   background-color: transparent;
@@ -179,10 +207,13 @@ button {
 }
 
 .homepageContainer {
+  background-color: #ADD8E6;
+  /*
   background: url(./AppImages/Classroom_Bg.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  */
   height: 91vh;
   width: 100%;
 
@@ -190,6 +221,7 @@ button {
   display: flex;
   /* border: 2px solid yellow; */
   justify-content: space-between;
+  align-items: center;
   overflow: hidden;
   image-rendering: -webkit-optimize-contrast;
 }
@@ -199,8 +231,8 @@ button {
   display: flex;
   justify-content: space-around;
   height: 95%;
+  width: 50%;
   min-width: 500px;
-  max-width: 900px;
   padding: 0.5rem;
   cursor: default;
   /* border: 3px solid red; */
@@ -208,15 +240,15 @@ button {
 }
 
 .extraInfoTab {
-  border: 6px solid rgb(63, 23, 23);
-  width: 300px;
-  height: 800px;
+  /*border: 6px solid rgb(63, 23, 23);*/
+  max-width: 300px;
   float: left;
-  background-image: url(./AppImages/Cream_Bg.jpg);
-}
-
-.addButtonBox {
-  border: 2px solid transparent;
+  width: 15%;
+  /*background-image: url(./AppImages/Cream_Bg.jpg);
+   */
+  /* background: #D8E6AD; */
+  background: #FFFACD;
+  height: 100%;
 }
 
 .homepageChildDiv {
@@ -225,7 +257,8 @@ button {
 
 .AIBoxContainer {
   /* border: 3px solid green; */
-  width: 500px;
+  width: 30%;
+  max-width: 500px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -384,15 +417,18 @@ button {
 }
 
 .tasksContainer {
-  background-color: #f0f0f0;
-  max-width: 100%;
-  width: 370px;
+  background-color: #ffffff;
+  width: 90%;
+  max-width: 600px;
   height: 150px;
   color: black;
   padding: 0rem;
   margin: 5px 0px;
+  /*
   border: 3px solid #000000;
   box-shadow: 3px 3px grey;
+  */
+  border-radius: 15px;
   gap: 0;
   display: flex;
   flex-direction: column;
@@ -438,6 +474,13 @@ button {
 .taskTitle {
   margin: 0;
   font-weight: bold;
+  display: flex;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.titleSpan {
+  margin-right: 2px;
 }
 
 .taskPriorityAndCategory {
@@ -452,7 +495,6 @@ button {
 
 .taskActions {
   display:flex;
-  align-items: stretch;
 }
 
 ul li {
@@ -461,13 +503,14 @@ ul li {
 
 .tasksBox ul li {
   min-height: 30px;
-  margin: 1px 0px;
+  margin: 5px 0px;
   padding: 2px;
   background-color: #f0f0f0;
   border-radius: 4px;
-  border: 1px solid #000;
   display: flex;
   align-items: center;
+  border: 2px solid black;
+  box-shadow: 2px 2px grey;
 }
 
 ul {
@@ -509,7 +552,8 @@ ul {
 
 .tasksSidebar {
   width: 15%;
-  background-color: #f4f4f4;
+  /*background-image: url(./AppImages/Cream_Bg.jpg);*/
+  background: #FFFACD;
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   overflow-y: hidden;
@@ -533,21 +577,23 @@ ul {
 }
 
 .tasksSidebar ul li:hover {
-  background-color: #ddd;
+  background-color: #EEDFA5;
 }
 
 .detailedTasksContainer {
+  /*
   background-image: url(./AppImages/Blackboard.jpg);
   background-position: center -200px;
   background-repeat: no-repeat;
   background-size: auto;
+  */
 }
 
 .detailedTasksContainer {
   padding: 16px;
   overflow: hidden;
   flex: 1;
-  background-color: #f0f0f0;
+  background-color: #ADD8E6;
   width: 90%;
   color: black;
   padding: 0rem;
@@ -583,13 +629,14 @@ ul {
   background-color: #fff;
   min-width: 250px;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: 10px;
   margin: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  border: 3px solid black;
+  box-shadow: 3px 3px grey;
 }
 
 .taskCardHeader{
@@ -623,12 +670,14 @@ ul {
 
 .taskCardDeleteBtn {
   border: none;
-  padding: 8px 12px;
   border-radius: 4px;
   cursor: pointer;
   flex-grow: 0;
   flex-shrink: 0;
-  margin-left: 3px;
+  margin-left: 5px;
+  font-size: 24px;
+  padding: 0px;
+  background: none;
 }
 
 .taskCardSecondHeader {
@@ -674,19 +723,30 @@ ul {
 
 .taskCardEditBtn, .taskCardCompleteBtn {
   border: none;
-  padding: 8px 12px;
+  padding: 0px 0px;
   border-radius: 4px;
   cursor: pointer;
+  background: none;
 }
 
-.addTaskBtn {
+.editIcon {
+  margin-right: 3px;
+}
+
+.editBtn {
+  padding: 0px 0px;
+}
+
+.addTaskBtn, .addRecurringTaskBtn {
   padding: 8px 12px;
   border-radius: 4px;
+  border: 2px solid black;
+  box-shadow: 2px 2px grey;
   cursor: pointer;
   position: relative;
 }
 
-.addTaskBtn::before {
+.addTaskBtn::before, .addRecurringTaskBtn::before {
   content: '+';
   margin-right: 5px;
   font-size: 16px;
@@ -728,20 +788,25 @@ ul {
 #category-list {
   overflow-y: auto;
   max-height: 90%;
+  font-weight: bold;
 }
 
 .taskEditButton, .taskCrossButton, .taskTickButton {
   min-height: 80%;
+  padding: 0px;
+  font-size: 14px;
+  margin: 0px 3px;
+  border: none;
 }
 
 .taskCrossButton::before {
   content: "\00D7";
-  font-size: 18px;
+  font-size: 24px;
 }
 
 .taskTickButton::before {
   content: "\2713";
-  font-size: 14px;
+  font-size: 18px;
 }
 
 .productivityBar {
@@ -750,6 +815,7 @@ ul {
   background-color: #f0f0f0;
   border-radius: 4px;
   overflow: hidden;
+  border: 1.5px solid black;
 }
 
 .productivity {
@@ -789,12 +855,12 @@ ul {
 }
 
 .addButtonBox {
-  /* border: 1px dotted #000; */
-  height: 8%;
+  height: 10%;
   width: 90%;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .userDisplayBox {
@@ -893,7 +959,7 @@ ul {
 
 .chatpageContainer {
   background-color: #010c3d;
-  height: 92vh;
+  height: 91vh;
   width: 100%;
   overflow: hidden;
   position: relative;
@@ -1271,6 +1337,7 @@ ul {
   align-items: center;
   height: 91vh; /* Full height of the viewport */
   width: 100%;
+  background: #ADD8E6;
 }
 
 .profileInnerBox {
@@ -1480,13 +1547,13 @@ ul {
   display: flex;           /* Enables Flexbox layout */
   justify-content: center; /* Centers the items horizontally */
   box-sizing: border-box;  /* Ensures padding and border are included in the width */
+  background: #ADD8E6;
 }
 
 .recurringTasksTable {
   display: grid;
   /*grid-template-columns: repeat(11, 1fr); */
-  grid-template-columns: 3fr 1.5fr 1fr 1fr 1fr 1fr 1fr 0.5fr 0.5fr 1fr;
-  gap: 5px;
+  grid-template-columns: 3fr 1.5fr 0.5fr 1fr 1fr 1fr 1fr 0.5fr 0.5fr 0.5fr;
   width: 100%;
   border-radius: 20px;
   background: white;
@@ -1508,14 +1575,20 @@ ul {
   display: flex;
   justify-content: center;
   align-items: center;
+  border-left: 1.5px solid black;
+  border-right: 1.5px solid black;
+  border-top: 3px solid black;
+  border-bottom: 3px solid black;
 }
 
 .recTableHeader .recTableTitle {
   border-top-left-radius: 20px;
+  border-left: 3px solid black;
 }
 
 .recTableHeader .recTableActions {
   border-top-right-radius: 20px;
+  border-right: 3px solid black;
 }
 
 .recTableBody {
@@ -1527,7 +1600,7 @@ ul {
 }
 
 .recTableRow .recTableColumn {
-  padding: 10px;
+  padding: 5px;
   border-bottom: 1px solid #ccc;
   text-align: center;
   word-wrap: break-word;
@@ -1544,25 +1617,21 @@ ul {
 
 .recTableActions button {
   border: none;
-  padding: 8px 12px;
   border-radius: 4px;
   cursor: pointer;
   flex-grow: 0;
   flex-shrink: 0;
-}
-
-.recTaskDeleteButton {
-  padding: 0px !important;
-}
-
-.recTaskDeleteButton:before {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background: none;
-  border: none;
-  content: "\00D7"; /* Unicode for a cross symbol */
-  font-size: 24px; /* Adjust size of the cross */
+}
+
+.recTableActions .editIcon {
+  font-size: 18px;
+}
+
+.recTableActions .recTaskDeleteButton {
+  padding: 0px !important;
+  margin-left: 0.25rem;
+  font-size: 24px;
 }
 
 /*

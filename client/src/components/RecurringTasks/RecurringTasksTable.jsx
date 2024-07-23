@@ -12,8 +12,8 @@ const RecurringTasksTable = ({ recurringTasks, onEdit, onDelete }) => {
                 <div className="recTableColumn">Last Deadline</div>
                 <div className="recTableColumn">Next Creation</div>
                 <div className="recTableColumn">Next Deadline</div>
-                <div className="recTableColumn">Intervals</div>
-                <div className="recTableColumn">Reminder Before Deadline</div>
+                <div className="recTableColumn">Interval</div>
+                <div className="recTableColumn">Reminder</div>
                 <div className="recTableColumn recTableActions">Actions</div>
             </div>
             <div className="recTableBody">

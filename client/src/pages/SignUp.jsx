@@ -1,5 +1,5 @@
 import React, { useState, ReactNode } from 'react'
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import NavBar from "../components/NavBar/NavBar.jsx";
 import CryptoJS from 'crypto-js';
 import '../index.css'
@@ -39,6 +39,7 @@ function SignUp() {
      */
     const [userData, setUserData] = useState({
         username: '',
+        //email: '',
         password: '',
         dateOfBirth: ''
     })
@@ -63,6 +64,17 @@ function SignUp() {
               return { ...prevState, username: newName };
             });
       };
+
+    /**
+     * Update userData with the new email.
+     * @param {string} newEmail Email in the input field.
+     * @returns {function} Function that updates the email in the userData object.
+     */
+    const handleEmailChange = (newEmail) => {
+        return setUserData((prevState) => {
+            return { ...prevState, email: newEmail };
+        });
+    };
 
     /**
      * Update userData with the new password.
@@ -262,6 +274,17 @@ function SignUp() {
         }
     }
 
+    /* To insert email
+                            <div className="signUpBox">
+                            <input type='text'
+                                   placeholder="Email"
+                                   value={userData.email}
+                                   className="emailInput"
+                                   onChange={(e) => handleEmailChange(e.target.value)}
+                            />
+                        </div>
+     */
+
     return (
         <>
         <div>
@@ -315,6 +338,11 @@ function SignUp() {
                         <button type='submit' className="primary-btn">
                             Sign Up
                         </button>
+
+                        <div className="signUpContainer">
+                            <span className="signUpPrompt">Already have an account?</span>
+                            <Link to="/login" className="signUpButton">Log In</Link>
+                        </div>
                     </form>
                 </div>
             </div>

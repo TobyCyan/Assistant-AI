@@ -1,5 +1,7 @@
 import React from 'react';
 import { addDays, getDDMM } from "../../utilities/utilities.js";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faEdit, faTimes} from "@fortawesome/free-solid-svg-icons";
 
 function RecurringTasks({recurringTask, onEdit, onDelete}) {
     const{lastCreated, creationToDeadline, interval, reminderToDeadline} = recurringTask
@@ -21,8 +23,12 @@ function RecurringTasks({recurringTask, onEdit, onDelete}) {
             <div className="recTableColumn">{interval}</div>
             <div className="recTableColumn">{reminderToDeadline}</div>
             <div className="recTableColumn recTableActions">
-                <button onClick={onEdit}>Edit</button>
-                <button className="recTaskDeleteButton" onClick={onDelete}></button>
+                <button onClick={onEdit} className="editBtn">
+                    <FontAwesomeIcon icon={faEdit} className="editIcon"/>
+                </button>
+                <button className="recTaskDeleteButton" onClick={onDelete}>
+                    <FontAwesomeIcon icon={faTimes}/>
+                </button>
             </div>
         </div>
     );

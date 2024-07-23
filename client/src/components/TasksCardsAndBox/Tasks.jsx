@@ -1,6 +1,8 @@
 import React, {ReactNode} from 'react';
 import '../../index.css';
 import {getDDMM} from "../../utilities/utilities.js";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 
 /**
@@ -23,7 +25,7 @@ const Tasks = ({taskId, title, deadline, priority, category, onEdit, onComplete,
                 <div className="taskInnerBox">
                     <div className="titleAndPriorityBox">
                         <div className="taskTitle">
-                            <span style={{fontWeight: 'bold'}}>{getDDMM(deadline)}</span> {title}
+                            <span style={{fontWeight: 'bold'}} className="titleSpan">{getDDMM(deadline)}</span> {title}
                         </div>
                         <div className="taskPriorityAndCategory">
                             {priority} | {category}
@@ -31,9 +33,11 @@ const Tasks = ({taskId, title, deadline, priority, category, onEdit, onComplete,
                     </div>
 
                     <div className="taskActions">
-                        <button onClick={onEdit} className="taskEditButton">Edit</button>
-                        <button onClick={onDelete} className="taskCrossButton"></button>
+                        <button onClick={onEdit} className="taskEditButton">
+                            <FontAwesomeIcon icon={faEdit}/>
+                        </button>
                         <button onClick={onComplete} className="taskTickButton"></button>
+                        <button onClick={onDelete} className="taskCrossButton"></button>
                     </div>
                 </div>
             </div>

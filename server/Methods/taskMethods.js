@@ -102,6 +102,8 @@ const editTask = async (req, res) => {
         // Sends the Edited Task as a Response to be Added into the Task List.
         res.status(200).send({updateFields})
         console.log(`${editTask[0]} task edited!`)
+    } else {
+        res.status(400).send('Failed to edit task')
     }
 }
 

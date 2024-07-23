@@ -38,7 +38,7 @@ const DeleteRecurringTask = ({recurringTask, onClose, getAllTasks}) => {
         };
 
         try {
-            const res = await fetch('http://localhost:5001/DeleteTask', dataToPost)
+            const res = await fetch('http://localhost:5001/DeleteRecTask', dataToPost)
             if(res) {
                 console.log("Task successfully deleted")
                 const data = await res.json()
