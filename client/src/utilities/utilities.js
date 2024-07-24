@@ -477,3 +477,12 @@ export const setHasFinishedIntroAtPage = (page) => {
         localStorage.setItem(`finishedIntroAt${page}`, false)
     }
 }
+
+/**
+ * Returns boolean if email is valid
+ * @param {string} email The email.
+ */
+export const checkValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}

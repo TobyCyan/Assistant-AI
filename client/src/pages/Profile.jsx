@@ -1,17 +1,20 @@
 import React, { useEffect } from 'react';
 import NavBar from "../components/NavBar/NavBar.jsx";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState } from 'react'
 import { useTokenContext } from "../components/TokenContext/TokenContext.jsx";
-import { getDDMMYY, startIntro, setHasFinishedIntroAtPage } from "../utilities/utilities.js";
+import { Items, getDDMMYY, startIntro, setHasFinishedIntroAtPage } from "../utilities/utilities.js";
 import SearchBar from "../components/ProfilePage/SearchBar.jsx";
 import FriendReqsBox from "../components/ProfilePage/FriendReqsBox.jsx";
 import FriendsBox from "../components/ProfilePage/FriendsBox.jsx";
 import Modal from 'react-modal';
 import RequestModal from "../components/ProfilePage/RequestModal.jsx";
 import IntroElement from '../components/IntroElements/IntroElement.jsx';
+import ItemCollectionBox from "../components/ProfilePage/ItemCollectionBox";
 
 const Profile = () => {
+    const navigate = useNavigate()
+
     const {tokenStatus, userInfo} = useTokenContext()
     /**
      * The current token and setter function to update it.
@@ -26,6 +29,12 @@ const Profile = () => {
     const [userData, ] = userInfo
     const {username} = useParams()
     const [displayUser, setDisplayUserInfo] = useState(null)
+
+    /**
+     * The list of items user has where itemId matches the index.
+     * @type {[Array, function]}
+     */
+    const [displayUserItems, setDisplayUserItems] = useState([])
 
     /**
      * The initial state of activating the intro and setter function to update it.
@@ -198,7 +207,9 @@ const Profile = () => {
             }
 
             const data = await response.json();
-            setDisplayUserInfo(data);
+            setDisplayUserInfo(data.userDetails);
+            setDisplayUserItems(data.userItems);
+            console.log(data.userItems)
             console.log(displayUser)
         } catch (err) {
             console.log(`Error getting by username`)
@@ -274,7 +285,6 @@ const Profile = () => {
         }
     }
 
-
     useEffect(() => {
         if(token) {
             getUserFriends()
@@ -303,6 +313,10 @@ const Profile = () => {
         <button onClick={createFriendRequest}>Add Friend</button>
     )
 
+    const updateProfileDetails = (
+        <button onClick={()=>navigate("/updateprofile")}>Update Profile</button>
+    )
+
     return (
         <>
             <NavBar/>
@@ -311,21 +325,27 @@ const Profile = () => {
                 <div className="profileInnerBox">
                     <div className="userProfileBox">
                         <SearchBar />
-                        <div className="profilePic">
-                            {/* To Add Profile Pic? */}
+
+                        <div className="userDetailsBox">
+                            <div className="friendStatus">
+                                {isUser ? updateProfileDetails : isFriend ? (<p>Friends</p>) : requestSent ? (<p>Friend Request Sent</p>) : requestFrom ? acceptRequest : addFriend}
+                            </div>
+                            <div className="profilePic">
+                                {/* To Add Profile Pic? */}
+                            </div>
+                            <div className="profileUsernameBox">
+                                {displayUser?.username}
+                            </div>
+                            <div className="profilePointsBox">
+                                {displayUser?.points} pts
+                            </div>
+                            <div className="profileDateOfBirthBox">
+                                {displayUser && displayUser.dateOfBirth && getDDMMYY(displayUser.dateOfBirth)}
+                            </div>
                         </div>
-                        <div className="profileUsernameBox">
-                            {displayUser?.username}
-                        </div>
-                        <div className="profileDateOfBirthBox">
-                            Birthdate: {displayUser && displayUser.dateOfBirth && getDDMMYY(displayUser.dateOfBirth)}
-                        </div>
-                        <div className="profilePointsBox">
-                            Points: {displayUser?.points} pts
-                        </div>
-                        <div className="friendStatus">
-                            {isUser ? " " : isFriend ? "Friends" : requestSent ? "Request sent!" : requestFrom ? acceptRequest : addFriend}
-                        </div>
+
+                        <ItemCollectionBox items={displayUserItems}/>
+
                     </div>
                     <div className="socialBox">
                         <FriendsBox

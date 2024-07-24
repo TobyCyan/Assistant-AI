@@ -11,6 +11,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             unique: true
         },
+        email: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true,
+        },
         password: {
             type: DataTypes.STRING,
             allowNull: false
@@ -81,6 +86,11 @@ module.exports = (sequelize, DataTypes) => {
         dateCompleted: {
             type: DataTypes.DATE,
             allowNull: true,
+        },
+        reminderSent: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+            allowNull: false,
         }
     }, {
         tableName: 'task'

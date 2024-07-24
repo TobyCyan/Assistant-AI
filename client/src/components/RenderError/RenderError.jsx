@@ -22,6 +22,33 @@ const renderUsernameError = (error) => {
 }
 
 /**
+ * This component renders email error - empty email or existing email.
+ * @param {string} error Error that the user may encounter when signing up.
+ * @returns {ReactNode} A React element that renders the email sign up error.
+ */
+const renderEmailError = (error) => {
+    if (error == 'EmptyEmailError') {
+        return (
+            <div className='error'>
+                Email Must Not Be Empty!
+            </div>
+        )
+    } else if (error == 'EmailTaken') {
+        return (
+            <div className='error'>
+                Email Already Taken!
+            </div>
+        )
+    } else if (error == 'InvalidEmail') {
+        return (
+            <div className="error">
+                Invalid Email!
+            </div>
+        )
+    }
+}
+
+/**
  * This component renders the password mismatch error.
  * @param {string} error Error that the user may encounter when signing up.
  * @returns {ReactNode} A React element that renders the password mismatch sign up error.
@@ -201,6 +228,7 @@ const renderWeakPWError = (error) => {
 export default {
     renderDateOfBirthError,
     renderUsernameError,
+    renderEmailError,
     renderPWError,
     renderSignUpError,
     renderInvalidCredentialsError,

@@ -191,7 +191,11 @@ button {
 }
 
 .error {
-  color:crimson;
+  color: crimson;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 .primary-btn {
@@ -744,6 +748,11 @@ ul {
   box-shadow: 2px 2px grey;
   cursor: pointer;
   position: relative;
+  transition: background-color 0.3s ease;
+}
+
+.addTaskBtn:hover, .addRecurringTaskBtn:hover {
+  background-color: darkgrey;
 }
 
 .addTaskBtn::before, .addRecurringTaskBtn::before {
@@ -1342,22 +1351,34 @@ ul {
 
 .profileInnerBox {
   display: flex;
-  width: 80%;
+  width: 95%;
   max-width: 1200px;
   height: 90%;
+  justify-content: space-around;
 }
 
 .userProfileBox,
 .socialBox {
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 20px;
-  border: 1px solid #ccc;
+  /*padding: 20px;*/
   margin: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.userProfileBox {
+  width: 50%;
+  border-radius: 30px;
+  padding: 20px;
+  background: white;
+  border: 3px solid black;
+  box-shadow: 6px 6px grey;
+}
+
+.socialBox {
+  width: 30%;
+  max-width: 300px;
 }
 
 .userProfileBox .profilePic {
@@ -1381,16 +1402,80 @@ ul {
   height: 30%;
   color: black;
   padding: 0rem;
-  margin: 5px 0px;
   /* border: 2px dotted black; */
   border: 2px solid #000000;
+  box-shadow: 4px 4px grey;
   gap: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   flex: 1;
-  border-radius: 10%;
+  border-radius: 20px;
+  margin-bottom: 10px;
 }
+
+.friendStatus {
+  /*border: 2px solid black;*/
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2px;
+  margin-bottom: 10px;
+  padding: 2px;
+}
+
+.friendStatus p {
+  border: 2px solid black;
+  margin: 0px;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.friendStatus button {
+  width: 100%;
+  font-size: 16px;
+  font-weight: bold;
+  border: 2px solid black;
+  border-radius: 20px;
+  padding: 2px 8px;
+  background: none;
+  transition: background-color 0.3s ease;
+}
+
+.friendStatus button:hover {
+  background-color: #d3d3d3;
+}
+
+/*
+.friendStatus {
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1.2;
+  text-align: center;
+  margin: 0px;
+  padding: 0px;
+  background: none;
+  min-height: 23.2px;
+  margin: 3px;
+  padding: 2px;
+  border: 2px solid black;
+}
+
+.friendStatus h4 {
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1.2;
+  text-align: center;
+  margin: 0px;
+  padding: 0px;
+  background: none;
+  min-height: 23.2px;
+  margin: 2px;
+  padding: 2px;
+  border: 1px solid black;
+}
+*/
 
 .friendsBoxTitleBox {
   height: 15%;
@@ -1422,15 +1507,16 @@ ul {
     height: 20%;
     color: black;
     padding: 0rem;
-    margin: 5px 0px;
+    margin-top: 10px;
     /* border: 2px dotted black; */
     border: 2px solid #000000;
+    box-shadow: 4px 4px grey;
     gap: 0;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     flex: 1;
-    border-radius: 10%;
+    border-radius: 20px;
 }
 
 .friend, .request {
@@ -1439,7 +1525,8 @@ ul {
   justify-content: center;
   align-items: center;
   padding: 2px;
-  border: 1px solid black;
+  border: 2px solid black;
+  background: white;
   border-radius: 5px;
 }
 
@@ -1485,33 +1572,65 @@ ul {
   gap: 5px;
 }
 
+.requestAcceptButton, .requestDeleteButton {
+  font-size: 20px;
+  padding: 0px;
+  border: none;
+  margin-right: 3px;
+  background: none;
+}
+
+.searchBarAndErrorBox {
+  width: 100%;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .searchBarBox {
   width: 100%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.searchBar {
+  font-size: 16px;
+  height: 23.5px;
+  border-radius: 10px;
+  border: 2px solid black;
 }
 
 .searchBarBtn {
   border: none;
   background: none;
+  font-size: 20px;
 }
 
 .itemBox {
-  border: 1px solid #ddd;
+  border: 2px solid black;
+  box-shadow: 4px 4px grey;
   border-radius: 8px;
   padding: 16px;
   text-align: center;
   background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .itemTitle {
   font-size: 1.2em;
+  margin-top: 0px;
   margin-bottom: 8px;
 }
 
 .itemImage {
   width: 100%;
-  height: auto;
+  aspect-ratio: 1 / 1;
   border-radius: 4px;
   margin-bottom: 8px;
 }
@@ -1531,6 +1650,17 @@ ul {
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
+}
+
+.itemPoints {
+  margin-bottom: 8px;
+}
+
+.pointsAndExchangeBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .itemsGridBox {
@@ -1557,6 +1687,8 @@ ul {
   width: 100%;
   border-radius: 20px;
   background: white;
+  border: 4px solid black;
+  box-shadow: 6px 6px grey;
 }
 
 .recTableHeader {
@@ -1575,20 +1707,26 @@ ul {
   display: flex;
   justify-content: center;
   align-items: center;
+  /*
   border-left: 1.5px solid black;
   border-right: 1.5px solid black;
   border-top: 3px solid black;
   border-bottom: 3px solid black;
+  */
 }
 
 .recTableHeader .recTableTitle {
   border-top-left-radius: 20px;
+  /*
   border-left: 3px solid black;
+  */
 }
 
 .recTableHeader .recTableActions {
   border-top-right-radius: 20px;
+  /*
   border-right: 3px solid black;
+  */
 }
 
 .recTableBody {
@@ -1632,6 +1770,47 @@ ul {
   padding: 0px !important;
   margin-left: 0.25rem;
   font-size: 24px;
+}
+
+.itemCollectionBox {
+  padding: 8px;
+  border: 2px solid black;
+  min-height: 184px;
+  border-radius: 10px;
+  width: 90%;
+}
+
+.itemCollectionBox h4 {
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+
+.miniItemGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  overflow-y: scroll;
+  max-height: 400px; /* Adjust height as needed */
+  height: 85%;
+}
+
+.miniItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.miniItem img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+.userDetailsBox {
+  font-size: 16px;
+  font-weight: bold;
 }
 
 /*

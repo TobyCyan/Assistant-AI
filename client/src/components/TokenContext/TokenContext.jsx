@@ -14,6 +14,7 @@ export const TokenProvider = (props) => {
     const [userData, setUserData] = useState({
         username: null,
         id: null,
+        email: null,
         dateOfBirth: null,
         points: null,
     })

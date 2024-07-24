@@ -1,8 +1,8 @@
 import React from 'react';
 import {getDDMM} from "../../utilities/utilities.js";
 import {useNavigate} from "react-router-dom";
-
-
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faTimes, faCheck} from "@fortawesome/free-solid-svg-icons";
 
 function FriendRequest({username, points, onAccept, onDelete}) {
     const navigate = useNavigate()
@@ -21,8 +21,12 @@ function FriendRequest({username, points, onAccept, onDelete}) {
                     </div>
 
                     <div className="requestActions">
-                        <button onClick={onAccept} className="requestAcceptButton">Accept</button>
-                        <button onClick={onDelete} className="requestDeleteButton">Reject</button>
+                        <button onClick={onAccept} className="requestAcceptButton">
+                            <FontAwesomeIcon icon={faCheck}/>
+                        </button>
+                        <button onClick={onDelete} className="requestDeleteButton">
+                            <FontAwesomeIcon icon={faTimes}/>
+                        </button>
                     </div>
                 </div>
             </div>

@@ -46,18 +46,20 @@ const SearchBar = () => {
     }
 
     return (
-        <div className="searchBarBox">
-            <input
-                className="searchBar"
-                type="text"
-                placeholder="Enter username..."
-                value={username}
-                onChange={handleInputChange}
-                onKeyDown={handleKeyDown}
-            />
-            <button className="searchBarBtn" onClick={handleSearch}>
-                <FontAwesomeIcon icon={faSearch} />
-            </button>
+        <div className="searchBarAndErrorBox">
+            <div className="searchBarBox">
+                <input
+                    className="searchBar"
+                    type="text"
+                    placeholder="Enter username..."
+                    value={username}
+                    onChange={handleInputChange}
+                    onKeyDown={handleKeyDown}
+                />
+                <button className="searchBarBtn" onClick={handleSearch}>
+                    <FontAwesomeIcon icon={faSearch}/>
+                </button>
+            </div>
             {error && <p className="error">{error}</p>}
         </div>
     );

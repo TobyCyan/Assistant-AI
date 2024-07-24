@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 
 const User = db.user
 const Tasks = db.tasks
+const Items = db.items
 
 const secretKey = process.env.Secret_Key
 
@@ -19,6 +20,7 @@ const addUser = async (req, res) => {
         name: data['username'],
         password: data['password'],
         points: data['points'],
+        email: data['email'],
         dateOfBirth: data['dateOfBirth']
     }
 
@@ -32,6 +34,19 @@ const addUser = async (req, res) => {
     // Sends an Error Messages as Response If User Already Exists.
     if (findUser) {
         res.status(401).send('Username Already Taken!')
+        return
+    }
+
+    // Email must be unique
+    const findEmail = await User.findOne({
+        where: {
+            email: data['email']
+        }
+    })
+
+    // Sends an Error Messages as Response If Email Already Exists.
+    if(findEmail) {
+        res.status(401).send('Email Already Taken!')
         return
     } else {
         // Creates the New User Instance and Signs a JSON Web Token with the Username and Secret Key.
@@ -98,6 +113,7 @@ const getUserInfo = async (req, res) => {
         const userDetails = {
             username: findUser.name,
             id: findUser.id,
+            email: findUser.email,
             dateOfBirth: findUser.dateOfBirth,
             points: findUser.points,
             hasDoneTutorial: findUser.hasDoneTutorial,
@@ -130,11 +146,21 @@ const getUserInfoByUsername = async (req, res) => {
         const userDetails = {
             username: findUser.name,
             id: findUser.id,
+            email: findUser.email,
             dateOfBirth: findUser.dateOfBirth,
-            points: findUser.points
+            points: findUser.points,
+            hasDoneTutorial: findUser.hasDoneTutorial,
         }
 
-        res.send(userDetails)
+        const userItems = await Items.findAll(
+            {
+                where: {
+                    userId: userDetails.id,
+                }
+            }
+        )
+
+        res.send({userDetails, userItems})
     } else {
         res.status(404).send('No Such User in DB')
     }

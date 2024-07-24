@@ -1,5 +1,5 @@
 const express = require("express")
-const serverless = require("serverless-http")
+// const serverless = require("serverless-http")
 const cors = require("cors")
 const {authenticateToken} = require("./utilities/utilities")
 
@@ -121,8 +121,8 @@ app.put( "/EditRecTask",  authenticateToken(secretKey), editRecurringTask)
 app.delete("/DeleteRecTask", authenticateToken(secretKey), deleteRecurringTask)
 
 
-// app.listen(port, () => {
-//     console.log("App is listening on port 5001")
-// })
+app.listen(port, () => {
+    console.log(`App is listening on ${port}`)
+})
 
-module.exports.handler = serverless(app)
+// module.exports.handler = serverless(app)

@@ -10,6 +10,7 @@ import Shop from './pages/Shop.jsx';
 import Profile from "./pages/Profile.jsx";
 import PrivateRoutes from "./pages/PrivateRoutes/PrivateRoutes.jsx";
 import Scheduler from "./pages/Scheduler.jsx";
+import UpdateProfile from "./pages/UpdateProfile.jsx";
 
 /**
  * The routes of the web application.
@@ -20,6 +21,7 @@ const routes = (
         <Routes>
             <Route path="/login" exact element={<Login />} />
             <Route path="/signup" exact element={<SignUp />} />
+            <Route path="/updateprofile" exact element={<UpdateProfile />} />
             <Route element={<PrivateRoutes/>}>
                 <Route path="/" exact element={<Home />} />
                 <Route path="/tasks" exact element = {<MyTasks />} />

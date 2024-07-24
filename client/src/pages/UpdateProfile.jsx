@@ -1,25 +1,26 @@
-import React, { useState, ReactNode } from 'react'
-import {Link, useNavigate} from "react-router-dom";
+import { React, useState, ReactNode } from "react";
 import NavBar from "../components/NavBar/NavBar.jsx";
-import CryptoJS from 'crypto-js';
-import '../index.css'
+import { Link, useNavigate } from "react-router-dom";
+import "../index.css";
+import CryptoJS from "crypto-js";
 import RenderError from "../components/RenderError/RenderError";
-import { useTokenContext } from "../components/TokenContext/TokenContext.jsx";
-import { checkStrongPW, checkValidEmail } from "../utilities/utilities.js";
+import { useTokenContext } from "../components/TokenContext/TokenContext";
+import {checkStrongPW} from "../utilities/utilities";
+
 
 /**
- * A Functional React component that displays the sign up page, handles sign up errors, and communicates with the back-end to sign the user up.
+ * A React component that displays the Login page and handles any error while logging in.
  * @component
- * @returns {ReactNode} A React element that renders the sign up page.
+ * @returns {ReactNode} A React element that renders the login page.
  */
-function SignUp() {
+const UpdateProfile = () => {
     const {tokenStatus} = useTokenContext()
 
     /**
      * The current token and setter function to update it.
      * @type {[string, function]}
      */
-    const [token, setToken] = tokenStatus
+    const [, setToken] = tokenStatus
 
     /**
      * The current confirmation password and setter function to update it.
@@ -32,13 +33,12 @@ function SignUp() {
      * @type {[string, function]}
      */
     const [error, setError] = useState('')
-    
+
     /**
      * The current userData state and setter function to update it.
      * @type {[Object, function]}
      */
     const [userData, setUserData] = useState({
-        username: '',
         email: '',
         password: '',
         dateOfBirth: ''
@@ -46,14 +46,14 @@ function SignUp() {
 
     const navigate = useNavigate()
 
-    /** 
+    /**
      * Checks whether user and confirmation passwords match.
      * @returns {boolean} true or false.
      */
     function pwMatch() {
         return confirmPassword === userData.password;
     }
-    
+
     /**
      * Update userData with the new username.
      * @param {string} newName Name in the input field.
@@ -61,9 +61,9 @@ function SignUp() {
      */
     const handleNameChange = (newName) => {
         return setUserData((prevState) => {
-              return { ...prevState, username: newName };
-            });
-      };
+            return { ...prevState, username: newName };
+        });
+    };
 
     /**
      * Update userData with the new email.
@@ -86,7 +86,7 @@ function SignUp() {
             return { ...prevState, password: newPW };
         });
     };
-    
+
     /**
      * Update userData with the new birth date.
      * @param {Date} newBirthDate Birth date in the input field.
@@ -116,17 +116,6 @@ function SignUp() {
      */
     function handleEmptyUsername() {
         setError('UsernameError')
-    }
-
-    /**
-     * Updates the sign up error when email is empty.
-     */
-    function handleEmptyEmail() {
-        setError('EmptyEmailError')
-    }
-
-    function handleInvalidEmail() {
-        setError('InvalidEmail')
     }
 
     /**
@@ -185,13 +174,12 @@ function SignUp() {
      */
     function handleFailedSignUp(error) {
         if (error == 'Username Already Taken!') {
+            clearPW()
             setError('UsernameTaken')
-        } else if (error == 'Email Already Taken!') {
-            setError('EmailTaken')
         }
     }
 
-    /** 
+    /**
      * Sends User to the Home Page.
      */
     function sendToHomePage() {
@@ -215,21 +203,10 @@ function SignUp() {
             return
         }
 
+
         if(userData.username.includes(' ')) {
             handleSpaceUsername()
             return;
-        }
-
-        if (userData.email === '') {
-            handleEmptyEmail()
-            return
-        }
-
-        const isValidEmail = checkValidEmail(userData.email)
-
-        if(!isValidEmail) {
-            handleInvalidEmail()
-            return
         }
 
         if (userData.dateOfBirth == '') {
@@ -259,7 +236,7 @@ function SignUp() {
             handleDifferentPassword()
             return
         }
-        
+
         const isPWStrong = checkStrongPW(userData.password)
 
         if (!isPWStrong) {
@@ -271,7 +248,7 @@ function SignUp() {
         const updatedData = {...userData, password: hashedPW};
 
         const dataToPost = {
-            method: 'POST', 
+            method: 'POST',
             body: JSON.stringify(updatedData),
             headers: {
                 'Content-Type': 'application/json'
@@ -297,28 +274,8 @@ function SignUp() {
         }
     }
 
-    return (
-        <>
-        <div>
-            <NavBar/>
-            <div className="accountFormBox">
-                <div className="accountFormInnerBox">
-                    <form onSubmit={handleSignUp}>
-                        <h4 className="accountFormHeader">Sign Up</h4>
-
-                        {RenderError.renderUsernameError(error)}
-                        {RenderError.renderSignUpError(error)}
-                        <div className="signUpBox">
-                            <input type='text'
-                                   placeholder="Username"
-                                   value={userData.username}
-                                   className="usernameInput"
-                                   onChange={(e) => handleNameChange(e.target.value)}
-                            />
-                        </div>
-
-                        {RenderError.renderEmailError(error)}
-                        <div className="signUpBox">
+    /* To insert email
+                            <div className="signUpBox">
                             <input type='text'
                                    placeholder="Email"
                                    value={userData.email}
@@ -326,51 +283,72 @@ function SignUp() {
                                    onChange={(e) => handleEmailChange(e.target.value)}
                             />
                         </div>
+     */
 
-                        {RenderError.renderDateOfBirthError(error)}
-                        <div className="dateOfBirthBox">
-                            <label id="dateOfBirthLabel">Birthdate</label>
-                            <input type='date'
-                                   placeholder='dd-mm-yyyy'
-                                   value={userData.dateOfBirth}
-                                   className='dateOfBirthInput'
-                                   onChange={(e) => handleBirthDateChange(e.target.value)}
-                            />
-                        </div>
-                        {RenderError.renderPWError(error)}
-                        <div className="signUpBox">
-                            <input type='password'
-                                   placeholder="Password"
-                                   value={userData.password}
-                                   className="passwordInput"
-                                   onChange={(e) => handlePasswordChange(e.target.value)}
-                            />
-                        </div>
-                        <div className="signUpBox">
-                            <input type='password'
-                                   placeholder="Confirm Password"
-                                   value={confirmPassword}
-                                   className="passwordInput"
-                                   onChange={(e) => {
-                                       setConfirmPassword(e.target.value);
-                                   }}
-                            />
-                        </div>
-                        {RenderError.renderWeakPWError(error)}
-                        <button type='submit' className="primary-btn">
-                            Sign Up
-                        </button>
+    return (
+        <>
+            <div>
+                <NavBar/>
+                <div className="accountFormBox">
+                    <div className="accountFormInnerBox">
+                        <form onSubmit={handleSignUp}>
+                            <h4 className="accountFormHeader">Update Profile</h4>
 
-                        <div className="signUpContainer">
-                            <span className="signUpPrompt">Already have an account?</span>
-                            <Link to="/login" className="signUpButton">Log In</Link>
-                        </div>
-                    </form>
+                            {RenderError.renderUsernameError(error)}
+                            {RenderError.renderSignUpError(error)}
+
+                            <div className="profilePic">
+                                {/* To Add Profile Pic? */}
+                            </div>
+
+                            <div className="signUpBox">
+                                <input type='text'
+                                       placeholder="Email"
+                                       value={userData.email}
+                                       className="emailInput"
+                                       onChange={(e) => handleNameChange(e.target.value)}
+                                />
+                            </div>
+
+                            {RenderError.renderDateOfBirthError(error)}
+                            <div className="dateOfBirthBox">
+                                <label id="dateOfBirthLabel">Birthdate</label>
+                                <input type='date'
+                                       placeholder='dd-mm-yyyy'
+                                       value={userData.dateOfBirth}
+                                       className='dateOfBirthInput'
+                                       onChange={(e) => handleBirthDateChange(e.target.value)}
+                                />
+                            </div>
+                            {RenderError.renderPWError(error)}
+                            <div className="signUpBox">
+                                <input type='password'
+                                       placeholder="New Password"
+                                       value={userData.password}
+                                       className="passwordInput"
+                                       onChange={(e) => handlePasswordChange(e.target.value)}
+                                />
+                            </div>
+                            <div className="signUpBox">
+                                <input type='password'
+                                       placeholder="Confirm New Password"
+                                       value={confirmPassword}
+                                       className="passwordInput"
+                                       onChange={(e) => {
+                                           setConfirmPassword(e.target.value);
+                                       }}
+                                />
+                            </div>
+                            {RenderError.renderWeakPWError(error)}
+                            <button type='submit' className="primary-btn">
+                                Update Details
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
         </>
     );
 }
 
-export default SignUp;
+export default UpdateProfile

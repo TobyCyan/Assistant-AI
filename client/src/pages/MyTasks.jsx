@@ -373,11 +373,20 @@ function MyTasks() {
                     <div className="categoriesSidebar">Categories</div>
                     <ul id="category-list">
                         <li onClick={() => handleFilterTasks('All')}>All ({uncompletedTasks.length})</li>
-                        <li onClick={() => handleFilterTasks('Completed')}>Completed ({tasks.filter(each => each.completed).length})</li>
+                        <li onClick={() => handleFilterTasks('High')}>High
+                            ({uncompletedTasks.filter(each => each.priority === 'High').length})
+                        </li>
+                        <li onClick={() => handleFilterTasks('Medium')}>Medium
+                            ({uncompletedTasks.filter(each => each.priority === 'Medium').length})
+                        </li>
+                        <li onClick={() => handleFilterTasks('Low')}>Low
+                            ({uncompletedTasks.filter(each => each.priority === 'Low').length})
+                        </li>
                         {categories}
-                        <li onClick={() => handleFilterTasks('High')}>High ({uncompletedTasks.filter(each => each.priority === 'High').length})</li>
-                        <li onClick={() => handleFilterTasks('Medium')}>Medium ({uncompletedTasks.filter(each => each.priority === 'Medium').length})</li>
-                        <li onClick={() => handleFilterTasks('Low')}>Low ({uncompletedTasks.filter(each => each.priority === 'Low').length})</li>
+                        <li onClick={() => handleFilterTasks('Completed')}>Completed
+                            ({tasks.filter(each => each.completed).length})
+                        </li>
+
                     </ul>
                 </div>
                 <div className="detailedTasksContainer">
