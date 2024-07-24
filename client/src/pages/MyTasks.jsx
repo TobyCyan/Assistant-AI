@@ -47,6 +47,12 @@ function MyTasks() {
     const page = "MyTasks"
 
     /**
+     * The Express API URL for this React app.
+     * @type {string}
+     */
+    const expressApiUrl = process.env.REACT_APP_EXPRESS_API_URL
+
+    /**
      * The steps for the webpage intro.
      * @returns {Array<Object>} An array of objects that specify the element to highlight or the intro value.
      */
@@ -282,7 +288,7 @@ function MyTasks() {
         };
 
         try {
-            const res = await fetch('http://localhost:5001/Tasks', dataToPost)
+            const res = await fetch(`${expressApiUrl}Tasks`, dataToPost)
             if(res.ok) {
                 console.log("TaskModals successfully retrieved")
             } else {
@@ -317,7 +323,7 @@ function MyTasks() {
         };
 
         try {
-            const res = await fetch('http://localhost:5001/GetUserInfo', dataToPost)
+            const res = await fetch(`${expressApiUrl}GetUserInfo`, dataToPost)
             if(res.ok) {
                 console.log("UserInfo successfully retrieved")
             } else {

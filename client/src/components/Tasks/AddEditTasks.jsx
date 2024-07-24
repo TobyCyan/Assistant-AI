@@ -62,6 +62,12 @@ const AddEditTasks = ({taskData, type, onClose}) => {
      */
     const[error, setError] = useState('');
 
+    /**
+     * The Express API URL for this React app.
+     * @type {string}
+     */
+    const expressApiUrl = process.env.REACT_APP_EXPRESS_API_URL
+
     /** 
      * POST Request to Add Task.
      * @async
@@ -95,7 +101,7 @@ const AddEditTasks = ({taskData, type, onClose}) => {
             }
         };
         
-        fetch('http://localhost:5001/AddTask', dataToPost)
+        fetch(`${expressApiUrl}AddTask`, dataToPost)
         .then(res => {
             if (res.ok) {
                 console.log('Task Successfully Added!')
@@ -155,7 +161,7 @@ const AddEditTasks = ({taskData, type, onClose}) => {
             }
         };
 
-        await fetch('http://localhost:5001/EditTask', dataToPost)
+        await fetch(`${expressApiUrl}EditTask`, dataToPost)
         .then(res => {
             if (res.ok) {
                 console.log('Task Successfully Edited!')

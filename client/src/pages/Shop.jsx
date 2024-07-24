@@ -49,6 +49,12 @@ const Shop = () => {
     const page = "Shop"
 
     /**
+     * The Express API URL for this React app.
+     * @type {string}
+     */
+    const expressApiUrl = process.env.REACT_APP_EXPRESS_API_URL
+
+    /**
      * The steps for the webpage intro.
      * @returns {Array<Object>} An array of objects that specify the element to highlight or the intro value.
      */
@@ -125,7 +131,7 @@ const Shop = () => {
         }
 
         try {
-            const res = await fetch("http://localhost:5001/GetUserInfo", dataToPost)
+            const res = await fetch(`${expressApiUrl}GetUserInfo`, dataToPost)
             if(res.ok) {
                 console.log("UserInfo successfully retrieved")
             } else {
@@ -152,7 +158,7 @@ const Shop = () => {
         }
 
         try {
-            const res = await fetch("http://localhost:5001/Items", dataToPost)
+            const res = await fetch(`${expressApiUrl}Items`, dataToPost)
             if(res.ok) {
                 console.log("User Items successfully retrieved")
             } else {

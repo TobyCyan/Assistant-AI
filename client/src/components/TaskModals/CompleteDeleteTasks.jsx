@@ -22,6 +22,12 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
     const [token, setToken] = tokenStatus
 
     /**
+     * The Express API URL for this React app.
+     * @type {string}
+     */
+    const expressApiUrl = process.env.REACT_APP_EXPRESS_API_URL
+
+    /**
      * PUT Request to complete task.
      * @async
      * @returns {Promise<void>} A promise that completes the user task.
@@ -39,7 +45,7 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
             }
         }
         try {
-            const res = await fetch('http://localhost:5001/CompleteTask', dataToPost)
+            const res = await fetch(`${expressApiUrl}CompleteTask`, dataToPost)
             if(res.ok) {
                 console.log(`Task successfully completed, user gained ${toEarn} points!`)
             }
@@ -69,7 +75,7 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
             }
         };
         try {
-            const res = await fetch('http://localhost:5001/UncompleteTask', dataToPost)
+            const res = await fetch(`${expressApiUrl}UncompleteTask`, dataToPost)
             if(res.ok) {
                 console.log("Task successfully uncompleted")
             }
@@ -99,7 +105,7 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
         };
 
         try {
-            const res = await fetch('http://localhost:5001/DeleteTask', dataToPost)
+            const res = await fetch(`${expressApiUrl}DeleteTask`, dataToPost)
             if(res) {
                 console.log("Task successfully deleted")
                 const data = await res.json()

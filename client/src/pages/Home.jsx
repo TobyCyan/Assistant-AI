@@ -12,7 +12,7 @@ import BirthdayCard from "../components/Birthday/BirthdayCard.jsx";
 import ReminderRoom from "../components/ReminderRoom/ReminderRoom.jsx";
 // import { wait } from "../utilities/ChatPageUtilities.js";
 import IntroElement from "../components/IntroElements/IntroElement.jsx";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 /**
  * A React component that displays the home page and a brief layout of the current user tasks, including the navigation bar, 4 task boxes, and the modal to add or edit tasks.
@@ -58,6 +58,12 @@ const Home = () => {
      * @type {string}
      */
     const page = "Home"
+
+    /**
+     * The Express API URL for this React app.
+     * @type {string}
+     */
+    const expressApiUrl = process.env.REACT_APP_EXPRESS_API_URL
 
     /**
      * The steps for the webpage intro.
@@ -177,7 +183,7 @@ const Home = () => {
         };
 
         try {
-            const res = await fetch("http://localhost:5001/Tasks", dataToPost)
+            const res = await fetch(`${expressApiUrl}Tasks`, dataToPost)
             if (res.ok) {
                 console.log("TaskModals successfully retrieved")
             } else {
@@ -209,7 +215,7 @@ const Home = () => {
         };
 
         try {
-            const res = await fetch("http://localhost:5001/GetUserInfo", dataToPost)
+            const res = await fetch(`${expressApiUrl}GetUserInfo`, dataToPost)
             if (res.ok) {
                 console.log("UserInfo successfully retrieved")
             } else {

@@ -78,6 +78,12 @@ const Scheduler = () => {
     const page = "Scheduler"
 
     /**
+     * The Express API URL for this React app.
+     * @type {string}
+     */
+    const expressApiUrl = process.env.REACT_APP_EXPRESS_API_URL
+
+    /**
      * The steps for the webpage intro.
      * @returns {Array<Object>} An array of objects that specify the element to highlight or the intro value.
      */
@@ -244,7 +250,7 @@ const Scheduler = () => {
         };
 
         try {
-            const res = await fetch('http://localhost:5001/RecurringTasks', dataToPost)
+            const res = await fetch(`${expressApiUrl}RecurringTasks`, dataToPost)
             if (res.ok) {
                 console.log("Recurring Tasks successfully retrieved")
             } else {
@@ -277,7 +283,7 @@ const Scheduler = () => {
         };
 
         try {
-            const res = await fetch('http://localhost:5001/GetUserInfo', dataToPost)
+            const res = await fetch(`${expressApiUrl}GetUserInfo`, dataToPost)
             if(res.ok) {
                 console.log("UserInfo successfully retrieved")
             } else {

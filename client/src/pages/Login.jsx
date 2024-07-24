@@ -39,6 +39,12 @@ const Login = () => {
     const [token, setToken] = tokenStatus
 
     const navigate = useNavigate()
+    
+    /**
+     * The Express API URL for this React app.
+     * @type {string}
+     */
+    const expressApiUrl = process.env.REACT_APP_EXPRESS_API_URL
 
     /**
      * Sends User to the Home Page.
@@ -105,7 +111,7 @@ const Login = () => {
             }
         }
 
-        fetch("http://localhost:5001/Login", dataToPost)
+        fetch(`${expressApiUrl}Login`, dataToPost)
             .then(res => {
                 if (res.ok) {
                     console.log("Login Successful!")
@@ -116,7 +122,6 @@ const Login = () => {
             })
             .then(tokenResponse => {
                 if (tokenResponse) {
-                    console.log(tokenResponse);
                     const token = tokenResponse.token
                     localStorage.setItem("token", token)
                     setToken(token)

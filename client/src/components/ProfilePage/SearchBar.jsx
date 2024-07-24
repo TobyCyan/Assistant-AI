@@ -12,9 +12,16 @@ const SearchBar = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
+    /**
+     * The Express API URL for this React app.
+     * @type {string}
+     */
+    const expressApiUrl = process.env.REACT_APP_EXPRESS_API_URL
+
+
     const handleSearch = async () => {
         try {
-            const response = await fetch(`http://localhost:5001/user/${username}`, {
+            const response = await fetch(`${expressApiUrl}user/${username}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

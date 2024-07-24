@@ -10,6 +10,12 @@ const RequestModal = ({request, type, getAllFriends, getAllFriendRequests, onClo
      */
     const [token, setToken] = tokenStatus
 
+    /**
+     * The Express API URL for this React app.
+     * @type {string}
+     */
+    const expressApiUrl = process.env.REACT_APP_EXPRESS_API_URL
+
     const handleConfirm = () => {
         if(type === "accept") {
             acceptFriendRequest()
@@ -48,7 +54,7 @@ const RequestModal = ({request, type, getAllFriends, getAllFriendRequests, onClo
             }
         }
         try {
-            const res = await fetch(`http://localhost:5001/requests/${request.name}`, dataToPost)
+            const res = await fetch(`${expressApiUrl}requests/${request.name}`, dataToPost)
             if(res.ok) {
                 console.log(`Friend request successfully sent!`)
             }
@@ -70,7 +76,7 @@ const RequestModal = ({request, type, getAllFriends, getAllFriendRequests, onClo
             }
         }
         try {
-            const res = await fetch(`http://localhost:5001/requests/${request.name}`, dataToPost)
+            const res = await fetch(`${expressApiUrl}requests/${request.name}`, dataToPost)
             if(res.ok) {
                 console.log(`Friend request successfully sent!`)
             }

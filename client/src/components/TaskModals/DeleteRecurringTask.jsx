@@ -21,6 +21,12 @@ const DeleteRecurringTask = ({recurringTask, onClose, getAllTasks}) => {
     const [token, setToken] = tokenStatus
 
     /**
+     * The Express API URL for this React app.
+     * @type {string}
+     */
+    const expressApiUrl = process.env.REACT_APP_EXPRESS_API_URL
+
+    /**
      * DELETE Request to delete Task.
      * @async
      * @returns {Promise<void>} A promise that deletes a task.
@@ -38,7 +44,7 @@ const DeleteRecurringTask = ({recurringTask, onClose, getAllTasks}) => {
         };
 
         try {
-            const res = await fetch('http://localhost:5001/DeleteRecTask', dataToPost)
+            const res = await fetch(`${expressApiUrl}DeleteRecTask`, dataToPost)
             if(res) {
                 console.log("Task successfully deleted")
                 const data = await res.json()

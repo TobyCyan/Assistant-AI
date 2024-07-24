@@ -66,6 +66,18 @@ const ChatPage = () => {
     const page = "ChatPage"
 
     /**
+     * The Express API URL for this React app.
+     * @type {string}
+     */
+    const expressApiUrl = process.env.REACT_APP_EXPRESS_API_URL
+
+    /**
+     * The Flask API URL for the chat bot.
+     * @type {string}
+     */
+    const chatbotFlaskApiUrl = process.env.REACT_APP_CHATBOT_FLASK_API_URL
+
+    /**
      * The user's productivity
      * @type {number}
      */
@@ -310,7 +322,7 @@ const ChatPage = () => {
             }
         };
 
-        fetch("http://localhost:5001/AddTask", dataToPost)
+        fetch(`${expressApiUrl}AddTask`, dataToPost)
         .then(res => {
             if (res.ok) {
                 const addTaskSuccessMessage = "Task has been successfully added!"
@@ -344,7 +356,7 @@ const ChatPage = () => {
         };
 
         try {
-            const res = await fetch("http://localhost:5001/Tasks", dataToPost)
+            const res = await fetch(`${expressApiUrl}Tasks`, dataToPost)
             if (res.ok) {
                 console.log("TaskModals successfully retrieved")
             } else {
@@ -378,7 +390,7 @@ const ChatPage = () => {
         };
 
         try {
-            const res = await fetch("http://localhost:5001/DeleteTask", dataToPost)
+            const res = await fetch(`${expressApiUrl}DeleteTask`, dataToPost)
             if(res) {
                 await res.json()
                 getUserTasks()
@@ -409,7 +421,7 @@ const ChatPage = () => {
            }
        };
 
-       await fetch("http://localhost:5001/EditTask", dataToPost)
+       await fetch(`${expressApiUrl}EditTask`, dataToPost)
            .then(res => {
                if (res.ok) {
                     const editTaskSuccessMessage = "Task has been successfully edited!"
@@ -434,7 +446,7 @@ const ChatPage = () => {
      * @param {Object} dataToPost The data to post to the chatbot"s back-end to obtain a response.
      */
     const fetchResponse = async (dataToPost) => {
-        fetch("http://localhost:5500/startchat", dataToPost)
+        fetch(`${chatbotFlaskApiUrl}startchat`, dataToPost)
             .then(res => {
                 if (res.ok) {
                     return res.json()
