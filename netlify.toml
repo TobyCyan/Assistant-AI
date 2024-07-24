@@ -1,2 +1,3 @@
 [build]
-base = "client"
+    base = "client"
+    functions = "server"
