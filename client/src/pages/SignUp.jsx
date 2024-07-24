@@ -262,7 +262,6 @@ function SignUp() {
         };
 
         try {
-            console.log(`${expressApiUrl}SignUp`)
             const res = await fetch(`${expressApiUrl}SignUp`, dataToPost)
 
             if(res.ok) {
