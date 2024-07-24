@@ -126,9 +126,15 @@ module.exports = (sequelize, DataTypes) => {
             autoIncrement: true,
             type: DataTypes.INTEGER,
         },
-        userId: {
+        userId : {
+            type: DataTypes.INTEGER,
             allowNull: false,
-            type:DataTypes.INTEGER,
+            references: {
+                model: User,
+                key: 'id'
+            },
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
         },
         itemId: {
             allowNull: false,
@@ -144,9 +150,15 @@ module.exports = (sequelize, DataTypes) => {
             autoIncrement: true,
             type: DataTypes.INTEGER,
         },
-        userId: {
+        userId : {
+            type: DataTypes.INTEGER,
             allowNull: false,
-            type:DataTypes.INTEGER,
+            references: {
+                model: User,
+                key: 'id'
+            },
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
         },
         title: {
             type: DataTypes.TEXT,

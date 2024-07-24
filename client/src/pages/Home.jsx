@@ -12,6 +12,7 @@ import BirthdayCard from "../components/Birthday/BirthdayCard.jsx";
 import ReminderRoom from "../components/ReminderRoom/ReminderRoom.jsx";
 // import { wait } from "../utilities/ChatPageUtilities.js";
 import IntroElement from "../components/IntroElements/IntroElement.jsx";
+import {useNavigate} from "react-router-dom";
 
 /**
  * A React component that displays the home page and a brief layout of the current user tasks, including the navigation bar, 4 task boxes, and the modal to add or edit tasks.
@@ -19,6 +20,8 @@ import IntroElement from "../components/IntroElements/IntroElement.jsx";
  * @returns {ReactNode} A React element that renders the home page.
  */
 const Home = () => {
+    const navigate = useNavigate()
+
     const {tokenStatus, userInfo} = useTokenContext()
     /**
      * The current token and setter function to update it.
@@ -441,122 +444,122 @@ const Home = () => {
         <>
         <IntroElement steps={introSteps} activate={activateIntro} setActivate={setActivateIntro} hasDoneTutorial={userData.hasDoneTutorial} endIntro={false} page={page} />
         <NavBar />
-        <div className="homepageContainer">
-            {!token ? (
-                <div className="extraInfoTab homepageChildDiv">
-                    <div>
-                        <h2>Please Log In or Sign Up to Add Tasks!</h2>
+            <div className="homepageContainer">
+
+                <div className="extraInfoTab">
+                    <div className="addButtonBox">
+                        <button className="addTaskBtn" onClick={handleAddTask}>Add Task</button>
+                        <button className="addRecurringTaskBtn" onClick={() => navigate('/recurringTasks')}>Add Recurring Task</button>
+                    </div>
+                    <div className="userDisplayBox">
+                        <div>Points: {userData?.points || 0}</div>
+                        <div className="productivityBox">
+                            <h3>Productivity Report</h3>
+                            <ProductivityBar percentage={productivity}/>
+                            <h3>{productivity}%</h3>
+                            <p>{getProductivityBarComments(productivity)}</p>
+                        </div>
                     </div>
                 </div>
-                    ) : (
-                    <div className="extraInfoTab">
-                        <div className="addButtonBox">
-                            <button className="addTaskBtn" onClick={handleAddTask}>Add Task</button>
-                        </div>
-                        <div className="userDisplayBox">
-                            <div>Points: {userData?.points || 0}</div>
-                            <div className="productivityBox">
-                                <h3>Productivity Report</h3>
-                                <ProductivityBar percentage={productivity}/>
-                                <h3>{productivity}%</h3>
-                                <p>{getProductivityBarComments(productivity)}</p>
-                            </div>
-                        </div>
 
+                <div className="homepageTaskContainer homepageChildDiv">
+                    <div className="overdueAndRemindersBox">
+                        <TasksBox id="overdueBox" key="Overdued" title="Overdued" className="overdueBox" tasks={tasks}
+                                  tasksToShow={overduedTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}
+                                  onDelete={handleDeleteTask}/>
+                        <TasksBox id="reminderBox" key="Reminders" title="Reminders" tasks={tasks}
+                                  tasksToShow={remindersTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}
+                                  onDelete={handleDeleteTask}/>
                     </div>
-            )}
-            <div className="homepageTaskContainer homepageChildDiv">
-                <div className="overdueAndRemindersBox">
-                    <TasksBox id="overdueBox" key="Overdued" title="Overdued" className="overdueBox" tasks={tasks} tasksToShow={overduedTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
-                    <TasksBox id="reminderBox" key="Reminders" title="Reminders" tasks={tasks} tasksToShow={remindersTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask} />
+                    <div className="upcomingAndPriorityBox">
+                        <TasksBox id="upcomingBox" key="Upcoming" title="Upcoming" tasks={tasks}
+                                  tasksToShow={upcomingTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}
+                                  onDelete={handleDeleteTask}/>
+                        <TasksBox id="priorityBox" key="Priority" title="Priority" tasks={tasks}
+                                  tasksToShow={priorityTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}
+                                  onDelete={handleDeleteTask}/>
+                    </div>
+
                 </div>
-                <div className="upcomingAndPriorityBox">
-                    <TasksBox id="upcomingBox" key="Upcoming" title="Upcoming" tasks={tasks} tasksToShow={upcomingTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
-                    <TasksBox id="priorityBox" key="Priority" title="Priority" tasks={tasks} tasksToShow={priorityTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}  onDelete={handleDeleteTask}/>
-                </div>
 
-            </div>
-    
-            <AIBox />
-            
-            <Modal
-                isOpen={addEditModalOpen.isShown}
-                onRequestClose={closeAddEditModal}
-                style={{
-                    overlay: {
-                    backgroundColor: "rgba(0, 0, 0, 0.2)"
-                    },
-                }}
-                contentLabel=""
-                className="AddEditTaskModal"
-            >
-                <AddEditTasks
-                    type={addEditModalOpen.type}
-                    taskData={addEditModalOpen.data}
-                    onClose={closeAddEditModal}
-                    getAllTasks={getUserTasks}
-                />
-            </Modal>
+                <AIBox/>
 
-            <Modal
-                isOpen={compDelModalOpen.isShown}
-                onRequestClose={closeCompDelModal}
-                style={{
-                    overlay: {
-                        backgroundColor: "rgba(0, 0, 0, 0.2)"
-                    },
-                }}
-                contentLabel=""
-                className="CompDelTaskModal"
-            >
-                <CompleteDeleteTasks
-                    type={compDelModalOpen.type}
-                    taskData={compDelModalOpen.data}
-                    onClose={closeCompDelModal}
-                    getAllTasks={getUserTasks}
-                    getUserInfo={getUserInfo}
-                />
-            </Modal>
-
-            <Modal
-                isOpen = {birthdayModalOpen.isShown}
-                onRequestClose={closeBirthdayModal}
-                style={{
-                    overlay: {
-                        backgroundColor: "rgba(0, 0, 0, 0.2)"
-                    }
-                }}
-                className="BirthdayCardModal"
+                <Modal
+                    isOpen={addEditModalOpen.isShown}
+                    onRequestClose={closeAddEditModal}
+                    style={{
+                        overlay: {
+                            backgroundColor: "rgba(0, 0, 0, 0.2)"
+                        },
+                    }}
+                    contentLabel=""
+                    className="AddEditTaskModal"
                 >
-                <BirthdayCard 
-                    onClose={closeBirthdayModal}
-                />
-            </Modal>
-            
-            <Modal
-                isOpen = {reminderRoomModalOpen.isShown}
-                onRequestClose={closeReminderRoomModal}
-                style={{
-                    overlay: {
-                        backgroundColor: "rgba(0, 0, 0, 0.2)"
-                    }
-                }}
-                className="reminderRoomModal"
-            >
+                    <AddEditTasks
+                        type={addEditModalOpen.type}
+                        taskData={addEditModalOpen.data}
+                        onClose={closeAddEditModal}
+                        getAllTasks={getUserTasks}
+                    />
+                </Modal>
 
-                <ReminderRoom 
-                    closeReminderRoomModal={closeReminderRoomModal} 
-                    taskData={reminderRoomModalOpen.data}
-                    setActivateBirthday={setActivateBirthday}
-                />
-            </Modal>
-        </div>
+                <Modal
+                    isOpen={compDelModalOpen.isShown}
+                    onRequestClose={closeCompDelModal}
+                    style={{
+                        overlay: {
+                            backgroundColor: "rgba(0, 0, 0, 0.2)"
+                        },
+                    }}
+                    contentLabel=""
+                    className="CompDelTaskModal"
+                >
+                    <CompleteDeleteTasks
+                        type={compDelModalOpen.type}
+                        taskData={compDelModalOpen.data}
+                        onClose={closeCompDelModal}
+                        getAllTasks={getUserTasks}
+                        getUserInfo={getUserInfo}
+                    />
+                </Modal>
+
+                <Modal
+                    isOpen={birthdayModalOpen.isShown}
+                    onRequestClose={closeBirthdayModal}
+                    style={{
+                        overlay: {
+                            backgroundColor: "rgba(0, 0, 0, 0.2)"
+                        }
+                    }}
+                    className="BirthdayCardModal"
+                >
+                    <BirthdayCard
+                        onClose={closeBirthdayModal}
+                    />
+                </Modal>
+
+                <Modal
+                    isOpen={reminderRoomModalOpen.isShown}
+                    onRequestClose={closeReminderRoomModal}
+                    style={{
+                        overlay: {
+                            backgroundColor: "rgba(0, 0, 0, 0.2)"
+                        }
+                    }}
+                    className="reminderRoomModal"
+                >
+
+                    <ReminderRoom
+                        closeReminderRoomModal={closeReminderRoomModal}
+                        taskData={reminderRoomModalOpen.data}
+                        setActivateBirthday={setActivateBirthday}
+                    />
+                </Modal>
+            </div>
         </>
     )
-    
+
 }
-            
-    
 
 
 export default Home;

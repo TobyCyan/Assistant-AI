@@ -38,7 +38,6 @@ const addRecurringTask = async (req, res) => {
 
     // Today in 00: 00 :00
     const interval = data['interval']
-    const today = new Date(getTodayDate())
 
     /**
      * Data of the New Task.
@@ -54,10 +53,10 @@ const addRecurringTask = async (req, res) => {
         reminderToDeadline: data['reminderToDeadline'],
         interval,
         lastCreated: null,
-        nextCreation: today,
+        nextCreation: data['nextCreation'],
     }
 
-    console.log(newRecurringTask)
+    console.log(newRecurringTask.nextCreation + '!!!!!!!!!!!!!!!!!!!!')
 
     // Create the New Task Instance.
     const createdRecurringTask = await RecurringTasks.create(newRecurringTask)
@@ -66,7 +65,7 @@ const addRecurringTask = async (req, res) => {
         res.status(201).send({createdRecurringTask})
         console.log(createdRecurringTask.title + ' added to database!')
     } else {
-        res.status(400).send('Invalid User/ TaskModals')
+        res.status(400).send('Failed to add recurring task')
     }
 }
 
@@ -75,62 +74,63 @@ const editRecurringTask = async (req, res) => {
     const data = req.body
 
     // Today in 00: 00 :00
-    const interval = data['interval']
-    const today = new Date(getTodayDate())
-    const deadline = new Date(data['deadline'])
-    const reminder = new Date(data['reminder'])
-    const creationToDeadline = getDaysDifference(today, deadline)
-    const creationToReminder = getDaysDifference(today, reminder)
-    const nextCreation = addDays(today, interval)
+    const taskId = data.taskId
 
     /**
      * Data of the New Task.
      * @type {Object}
      */
-    let newRecurringTask = {
-        userId: id,
+    let updatedRecurringTask = {
         title: data['title'],
         description: data['description'],
         category: data['category'],
         priority: data['priority'],
-        lastCreated: today,
-        nextCreation,
-        creationToDeadline,
-        creationToReminder,
-        interval,
+        lastCreated: data['lastCreated'],
+        nextCreation: data['nextCreation'],
+        creationToDeadline: data['creationToDeadline'],
+        reminderToDeadline: data['reminderToDeadline'],
+        interval: data['interval'],
     }
     // Create the New Task Instance.
-    const createdRecurringTask = await RecurringTasks.create(newRecurringTask)
-    if(createdRecurringTask) {
+    const editedRecurringTask = await RecurringTasks.update(updatedRecurringTask,
+        {
+            where: {
+                id: taskId,
+                userId: id,
+            }
+        }
+    )
+
+    if(editedRecurringTask) {
         // Sends the Added Task as a Response to be Added into the Task List.
-        res.status(201).send({createdRecurringTask})
-        console.log(createdRecurringTask.title + ' added to database!')
+        res.status(200).send({updatedRecurringTask})
+        console.log(updatedRecurringTask.title + ' added to database!')
     } else {
-        res.status(400).send('Invalid User/ TaskModals')
+        res.status(400).send('Failed to edit recurring task')
     }
 }
 
 const deleteRecurringTask = async (req, res) => {
     const { id } = req.user
-    const {recTaskId} = req.body
+    const {taskId} = req.body
 
     // Deletes the Task Instance from the Task Table.
     const result = await RecurringTasks.destroy({
         where: {
-            id: recTaskId,
-            userId: id
+            id: taskId,
+            userId: id,
         }
     }).catch(err => {
-        console.error('Error Deleting Task / No Such Task', err)
+        console.error('Error Deleting Recurring Task / No Such Task', err)
     })
 
     if (result) {
         if(result > 0) {
             console.log("Deleted Successfully");
-            res.send({ message: "Task deleted successfully" });
+            res.send({ message: "Recurring Task deleted successfully" });
         } else {
             console.log("No task found to delete");
-            res.status(404).send({ error: "Task not found" });
+            res.status(404).send({ error: "Recurring Task not found" });
         }
     }
 }

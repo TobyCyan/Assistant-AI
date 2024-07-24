@@ -40,6 +40,8 @@ const task = async () => {
 
             const DayOfCreation = new Date(nextCreation)
 
+            console.log(`${DayOfCreation} for ${title}`)
+
             const newDeadline = new Date(DayOfCreation)
             newDeadline.setDate(newDeadline.getDate() + creationToDeadline)
 

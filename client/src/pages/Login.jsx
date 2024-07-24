@@ -159,7 +159,10 @@ const Login = () => {
                         <button type="submit" className="primary-btn">
                             Login
                         </button>
-                        <Link to="/signUp" className="signUpButton">Sign Up</Link>
+                        <div className="signUpContainer">
+                            <span className="signUpPrompt">Don't have an account?</span>
+                            <Link to="/signUp" className="signUpButton">Sign Up</Link>
+                        </div>
                     </form>
                 </div>
             </div>

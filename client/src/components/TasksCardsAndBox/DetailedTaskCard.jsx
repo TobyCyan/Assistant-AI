@@ -1,5 +1,7 @@
 import React, {ReactNode} from 'react';
 import {getDDMM, getDDMMYY} from '../../utilities/utilities.js'
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faTimes, faEdit} from "@fortawesome/free-solid-svg-icons";
 
 /**
  * A React component of the detailed task card.
@@ -20,7 +22,9 @@ const DetailedTaskCard = ({taskData, onEdit, onComplete, onUncomplete, onDelete}
                 <div className="taskCardTitle">{taskData.title}</div>
                 <div className="taskCardRightHeader">
                     <div className="taskCardDeadline">{getDDMMYY(taskData.deadline)}</div>
-                    <button className="taskCardDeleteBtn" onClick={onDelete}>X</button>
+                    <button className="taskCardDeleteBtn" onClick={onDelete}>
+                        <FontAwesomeIcon icon={faTimes}/>
+                    </button>
                 </div>
             </div>
             <div className="taskCardSecondHeader">
@@ -32,7 +36,10 @@ const DetailedTaskCard = ({taskData, onEdit, onComplete, onUncomplete, onDelete}
             </div>
             <div className="taskCardFooter">
                 <div className="taskReminder">{getDDMM(taskData.reminder) || "NO REMINDER YET"}</div>
-                {!taskData.completed && (<button className="taskCardEditBtn" onClick={onEdit}>Edit</button>)}
+                {!taskData.completed && (<button className="taskCardEditBtn" onClick={onEdit}>
+                    <FontAwesomeIcon icon={faEdit} className="editIcon"/>
+                    Edit
+                </button>)}
                 <button className="taskCardCompleteBtn" onClick={taskData.completed ? onUncomplete : onComplete}>{taskData.completed ? "Uncomplete" : "Complete" }</button>
             </div>
         </div>
