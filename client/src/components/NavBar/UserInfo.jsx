@@ -43,7 +43,7 @@ const UserInfo = () => {
      * The Express API URL for this React app.
      * @type {string}
      */
-    const expressApiUrl = process.env.REACT_APP_EXPRESS_API_URL
+    const expressApiUrl = import.meta.env.REACT_APP_EXPRESS_API_URL
 
     useEffect(() => {
         if(token) {

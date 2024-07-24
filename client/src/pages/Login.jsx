@@ -39,12 +39,13 @@ const Login = () => {
     const [token, setToken] = tokenStatus
 
     const navigate = useNavigate()
-    
+
     /**
      * The Express API URL for this React app.
      * @type {string}
      */
-    const expressApiUrl = process.env.REACT_APP_EXPRESS_API_URL
+    const expressApiUrl = import.meta.env.VITE_EXPRESS_API_URL
+    console.log(expressApiUrl)
 
     /**
      * Sends User to the Home Page.

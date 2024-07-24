@@ -63,7 +63,7 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
      * The Express API URL for this React app.
      * @type {string}
      */
-    const expressApiUrl = process.env.REACT_APP_EXPRESS_API_URL
+    const expressApiUrl = import.meta.env.VITE_EXPRESS_API_URL
 
     /**
      * The current task error and setter function to update it.
