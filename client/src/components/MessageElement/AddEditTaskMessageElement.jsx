@@ -119,7 +119,7 @@ const AddEditTaskMessageElement = ({applyConfirmation, taskToEdit}) => {
             completed: taskToEdit?.completed,
             points: taskToEdit?.points,
         }
-        console.log('task data: ', taskData)
+
         applyConfirmation('confirm', taskData)
         return
     }

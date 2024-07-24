@@ -46,6 +46,12 @@ function SignUp() {
 
     const navigate = useNavigate()
 
+    /**
+     * The Express API URL for this React app.
+     * @type {string}
+     */
+    const expressApiUrl = import.meta.env.VITE_EXPRESS_API_URL
+
     /** 
      * Checks whether user and confirmation passwords match.
      * @returns {boolean} true or false.
@@ -279,7 +285,7 @@ function SignUp() {
         };
 
         try {
-            const res = await fetch('http://localhost:5001/SignUp', dataToPost)
+            const res = await fetch(`${expressApiUrl}SignUp`, dataToPost)
 
             if(res.ok) {
                 const data = await res.json()

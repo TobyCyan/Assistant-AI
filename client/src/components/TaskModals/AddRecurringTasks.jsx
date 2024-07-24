@@ -57,6 +57,12 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
     const [error, setError] = useState('')
 
     /**
+     * The Express API URL for this React app.
+     * @type {string}
+     */
+    const expressApiUrl = import.meta.env.REACT_APP_EXPRESS_API_URL
+
+    /**
      * POST Request to Add Task.
      * @async
      * @returns {Promise<void>} A promise that adds the user task.
@@ -99,7 +105,7 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
             }
         };
 
-        fetch('http://localhost:5001/AddRecTask', dataToPost)
+        fetch(`${expressApiUrl}AddRecTask`, dataToPost)
             .then(res => {
                 if (res.ok) {
                     console.log('Task Successfully Added!')
@@ -175,7 +181,7 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
             }
         };
 
-        fetch('http://localhost:5001/EditRecTask', dataToPost)
+        fetch(`${expressApiUrl}EditRecTask`, dataToPost)
             .then(res => {
                 if (res.ok) {
                     console.log('Task Successfully Edited!')

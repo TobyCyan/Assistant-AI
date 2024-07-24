@@ -60,6 +60,12 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
     const [interval, setInterval] = useState(taskData?.interval || '')
 
     /**
+     * The Express API URL for this React app.
+     * @type {string}
+     */
+    const expressApiUrl = import.meta.env.VITE_EXPRESS_API_URL
+
+    /**
      * The current task error and setter function to update it.
      * @type {[string, function]}
      */
@@ -105,7 +111,7 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
             }
         };
 
-        fetch('http://localhost:5001/AddTask', dataToPost)
+        fetch(`${expressApiUrl}AddTask`, dataToPost)
         .then(res => {
             if (res.ok) {
                 console.log('Task Successfully Added!')
@@ -166,7 +172,7 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
             }
         };
 
-        await fetch('http://localhost:5001/EditTask', dataToPost)
+        await fetch(`${expressApiUrl}EditTask`, dataToPost)
             .then(res => {
                 if (res.ok) {
                     console.log('Task Successfully Edited!')

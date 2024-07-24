@@ -10,6 +10,12 @@ const ExchangeItemsModal = ({itemData, onClose, getUserInfo, getUserItems}) => {
      */
     const [token, setToken] = tokenStatus
 
+    /**
+     * The Express API URL for this React app.
+     * @type {string}
+     */
+    const expressApiUrl = import.meta.env.REACT_APP_EXPRESS_API_URL
+
     const handleConfirm = () => {
         exchangeItems()
     }
@@ -28,7 +34,7 @@ const ExchangeItemsModal = ({itemData, onClose, getUserInfo, getUserItems}) => {
             }
         }
         try {
-            const res = await fetch('http://localhost:5001/CreateUserItem', dataToPost)
+            const res = await fetch(`${expressApiUrl}CreateUserItem`, dataToPost)
             if(res.ok) {
                 console.log('Item exchange successfully sent')
             }

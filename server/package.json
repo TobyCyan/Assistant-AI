@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "babel-preset-react-app": "@babel/plugin-proposal-private-property-in-object",
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "react-error-overlay": "6.0.9" 
   }
 }

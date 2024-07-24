@@ -39,6 +39,12 @@ const UserInfo = () => {
      */
     const [points, setPoints] = useState(0)
 
+    /**
+     * The Express API URL for this React app.
+     * @type {string}
+     */
+    const expressApiUrl = import.meta.env.REACT_APP_EXPRESS_API_URL
+
     useEffect(() => {
         if(token) {
             getUserInfo()
@@ -60,7 +66,7 @@ const UserInfo = () => {
         };
 
         try {
-            const res = await fetch('http://localhost:5001/GetUserInfo', dataToPost)
+            const res = await fetch(`${expressApiUrl}GetUserInfo`, dataToPost)
             if(res.ok) {
                 console.log("UserInfo successfully retrieved")
             } else {

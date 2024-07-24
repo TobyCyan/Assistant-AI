@@ -49,6 +49,12 @@ const Profile = () => {
     const page = "Profile"
 
     /**
+     * The Express API URL for this React app.
+     * @type {string}
+     */
+    const expressApiUrl = import.meta.env.VITE_EXPRESS_API_URL
+
+    /**
      * The steps for the webpage intro.
      * @returns {Array<Object>} An array of objects that specify the element to highlight or the intro value.
      */
@@ -194,7 +200,7 @@ const Profile = () => {
 
     const getUserDataByUsername = async () => {
         try {
-            const response = await fetch(`http://localhost:5001/user/${username}`, {
+            const response = await fetch(`${expressApiUrl}user/${username}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -219,7 +225,7 @@ const Profile = () => {
 
     const getUserFriends = async () => {
         try {
-            const res = await fetch('http://localhost:5001/Friends', {
+            const res = await fetch(`${expressApiUrl}Friends`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -242,7 +248,7 @@ const Profile = () => {
 
     const getUserFriendRequests = async () => {
         try {
-            const res = await fetch('http://localhost:5001/FriendRequests', {
+            const res = await fetch(`${expressApiUrl}FriendRequests`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -268,7 +274,7 @@ const Profile = () => {
 
     const createFriendRequest = async () => {
         try {
-            const res = await fetch(`http://localhost:5001/requests/${username}`, {
+            const res = await fetch(`${expressApiUrl}requests/${username}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

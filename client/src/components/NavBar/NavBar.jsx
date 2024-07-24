@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react"
 import UserInfo from "./UserInfo.jsx";
 import "../../index.css"
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom"
 import { useTokenContext } from "../TokenContext/TokenContext.jsx";
 import logoImg from "../../AppImages/Mei Chibi Icons/Mei_Chibi_Icon.png";
 
