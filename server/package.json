@@ -19,7 +19,8 @@
     "mysql2": "^3.10.1",
     "node-cron": "^3.0.3",
     "object-assign": "^4.1.1",
-    "sequelize": "^6.37.3"
+    "sequelize": "^6.37.3",
+    "serverless-http": "^3.2.0"
   },
   "devDependencies": {
     "babel-preset-react-app": "@babel/plugin-proposal-private-property-in-object",

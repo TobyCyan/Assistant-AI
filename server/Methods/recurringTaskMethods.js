@@ -1,7 +1,6 @@
 const db = require('../Models/dataBase.js')
-const User = db.user
+
 const RecurringTasks = db.recurringTasks
-const {getTodayDate, getDaysDifference, addDays} = require('../utilities/utilities')
 
 /**
  * Gets All the User's TaskModals by the userId.

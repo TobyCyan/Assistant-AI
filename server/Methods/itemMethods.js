@@ -1,5 +1,4 @@
 const db = require('../Models/dataBase.js')
-const jwt = require('jsonwebtoken')
 
 const User = db.user
 const Items = db.items
