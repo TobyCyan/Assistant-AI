@@ -1,15 +1,13 @@
 import React,  { useEffect, ReactNode, useState, useRef } from "react";
-import { useTokenContext } from "../TokenContext/TokenContext";
-import { wait } from "../../utilities/ChatPageUtilities";
 import ChatBotResponseElement from "../MessageElement/ChatBotResponseElement";
-import { getTimeOfTheDay, getGreetingDialogue, getOverdueTasksDialogue, getPriorityTasksDialogue, getRemindersTasksDialogue, getUpcomingTasksDialogue } from "../../utilities/ReminderRoomUtilities";
+import { getGreetingDialogue, getOverdueTasksDialogue, getPriorityTasksDialogue, getRemindersTasksDialogue, getUpcomingTasksDialogue } from "../../utilities/ReminderRoomUtilities";
 
 
 /**
  * A React component that displays the reminder room where the AI Assistant can talk to the user.
  * @returns {ReactNode} A React element that renders the reminder room.
  */
-const ReminderRoom = ({closeReminderRoomModal, taskData, setActivateBirthday, setHasReminded, timeOfTheDay, todayDate}) => {
+const ReminderRoom = ({closeReminderRoomModal, taskData, setHasReminded, timeOfTheDay, todayDate}) => {
     const [chatMessages, setChatMessages] = useState([])
     const lastMessage = useRef(null)
 
@@ -35,15 +33,6 @@ const ReminderRoom = ({closeReminderRoomModal, taskData, setActivateBirthday, se
     ]
 
     /**
-     * Ends the reminder by clearing the message interval, activating the birthday modal, and set hasReminded as true.
-     * @param {*} messageTimer The message timer.
-     */
-    const endReminder = (messageTimer) => {
-        clearInterval(messageTimer)
-        setActivateBirthday(true)
-    }
-
-    /**
      * @function useEffect
      * @description Sets the interval between and automatically showing each dialogue in the reminderDialogueFlow array.
      */
@@ -58,7 +47,7 @@ const ReminderRoom = ({closeReminderRoomModal, taskData, setActivateBirthday, se
                 localStorage.setItem(timeOfTheDay, JSON.stringify({reminded: true, date: todayDate}))
                 closeReminderRoomModal()
                 setHasReminded(true)
-                endReminder(messageTimer)
+                clearInterval(messageTimer)
                 return
             }
             const newMessage = reminderDialogueFlow[index]
@@ -68,7 +57,7 @@ const ReminderRoom = ({closeReminderRoomModal, taskData, setActivateBirthday, se
         
         // If user closes the modal, the reminder ends but reminded status is not updated to true.
         return () => {
-            endReminder(messageTimer)
+            clearInterval(messageTimer)
         }
     }, [])
 

@@ -11,7 +11,7 @@ import logoImg from "../../AppImages/Mei Chibi Icons/Mei_Chibi_Icon.png";
  * @component
  * @returns {ReactNode} A React element that renders the navigation bar.
  */
-const NavBar = ({overduedTasks, remindersTasks, upcomingTasks, priorityTasks, setActivateBirthday}) => {
+const NavBar = ({overduedTasks, remindersTasks, upcomingTasks, priorityTasks}) => {
     const {tokenStatus} = useTokenContext()
 
     /**
@@ -34,7 +34,7 @@ const NavBar = ({overduedTasks, remindersTasks, upcomingTasks, priorityTasks, se
                     {token && <li><Link to={token ? "/shop" : "/login"} className="navBarLinks navBarShop">Shop</Link></li>}
                 </ul>
             </div>
-            <ReminderBell overduedTasks={overduedTasks} remindersTasks={remindersTasks} upcomingTasks={upcomingTasks} priorityTasks={priorityTasks} setActivateBirthday={setActivateBirthday} />
+            <ReminderBell overduedTasks={overduedTasks} remindersTasks={remindersTasks} upcomingTasks={upcomingTasks} priorityTasks={priorityTasks} />
             <UserInfo />
         </div>
     )

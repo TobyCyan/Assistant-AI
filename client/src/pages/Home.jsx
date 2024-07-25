@@ -47,12 +47,6 @@ const Home = () => {
     const [activateIntro, setActivateIntro] = useState(false)
     
     /**
-     * The initial state of activating the birthday modal and setter function to update it.
-     * @type {[boolean, function]}
-     */
-    const [activateBirthday, setActivateBirthday] = useState(false)
-    
-    /**
      * The name of the current page.
      * @type {string}
      */
@@ -370,12 +364,12 @@ const Home = () => {
         }
 
         const birthdayShown = JSON.parse(localStorage.getItem("birthdayShown"))
-        if (isTodayBirthday(birthday) && !birthdayShown && activateBirthday) {
+        if (isTodayBirthday(birthday) && !birthdayShown) {
             setTimeout(() => {
                 handleBirthday()
             }, 500)
         }
-    }, [userData, activateBirthday])
+    }, [userData])
 
     /**
      * @function useEffect
@@ -392,7 +386,7 @@ const Home = () => {
     return (
         <>
         <IntroElement steps={introSteps} activate={activateIntro} setActivate={setActivateIntro} hasDoneTutorial={userData.hasDoneTutorial} endIntro={false} page={page} />
-        <NavBar overduedTasks={overduedTasks} remindersTasks={remindersTasks} upcomingTasks={upcomingTasks} priorityTasks={priorityTasks} setActivateBirthday={setActivateBirthday} />
+        <NavBar overduedTasks={overduedTasks} remindersTasks={remindersTasks} upcomingTasks={upcomingTasks} priorityTasks={priorityTasks} />
             <div className="homepageContainer">
 
                 <div className="extraInfoTab">

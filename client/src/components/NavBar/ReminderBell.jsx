@@ -6,7 +6,7 @@ import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { getTimeOfTheDay } from "../../utilities/ReminderRoomUtilities";
 
 
-const ReminderBell = ({overduedTasks, remindersTasks, upcomingTasks, priorityTasks, setActivateBirthday}) => {
+const ReminderBell = ({overduedTasks, remindersTasks, upcomingTasks, priorityTasks}) => {
     const timeOfTheDay = getTimeOfTheDay()
 
     /**
@@ -23,10 +23,10 @@ const ReminderBell = ({overduedTasks, remindersTasks, upcomingTasks, priorityTas
     const [reminderRoomModalOpen, setReminderRoomModalOpen] = useState({
         isShown: false,
         data: {
-            overduedTasks: overduedTasks,
-            remindersTasks: remindersTasks,
-            upcomingTasks: upcomingTasks,
-            priorityTasks: priorityTasks,
+            overduedTasks: [],
+            remindersTasks: [],
+            upcomingTasks: [],
+            priorityTasks: [],
         },
     })
 
@@ -59,10 +59,6 @@ const ReminderBell = ({overduedTasks, remindersTasks, upcomingTasks, priorityTas
             },
         })
     }
-
-    useEffect(() => {
-        console.log('reminded? ', hasReminded)
-    }, [hasReminded])
 
     /**
      * @function useEffect
@@ -120,7 +116,6 @@ const ReminderBell = ({overduedTasks, remindersTasks, upcomingTasks, priorityTas
                 <ReminderRoom
                     closeReminderRoomModal={closeReminderRoomModal}
                     taskData={reminderRoomModalOpen.data}
-                    setActivateBirthday={setActivateBirthday}
                     setHasReminded={setHasReminded}
                     timeOfTheDay={timeOfTheDay}
                     todayDate={todayDate}
