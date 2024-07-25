@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect } from "react"
+import React, { ReactNode } from "react"
 import UserInfo from "./UserInfo.jsx";
 import ReminderBell from "./ReminderBell.jsx";
 import "../../index.css"
@@ -28,7 +28,7 @@ const NavBar = ({overduedTasks, remindersTasks, upcomingTasks, priorityTasks}) =
                     <Link to="/" className="navBarLinks"><img src={logoImg} className="navBarLogo" /> abc </Link>
              
                     </li>
-                    <li><Link to="/" className="navBarLinks">Assistant AI</Link></li>
+                    <li><Link to="/" className="navBarLinks">Assistant MEI</Link></li>
                     {token && <li><Link to={token ? "/tasks" : "/login"} className="navBarLinks navBarMyTasks">My Tasks</Link></li>}
                     {token && <li><Link to={token ? "/recurringTasks" : "/login"} className="navBarLinks navBarRecurringTasks">Recurring Tasks</Link></li>}
                     {token && <li><Link to={token ? "/shop" : "/login"} className="navBarLinks navBarShop">Shop</Link></li>}

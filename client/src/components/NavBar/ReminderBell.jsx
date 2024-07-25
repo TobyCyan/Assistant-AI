@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import Modal from "react-modal";
-import ReminderRoom from "../ReminderRoom/ReminderRoom";
+import RingingReminderBell from "./RingingReminderBell";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { getTimeOfTheDay } from "../../utilities/ReminderRoomUtilities";
 
-
-const ReminderBell = ({overduedTasks, remindersTasks, upcomingTasks, priorityTasks}) => {
+const ReminderBell = () => {
     const timeOfTheDay = getTimeOfTheDay()
 
     /**
@@ -15,50 +13,6 @@ const ReminderBell = ({overduedTasks, remindersTasks, upcomingTasks, priorityTas
     const todayDate = (new Date()).getDate()
 
     const [hasReminded, setHasReminded] = useState(false)
-
-    /**
-     * The current state of ReminderRoomModal and setter function to update it.
-     * @type {[Object, function]}
-     */
-    const [reminderRoomModalOpen, setReminderRoomModalOpen] = useState({
-        isShown: false,
-        data: {
-            overduedTasks: [],
-            remindersTasks: [],
-            upcomingTasks: [],
-            priorityTasks: [],
-        },
-    })
-
-    /**
-     * Open modal for daily reminder.
-     */
-    const handleDailyReminder = () => {
-        setReminderRoomModalOpen({
-            isShown: true,
-            data: {
-                overduedTasks: overduedTasks,
-                remindersTasks: remindersTasks,
-                upcomingTasks: upcomingTasks,
-                priorityTasks: priorityTasks,
-            },
-        })
-    }
-
-    /**
-     * Closes the Chat Room Modal.
-     */
-    const closeReminderRoomModal = () => {
-        setReminderRoomModalOpen({
-            isShown: false,
-            data: {
-                overduedTasks: overduedTasks,
-                remindersTasks: remindersTasks,
-                upcomingTasks: upcomingTasks,
-                priorityTasks: priorityTasks,
-            },
-        })
-    }
 
     /**
      * @function useEffect
@@ -77,7 +31,6 @@ const ReminderBell = ({overduedTasks, remindersTasks, upcomingTasks, priorityTas
          * @type {boolean} true or false.
          */
         const hasReminded = JSON.parse(localStorage.getItem(timeOfTheDay))["reminded"]
-        console.log('reminded? ', hasReminded)
         setHasReminded(hasReminded)
     }, [])
 
@@ -91,36 +44,12 @@ const ReminderBell = ({overduedTasks, remindersTasks, upcomingTasks, priorityTas
                         </div>
                         <div className="checkMark"></div>
                     </>
-                ) : (
-                    <>
-                        <div className="notification">
-                            <FontAwesomeIcon id="notReminded" icon={faBell} onClick={handleDailyReminder}/>
-                        </div>
-                        <div className="notificationMark">
-                            <p>1</p>
-                        </div>
-                    </>
+                ) : (      
+                    <>  
+                        <RingingReminderBell setHasReminded={setHasReminded} timeOfTheDay={timeOfTheDay} todayDate={todayDate} />
+                    </>   
                 )}
             </div>
-            <Modal
-                isOpen={reminderRoomModalOpen.isShown}
-                onRequestClose={closeReminderRoomModal}
-                style={{
-                    overlay: {
-                        backgroundColor: "rgba(0, 0, 0, 0.2)"
-                    }
-                }}
-                className="reminderRoomModal"
-            >
-
-                <ReminderRoom
-                    closeReminderRoomModal={closeReminderRoomModal}
-                    taskData={reminderRoomModalOpen.data}
-                    setHasReminded={setHasReminded}
-                    timeOfTheDay={timeOfTheDay}
-                    todayDate={todayDate}
-                />
-            </Modal>
         </>
     )
 }

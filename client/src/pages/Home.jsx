@@ -395,7 +395,7 @@ const Home = () => {
                         <button className="addRecurringTaskBtn" onClick={() => navigate('/recurringTasks')}>Add Recurring Task</button>
                     </div>
                     <div className="userDisplayBox">
-                        <div>Points: {userData?.points || 0}</div>
+                        <div className="points">Points: {userData?.points || 0}</div>
                         <div className="productivityBox">
                             <h3>Productivity Report</h3>
                             <ProductivityBar percentage={productivity}/>

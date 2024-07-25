@@ -11,6 +11,7 @@ const TokenContext = createContext()
 export const TokenProvider = (props) => {
     // localStorage.getItem returns a truthy value - undefined
     const [token, setToken] = useState(null)
+
     const [userData, setUserData] = useState({
         username: null,
         id: null,
@@ -18,6 +19,8 @@ export const TokenProvider = (props) => {
         dateOfBirth: null,
         points: null,
     })
+
+    const [assistantSprite, setAssistantSprite] = useState("Mei_Chibi")
 
     useEffect(() => {
         // This will run after the state update is complete
@@ -31,6 +34,7 @@ export const TokenProvider = (props) => {
         value={{
             tokenStatus: [token, setToken], 
             userInfo: [userData, setUserData],
+            meiSprite: [assistantSprite, setAssistantSprite]
         }}>
             {props.children}
         </TokenContext.Provider>

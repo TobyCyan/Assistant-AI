@@ -215,8 +215,7 @@ const Profile = () => {
             const data = await response.json();
             setDisplayUserInfo(data.userDetails);
             setDisplayUserItems(data.userItems);
-            console.log(data.userItems)
-            console.log(displayUser)
+   
         } catch (err) {
             console.log(`Error getting by username`)
         }

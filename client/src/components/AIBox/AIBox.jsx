@@ -1,10 +1,9 @@
 import React, {useEffect, useState, ReactNode} from "react";
 import "../../index.css"
 import { useTokenContext } from "../TokenContext/TokenContext";
-import avatarImgWave from "../../AppImages/Mei Chibi Icons/Mei_Chibi_Wave.png"
-import avatarImgWink from "../../AppImages/Mei Chibi Icons/Mei_Chibi_Wink.png"
 import { useNavigate } from "react-router-dom";
 import { randIntervalGenerator, getRandomVoiceLine } from "../../utilities/utilities";
+// import { importSprites } from "../../utilities/SpriteUtilities";
 
 /**
  * A React component that displays the region where the AI assistant can be seen, this includes the assistant itself and any dialogues.
@@ -12,7 +11,13 @@ import { randIntervalGenerator, getRandomVoiceLine } from "../../utilities/utili
  * @returns {ReactNode} A React element that renders the AI assistant.
  */
 const AIBox = () => {
-    const {userInfo} = useTokenContext()
+    const { userInfo, tokenStatus, meiSprite } = useTokenContext()
+    const [assistantSprite, ] = meiSprite
+    const [token, ] = tokenStatus
+
+    const [waveSprite, setWaveSprite] = useState(null)
+    const [winkSprite, setWinkSprite] = useState(null)
+
     const navigate = useNavigate()
 
     /**
@@ -61,6 +66,24 @@ const AIBox = () => {
     useEffect(() => {
         setDialogue(`Welcome Back! ${ userData.username ? userData.username : ""}`)
     }, [userData])
+
+    /**
+     * @function useEffect
+     * @description Imports the necessary sprites based on the current sprite type.
+     */
+    useEffect(() => {
+        const importSprites = async () => {
+            try {
+                const sprite1 = await import(`../../AppImages/Mei Chibi Icons/${assistantSprite}_Wave.png`)
+                const sprite2 = await import(`../../AppImages/Mei Chibi Icons/${assistantSprite}_Wink.png`)
+                setWaveSprite(sprite1.default)
+                setWinkSprite(sprite2.default)
+            } catch (err) {
+                console.error("Failed to Import Sprites: ", err.message)
+            }
+        }
+        importSprites()
+    }, [token, assistantSprite])
 
     /**
      * @function useEffect
@@ -118,8 +141,8 @@ const AIBox = () => {
                 </div>
 
                 <div className="assistantAvatarDiv">
-                    <img src={avatarImgWave} className="assistantAvatar wave" onClick={toAssistantWindow}/>
-                    <img src={avatarImgWink} className="assistantAvatar wink" onClick={toAssistantWindow}/>
+                    { waveSprite ?  <img src={waveSprite} className="assistantAvatar wave" onClick={toAssistantWindow}/> : <div>Loading Image...</div> }
+                    { winkSprite ? <img src={winkSprite} className="assistantAvatar wink" onClick={toAssistantWindow}/> : <div>Loading Image...</div> }
                 </div>
                 <div className="instructionText">Click on me to chat!</div>
             </div>

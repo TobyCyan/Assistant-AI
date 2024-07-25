@@ -10,8 +10,6 @@ import ListMessageElement from "../components/MessageElement/ListMessageElement.
 import AddEditTaskMessageElement from "../components/MessageElement/AddEditTaskMessageElement.jsx";
 import avatarIcon from "../AppImages/Mei Chibi Icons/Mei_Chibi_Icon.png"
 import IntroElement from "../components/IntroElements/IntroElement.jsx";
-import avatarImgTexting from "../AppImages/Mei Chibi Icons/Mei_Chibi_Phone_Texting.png"
-import avatarImgStaring from "../AppImages/Mei Chibi Icons/Mei_Chibi_Phone_Staring.png"
 
 /**
  * A React component that displays the page where users can interact and chat with the AI Assistant.
@@ -19,7 +17,7 @@ import avatarImgStaring from "../AppImages/Mei Chibi Icons/Mei_Chibi_Phone_Stari
  * @returns {ReactNode} A React element that renders the chatbot page.
  */
 const ChatPage = () => {
-    const {tokenStatus, userInfo} = useTokenContext()
+    const {tokenStatus, userInfo, meiSprite} = useTokenContext()
 
     /**
      * The current token and setter function to update it.
@@ -32,6 +30,11 @@ const ChatPage = () => {
      * @type {[Object, function]}
      */
     const [userData, ] = userInfo
+
+    const [assistantSprite, ] = meiSprite
+
+    const [textingSprite, setTextingSprite] = useState(null)
+    const [staringSprite, setStaringSprite] = useState(null)
 
     const [takingInput, setTakingInput] = useState(false)
     const [inConfirmation, setInConfirmation] = useState(false)
@@ -75,7 +78,7 @@ const ChatPage = () => {
      * The Flask API URL for the chat bot.
      * @type {string}
      */
-    const chatbotFlaskApiUrl = process.env.REACT_APP_CHATBOT_FLASK_API_URL
+    const chatbotFlaskApiUrl = import.meta.env.VITE_CHATBOT_FLASK_API_URL
 
     /**
      * The user's productivity
@@ -910,6 +913,24 @@ const ChatPage = () => {
         }
     }, [])
 
+    /**
+     * @function useEffect
+     * @description Imports the necessary sprites based on the current sprite type.
+     */
+    useEffect(() => {
+        const importSprites = async () => {
+            try {
+                const sprite1 = await import(`../AppImages/Mei Chibi Icons/${assistantSprite}_Phone_Texting.png`)
+                const sprite2 = await import(`../AppImages/Mei Chibi Icons/${assistantSprite}_Phone_Staring.png`)
+                setTextingSprite(sprite1.default)
+                setStaringSprite(sprite2.default)
+            } catch (err) {
+                console.error("Failed to Import Sprites: ", err.message)
+            }
+        }
+        importSprites()
+    }, [token])
+
     return (
         <div className="chatpage" >
             <NavBar />
@@ -948,7 +969,11 @@ const ChatPage = () => {
                 </div>
                 <div className="chatpageAIBox">
                     <div id="assistantChatPageDialogue">{dialogue}</div>
-                    {isTexting ? <img className="chatpageAssistantTexting" src={avatarImgTexting} /> : <img className="chatpageAssistantStaring" src={avatarImgStaring} />}
+                    {isTexting ? ( 
+                        textingSprite ? <img className="chatpageAssistantTexting" src={textingSprite} /> : <div>Loading Image...</div> 
+                    ) : ( 
+                        staringSprite ? <img className="chatpageAssistantStaring" src={staringSprite} /> : <div>Loading Image...</div> 
+                    )}
                 </div>
             </div>
         </div>

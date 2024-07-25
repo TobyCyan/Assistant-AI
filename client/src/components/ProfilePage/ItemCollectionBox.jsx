@@ -1,8 +1,9 @@
 import React from 'react';
 import MiniItem from "./MiniItem.jsx";
-import {Items} from "../../utilities/utilities.js";
+import { Items } from "../../utilities/utilities.js";
 
-function ItemCollectionBox({items}) {
+const ItemCollectionBox = ({items}) => {
+
     const sortedItems = [...items].sort((a, b) => a.itemId - b.itemId).map(each => Items[each.itemId-1])
 
     return (
