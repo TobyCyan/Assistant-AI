@@ -9,15 +9,15 @@ export const getTimeOfTheDay = () => {
     const timeInHours = today.getHours()
     
     if (timeInHours <= 6) {
-        return 'EarlyMorning'
+        return "EarlyMorning"
     } 
     if (timeInHours < 12) {
-        return 'Morning'
+        return "Morning"
     } 
     if (timeInHours <= 18) {
-        return 'Afternoon'
+        return "Afternoon"
     }
-    return 'Evening'
+    return "Evening"
 }
 
 /**
@@ -26,19 +26,19 @@ export const getTimeOfTheDay = () => {
  * @returns {string} A string that represents the greeting dialogue.
  */
 export const getGreetingDialogue = (timeOfTheDay) => {
-    if (timeOfTheDay == 'EarlyMorning') {
+    if (timeOfTheDay == "EarlyMorning") {
         return "Oh you're still awake? Don't push yourself too hard!"
     }
-    if (timeOfTheDay == 'Morning') {
+    if (timeOfTheDay == "Morning") {
         return "Good morning!"
     }
-    if (timeOfTheDay == 'Afternoon') {
+    if (timeOfTheDay == "Afternoon") {
         return "Good Afternoon!"
     }
-    if (timeOfTheDay == 'Evening') {
+    if (timeOfTheDay == "Evening") {
         return "It's getting late. Remember to get enough sleep!"
     }
-    return 'Hello!'
+    return "Hello!"
 }
 
 /**
@@ -49,19 +49,9 @@ export const getGreetingDialogue = (timeOfTheDay) => {
 export const getOverdueTasksDialogue = (overduedTasks) => {
     const numOfTasks = overduedTasks.length
     if (numOfTasks == 0) {
-        return 'There is no task overdue.'
+        return "There is no task overdue."
     }
     return `There ${numOfTasks == 1 ? `is 1 task` : `are ${numOfTasks} tasks`} overdue.`
-}
-
-/**
- * Returns the dialogue line depending on the tasks at hand that need to be reminded of.
- * @param {Array<Object>} remindersTasks The list of tasks to be reminded of.
- * @returns {string} The dialogue that is printed regarding the user's reminder tasks.
- */
-export const getRemindersTasksDialogue = (remindersTasks) => {
-
-    return ''
 }
 
 /**
@@ -72,11 +62,11 @@ export const getRemindersTasksDialogue = (remindersTasks) => {
 export const getUpcomingTasksDialogue = (upcomingTasks) => {
     if (upcomingTasks.length >= 1) {
         const nearestUpcomingTask = upcomingTasks[0]
-        const nearestUpcomingTaskTitle = nearestUpcomingTask['title']
-        const nearestUpcomingTaskDeadline = getDDMM(nearestUpcomingTask['deadline'])
+        const nearestUpcomingTaskTitle = nearestUpcomingTask["title"]
+        const nearestUpcomingTaskDeadline = getDDMM(nearestUpcomingTask["deadline"])
         return `Your nearest upcoming task is ${nearestUpcomingTaskTitle} which ends on ${nearestUpcomingTaskDeadline}!`
     }
-    return `You haven't added any tasks yet! Try adding some!`
+    return `You haven"t added any tasks yet! Try adding some!`
 }
 
 /**
@@ -87,9 +77,9 @@ export const getUpcomingTasksDialogue = (upcomingTasks) => {
 export const getPriorityTasksDialogue = (priorityTasks) => {
     if (priorityTasks.length >= 1) {
         const highestPriorityTask = priorityTasks[0]
-        const highestPriorityTaskTitle = highestPriorityTask['title']
-        const highestPriorityTaskDeadline = highestPriorityTask['deadline']
+        const highestPriorityTaskTitle = highestPriorityTask["title"]
+        const highestPriorityTaskDeadline = highestPriorityTask["deadline"]
         return `The highest prioritised task on your list is ${highestPriorityTaskTitle}.`
     }
-    return `I don't have any task to recommend to you either!`
+    return `I don"t have any task to recommend to you either!`
 }
