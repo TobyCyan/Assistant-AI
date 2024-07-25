@@ -1,6 +1,4 @@
 import React, { useState, useEffect, ReactNode } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import '../../index.css'
 import {useNavigate} from "react-router-dom";
 import { useTokenContext } from "../TokenContext/TokenContext.jsx";
@@ -67,19 +65,18 @@ const UserInfo = () => {
 
         try {
             const res = await fetch(`${expressApiUrl}GetUserInfo`, dataToPost)
-            if(res.ok) {
+            if (res.ok) {
                 console.log("UserInfo successfully retrieved")
             } else {
                 console.log("Invalid User/Info")
             }
 
             const data = await res.json()
-            if(data) {
+            if (data) {
                 setUserData(data)
-                console.log(data)
             }
         } catch (error) {
-            console.error('Failed to Fetch User Info!', error)
+            console.error('Failed to Fetch User Info!', error.message)
         }
     }
 
@@ -120,16 +117,15 @@ const UserInfo = () => {
     const userBar = () => {
         if (token) {
             return (
-                <div className="userInfo">
-                    <div className="notification">
-                        <FontAwesomeIcon icon={faEnvelope} />
+                <>
+                    <div className="userInfo">
+                        <div onClick={onProfile} className="nameAndPoints">
+                            <p className="username">{username}</p>
+                            <p className="points">{points} pts</p>
+                        </div>
+                        <button className="navBarBtn" onClick={onLogOut}>Log Out</button>
                     </div>
-                    <div onClick={onProfile} className="nameAndPoints">
-                        <p className="username">{username}</p>
-                        <p className="points">{points} pts</p>
-                    </div>
-                    <button className="navBarBtn" onClick={onLogOut}>Log Out</button>
-                </div>
+                </> 
             )
         } else {
             return (

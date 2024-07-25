@@ -118,9 +118,82 @@ button {
   justify-content: space-between;
 }
 
-.notification {
-  margin-right: 10px;
-  font-size: 20px;
+.reminderBellContainer {
+  position: absolute;
+  right: 200px;
+}
+
+.notificationMark {
+  border: 1px solid red;
+  border-radius: 50%;
+  background-color: red;
+  height: 10px;
+  width: 10px;
+  bottom: 30px;
+  position: relative;
+  z-index: 2;
+  left: 256px;
+}
+
+.notificationMark>p {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -60% -135%;
+  font-size: 11px;
+}
+
+.checkMark {
+  position: absolute;
+  top: -2px;
+  left: 258px;
+  width: 4px;
+  height: 10px;
+  border-bottom: 3px solid green;
+  border-right: 3px solid green;
+  transform: rotate(45deg);
+  animation: zoom 0.2s linear;
+}
+
+.notification #reminded, .notification #notReminded {
+  margin-top: 10px;
+  margin-left: 235px;
+  font-size: 25px;
+  z-index: 1;
+}
+
+.notification #reminded {
+  margin-top: 0px;
+}
+
+.notification #notReminded {
+  animation: ring 1.0s linear infinite;
+}
+
+.notification #notReminded:hover {
+  animation: none;
+  scale: 1.1;
+}
+
+@keyframes zoom {
+  50% {
+    scale: 1.2;
+  }
+}
+
+@keyframes ring {
+  25% {
+    rotate: 30deg;
+  }
+  50% {
+    rotate: 0deg;
+  }
+  75% {
+    rotate: -30deg;
+  }
+  100% {
+    rotate: 0deg;
+  }
 }
 
 .accountFormBox {
@@ -1248,8 +1321,7 @@ ul {
   width: 470px;
   height: 80%;
   position: absolute;
-  left: 25%;
-  right: 25%;
+  margin: auto;
   bottom: 90px;
   border: none;
 }

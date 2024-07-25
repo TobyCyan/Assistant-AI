@@ -1,5 +1,6 @@
-import React, { ReactNode } from "react"
+import React, { ReactNode, useEffect } from "react"
 import UserInfo from "./UserInfo.jsx";
+import ReminderBell from "./ReminderBell.jsx";
 import "../../index.css"
 import { Link } from "react-router-dom"
 import { useTokenContext } from "../TokenContext/TokenContext.jsx";
@@ -10,7 +11,7 @@ import logoImg from "../../AppImages/Mei Chibi Icons/Mei_Chibi_Icon.png";
  * @component
  * @returns {ReactNode} A React element that renders the navigation bar.
  */
-const NavBar = () => {
+const NavBar = ({overduedTasks, remindersTasks, upcomingTasks, priorityTasks, setActivateBirthday}) => {
     const {tokenStatus} = useTokenContext()
 
     /**
@@ -33,7 +34,8 @@ const NavBar = () => {
                     {token && <li><Link to={token ? "/shop" : "/login"} className="navBarLinks navBarShop">Shop</Link></li>}
                 </ul>
             </div>
-            <UserInfo/>
+            <ReminderBell overduedTasks={overduedTasks} remindersTasks={remindersTasks} upcomingTasks={upcomingTasks} priorityTasks={priorityTasks} setActivateBirthday={setActivateBirthday} />
+            <UserInfo />
         </div>
     )
 }

@@ -47,9 +47,11 @@ export const getGreetingDialogue = (timeOfTheDay) => {
  * @returns {string} The dialogue that is printed regarding the user's overdued tasks.
  */
 export const getOverdueTasksDialogue = (overduedTasks) => {
-
-    if (overduedTasks == 0) return 'There is no task overdue.'
-    return `There ${overduedTasks == 1 ? `is 1 task` : `are ${overduedTasks} tasks`} overdue.`
+    const numOfTasks = overduedTasks.length
+    if (numOfTasks == 0) {
+        return 'There is no task overdue.'
+    }
+    return `There ${numOfTasks == 1 ? `is 1 task` : `are ${numOfTasks} tasks`} overdue.`
 }
 
 /**

@@ -9,7 +9,6 @@ import ProductivityBar from "../components/ProductivityBar/ProductivityBar.jsx";
 import { isTaskOverdue, isTaskNeededToBeReminded, isTaskUpcoming, isTodayBirthday, isTodayNextDayOfBirthday, compareTasksPriority, compareTasksDeadline, calculateTaskProductivity, getProductivityBarComments, startIntro, setHasFinishedIntroAtPage } from "../utilities/utilities.js";
 import AIBox from "../components/AIBox/AIBox.jsx";
 import BirthdayCard from "../components/Birthday/BirthdayCard.jsx";
-import ReminderRoom from "../components/ReminderRoom/ReminderRoom.jsx";
 // import { wait } from "../utilities/ChatPageUtilities.js";
 import IntroElement from "../components/IntroElements/IntroElement.jsx";
 import { useNavigate } from "react-router-dom";
@@ -258,20 +257,6 @@ const Home = () => {
     const [birthdayModalOpen, setBirthdayModalOpen] = useState({
         isShown: false,
     })
-
-    /**
-     * The current state of ReminderRoomModal and setter function to update it.
-     * @type {[Object, function]}
-     */
-    const [reminderRoomModalOpen, setReminderRoomModalOpen] = useState({
-        isShown: false,
-        data: {
-            overduedTasks: overduedTasks,
-            remindersTasks: remindersTasks,
-            upcomingTasks: upcomingTasks,
-            priorityTasks: priorityTasks,
-        },
-    })
     
     /**
      * Closes the Add Edit Task Modal.
@@ -303,21 +288,6 @@ const Home = () => {
             isShown: false,
         })
         localStorage.setItem("birthdayShown", true)
-    }
-
-    /**
-     * Closes the Chat Room Modal.
-     */
-    const closeReminderRoomModal = () => {
-        setReminderRoomModalOpen({
-            isShown: false,
-            data: {
-                overduedTasks: [],
-                remindersTasks: [],
-                upcomingTasks: [],
-                priorityTasks: [],
-            },
-        })
     }
 
     /**
@@ -378,21 +348,6 @@ const Home = () => {
     }
 
     /**
-     * Open modal for daily reminder.
-     */
-    const handleDailyReminder = () => {
-        setReminderRoomModalOpen({
-            isShown: true,
-            data: {
-                overduedTasks: overduedTasks,
-                remindersTasks: remindersTasks,
-                upcomingTasks: upcomingTasks,
-                priorityTasks: priorityTasks,
-            }
-        })
-    }
-
-    /**
      * @function useEffect
      * @description Checks if birthdayShown exists in the local storage, sets it if not.
      */
@@ -434,22 +389,10 @@ const Home = () => {
         }
     }, [])
 
-    /**
-     * @function useEffect
-     * @description Opens the Chat Room modal everyday for the daily reminder only when it"s active so it does not clash with the intro.
-     */
-    useEffect(() => {
-        if (userData.hasDoneTutorial) {
-            setTimeout(() => {
-                handleDailyReminder()
-            }, 1000)
-        }
-    }, [userData])
-
     return (
         <>
         <IntroElement steps={introSteps} activate={activateIntro} setActivate={setActivateIntro} hasDoneTutorial={userData.hasDoneTutorial} endIntro={false} page={page} />
-        <NavBar />
+        <NavBar overduedTasks={overduedTasks} remindersTasks={remindersTasks} upcomingTasks={upcomingTasks} priorityTasks={priorityTasks} setActivateBirthday={setActivateBirthday} />
             <div className="homepageContainer">
 
                 <div className="extraInfoTab">
@@ -541,24 +484,6 @@ const Home = () => {
                 >
                     <BirthdayCard
                         onClose={closeBirthdayModal}
-                    />
-                </Modal>
-
-                <Modal
-                    isOpen={reminderRoomModalOpen.isShown}
-                    onRequestClose={closeReminderRoomModal}
-                    style={{
-                        overlay: {
-                            backgroundColor: "rgba(0, 0, 0, 0.2)"
-                        }
-                    }}
-                    className="reminderRoomModal"
-                >
-
-                    <ReminderRoom
-                        closeReminderRoomModal={closeReminderRoomModal}
-                        taskData={reminderRoomModalOpen.data}
-                        setActivateBirthday={setActivateBirthday}
                     />
                 </Modal>
             </div>
