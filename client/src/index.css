@@ -491,7 +491,7 @@ button {
   width: 100%;
   height: 2rem;
   position: absolute;
-  top: -0.5rem;
+  top: -1rem;
   right: -1rem;
   background: none;
   border: none;
@@ -503,7 +503,7 @@ button {
 }
 
 .confirmMessage,.exchangeMessage {
-
+  text-align: center;
 }
 
 .confirmCompDelBtn, .confirmRequestButton, .confirmExchangeButton, .confirmDelBtn {

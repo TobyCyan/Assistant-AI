@@ -87,7 +87,8 @@ export const isTodayNextDayOfBirthday = (birthday) => {
  */
 export const isTaskOverdue = (task) => {
     const deadlineDate = new Date(task.deadline)
-    return deadlineDate < today
+    deadlineDate.setHours(deadlineDate.getHours() + 16)
+    return deadlineDate <= today
 }
 
 /**
