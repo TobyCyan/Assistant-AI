@@ -1,11 +1,3 @@
-import item1Image from '../../../images/testitem1.jpeg'
-import item2Image from '../../../images/testitem2.jpeg'
-import item3Image from '../../../images/testitem3.jpeg'
-import item4Image from '../../../images/testitem4.jpeg'
-import item5Image from '../../../images/testitem5.jpeg'
-import item6Image from '../../../images/testitem6.jpeg'
-import item7Image from '../../../images/testitem7.jpeg'
-
 /**
  * Converts a date string into DDMM format.
  * @param {string} date Date string to convert into DDMM format.
@@ -352,43 +344,6 @@ export const parseToken = (token) => {
     const userId = tokenPayload?.userId
     return [username, userId]
 }
-
-export const Items = [{
-    itemId: 1,
-    title: 'Item 1',
-    imageURL: item1Image,
-    points: 12
-}, {
-    itemId: 2,
-    title: 'Item 2',
-    imageURL: item2Image,
-    points: 154
-}, {
-    itemId: 3,
-    title: 'Item 3',
-    imageURL: item3Image,
-    points: 30
-}, {
-    itemId: 4,
-    title: 'Item 4',
-    imageURL: item4Image,
-    points: 1256
-}, {
-    itemId: 5,
-    title: 'Item 5',
-    imageURL: item5Image,
-    points: 125
-}, {
-    itemId: 6,
-    title: 'Item 6',
-    imageURL: item6Image,
-    points: 58
-}, {
-    itemId: 7,
-    title: 'Item 7',
-    imageURL: item7Image,
-    points: 75
-}]
 
 /**
  * Obtains a random element from the given array.

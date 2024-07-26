@@ -1,61 +1,45 @@
 import React,  { useEffect, ReactNode, useState, useRef } from "react";
-import { useTokenContext } from "../TokenContext/TokenContext";
-import { wait } from "../../utilities/ChatPageUtilities";
 import ChatBotResponseElement from "../MessageElement/ChatBotResponseElement";
-import { getTimeOfTheDay, getGreetingDialogue, getOverdueTasksDialogue, getPriorityTasksDialogue, getRemindersTasksDialogue, getUpcomingTasksDialogue } from "../../utilities/ChatRoomUtilities";
-
+import { getGreetingDialogue, getOverdueTasksDialogue, getPriorityTasksDialogue, getUpcomingTasksDialogue } from "../../utilities/ReminderRoomUtilities";
+import ListMessageElement from "../MessageElement/ListMessageElement";
+import { taskInfoString } from "../../utilities/ChatPageUtilities";
 
 /**
  * A React component that displays the reminder room where the AI Assistant can talk to the user.
  * @returns {ReactNode} A React element that renders the reminder room.
  */
-const ReminderRoom = ({closeReminderRoomModal, taskData, setActivateBirthday}) => {
-    const {userInfo, tokenStatus} = useTokenContext()
-
-    const [token, setToken] = tokenStatus
-    const [userData, setUserData] = userInfo
+const ReminderRoom = ({closeReminderRoomModal, taskData, setHasReminded, timeOfTheDay, todayDate}) => {
     const [chatMessages, setChatMessages] = useState([])
     const lastMessage = useRef(null)
-    
-    /**
-     * @function useEffect
-     * @description Debug statement to show the list of upcoming tasks.
-     */
-    // useEffect(() => {
-    //     console.log("data: " + JSON.stringify(taskData.overduedTasks)+ "\n")
-    // }, [taskData])
-    
-    /**
-     * @function useEffect
-     * @description Scrolls the last message into view whenever there is a change in chatMessages.
-     */
-    useEffect(() => {
-        lastMessage.current?.lastElementChild?.scrollIntoView({ behavior: "smooth" });
-    }, [chatMessages])
 
     /**
      * Adds on the new chat bot response into the chat room.
      * @param {string} response The chat bot response.
      */
     const addNewChatBotResponse = async (response) => {
-        await wait(800)
         setChatMessages(prevMessages => [...prevMessages, <ChatBotResponseElement response={response} />])
     }
 
     /**
-     * @type {string} The time of the day.
+     * Returns the dialogue line depending on the tasks at hand that need to be reminded of.
+     * @param {Array<Object>} remindersTasks The list of tasks to be reminded of.
+     * @returns {string | ReactNode} The dialogue that is printed regarding the user's reminder tasks.
      */
-    const timeOfTheDay = getTimeOfTheDay()
+    const getRemindersTasksDialogue = (remindersTasks) => {
+        const numOfTasks = remindersTasks.length
+        if (numOfTasks == 0) {
+            return "There is no task to remind you of."
+        }
 
-    /**
-     * @type {Date} Today"s date.
-     */
-    const today = new Date()
+        const taskListText = remindersTasks.map((task, index) => {
+            return taskInfoString(task, index)
+        })
+        const textList = ["I have noted to remind you of these tasks today!", ...taskListText]
 
-    /**
-     * @type {number} Today"s date in terms of the day of the month.
-     */
-    const todayDate = today.getDate()
+        return (
+            <ListMessageElement list={textList} />
+        )
+    }
 
     /**
      * @type {Array} The flow of the dialogue.
@@ -64,64 +48,48 @@ const ReminderRoom = ({closeReminderRoomModal, taskData, setActivateBirthday}) =
         getGreetingDialogue(timeOfTheDay),
         "Your Tasks for today are as follows...",
         getOverdueTasksDialogue(taskData.overduedTasks),
-        // getRemindersTasksDialogue(taskData.remindersTasks),
-        // getUpcomingTasksDialogue(taskData.upcomingTasks),
-        // getPriorityTasksDialogue(taskData.priorityTasks),
+        getRemindersTasksDialogue(taskData.remindersTasks),
+        getUpcomingTasksDialogue(taskData.upcomingTasks),
+        getPriorityTasksDialogue(taskData.priorityTasks),
         "Bye and have fun!"
     ]
 
     /**
      * @function useEffect
-     * @description Resets the reminder array in the localStorage if it does not exist, or user has been reminded and today is a different day than the recorded one.
+     * @description Sets the interval between and automatically showing each dialogue in the reminderDialogueFlow array.
      */
     useEffect(() => {
-        let reminder = localStorage.getItem(timeOfTheDay)
-        reminder = JSON.parse(reminder)
+        const messageInterval = 1600
+        let index = 0
+        let messageTimer = setInterval(nextMessage, messageInterval)
 
-        if (!reminder || reminder["reminded"] && reminder["date"] != todayDate) {
-            localStorage.setItem(timeOfTheDay, JSON.stringify({reminded: false, date: todayDate}))
-        } 
+        function nextMessage() {
+            // If the user waits until the reminder completes, the reminder ends and reminded status is set to true.
+            if (index == reminderDialogueFlow.length) {
+                localStorage.setItem(timeOfTheDay, JSON.stringify({reminded: true, date: todayDate}))
+                closeReminderRoomModal()
+                setHasReminded(true)
+                clearInterval(messageTimer)
+                return
+            }
+            const newMessage = reminderDialogueFlow[index]
+            addNewChatBotResponse(newMessage)
+            index += 1
+        }
+        
+        // If user closes the modal, the reminder ends but reminded status is not updated to true.
+        return () => {
+            clearInterval(messageTimer)
+        }
     }, [])
 
     /**
      * @function useEffect
-     * @description Clears the Chat Room and sets the interval between showing each dialogue in the reminderDialogueFlow array.
+     * @description Scrolls the last message into view whenever there is a change in chatMessages.
      */
     useEffect(() => {
-        /**
-         * A boolean that indicates whether the user has been reminded during this time of the day.
-         * @type {boolean} true or false.
-         */
-        const hasReminded = JSON.parse(localStorage.getItem(timeOfTheDay))["reminded"]
-
-        if (!hasReminded) {
-            const messageInterval = 1600
-            let index = 0
-            let messageTimer = setInterval(nextMessage, messageInterval)
-    
-            function nextMessage() {
-                if (index == reminderDialogueFlow.length) {
-                    localStorage.setItem(timeOfTheDay, JSON.stringify({reminded: true, date: todayDate}))
-                    clearInterval(messageTimer)
-                    closeReminderRoomModal()
-                    setActivateBirthday(true)
-                    return
-                }
-                const newMessage = reminderDialogueFlow[index]
-                addNewChatBotResponse(newMessage)
-                index += 1
-            }
-            
-            return () => {
-                clearInterval(messageTimer)
-                setActivateBirthday(true)
-            }
-        } else {
-            closeReminderRoomModal()
-        }
-
-    }, [])
-
+        lastMessage.current?.lastElementChild?.scrollIntoView({ behavior: "smooth" });
+    }, [chatMessages])
 
     return (
         <>   

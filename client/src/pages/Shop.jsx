@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar/NavBar";
-import { Items, startIntro, setHasFinishedIntroAtPage } from "../utilities/utilities";
+import { startIntro, setHasFinishedIntroAtPage } from "../utilities/utilities";
+import { Items } from "../utilities/ShopItemUtilities";
 import ItemBox from "../components/Shop/ItemBox";
 import { useTokenContext } from "../components/TokenContext/TokenContext";
 import Modal from "react-modal";
@@ -115,6 +116,7 @@ const Shop = () => {
             data: null,
         })
     }
+
     /**
      * Async GET method to get user info.
      * @async
@@ -132,14 +134,14 @@ const Shop = () => {
 
         try {
             const res = await fetch(`${expressApiUrl}GetUserInfo`, dataToPost)
-            if(res.ok) {
+            if (res.ok) {
                 console.log("UserInfo successfully retrieved")
             } else {
                 console.log("Invalid User/Info")
             }
 
             const data = await res.json()
-            if(data) {
+            if (data) {
                 setUserData(data)
             }
         } catch (error) {
@@ -147,7 +149,12 @@ const Shop = () => {
         }
     }
 
-
+    /**
+     * Async GET method to get user items.
+     * @async
+     * @returns {Promise<void>} A promise that gets the current user"s items.
+     * @throws {Error} Throws an error if getting user items fails.
+     */
     const getUserItems = async () => {
         const dataToPost = {
             method: "GET",
@@ -159,16 +166,14 @@ const Shop = () => {
 
         try {
             const res = await fetch(`${expressApiUrl}Items`, dataToPost)
-            if(res.ok) {
+            if (res.ok) {
                 console.log("User Items successfully retrieved")
             } else {
                 console.log("Invalid User/Info")
             }
 
             const data = await res.json()
-            if(data) {
-                console.log(data)
-                console.log(data.items)
+            if (data) {
                 const {items} = data
                 const newItems = userItems.slice()
                 items.forEach((element, index) => {
@@ -184,7 +189,7 @@ const Shop = () => {
 
     // Call get user info if there is a token
     useEffect(() => {
-        if(token) {
+        if (token) {
             getUserInfo()
             getUserItems()
         }

@@ -1,8 +1,14 @@
-import React from 'react';
-import { getDDMM } from "../../utilities/utilities.js";
+import React, { ReactNode } from 'react';
 import { useNavigate } from "react-router-dom";
 
-function Friend({username, points}) {
+/**
+ * A React component that displays a friend's information.
+ * @component
+ * @param {string} username The friend's username.
+ * @param {number} points The friend's points. 
+ * @returns {ReactNode} The React element that renders a friend's information.
+ */
+const Friend = ({username, points}) => {
     const navigate = useNavigate()
 
     return (
@@ -20,7 +26,7 @@ function Friend({username, points}) {
                 </div>
             </div>
         </li>
-    );
+    )
 }
 
-export default Friend;
+export default Friend

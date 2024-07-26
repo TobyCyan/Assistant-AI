@@ -1,3 +1,5 @@
+import { getDDMM } from "./utilities"
+
 /**
  * Checks if the given input date comes after today.
  * @param {string} date The date to check.
@@ -38,3 +40,11 @@ export const wait = (n) => {
 export const removeSpaces = (text) => {
     return text.replace(/\s+/g, '')
 }
+
+/**
+ * Gets a string of the task information.
+ * @param {Object} task The task.
+ * @param {number} index The index number.
+ * @returns {String} A string that shows information of the given task object.
+ */
+export const taskInfoString = (task, index) => `${(index + 1)}. ${task.title}, ${task.category}, ${getDDMM(task.deadline)}, ${task.priority}`

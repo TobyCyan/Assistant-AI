@@ -9,8 +9,6 @@ import ProductivityBar from "../components/ProductivityBar/ProductivityBar.jsx";
 import { isTaskOverdue, isTaskNeededToBeReminded, isTaskUpcoming, isTodayBirthday, isTodayNextDayOfBirthday, compareTasksPriority, compareTasksDeadline, calculateTaskProductivity, getProductivityBarComments, startIntro, setHasFinishedIntroAtPage } from "../utilities/utilities.js";
 import AIBox from "../components/AIBox/AIBox.jsx";
 import BirthdayCard from "../components/Birthday/BirthdayCard.jsx";
-import ReminderRoom from "../components/ReminderRoom/ReminderRoom.jsx";
-// import { wait } from "../utilities/ChatPageUtilities.js";
 import IntroElement from "../components/IntroElements/IntroElement.jsx";
 import { useNavigate } from "react-router-dom";
 
@@ -46,12 +44,6 @@ const Home = () => {
      * @type {[boolean, function]}
      */
     const [activateIntro, setActivateIntro] = useState(false)
-    
-    /**
-     * The initial state of activating the birthday modal and setter function to update it.
-     * @type {[boolean, function]}
-     */
-    const [activateBirthday, setActivateBirthday] = useState(false)
     
     /**
      * The name of the current page.
@@ -96,6 +88,10 @@ const Home = () => {
         {
             element: ".navBar",
             intro: "This is the navigation bar, where you can use to navigate to other pages!",
+        },
+        {
+            element: ".reminderBellContainer",
+            intro: "This is your reminder bell, be sure to check it out when it rings!",
         },
         {
             element: ".AIBoxContainer",
@@ -258,20 +254,6 @@ const Home = () => {
     const [birthdayModalOpen, setBirthdayModalOpen] = useState({
         isShown: false,
     })
-
-    /**
-     * The current state of ReminderRoomModal and setter function to update it.
-     * @type {[Object, function]}
-     */
-    const [reminderRoomModalOpen, setReminderRoomModalOpen] = useState({
-        isShown: false,
-        data: {
-            overduedTasks: overduedTasks,
-            remindersTasks: remindersTasks,
-            upcomingTasks: upcomingTasks,
-            priorityTasks: priorityTasks,
-        },
-    })
     
     /**
      * Closes the Add Edit Task Modal.
@@ -303,21 +285,6 @@ const Home = () => {
             isShown: false,
         })
         localStorage.setItem("birthdayShown", true)
-    }
-
-    /**
-     * Closes the Chat Room Modal.
-     */
-    const closeReminderRoomModal = () => {
-        setReminderRoomModalOpen({
-            isShown: false,
-            data: {
-                overduedTasks: [],
-                remindersTasks: [],
-                upcomingTasks: [],
-                priorityTasks: [],
-            },
-        })
     }
 
     /**
@@ -378,21 +345,6 @@ const Home = () => {
     }
 
     /**
-     * Open modal for daily reminder.
-     */
-    const handleDailyReminder = () => {
-        setReminderRoomModalOpen({
-            isShown: true,
-            data: {
-                overduedTasks: overduedTasks,
-                remindersTasks: remindersTasks,
-                upcomingTasks: upcomingTasks,
-                priorityTasks: priorityTasks,
-            }
-        })
-    }
-
-    /**
      * @function useEffect
      * @description Checks if birthdayShown exists in the local storage, sets it if not.
      */
@@ -415,12 +367,12 @@ const Home = () => {
         }
 
         const birthdayShown = JSON.parse(localStorage.getItem("birthdayShown"))
-        if (isTodayBirthday(birthday) && !birthdayShown && activateBirthday) {
+        if (isTodayBirthday(birthday) && !birthdayShown) {
             setTimeout(() => {
                 handleBirthday()
             }, 500)
         }
-    }, [userData, activateBirthday])
+    }, [userData])
 
     /**
      * @function useEffect
@@ -434,18 +386,6 @@ const Home = () => {
         }
     }, [])
 
-    /**
-     * @function useEffect
-     * @description Opens the Chat Room modal everyday for the daily reminder only when it"s active so it does not clash with the intro.
-     */
-    useEffect(() => {
-        if (userData.hasDoneTutorial) {
-            setTimeout(() => {
-                handleDailyReminder()
-            }, 1000)
-        }
-    }, [userData])
-
     return (
         <>
         <IntroElement steps={introSteps} activate={activateIntro} setActivate={setActivateIntro} hasDoneTutorial={userData.hasDoneTutorial} endIntro={false} page={page} />
@@ -458,7 +398,7 @@ const Home = () => {
                         <button className="addRecurringTaskBtn" onClick={() => navigate('/recurringTasks')}>Add Recurring Task</button>
                     </div>
                     <div className="userDisplayBox">
-                        <div>Points: {userData?.points || 0}</div>
+                        <div className="points">Points: {userData?.points || 0}</div>
                         <div className="productivityBox">
                             <h3>Productivity Report</h3>
                             <ProductivityBar percentage={productivity}/>
@@ -541,24 +481,6 @@ const Home = () => {
                 >
                     <BirthdayCard
                         onClose={closeBirthdayModal}
-                    />
-                </Modal>
-
-                <Modal
-                    isOpen={reminderRoomModalOpen.isShown}
-                    onRequestClose={closeReminderRoomModal}
-                    style={{
-                        overlay: {
-                            backgroundColor: "rgba(0, 0, 0, 0.2)"
-                        }
-                    }}
-                    className="reminderRoomModal"
-                >
-
-                    <ReminderRoom
-                        closeReminderRoomModal={closeReminderRoomModal}
-                        taskData={reminderRoomModalOpen.data}
-                        setActivateBirthday={setActivateBirthday}
                     />
                 </Modal>
             </div>

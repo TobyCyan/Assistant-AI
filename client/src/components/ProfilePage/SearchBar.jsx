@@ -1,16 +1,21 @@
-import React, {useState} from 'react';
-import {useNavigate} from 'react-router-dom';
-import {useTokenContext} from "../TokenContext/TokenContext.jsx";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, ReactNode } from "react"
+import { useNavigate } from "react-router-dom"
+import { useTokenContext } from "../TokenContext/TokenContext.jsx"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faSearch } from "@fortawesome/free-solid-svg-icons"
 
+/**
+ * A React component that displays the search bar to search for other users.
+ * @component
+ * @returns {ReactNode} A React element that renders the search bar.
+ */
 const SearchBar = () => {
     const {tokenStatus} = useTokenContext()
     const [token, setToken] = tokenStatus
 
-    const [username, setUsername] = useState('');
-    const [error, setError] = useState('');
-    const navigate = useNavigate();
+    const [username, setUsername] = useState("")
+    const [error, setError] = useState("")
+    const navigate = useNavigate()
 
     /**
      * The Express API URL for this React app.
@@ -23,31 +28,31 @@ const SearchBar = () => {
         try {
             const response = await fetch(`${expressApiUrl}user/${username}`, {
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    "Authorization": `Bearer ${token}`
                 }
-            });
+            })
             if (!response.ok) {
-                throw new Error('User not found'); // Handle non-2xx status codes
+                throw new Error("User not found") // Handle non-2xx status codes
             }
-            const exists = await response.json();
+            const exists = await response.json()
             if (exists) {
-                navigate(`/users/${username}`);
-                setError('')
+                navigate(`/users/${username}`)
+                setError("")
             } else {
-                setError(`User '${username}' not found`);
+                setError(`User "${username}" not found`)
             }
         } catch (error) {
-            console.error('Error searching for user:', error);
-            setError('Error searching for user. Please try again.');
+            console.error("Error searching for user:", error)
+            setError("Error searching for user. Please try again.")
         }
-    };
+    }
 
     const handleInputChange = (event) => {
-        setUsername(event.target.value);
-    };
+        setUsername(event.target.value)
+    }
 
     const handleKeyDown = (event) => {
-        if(event.key === 'Enter') {
+        if(event.key === "Enter") {
             handleSearch()
         }
     }
@@ -69,7 +74,7 @@ const SearchBar = () => {
             </div>
             {error && <p className="error">{error}</p>}
         </div>
-    );
-};
+    )
+}
 
-export default SearchBar;
+export default SearchBar

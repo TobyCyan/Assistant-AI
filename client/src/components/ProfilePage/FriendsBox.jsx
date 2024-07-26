@@ -1,8 +1,8 @@
 import React from 'react';
 import Friend from "./Friend.jsx";
 
-function FriendsBox({friendsToShow}) {
-    console.log(friendsToShow)
+const FriendsBox = ({friendsToShow}) => {
+    // console.log(friendsToShow)
     const friends = friendsToShow?.map((friend, index) =>
         <Friend
             key = {index}
@@ -21,7 +21,7 @@ function FriendsBox({friendsToShow}) {
                 </ul>
             </div>
         </div>
-    );
+    )
 }
 
-export default FriendsBox;
+export default FriendsBox

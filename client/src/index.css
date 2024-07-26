@@ -112,15 +112,102 @@ button {
   text-decoration: underline;
 }
 
+.navBarRightContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  /* border: 1px solid black; */
+}
+
 .userInfo {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.notification {
-  margin-right: 10px;
-  font-size: 20px;
+.userInfo>img {
+  margin-left: 15px;
+  width: 50px;
+  height: 80%;
+}
+
+.reminderBellContainer {
+  /* border: 1px solid red; */
+  margin-right: 25px;
+  width: 35px;
+}
+
+.notificationMark {
+  border: 1px solid red;
+  border-radius: 50%;
+  background-color: red;
+  height: 10px;
+  width: 10px;
+  bottom: 30px;
+  position: relative;
+  z-index: 2;
+  left: 24px;
+}
+
+.notificationMark>p {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -60% -135%;
+  font-size: 11px;
+}
+
+.checkMark {
+  position: absolute;
+  left: 28px;
+  bottom: 35px;
+  width: 4px;
+  height: 10px;
+  border-bottom: 3px solid green;
+  border-right: 3px solid green;
+  transform: rotate(45deg);
+  animation: zoom 0.2s linear;
+}
+
+.notification #reminded, .notification #notReminded {
+  margin-top: 10px;
+  font-size: 25px;
+  z-index: 1;
+}
+
+.notification #reminded {
+  margin-top: 0px;
+}
+
+.notification #notReminded {
+  animation: ring 1.0s linear infinite;
+}
+
+.notification #notReminded:hover {
+  animation: none;
+  scale: 1.1;
+}
+
+@keyframes zoom {
+  50% {
+    scale: 1.2;
+  }
+}
+
+@keyframes ring {
+  25% {
+    rotate: 30deg;
+  }
+  50% {
+    rotate: 0deg;
+  }
+  75% {
+    rotate: -30deg;
+  }
+  100% {
+    rotate: 0deg;
+  }
 }
 
 .accountFormBox {
@@ -243,17 +330,6 @@ button {
   float: left;
 }
 
-.extraInfoTab {
-  /*border: 6px solid rgb(63, 23, 23);*/
-  max-width: 300px;
-  float: left;
-  width: 15%;
-  /*background-image: url(./AppImages/Cream_Bg.jpg);
-   */
-  /* background: #D8E6AD; */
-  background: #FFFACD;
-  height: 100%;
-}
 
 .homepageChildDiv {
   flex: 1;
@@ -749,6 +825,7 @@ ul {
   cursor: pointer;
   position: relative;
   transition: background-color 0.3s ease;
+  margin-bottom: 10px;
 }
 
 .addTaskBtn:hover, .addRecurringTaskBtn:hover {
@@ -856,32 +933,63 @@ ul {
   padding: 0 8px;
 }
 
-.productivityBox{
+.productivityBox {
+  position: absolute;
+  width: 100%;
+  left: 0%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  word-break: break-word;
+  overflow: hidden;
+  /* border: 1px solid red; */
+}
+
+.extraInfoTab {
+  max-width: 300px;
+  float: left;
+  width: 15%;
+  background: #FFFACD;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.productivityBox>h3, .productivityBox>p {
+ word-break: break-word;
+}
+
+.userDisplayBox>.points {
+  position: absolute;
+  /* border: 1px solid green; */
+  font-size: 15px;
+  top: 10px;
+  left: 50%;
+  translate: -50%;
 }
 
 .addButtonBox {
-  height: 10%;
+  height: 100px;
   width: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  /* border: 1px solid blue; */
+  margin-bottom: 20px;
 }
 
 .userDisplayBox {
   /* border: 1px dotted #000; */
   height: 400px;
-  width: 200px;
+  width: 100%;
   display: flex;
   font-weight: bold;
-}
-
-.userDisplayBox {
   flex-direction: column;
+  position: relative;
   justify-content: space-evenly;
 }
 
@@ -1248,8 +1356,7 @@ ul {
   width: 470px;
   height: 80%;
   position: absolute;
-  left: 25%;
-  right: 25%;
+  margin: auto;
   bottom: 90px;
   border: none;
 }
@@ -1374,6 +1481,7 @@ ul {
   background: white;
   border: 3px solid black;
   box-shadow: 6px 6px grey;
+  overflow: hidden;
 }
 
 .socialBox {
@@ -1388,6 +1496,11 @@ ul {
   border-radius: 50%;
   margin-bottom: 20px;
   /* Add background image and other styling here */
+}
+
+.profilePic>img {
+  width: 100%;
+  height: 100%;
 }
 
 .userProfileBox .profileUsernameBox,
@@ -1623,7 +1736,7 @@ ul {
 }
 
 .itemTitle {
-  font-size: 1.2em;
+  font-size: 1.6em;
   margin-top: 0px;
   margin-bottom: 8px;
 }
@@ -1641,7 +1754,7 @@ ul {
   margin-bottom: 16px;
 }
 
-.exchangeButton {
+.exchangeButton, .equipButton {
   padding: 8px 16px;
   font-size: 1em;
   color: #fff;
@@ -1650,6 +1763,12 @@ ul {
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
+}
+
+.equipButton {
+  margin-top: 8px;
+  margin-bottom: 5px;
+  font-size: 0.8em;
 }
 
 .itemPoints {
@@ -1796,10 +1915,16 @@ ul {
 
 .miniItem {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   border: 1px solid #ddd;
   border-radius: 4px;
+  width: 120px;
+}
+
+.miniItemType {
+  font-size: 15px;
 }
 
 .miniItem img {
