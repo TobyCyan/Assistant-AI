@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import NavBar from "../components/NavBar/NavBar.jsx";
 import { useParams, useNavigate } from "react-router-dom";
-import { useState } from 'react'
 import { useTokenContext } from "../components/TokenContext/TokenContext.jsx";
-import { Items, getDDMMYY, startIntro, setHasFinishedIntroAtPage } from "../utilities/utilities.js";
+import { getDDMMYY, startIntro, setHasFinishedIntroAtPage } from "../utilities/utilities.js";
 import SearchBar from "../components/ProfilePage/SearchBar.jsx";
 import FriendReqsBox from "../components/ProfilePage/FriendReqsBox.jsx";
 import FriendsBox from "../components/ProfilePage/FriendsBox.jsx";
@@ -15,7 +14,7 @@ import ItemCollectionBox from "../components/ProfilePage/ItemCollectionBox";
 const Profile = () => {
     const navigate = useNavigate()
 
-    const {tokenStatus, userInfo} = useTokenContext()
+    const {tokenStatus, userInfo, userIcon} = useTokenContext()
     /**
      * The current token and setter function to update it.
      * @type {[string, function]}
@@ -29,6 +28,13 @@ const Profile = () => {
     const [userData, ] = userInfo
     const {username} = useParams()
     const [displayUser, setDisplayUserInfo] = useState(null)
+
+    /**
+     * The current user profile icon string.
+     * @type {[string, ]}
+     */
+    const [profileIcon, setProfileIcon] = userIcon
+    const [icon, setIcon] = useState(null)
 
     /**
      * The list of items user has where itemId matches the index.
@@ -75,12 +81,16 @@ const Profile = () => {
             intro: "Your name is right here! I think I got the spelling right..."
         },
         {
+            element: ".profilePointsBox",
+            intro: "This is the total amount of points you currently have. Be sure to do your tasks on time to get more!"
+        },
+        {
             element: ".profileDateOfBirthBox",
             intro: "Your special day! Be prepared for a surprise when it comes~"
         },
         {
-            element: ".profilePointsBox",
-            intro: "This is the total amount of points you currently have. Be sure to do your tasks on time to get more!"
+            element: ".itemCollectionBox",
+            intro: "This is your item collection box! Items that you have exchanged for will appear here!"
         },
         {
             element: ".socialBox",
@@ -237,9 +247,9 @@ const Profile = () => {
             }
 
             const data = await res.json()
-            console.log('Array' + data.friends)
+            // console.log('Array' + data.friends)
             setFriends(data.friends)
-            console.log(friends)
+            // console.log(friends)
         } catch (err) {
             console.log("Error getting user friends")
         }
@@ -262,9 +272,9 @@ const Profile = () => {
             const data = await res.json()
             setFriendReqs(data.receivedRequests)
             setSentReqs(data.sentRequests)
-            console.log(friendReqs)
-            console.log(sentReqs)
-            console.log('Successfully retrieved friend reqs!')
+            // console.log(friendReqs)
+            // console.log(sentReqs)
+            // console.log('Successfully retrieved friend reqs!')
         } catch (err) {
             console.log("Error getting user friend requests")
         }
@@ -305,6 +315,29 @@ const Profile = () => {
         }
     }, [username, userData, token]);
 
+    /**
+     * @function useEffect
+     * @description Imports the necessary profile icon.
+     */
+    useEffect(() => {
+        const importIcon = async () => {
+            try {
+                const storageIcon = localStorage.getItem("profileIcon")
+                if (storageIcon) {
+                    const icon = await import(`../AppImages/Profile Icons/${storageIcon}.png`)
+                    setIcon(icon.default)
+                    setProfileIcon(storageIcon)
+                } else {
+                    const icon = await import(`../AppImages/Profile Icons/${profileIcon}.png`)
+                    setIcon(icon.default)
+                }  
+            } catch (err) {
+                console.error("Failed to Import Icon: ", err.message)
+            }
+        }
+        importIcon()
+    }, [token, profileIcon])
+
     const isUser = displayUser?.username === userData?.username
     const isFriend = friends.some(friend => friend.name === username)
     const requestFrom = friendReqs.some(request => request.name === username)
@@ -336,7 +369,7 @@ const Profile = () => {
                                 {isUser ? updateProfileDetails : isFriend ? (<p>Friends</p>) : requestSent ? (<p>Friend Request Sent</p>) : requestFrom ? acceptRequest : addFriend}
                             </div>
                             <div className="profilePic">
-                                {/* To Add Profile Pic? */}
+                               { icon ? <img src={icon} /> : <p>Loading Icon...</p>} 
                             </div>
                             <div className="profileUsernameBox">
                                 {displayUser?.username}

@@ -287,7 +287,7 @@ function SignUp() {
         try {
             const res = await fetch(`${expressApiUrl}SignUp`, dataToPost)
 
-            if(res.ok) {
+            if (res.ok) {
                 const data = await res.json()
                 const resToken = data.token
                 localStorage.setItem('token', resToken)

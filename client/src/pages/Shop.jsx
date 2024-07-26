@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar/NavBar";
-import { Items, startIntro, setHasFinishedIntroAtPage } from "../utilities/utilities";
+import { startIntro, setHasFinishedIntroAtPage } from "../utilities/utilities";
+import { Items } from "../utilities/ShopItemUtilities";
 import ItemBox from "../components/Shop/ItemBox";
 import { useTokenContext } from "../components/TokenContext/TokenContext";
 import Modal from "react-modal";

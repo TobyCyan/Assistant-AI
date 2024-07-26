@@ -1,4 +1,4 @@
-import React, {useState, createContext, useContext, useEffect} from "react";
+import React, { useState, createContext, useContext, useEffect } from "react";
 
 
 const TokenContext = createContext()
@@ -22,6 +22,8 @@ export const TokenProvider = (props) => {
 
     const [assistantSprite, setAssistantSprite] = useState("Mei_Chibi")
 
+    const [profileIcon, setProfileIcon] = useState("Default")
+
     useEffect(() => {
         // This will run after the state update is complete
         if(localStorage.getItem("token") !== "undefined") {
@@ -34,7 +36,8 @@ export const TokenProvider = (props) => {
         value={{
             tokenStatus: [token, setToken], 
             userInfo: [userData, setUserData],
-            meiSprite: [assistantSprite, setAssistantSprite]
+            meiSprite: [assistantSprite, setAssistantSprite],
+            userIcon: [profileIcon, setProfileIcon],
         }}>
             {props.children}
         </TokenContext.Provider>

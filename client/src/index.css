@@ -112,15 +112,30 @@ button {
   text-decoration: underline;
 }
 
+.navBarRightContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  /* border: 1px solid black; */
+}
+
 .userInfo {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+.userInfo>img {
+  margin-left: 15px;
+  width: 50px;
+  height: 80%;
+}
+
 .reminderBellContainer {
-  position: absolute;
-  right: 200px;
+  /* border: 1px solid red; */
+  margin-right: 25px;
+  width: 35px;
 }
 
 .notificationMark {
@@ -132,7 +147,7 @@ button {
   bottom: 30px;
   position: relative;
   z-index: 2;
-  left: 256px;
+  left: 24px;
 }
 
 .notificationMark>p {
@@ -145,8 +160,8 @@ button {
 
 .checkMark {
   position: absolute;
-  top: -2px;
-  left: 258px;
+  left: 28px;
+  bottom: 35px;
   width: 4px;
   height: 10px;
   border-bottom: 3px solid green;
@@ -157,7 +172,6 @@ button {
 
 .notification #reminded, .notification #notReminded {
   margin-top: 10px;
-  margin-left: 235px;
   font-size: 25px;
   z-index: 1;
 }
@@ -1467,6 +1481,7 @@ ul {
   background: white;
   border: 3px solid black;
   box-shadow: 6px 6px grey;
+  overflow: hidden;
 }
 
 .socialBox {
@@ -1481,6 +1496,11 @@ ul {
   border-radius: 50%;
   margin-bottom: 20px;
   /* Add background image and other styling here */
+}
+
+.profilePic>img {
+  width: 100%;
+  height: 100%;
 }
 
 .userProfileBox .profileUsernameBox,

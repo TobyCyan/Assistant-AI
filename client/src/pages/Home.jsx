@@ -9,7 +9,6 @@ import ProductivityBar from "../components/ProductivityBar/ProductivityBar.jsx";
 import { isTaskOverdue, isTaskNeededToBeReminded, isTaskUpcoming, isTodayBirthday, isTodayNextDayOfBirthday, compareTasksPriority, compareTasksDeadline, calculateTaskProductivity, getProductivityBarComments, startIntro, setHasFinishedIntroAtPage } from "../utilities/utilities.js";
 import AIBox from "../components/AIBox/AIBox.jsx";
 import BirthdayCard from "../components/Birthday/BirthdayCard.jsx";
-// import { wait } from "../utilities/ChatPageUtilities.js";
 import IntroElement from "../components/IntroElements/IntroElement.jsx";
 import { useNavigate } from "react-router-dom";
 
@@ -89,6 +88,10 @@ const Home = () => {
         {
             element: ".navBar",
             intro: "This is the navigation bar, where you can use to navigate to other pages!",
+        },
+        {
+            element: ".reminderBellContainer",
+            intro: "This is your reminder bell, be sure to check it out when it rings!",
         },
         {
             element: ".AIBoxContainer",
@@ -386,7 +389,7 @@ const Home = () => {
     return (
         <>
         <IntroElement steps={introSteps} activate={activateIntro} setActivate={setActivateIntro} hasDoneTutorial={userData.hasDoneTutorial} endIntro={false} page={page} />
-        <NavBar overduedTasks={overduedTasks} remindersTasks={remindersTasks} upcomingTasks={upcomingTasks} priorityTasks={priorityTasks} />
+        <NavBar />
             <div className="homepageContainer">
 
                 <div className="extraInfoTab">

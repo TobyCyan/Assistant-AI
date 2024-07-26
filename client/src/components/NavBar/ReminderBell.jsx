@@ -41,8 +41,8 @@ const ReminderBell = () => {
                     <>
                         <div className="notification">
                             <FontAwesomeIcon id="reminded" icon={faBell} />
+                            <div className="checkMark"></div>
                         </div>
-                        <div className="checkMark"></div>
                     </>
                 ) : (      
                     <>  

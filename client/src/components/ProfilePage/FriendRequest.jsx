@@ -1,10 +1,18 @@
-import React from 'react';
-import {getDDMM} from "../../utilities/utilities.js";
-import {useNavigate} from "react-router-dom";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faTimes, faCheck} from "@fortawesome/free-solid-svg-icons";
+import React, { ReactNode } from 'react';
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes, faCheck } from "@fortawesome/free-solid-svg-icons";
 
-function FriendRequest({username, points, onAccept, onDelete}) {
+/**
+ * The React component that displays a friend request container that includes the friend's user information.
+ * @component
+ * @param {string} username The friend's username.
+ * @param {number} points The friend's points. 
+ * @param {function} onAccept The function that accepts the friend request.
+ * @param {function} onDelete The function that deletes the friend request. 
+ * @returns {ReactNode} The React element that renders the friend request container.
+ */
+const FriendRequest = ({username, points, onAccept, onDelete}) => {
     const navigate = useNavigate()
 
     return (
@@ -32,7 +40,7 @@ function FriendRequest({username, points, onAccept, onDelete}) {
             </div>
         </li>
     )
-        ;
+        
 }
 
 /*
@@ -61,4 +69,4 @@ return (
 
  */
 
-export default FriendRequest;
+export default FriendRequest

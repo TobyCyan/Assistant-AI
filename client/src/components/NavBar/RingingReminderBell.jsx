@@ -148,10 +148,11 @@ const RingingReminderBell = ({setHasReminded, timeOfTheDay, todayDate}) => {
         <>
             <div className="notification">
                 <FontAwesomeIcon id="notReminded" icon={faBell} onClick={handleDailyReminder}/>
+                <div className="notificationMark">
+                    <p>1</p>
+                </div>
             </div>
-            <div className="notificationMark">
-                <p>1</p>
-            </div>
+            
 
             <Modal
                 isOpen={reminderRoomModalOpen.isShown}

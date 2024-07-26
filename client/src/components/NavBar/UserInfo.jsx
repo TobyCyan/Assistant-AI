@@ -11,7 +11,7 @@ import { useTokenContext } from "../TokenContext/TokenContext.jsx";
 const UserInfo = () => {
     const navigate = useNavigate()
 
-    const {tokenStatus, userInfo} = useTokenContext()
+    const {tokenStatus, userInfo, userIcon} = useTokenContext()
     
     /**
      * The current token and setter function to update it.
@@ -24,6 +24,13 @@ const UserInfo = () => {
      * @type {[string, function]}
      */
     const [userData, setUserData] = userInfo
+
+    /**
+     * The current user profile icon string and setter function to update it.
+     * @type {[string, function]}
+     */
+    const [profileIcon, setProfileIcon] = userIcon
+    const [icon, setIcon] = useState(null)
 
     /**
      * The current username of the logged in user and setter function to update it.
@@ -44,7 +51,7 @@ const UserInfo = () => {
     const expressApiUrl = import.meta.env.VITE_EXPRESS_API_URL
 
     useEffect(() => {
-        if(token) {
+        if (token) {
             getUserInfo()
         }
     },[token])
@@ -53,6 +60,29 @@ const UserInfo = () => {
         setUsername(userData?.username)
         setPoints(userData?.points)
     }, [userData]);
+
+    /**
+     * @function useEffect
+     * @description Imports the necessary profile icon.
+     */
+    useEffect(() => {
+        const importIcon = async () => {
+            try {
+                const storageIcon = localStorage.getItem("profileIcon")
+                if (storageIcon) {
+                    const icon = await import(`../../AppImages/Profile Icons/${storageIcon}.png`)
+                    setIcon(icon.default)
+                    setProfileIcon(storageIcon)
+                } else {
+                    const icon = await import(`../../AppImages/Profile Icons/${profileIcon}.png`)
+                    setIcon(icon.default)
+                }     
+            } catch (err) {
+                console.error("Failed to Import Icon: ", err.message)
+            }
+        }
+        importIcon()
+    }, [token, profileIcon])
 
     const getUserInfo = async () => {
         const dataToPost = {
@@ -122,6 +152,7 @@ const UserInfo = () => {
                             <p className="username">{username}</p>
                             <p className="points">{points} pts</p>
                         </div>
+                        { icon ? <img src={icon} onClick={onProfile}/> : <p>Loading Icon...</p>} 
                         <button className="navBarBtn" onClick={onLogOut}>Log Out</button>
                     </div>
                 </> 

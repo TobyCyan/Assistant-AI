@@ -34,8 +34,10 @@ const NavBar = ({overduedTasks, remindersTasks, upcomingTasks, priorityTasks}) =
                     {token && <li><Link to={token ? "/shop" : "/login"} className="navBarLinks navBarShop">Shop</Link></li>}
                 </ul>
             </div>
-            <ReminderBell overduedTasks={overduedTasks} remindersTasks={remindersTasks} upcomingTasks={upcomingTasks} priorityTasks={priorityTasks} />
-            <UserInfo />
+            <div className="navBarRightContainer">
+                <ReminderBell overduedTasks={overduedTasks} remindersTasks={remindersTasks} upcomingTasks={upcomingTasks} priorityTasks={priorityTasks} />
+                <UserInfo />
+            </div>
         </div>
     )
 }
