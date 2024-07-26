@@ -43,7 +43,7 @@ const UserInfo = () => {
      * The Express API URL for this React app.
      * @type {string}
      */
-    const expressApiUrl = import.meta.env.REACT_APP_EXPRESS_API_URL
+    const expressApiUrl = import.meta.env.VITE_EXPRESS_API_URL
 
     useEffect(() => {
         if(token) {
@@ -75,13 +75,14 @@ const UserInfo = () => {
 
             const data = await res.json()
             if(data) {
-                setUserData(data)
                 console.log(data)
+                setUserData(data)
             }
         } catch (error) {
             console.error('Failed to Fetch User Info!', error)
         }
     }
+
 
     /** 
      * Clears token and userData on log out, to login page.

@@ -14,7 +14,7 @@ const RequestModal = ({request, type, getAllFriends, getAllFriendRequests, onClo
      * The Express API URL for this React app.
      * @type {string}
      */
-    const expressApiUrl = import.meta.env.REACT_APP_EXPRESS_API_URL
+    const expressApiUrl = import.meta.env.VITE_EXPRESS_API_URL
 
     const handleConfirm = () => {
         if(type === "accept") {
