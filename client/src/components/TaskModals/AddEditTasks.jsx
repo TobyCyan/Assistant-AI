@@ -300,7 +300,6 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
             <div className="descriptionBox">
                 <label htmlFor="descriptionInput">Description</label>
                 <textarea
-                    type="text"
                     id="descriptionInput"
                     className="descriptionInput"
                     placeholder="Description"

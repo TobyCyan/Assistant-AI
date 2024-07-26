@@ -348,7 +348,6 @@ button {
 .overdueAndRemindersBox, .upcomingAndPriorityBox, .extraInfoTab{
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   align-items: center;
   /*
   border: 1px black;
@@ -359,6 +358,12 @@ button {
 .overdueAndRemindersBox, .upcomingAndPriorityBox {
   width: 37.5%;
   flex: 1;
+  justify-content: space-evenly;
+}
+
+.extraInfoTab {
+  justify-content: space-between;
+  height: 100%;
 }
 
 .addEditTaskContainer, .addRecurringTasksContainer {
@@ -373,8 +378,8 @@ button {
   width: 2rem;
   height: 2rem;
   position: absolute;
-  top: -0.25rem;
-  right: -0.25rem;
+  top: -1rem;
+  right: -0.75rem;
   background: none;
   border: none;
 }
@@ -386,6 +391,17 @@ button {
 
 .addEditTaskContainer label {
   font-size: 1.5rem;
+}
+
+.addRecurringTasksContainer label {
+  font-size: 1.5rem;
+}
+
+.addEditTaskContainer, .addRecurringTasksContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .recurringDetailsBox label {
@@ -419,12 +435,12 @@ button {
   margin-top: 1rem;
 }
 
-#priority, .deadlineInput, .reminderInput {
+#priority, #recPriority, .deadlineInput, .reminderInput {
   font-size: 0.875rem;
   padding: 0.5rem;
 }
 
-.recurringInput, .recurringDateInput, .intervalInput {
+.creationInput, .intervalInput, .reminderNumberInput {
   font-size: 1rem;
 }
 
@@ -514,6 +530,8 @@ button {
   flex-direction: column;
   overflow: hidden;
   flex: 1;
+  border: 4px solid black;
+  box-shadow: 4px 4px grey;
 }
 
 .tasksBox {
@@ -599,7 +617,7 @@ ul {
 
 .AddEditTaskModal {
   width: 60%;
-  height: 70%;
+  height: 80%;
   background-color: white;
   border-radius: 0.375rem;
   padding: 1.25rem;
@@ -828,7 +846,7 @@ ul {
   margin-bottom: 10px;
 }
 
-.addTaskBtn:hover, .addRecurringTaskBtn:hover {
+.addTaskBtn:hover, .addRecurringTaskBtn:hover, .shopBtn:hover, .myTasksBtn:hover, .profileBtn:hover {
   background-color: darkgrey;
 }
 
@@ -855,6 +873,7 @@ ul {
   height: 100%;
   padding: 0.25rem 0.25rem;
 }
+
 
 .username {
   font-weight: bold;
@@ -934,15 +953,15 @@ ul {
 }
 
 .productivityBox {
-  position: absolute;
   width: 100%;
-  left: 0%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   word-break: break-word;
   overflow: hidden;
+  margin: 10px 0px;
+  padding: 5px 10px;
   /* border: 1px solid red; */
 }
 
@@ -955,20 +974,41 @@ ul {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 
 .productivityBox>h3, .productivityBox>p {
  word-break: break-word;
 }
 
-.userDisplayBox>.points {
-  position: absolute;
+.shopAndPointsBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0px;
+  padding: 10px;
+}
+
+.shopAndPointsBox>.points {
   /* border: 1px solid green; */
-  font-size: 15px;
-  top: 10px;
-  left: 50%;
-  translate: -50%;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.shopBtn, .profileBtn, .myTasksBtn {
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 2px solid black;
+  box-shadow: 2px 2px grey;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.3s ease;
+  margin: 10px 0px;
+}
+
+.shopBtn {
+  margin-top: 20px;
 }
 
 .addButtonBox {
@@ -979,7 +1019,8 @@ ul {
   align-items: center;
   justify-content: space-between;
   /* border: 1px solid blue; */
-  margin-bottom: 20px;
+  margin: 20px 0px;
+  padding: 10px;
 }
 
 .userDisplayBox {
@@ -988,9 +1029,11 @@ ul {
   width: 100%;
   display: flex;
   font-weight: bold;
-  flex-direction: column;
   position: relative;
-  justify-content: space-evenly;
+  justify-content: center;
+  margin: 20px 0px;
+  padding: 10px;
+  word-break: break-word;
 }
 
 .assistantDialogue {
@@ -1722,7 +1765,7 @@ ul {
 }
 
 .itemBox {
-  border: 2px solid black;
+  border: 4px solid black;
   box-shadow: 4px 4px grey;
   border-radius: 8px;
   padding: 16px;
@@ -1752,6 +1795,7 @@ ul {
   font-size: 1em;
   color: #555;
   margin-bottom: 16px;
+  font-weight: bold;
 }
 
 .exchangeButton, .equipButton {
@@ -1918,7 +1962,7 @@ ul {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 1px solid #ddd;
+  border: 1.5px solid black;
   border-radius: 4px;
   width: 120px;
 }

@@ -8,7 +8,7 @@ import { useTokenContext } from '../TokenContext/TokenContext.jsx';
  * @returns {ReactNode} A React element that renders the MiniItem container.
  */
 const MiniItem = ({item}) => {
-    const { meiSprite, userIcon } = useTokenContext()
+    const { meiSprite, userIcon, userInfo } = useTokenContext()
     const [assistantSprite, setAssistantSprite] = meiSprite
     const [profileIcon, setProfileIcon] = userIcon
 
@@ -37,6 +37,7 @@ const MiniItem = ({item}) => {
         <div className="miniItem">
             <h2 className="miniItemType">{item.type}</h2>
             <img src={item.imageURL} alt={item.title} className="miniItemImage"/>
+            {}
             <button className="equipButton" onClick={() => onEquip(item.nameInFolder, item.type)}>
                 { profileIcon == item.nameInFolder || assistantSprite == item.name ? "Equipped" : "Equip" }
             </button>

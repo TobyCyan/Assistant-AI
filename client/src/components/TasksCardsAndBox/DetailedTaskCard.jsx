@@ -14,14 +14,17 @@ import {faTimes, faEdit} from "@fortawesome/free-solid-svg-icons";
  * @returns {ReactNode} A React element that renders a detailed card of the task.
  */
 const DetailedTaskCard = ({taskData, onEdit, onComplete, onUncomplete, onDelete}) => {
-
+    const deadline = new Date(taskData.deadline)
+    deadline.setHours(deadline.getHours() - 8);
+    const today = new Date()
+    const isOverdued = deadline < today
 
     return (
         <div className="taskCardBox">
             <div className="taskCardHeader">
                 <div className="taskCardTitle">{taskData.title}</div>
                 <div className="taskCardRightHeader">
-                    <div className="taskCardDeadline">{getDDMMYY(taskData.deadline)}</div>
+                    <div className="taskCardDeadline" style={{ color: isOverdued ? 'red' : 'inherit' }}>{getDDMMYY(taskData.deadline)}</div>
                     <button className="taskCardDeleteBtn" onClick={onDelete}>
                         <FontAwesomeIcon icon={faTimes}/>
                     </button>
