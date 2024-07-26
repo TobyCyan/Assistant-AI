@@ -1,8 +1,7 @@
-Flask==3.0.3
-Flask_Cors==4.0.1
-nltk==3.8.1
-numpy==2.0.1
-python-dotenv==1.0.1
-tensorflow==2.16.1
-tensorflow_intel==2.16.1
-tflearn==0.5.0
+Flask
+Flask_Cors
+nltk
+numpy
+python-dotenv
+tensorflow
+tflearn
