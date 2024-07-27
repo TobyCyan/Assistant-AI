@@ -239,8 +239,9 @@ Assistant AI is essentially a task management system with the help of a Virtual 
             ![Complete Confirmation](./images/CoreFeaturesInstructionImg/CompleteConfirmation.png)
         *   Points based on how early the user has completed the task and the priority level of the task will be calculated and deposited into the user's account.
         *   The points can be found on the left-hand side of the home page, or at the top right corner where the user's information can be found next to the Log Out button.
-        *   Hooray! The user has completed their task and earned 20 points!  
-            ![Show User Points 1](./images/CoreFeaturesInstructionImg/ShowUserPoints1.png)
+        *   Hooray! The user has completed their task and earned 17 points!  
+
+        ![Show User Points 1](./images/CoreFeaturesInstructionImg/ShowUserPoints1.png)
         
         ![Show User Points 2](./images/CoreFeaturesInstructionImg/ShowUserPoints2.png)
         
@@ -433,14 +434,16 @@ Assistant AI is essentially a task management system with the help of a Virtual 
         *   At the shop, users will be able to purchase customisables in which they can use for their profile.
         *   At this stage, we plan to have mainly two types of customisables that users can purchase with their points, Assistant Outfits and Profile Icons!
         *   As we still have not received the outfit sprites and icons, we have placed temporary images to substitute for the actual one which will be added soon.
-        *   ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/d0613709d39ac36e7419ba572c27987b43434921061e9a8c.png)
+
+        ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/d0613709d39ac36e7419ba572c27987b43434921061e9a8c.png)
             
-            To exchange for an item, simply click on the “Exchange” button, and a confirmation window will pop up!
+        *   To exchange for an item, simply click on the “Exchange” button, and a confirmation window will pop up!
             
-            ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/3243a1cfcdc7575583f142baaf06d9889d76d75cbec1b204.png)
+        ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/3243a1cfcdc7575583f142baaf06d9889d76d75cbec1b204.png)
             
         *   Once the item has been exchanged, the button will be shown as “Obtained” and become non-interactable.
-        *   ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/2cdde9e8f63fc6b604414703bdce9751e70536d1c2f85cea.png)
+
+        ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/2cdde9e8f63fc6b604414703bdce9751e70536d1c2f85cea.png)
             
 
 *   **User Profile**
@@ -449,18 +452,22 @@ Assistant AI is essentially a task management system with the help of a Virtual 
         **Instructions/ Details**
         
         *   To navigate to the user profile, simply click on the user info section in the top right corner of the page next to the Log Out button.
-        *   ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/248de0288fd2a0049ad63feafe8e1b856f9d88c1a7058962.png)
+
+        ![Show User Points 2](./images/CoreFeaturesInstructionImg/ShowUserPoints2.png)
             
-            Then, the user will be greeted with their profile page!
+        *   Then, the user will be greeted with their profile page!
             
-            ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/b65195ad16a5641a96363b3295dc79840194d8c2bc7d5165.png)
+        ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/b65195ad16a5641a96363b3295dc79840194d8c2bc7d5165.png)
             
         *   Here, the user is able to update their profiles, view their profile details, friends list, friend requests, as well as search for other users!
         *   Moreover, the user can check out their items in the Item Collection Box.
-        *   ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/7b69a8e7531229764391c08f52b34bb4c38d82df23c77856.png)
+
+        ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/7b69a8e7531229764391c08f52b34bb4c38d82df23c77856.png)
             
-            Items that are exchanged from the shop are displayed in this area!
+        *   Items that are exchanged from the shop are displayed in this area!
             
+        *   To equip the item, simply click on the “Equip” button, which will then update the user's profile accordingly, and show “Equipped” afterwards.
+        
         
 
 ### Milestone Timeline
