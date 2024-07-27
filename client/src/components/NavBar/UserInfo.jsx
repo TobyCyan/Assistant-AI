@@ -150,7 +150,6 @@ const UserInfo = () => {
             const data = await res.json()
 
             if(data) {
-                console.log(data)
                 setUserData(data)
             }
         } catch (error) {
