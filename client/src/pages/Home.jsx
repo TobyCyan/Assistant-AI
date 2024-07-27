@@ -221,6 +221,7 @@ const Home = () => {
             const data = await res.json()
             if (data) {
                 setUserData(data)
+                console.log(data)
             }
         } catch (error) {
             console.error("Failed to Fetch User Info!", error.message)
@@ -397,10 +398,15 @@ const Home = () => {
                         <button className="addTaskBtn" onClick={handleAddTask}>Add Task</button>
                         <button className="addRecurringTaskBtn" onClick={() => navigate('/recurringTasks')}>Add Recurring Task</button>
                     </div>
-                    <div className="userDisplayBox">
+                    <div className="shopAndPointsBox">
                         <div className="points">Points: {userData?.points || 0}</div>
+                        <button className="shopBtn" onClick={() => navigate('/shop')}>Shop</button>
+                        <button className="profileBtn" onClick={() => navigate(`/users/${userData.username}`)}>My Profile</button>
+                        <button className="myTasksBtn" onClick={() => navigate(`/tasks`)}>My Tasks</button>
+                    </div>
+                    <div className="userDisplayBox">
                         <div className="productivityBox">
-                            <h3>Productivity Report</h3>
+                        <h3>Productivity Report</h3>
                             <ProductivityBar percentage={productivity}/>
                             <h3>{productivity}%</h3>
                             <p>{getProductivityBarComments(productivity)}</p>

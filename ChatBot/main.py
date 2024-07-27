@@ -3,7 +3,7 @@ import os
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
 import nltk
-# nltk.download('punkt')
+nltk.download('punkt')
 from nltk.stem.lancaster import LancasterStemmer
 stemmer = LancasterStemmer()
 
@@ -228,9 +228,9 @@ def behavior_array():
     return jsonify({'dataArray': behavior_data})
 
 
-if __name__ == "__main__":
-    # retrain()
-    app.run(debug=True, port=5500)
+# if __name__ == "__main__":
+#     # retrain()
+#     app.run(debug=True, port=5500)
 
 
 

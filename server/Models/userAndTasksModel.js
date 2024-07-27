@@ -1,10 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
     // Defines a user table with its parameters.
-    const User = sequelize.define('users', {
-        id : {
+    const User = sequelize.define('User', {
+        id: {
             primaryKey: true,
             autoIncrement: true,
             type: DataTypes.INTEGER,
+            allowNull: false
         },
         name: {
             type: DataTypes.STRING,
@@ -35,12 +36,13 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         }
     }, {
-        tableName: 'users'
-    })
+        tableName: 'users',
+        schema: 'public', // Specify schema if necessary (default is 'public')
+    });
 
     // Defines a tasks table with its parameters.
-    const Tasks = sequelize.define('task', {
-        userId : {
+    const Tasks = sequelize.define('Task', {
+        userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
@@ -93,14 +95,16 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
         }
     }, {
-        tableName: 'task'
-    })
+        tableName: 'tasks',
+        schema: 'public', // Specify schema if necessary (default is 'public')
+    });
 
-    const Friendships = sequelize.define('Friendships', {
-        id : {
+    const Friendships = sequelize.define('Friendship', {
+        id: {
             primaryKey: true,
             autoIncrement: true,
             type: DataTypes.INTEGER,
+            allowNull: false
         },
         relatingUser: {
             type: DataTypes.INTEGER,
@@ -127,16 +131,18 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         }
     }, {
-        tableName: 'friendships'
+        tableName: 'friendships',
+        schema: 'public', // Specify schema if necessary (default is 'public')
     });
 
-    const Items = sequelize.define('Items', {
-        id:{
+    const Items = sequelize.define('Item', {
+        id: {
             primaryKey: true,
             autoIncrement: true,
             type: DataTypes.INTEGER,
+            allowNull: false
         },
-        userId : {
+        userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
@@ -148,19 +154,21 @@ module.exports = (sequelize, DataTypes) => {
         },
         itemId: {
             allowNull: false,
-            type:DataTypes.INTEGER,
+            type: DataTypes.INTEGER,
         },
     }, {
-        tableName: 'items'
+        tableName: 'items',
+        schema: 'public', // Specify schema if necessary (default is 'public')
     });
 
-    const RecurringTasks = sequelize.define('recurringTasks', {
-        id : {
+    const RecurringTasks = sequelize.define('RecurringTask', {
+        id: {
             primaryKey: true,
             autoIncrement: true,
             type: DataTypes.INTEGER,
+            allowNull: false
         },
-        userId : {
+        userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
@@ -207,47 +215,23 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         }
     }, {
-        tableName: 'recurringTasks'
-    })
-
-
-    // Defines a one-to-many relationship between a user and their tasks.
-    User.hasMany(Tasks, {
-        foreignKey: 'userId',
-    })
-
-    Tasks.belongsTo(User, {
-        foreignKey: 'userId',
-    })
-
-    Friendships.belongsTo(User, {
-        foreignKey: 'relatingUser',
-        as: 'RelatingUser'
+        tableName: 'recurringtasks',
+        schema: 'public', // Specify schema if necessary (default is 'public')
     });
 
-    Friendships.belongsTo(User, {
-        foreignKey: 'relatedUser',
-        as: 'RelatedUser'
-    });
+    // Defines relationships
+    User.hasMany(Tasks, { foreignKey: 'userId' });
+    Tasks.belongsTo(User, { foreignKey: 'userId' });
 
-    User.hasMany(Items, {
-        foreignKey: 'userId',
-    })
+    Friendships.belongsTo(User, { foreignKey: 'relatingUser', as: 'RelatingUser' });
+    Friendships.belongsTo(User, { foreignKey: 'relatedUser', as: 'RelatedUser' });
 
-    Items.belongsTo(User, {
-        foreignKey: 'userId',
-    })
+    User.hasMany(Items, { foreignKey: 'userId' });
+    Items.belongsTo(User, { foreignKey: 'userId' });
 
-    User.hasMany(RecurringTasks, {
-        foreignKey: 'userId',
-    })
+    User.hasMany(RecurringTasks, { foreignKey: 'userId' });
+    RecurringTasks.belongsTo(User, { foreignKey: 'userId' });
 
-    RecurringTasks.belongsTo(User, {
-        foreignKey: 'userId',
-    })
+    return [User, Tasks, Friendships, Items, RecurringTasks];
+};
 
-
-
-    // Returns the 2 tables in an array.
-    return [User, Tasks, Friendships, Items, RecurringTasks]
-}

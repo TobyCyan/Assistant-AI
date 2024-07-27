@@ -1,0 +1,9 @@
+Flask
+Flask_Cors
+nltk
+numpy
+python-dotenv
+tensorflow
+Pillow==9.5.0
+gunicorn==22.0.0
+git+https://github.com/MihaMarkic/tflearn.git@fix/is_sequence_missing

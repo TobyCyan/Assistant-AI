@@ -60,7 +60,7 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
      * The Express API URL for this React app.
      * @type {string}
      */
-    const expressApiUrl = import.meta.env.REACT_APP_EXPRESS_API_URL
+    const expressApiUrl = import.meta.env.VITE_EXPRESS_API_URL
 
     /**
      * POST Request to Add Task.
@@ -207,8 +207,85 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
             })
     }
 
+    /**
+     * Handles saving the new task or edited task.
+     */
     const handleSave = () => {
-        if(type === "add") {
+        if(!title) {
+            setError('noTaskTitle');
+            return;
+        }
+
+        if(!category) {
+            setError('noTaskCategory');
+            return;
+        }
+
+        if(!priority) {
+            setError("noTaskPriority");
+            return;
+        }
+
+        if(!deadline) {
+            setError('noTaskDeadline');
+            return;
+        }
+
+        if(!interval) {
+            setError('noTaskInterval')
+            return
+        }
+
+        if(!creationDays){
+            setError('noTaskCreation')
+            return
+        }
+
+        if(!reminderDays){
+            setError('noReminder')
+        }
+
+        /**
+         * @type {Date} Current date.
+         */
+        const currentDate = new Date()
+
+        /**
+         * @type {Date} Task deadline date.
+         */
+        const deadlineObj = new Date(deadline)
+
+        if(deadlineObj < currentDate) {
+            setError('deadlinePast')
+            return
+        }
+
+        const intInterval = parseInt(interval,10)
+        const intCreationDays = parseInt(creationDays,10)
+        const intReminderDays = parseInt(reminderDays,10)
+
+        if(intInterval <= 0) {
+            setError('negativeInterval')
+            return
+        }
+
+        if(intCreationDays < 0) {
+            setError('negativeCreation')
+            return
+        }
+
+        if(intReminderDays < 0) {
+            setError('negativeReminder')
+            return
+        }
+
+        if(intReminderDays > intCreationDays) {
+            setError('reminderBeforeCreation')
+        }
+
+        setError('')
+
+        if (type === "add") {
             addNewRecurringTask()
         } else {
             editNewRecurringTask()
@@ -234,7 +311,6 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
             <div className="descriptionBox">
                 <label htmlFor="recDescriptionInput">Description</label>
                 <textarea
-                    type="text"
                     id="recDescriptionInput"
                     className="descriptionInput"
                     placeholder="Description"

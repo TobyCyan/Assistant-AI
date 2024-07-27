@@ -21,7 +21,7 @@ const SearchBar = () => {
      * The Express API URL for this React app.
      * @type {string}
      */
-    const expressApiUrl = process.env.REACT_APP_EXPRESS_API_URL
+    const expressApiUrl = process.env.VITE_EXPRESS_API_URL
 
 
     const handleSearch = async () => {
