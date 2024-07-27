@@ -3,9 +3,9 @@ const { Op } = require('sequelize');
 const db = require('../Models/dataBase')
 const nodemailer = require('nodemailer')
 
-const Users = db.user
+const Users = db.users
 const Tasks = db.tasks
-const Scheduler = db.recurringTasks
+const Scheduler = db.recurringtasks
 
 const email = process.env.NODEMAILER_EMAIL
 const password = process.env.NODEMAILER_PW
@@ -101,6 +101,7 @@ const recurringTask = async () => {
 };
 
 const sendReminderEmails = async () => {
+    console.log("Checking for reminders...")
     try {
         const now = new Date();
         now.setHours(now.getHours() + 8)
@@ -134,6 +135,7 @@ const sendReminderEmails = async () => {
                 }
 
                 const deadline = new Date(task.deadline)
+                deadline.setHours(23, 59, 59, 999);
 
                 const mailOptions = {
                     to: user.email,
@@ -166,4 +168,5 @@ const sendReminderEmails = async () => {
 }
 
 cron.schedule('* * * * * *', recurringTask)
-cron.schedule('0 * * * *', sendReminderEmails)
+cron.schedule('*/5 * * * *', sendReminderEmails)
+

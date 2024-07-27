@@ -1,3 +1,4 @@
+/*
 const dbConfig = require('../config/dbConfig.js');
 const {Sequelize, DataTypes} = require('sequelize');
 
@@ -8,7 +9,7 @@ const sequelize = new Sequelize(
     {
         host: dbConfig.host,
         dialect: dbConfig.dialect,
-        
+
         pool: {
             max: dbConfig.pool.max,
             min: dbConfig.pool.min,
@@ -17,6 +18,26 @@ const sequelize = new Sequelize(
         }
     }
 )
+*/
+
+const {Sequelize, DataTypes} = require('sequelize')
+
+/*
+const sequelize = new Sequelize({
+    dialect: 'postgres',
+    database: 'assistantai2',
+    user: 'daryl',
+    password: '790800',
+    host: 'localhost',
+    port: 5432,
+    ssl: true,
+    clientMinMessages: 'notice',
+});
+*/
+
+const dbURL = process.env.DATABASE_URL;
+
+const sequelize = new Sequelize(`${dbURL}`);
 
 sequelize.authenticate()
 .then(() => {
@@ -32,11 +53,11 @@ db.Sequelize = Sequelize
 db.sequelize = sequelize
 
 // Define the tables in the db.
-db.user = require('./userAndTasksModel.js')(sequelize, DataTypes)[0]
+db.users = require('./userAndTasksModel.js')(sequelize, DataTypes)[0]
 db.tasks = require('./userAndTasksModel.js')(sequelize, DataTypes)[1]
 db.friendships = require('./userAndTasksModel.js')(sequelize, DataTypes)[2]
-db.recurringTasks = require('./userAndTasksModel.js')(sequelize, DataTypes)[4]
 db.items = require('./userAndTasksModel.js')(sequelize, DataTypes)[3]
+db.recurringtasks = require('./userAndTasksModel.js')(sequelize, DataTypes)[4]
 
 // Force is false to prevent database from being recreated repeatly.
 db.sequelize.sync({force: false})

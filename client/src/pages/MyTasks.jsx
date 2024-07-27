@@ -5,7 +5,12 @@ import { useTokenContext } from "../components/TokenContext/TokenContext";
 import DetailedTaskCard from "../components/TasksCardsAndBox/DetailedTaskCard.jsx";
 import AddEditTasks from "../components/TaskModals/AddEditTasks";
 import CompleteDeleteTasks from "../components/TaskModals/CompleteDeleteTasks";
-import { compareTasksDeadline, startIntro, setHasFinishedIntroAtPage } from "../utilities/utilities.js";
+import {
+    compareTasksDeadline,
+    startIntro,
+    setHasFinishedIntroAtPage,
+    compareTasksPriority
+} from "../utilities/utilities.js";
 import Modal from 'react-modal';
 import IntroElement from '../components/IntroElements/IntroElement.jsx';
 
@@ -101,7 +106,7 @@ function MyTasks() {
      * The tasks to display and setter function to update it.
      * @type {[Array<Object>, function]}
      */
-    const [displayTasks, setDisplayTasks] = useState(tasks)
+    const [displayTasks, setDisplayTasks] = useState(tasks.sort(compareTasksPriority).sort(compareTasksDeadline))
 
     /**
      * The filter and setter function to update it.
@@ -146,7 +151,7 @@ function MyTasks() {
      * @description Sort the tasks by deadline, set the tasks to display and filter the tasks if there is any changes to the user tasks.
      */
     useEffect(() => {
-        tasks.sort(compareTasksDeadline)
+        tasks.sort(compareTasksPriority).sort(compareTasksDeadline)
         setDisplayTasks(tasks)
         filterTasks(filter)
     }, [tasks]);
@@ -386,7 +391,10 @@ function MyTasks() {
                             ({uncompletedTasks.filter(each => each.priority === 'Low').length})
                         </li>
                         {categories}
-                        <li onClick={() => handleFilterTasks('Completed')}>Completed
+                        <li
+                            onClick={() => handleFilterTasks('Completed')}
+                            style={{ color: 'green' }}
+                        >Completed
                             ({tasks.filter(each => each.completed).length})
                         </li>
 

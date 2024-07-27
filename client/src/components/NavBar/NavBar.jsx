@@ -35,7 +35,9 @@ const NavBar = ({overduedTasks, remindersTasks, upcomingTasks, priorityTasks}) =
                 </ul>
             </div>
             <div className="navBarRightContainer">
+
                 { token && <ReminderBell overduedTasks={overduedTasks} remindersTasks={remindersTasks} upcomingTasks={upcomingTasks} priorityTasks={priorityTasks} /> }
+
                 <UserInfo />
             </div>
         </div>

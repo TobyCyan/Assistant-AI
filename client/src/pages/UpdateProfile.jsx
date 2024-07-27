@@ -20,7 +20,7 @@ const UpdateProfile = () => {
      * The current token and setter function to update it.
      * @type {[string, function]}
      */
-    const [, setToken] = tokenStatus
+    const [token, setToken] = tokenStatus
 
     /**
      * The current confirmation password and setter function to update it.

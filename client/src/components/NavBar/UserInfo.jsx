@@ -148,13 +148,16 @@ const UserInfo = () => {
                 // console.log("Invalid User/Info")
             }
             const data = await res.json()
-            if (data) {
+
+            if(data) {
+                console.log(data)
                 setUserData(data)
             }
         } catch (error) {
             console.error('Failed to Fetch User Info!', error.message)
         }
     }
+
 
     /** 
      * Clears token and userData on log out, to login page.

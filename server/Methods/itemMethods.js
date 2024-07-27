@@ -1,6 +1,6 @@
 const db = require('../Models/dataBase.js')
 
-const User = db.user
+const User = db.users
 const Items = db.items
 
 const secretKey = process.env.Secret_Key
