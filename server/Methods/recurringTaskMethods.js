@@ -84,7 +84,6 @@ const editRecurringTask = async (req, res) => {
         description: data['description'],
         category: data['category'],
         priority: data['priority'],
-        lastCreated: data['lastCreated'],
         nextCreation: data['nextCreation'],
         creationToDeadline: data['creationToDeadline'],
         reminderToDeadline: data['reminderToDeadline'],

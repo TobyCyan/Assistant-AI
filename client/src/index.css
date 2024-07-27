@@ -136,6 +136,7 @@ button {
   /* border: 1px solid red; */
   margin-right: 25px;
   width: 35px;
+  cursor: pointer;
 }
 
 .notificationMark {
@@ -1742,6 +1743,7 @@ ul {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 5px;
 }
 
 .searchBarBox {

@@ -269,12 +269,12 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
             return
         }
 
-        if(intCreationDays <= 0) {
+        if(intCreationDays < 0) {
             setError('negativeCreation')
             return
         }
 
-        if(intReminderDays <= 0) {
+        if(intReminderDays < 0) {
             setError('negativeReminder')
             return
         }

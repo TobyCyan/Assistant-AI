@@ -134,6 +134,7 @@ const sendReminderEmails = async () => {
                 }
 
                 const deadline = new Date(task.deadline)
+                deadline.setHours(23, 59, 59, 999);
 
                 const mailOptions = {
                     to: user.email,
