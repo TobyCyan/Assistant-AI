@@ -252,9 +252,9 @@ const Scheduler = () => {
         try {
             const res = await fetch(`${expressApiUrl}RecurringTasks`, dataToPost)
             if (res.ok) {
-                console.log("Recurring Tasks successfully retrieved")
+                // console.log("Recurring Tasks successfully retrieved")
             } else {
-                console.log("Invalid User/Recurring Tasks")
+                // console.log("Invalid User/Recurring Tasks")
             }
 
             const data = await res.json()
@@ -285,9 +285,9 @@ const Scheduler = () => {
         try {
             const res = await fetch(`${expressApiUrl}GetUserInfo`, dataToPost)
             if(res.ok) {
-                console.log("UserInfo successfully retrieved")
+                // console.log("UserInfo successfully retrieved")
             } else {
-                console.log("Invalid User/Info")
+                // console.log("Invalid User/Info")
             }
 
             const data = await res.json()

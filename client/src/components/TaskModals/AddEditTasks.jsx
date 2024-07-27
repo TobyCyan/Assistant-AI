@@ -114,7 +114,7 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
         fetch(`${expressApiUrl}AddTask`, dataToPost)
         .then(res => {
             if (res.ok) {
-                console.log('Task Successfully Added!')
+                // console.log('Task Successfully Added!')
                 return res.json()
             } else {
                 console.error(err => 'Add Task Failed!', err)
@@ -175,7 +175,7 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
         await fetch(`${expressApiUrl}EditTask`, dataToPost)
             .then(res => {
                 if (res.ok) {
-                    console.log('Task Successfully Edited!')
+                    // console.log('Task Successfully Edited!')
                     return res.json()
                 } else {
                     console.error(err => 'Edit Task Failed!', err)

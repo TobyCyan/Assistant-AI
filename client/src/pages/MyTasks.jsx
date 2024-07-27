@@ -232,7 +232,6 @@ function MyTasks() {
      */
     const handleFilterTasks = (value) => {
         setFilter(value)
-        console.log(value)
     }
 
     /**
@@ -289,16 +288,15 @@ function MyTasks() {
 
         try {
             const res = await fetch(`${expressApiUrl}Tasks`, dataToPost)
-            if(res.ok) {
-                console.log("TaskModals successfully retrieved")
+            if (res.ok) {
+                // console.log("TaskModals successfully retrieved")
             } else {
-                console.log("Invalid User/TaskModals")
+                // console.log("Invalid User/TaskModals")
             }
 
             const data = await res.json()
-            if(data) {
-                console.log('Type of TaskModals: ' + typeof data.tasks + ', TaskModals: ' + data.tasks + ', isArray? ' + Array.isArray(data.tasks))
-                console.log(data.tasks[0])
+            if (data) {
+
                 setTasks(data.tasks)
                 setDisplayTasks(tasks)
             }
@@ -325,14 +323,13 @@ function MyTasks() {
         try {
             const res = await fetch(`${expressApiUrl}GetUserInfo`, dataToPost)
             if(res.ok) {
-                console.log("UserInfo successfully retrieved")
+                // console.log("UserInfo successfully retrieved")
             } else {
-                console.log("Invalid User/Info")
+                // console.log("Invalid User/Info")
             }
 
             const data = await res.json()
             if(data) {
-                console.log(data)
                 setUserData(data)
             }
         } catch (error) {

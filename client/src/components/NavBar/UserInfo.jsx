@@ -1,7 +1,8 @@
-import React, { useState, useEffect, ReactNode } from 'react'
+import React, { useState, useEffect, ReactNode, useCallback } from 'react'
 import '../../index.css'
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useTokenContext } from "../TokenContext/TokenContext.jsx";
+import { Items, isIconOwned } from '../../utilities/ShopItemUtilities.js';
 
 /**
  * A React component that retrieves the current user data and points to display them.
@@ -61,28 +62,74 @@ const UserInfo = () => {
         setPoints(userData?.points)
     }, [userData]);
 
+    useEffect(() => {
+        if (username) {
+            getUserItemsByUsername()
+        }
+    }, [username])
+
     /**
      * @function useEffect
-     * @description Imports the necessary profile icon.
+     * @description Updates the icon whenever a new one is equipped.
      */
     useEffect(() => {
-        const importIcon = async () => {
-            try {
-                const storageIcon = localStorage.getItem("profileIcon")
-                if (storageIcon) {
-                    const icon = await import(`../../AppImages/Profile Icons/${storageIcon}.png`)
-                    setIcon(icon.default)
-                    setProfileIcon(storageIcon)
-                } else {
-                    const icon = await import(`../../AppImages/Profile Icons/${profileIcon}.png`)
-                    setIcon(icon.default)
-                }     
-            } catch (err) {
-                console.error("Failed to Import Icon: ", err.message)
-            }
+        const updateIcon = async () => {
+            const icon = await import(`../../AppImages/Profile Icons/${profileIcon}.png`)
+            setIcon(icon.default)
         }
-        importIcon()
-    }, [token, profileIcon])
+        updateIcon()
+    }, [profileIcon])
+
+    /**
+     * Imports the user's profile icon.
+     * @param {Array<Object>} items The list of items owned by the user.
+     */
+    const importIcon = async (items) => {
+        try {
+            /**
+             * The list of items owned by the user based on the itemId.
+             * @type {Array<Object>}
+             */
+            const mappedItems = [...items].map(each => Items[each.itemId-1])
+            const storageIcon = localStorage.getItem("profileIcon")
+            if (storageIcon && isIconOwned(storageIcon, mappedItems)) {
+                const icon = await import(`../../AppImages/Profile Icons/${storageIcon}.png`)
+                setIcon(icon.default)
+                setProfileIcon(storageIcon)
+                localStorage.setItem("profileIcon", storageIcon)
+            } else {
+                const defaultName = "Default"
+                const icon = await import(`../../AppImages/Profile Icons/${defaultName}.png`)  
+                setIcon(icon.default)
+                setProfileIcon(defaultName)
+                localStorage.setItem("profileIcon", defaultName)
+            }  
+        } catch (err) {
+            console.error("Failed to Import Icon: ", err.message)
+        }
+    }
+
+    const getUserItemsByUsername = async () => {
+        try {
+            const response = await fetch(`${expressApiUrl}user/${username}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('User not found');
+            }
+
+            const data = await response.json();
+            setUserData(data.userDetails);
+            await importIcon(data.userItems);
+        } catch (err) {
+            console.log(`Error getting by username`)
+        }
+    }
 
     const getUserInfo = async () => {
         const dataToPost = {
@@ -96,9 +143,9 @@ const UserInfo = () => {
         try {
             const res = await fetch(`${expressApiUrl}GetUserInfo`, dataToPost)
             if (res.ok) {
-                console.log("UserInfo successfully retrieved")
+                // console.log("UserInfo successfully retrieved")
             } else {
-                console.log("Invalid User/Info")
+                // console.log("Invalid User/Info")
             }
             const data = await res.json()
             if (data) {

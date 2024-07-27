@@ -30,7 +30,7 @@ const Login = () => {
      * @type {[string, function]}
      */
     const [error, setError] = useState("")
-    const {tokenStatus, userInfo} = useTokenContext()
+    const {tokenStatus, } = useTokenContext()
 
     /**
      * The current token and setter function to update it.
@@ -45,7 +45,6 @@ const Login = () => {
      * @type {string}
      */
     const expressApiUrl = import.meta.env.VITE_EXPRESS_API_URL
-    console.log(expressApiUrl)
 
     /**
      * Sends User to the Home Page.
@@ -115,7 +114,7 @@ const Login = () => {
         fetch(`${expressApiUrl}Login`, dataToPost)
             .then(res => {
                 if (res.ok) {
-                    console.log("Login Successful!")
+                    // console.log("Login Successful!")
                     return res.json()
                 } else {
                     res.text().then(text => handleFailedLogin(text))
@@ -130,7 +129,7 @@ const Login = () => {
                 }
             })
             .catch(error => {
-                console.error("Login failed:", error)
+                console.error("Login failed:", error.message)
             })
     }
 
