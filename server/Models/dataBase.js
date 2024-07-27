@@ -33,8 +33,9 @@ const sequelize = new Sequelize({
     clientMinMessages: 'notice',
 });
 */
+const dbURL = process.env.DATABASE_URL;
 
-const sequelize = new Sequelize('postgresql://postgres.zbtrxoctfmzcwrznhcdp:JoshuAIOrbital123@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres');
+const sequelize = new Sequelize(`${dbURL}`);
 
 sequelize.authenticate()
 .then(() => {
