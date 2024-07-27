@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ReactNode } from "react";
 import Modal from "react-modal";
 import ReminderRoom from "../ReminderRoom/ReminderRoom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -6,7 +6,14 @@ import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { compareTasksPriority, isTaskOverdue, isTaskUpcoming, isTaskNeededToBeReminded } from "../../utilities/utilities";
 import { useTokenContext } from "../TokenContext/TokenContext";
 
-
+/**
+ * A React component that displays a ringing reminder bell if the user has not been reminded yet.
+ * @component
+ * @param {function} setHasReminded A setter function that set whether the user has been reminded.
+ * @param {string} timeOfTheDay The time of the day.
+ * @param {number} todayDate Today's date in terms of the day.  
+ * @returns {ReactNode} A React element that renders a ringing reminder bell.
+ */
 const RingingReminderBell = ({setHasReminded, timeOfTheDay, todayDate}) => {
     const {tokenStatus, } = useTokenContext()
     /**
@@ -130,9 +137,9 @@ const RingingReminderBell = ({setHasReminded, timeOfTheDay, todayDate}) => {
         try {
             const res = await fetch(`${expressApiUrl}Tasks`, dataToPost)
             if (res.ok) {
-                console.log("TaskModals successfully retrieved")
+                // console.log("TaskModals successfully retrieved")
             } else {
-                console.log("Invalid User/TaskModals")
+                // console.log("Invalid User/TaskModals")
             }
 
             const data = await res.json()

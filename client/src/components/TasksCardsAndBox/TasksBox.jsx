@@ -14,9 +14,6 @@ import Tasks from "./Tasks.jsx";
  */
 const TasksBox = ({title, tasks, tasksToShow, onEdit, onDelete, onComplete}) => {
     const [taskList, setTaskList] = useState([])
-    useEffect(() => {
-        console.log('tasksToShow: ' + tasksToShow)
-    },[])
 
     /**
      * @function useEffect

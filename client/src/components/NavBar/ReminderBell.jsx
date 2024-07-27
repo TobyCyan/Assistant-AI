@@ -1,9 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ReactNode } from "react";
 import RingingReminderBell from "./RingingReminderBell";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { getTimeOfTheDay } from "../../utilities/ReminderRoomUtilities";
 
+/**
+ * A React component that displays the reminder bell that reminds the user of their tasks.
+ * @component
+ * @returns {ReactNode} A React element that renders the reminder bell.
+ */
 const ReminderBell = () => {
     const timeOfTheDay = getTimeOfTheDay()
 

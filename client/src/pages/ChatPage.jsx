@@ -10,6 +10,7 @@ import ListMessageElement from "../components/MessageElement/ListMessageElement.
 import AddEditTaskMessageElement from "../components/MessageElement/AddEditTaskMessageElement.jsx";
 import avatarIcon from "../AppImages/Mei Chibi Icons/Mei_Chibi_Icon.png"
 import IntroElement from "../components/IntroElements/IntroElement.jsx";
+import { Items, isOutfitOwned } from "../utilities/ShopItemUtilities.js";
 
 /**
  * A React component that displays the page where users can interact and chat with the AI Assistant.
@@ -287,6 +288,87 @@ const ChatPage = () => {
     }
 
     /**
+     * @function useEffect
+     * @description Gets the user data by username and retrieves the user items.
+     */
+    useEffect(() => {
+        if (userData.username) {
+            getUserItemsByUsername()
+        }
+    }, [userData.username])
+
+    /**
+     * Fetches the user items from the user data.
+     * @async
+     */
+    const getUserItemsByUsername = async () => {
+        try {
+            const response = await fetch(`${expressApiUrl}user/${userData.username}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('User not found');
+            }
+
+            const data = await response.json()
+            await importSprites(data.userItems)
+
+        } catch (err) {
+            console.log(`Error getting by username`)
+        }
+    }
+
+    /**
+     * @function useEffect
+     * @description Updates the sprite whenever a new one is equipped.
+     */
+    useEffect(() => {
+        const updateSprite = async () => {
+            const sprite1 = await import(`../AppImages/Mei Chibi Icons/${assistantSprite}_Phone_Texting.png`)
+            const sprite2 = await import(`../AppImages/Mei Chibi Icons/${assistantSprite}_Phone_Staring.png`)
+            setTextingSprite(sprite1.default)
+            setStaringSprite(sprite2.default)
+        }
+        updateSprite()
+    }, [assistantSprite])
+
+    /**
+     * Imports the user's assistant sprites.
+     * @param {Array<Object>} items The list of items owned by the user.
+     */
+    const importSprites = async (items) => {
+        try {
+            /**
+             * The list of items owned by the user based on the itemId.
+             * @type {Array<Object>}
+             */
+            const mappedItems = [...items].map(each => Items[each.itemId-1])
+            const storageSprite = localStorage.getItem("assistantSprite")
+            if (storageSprite && isOutfitOwned(storageSprite, mappedItems)) {
+                const sprite1 = await import(`../AppImages/Mei Chibi Icons/${storageSprite}_Phone_Texting.png`)
+                const sprite2 = await import(`../AppImages/Mei Chibi Icons/${storageSprite}_Phone_Staring.png`)
+                setTextingSprite(sprite1.default)
+                setStaringSprite(sprite2.default)
+                localStorage.setItem("assistantSprite", storageSprite)
+            } else {
+                const defaultName = "Mei_Chibi"
+                const sprite1 = await import(`../AppImages/Mei Chibi Icons/${defaultName}_Wave.png`)
+                const sprite2 = await import(`../AppImages/Mei Chibi Icons/${defaultName}_Wink.png`)
+                setWaveSprite(sprite1.default)
+                setWinkSprite(sprite2.default)
+                localStorage.setItem("assistantSprite", defaultName)
+            }  
+        } catch (err) {
+            console.error("Failed to Import Icon: ", err.message)
+        }
+    }
+
+    /**
      * POST Request to Add Task.
      * @async
      * @returns {Promise<void>} A promise that adds the user task.
@@ -353,9 +435,9 @@ const ChatPage = () => {
         try {
             const res = await fetch(`${expressApiUrl}Tasks`, dataToPost)
             if (res.ok) {
-                console.log("TaskModals successfully retrieved")
+                // console.log("TaskModals successfully retrieved")
             } else {
-                console.log("Invalid User/TaskModals")
+                // console.log("Invalid User/TaskModals")
             }
 
             const data = await res.json()
@@ -904,24 +986,6 @@ const ChatPage = () => {
             console.log("dialogueBox does not exist.")
         }
     }, [])
-
-    /**
-     * @function useEffect
-     * @description Imports the necessary sprites based on the current sprite type.
-     */
-    useEffect(() => {
-        const importSprites = async () => {
-            try {
-                const sprite1 = await import(`../AppImages/Mei Chibi Icons/${assistantSprite}_Phone_Texting.png`)
-                const sprite2 = await import(`../AppImages/Mei Chibi Icons/${assistantSprite}_Phone_Staring.png`)
-                setTextingSprite(sprite1.default)
-                setStaringSprite(sprite2.default)
-            } catch (err) {
-                console.error("Failed to Import Sprites: ", err.message)
-            }
-        }
-        importSprites()
-    }, [token, assistantSprite])
 
     return (
         <div className="chatpage" >

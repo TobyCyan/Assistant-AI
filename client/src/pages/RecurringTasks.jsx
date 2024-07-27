@@ -169,7 +169,6 @@ function RecurringTasks() {
      */
     const handleFilterTasks = (value) => {
         setFilter(value)
-        console.log(value)
     }
 
     /**
@@ -226,16 +225,14 @@ function RecurringTasks() {
 
         try {
             const res = await fetch('http://localhost:5001/Tasks', dataToPost)
-            if(res.ok) {
-                console.log("TaskModals successfully retrieved")
+            if (res.ok) {
+                // console.log("TaskModals successfully retrieved")
             } else {
-                console.log("Invalid User/TaskModals")
+                // console.log("Invalid User/TaskModals")
             }
 
             const data = await res.json()
             if(data) {
-                console.log('Type of TaskModals: ' + typeof data.tasks + ', TaskModals: ' + data.tasks + ', isArray? ' + Array.isArray(data.tasks))
-                console.log(data.tasks[0])
                 setTasks(data.tasks)
                 setDisplayTasks(tasks)
             }
@@ -262,14 +259,13 @@ function RecurringTasks() {
         try {
             const res = await fetch('http://localhost:5001/GetUserInfo', dataToPost)
             if(res.ok) {
-                console.log("UserInfo successfully retrieved")
+                // console.log("UserInfo successfully retrieved")
             } else {
-                console.log("Invalid User/Info")
+                // console.log("Invalid User/Info")
             }
 
             const data = await res.json()
             if(data) {
-                console.log(data)
                 setUserData(data)
             }
         } catch (error) {

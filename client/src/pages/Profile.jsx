@@ -10,6 +10,7 @@ import Modal from 'react-modal';
 import RequestModal from "../components/ProfilePage/RequestModal.jsx";
 import IntroElement from '../components/IntroElements/IntroElement.jsx';
 import ItemCollectionBox from "../components/ProfilePage/ItemCollectionBox";
+import { Items, isIconOwned } from '../utilities/ShopItemUtilities.js';
 
 const Profile = () => {
     const navigate = useNavigate()
@@ -200,6 +201,9 @@ const Profile = () => {
         })
     }
 
+    /**
+     * Closes the friend request modal.
+     */
     const closeRequestModal = () => {
         setRequestModalOpen({
             isShown: false,
@@ -225,7 +229,7 @@ const Profile = () => {
             const data = await response.json();
             setDisplayUserInfo(data.userDetails);
             setDisplayUserItems(data.userItems);
-   
+            await importIcon(data.userItems);
         } catch (err) {
             console.log(`Error getting by username`)
         }
@@ -301,14 +305,14 @@ const Profile = () => {
     }
 
     useEffect(() => {
-        if(token) {
+        if (token) {
             getUserFriends()
             getUserFriendRequests()
         }
     }, [])
 
     useEffect(() => {
-        if(token) {
+        if (token) {
             getUserDataByUsername()
             getUserFriends()
             getUserFriendRequests()
@@ -317,26 +321,44 @@ const Profile = () => {
 
     /**
      * @function useEffect
-     * @description Imports the necessary profile icon.
+     * @description Updates the icon whenever a new one is equipped.
      */
     useEffect(() => {
-        const importIcon = async () => {
-            try {
-                const storageIcon = localStorage.getItem("profileIcon")
-                if (storageIcon) {
-                    const icon = await import(`../AppImages/Profile Icons/${storageIcon}.png`)
-                    setIcon(icon.default)
-                    setProfileIcon(storageIcon)
-                } else {
-                    const icon = await import(`../AppImages/Profile Icons/${profileIcon}.png`)
-                    setIcon(icon.default)
-                }  
-            } catch (err) {
-                console.error("Failed to Import Icon: ", err.message)
-            }
+        const updateIcon = async () => {
+            const icon = await import(`../AppImages/Profile Icons/${profileIcon}.png`)
+            setIcon(icon.default)
         }
-        importIcon()
-    }, [token, profileIcon])
+        updateIcon()
+    }, [profileIcon])
+
+    /**
+     * Imports the user's profile icon.
+     * @param {Array<Object>} items The list of items owned by the user.
+     */
+    const importIcon = async (items) => {
+        try {
+            /**
+             * The list of items owned by the user based on the itemId.
+             * @type {Array<Object>}
+             */
+            const mappedItems = [...items].map(each => Items[each.itemId-1])
+            const storageIcon = localStorage.getItem("profileIcon")
+            if (storageIcon && isIconOwned(storageIcon, mappedItems)) {
+                const icon = await import(`../AppImages/Profile Icons/${storageIcon}.png`)
+                setIcon(icon.default)
+                setProfileIcon(storageIcon)
+                localStorage.setItem("profileIcon", storageIcon)
+            } else {
+                const defaultName = "Default"
+                const icon = await import(`../AppImages/Profile Icons/${defaultName}.png`)  
+                setIcon(icon.default)
+                setProfileIcon(defaultName)
+                localStorage.setItem("profileIcon", defaultName)
+            }  
+        } catch (err) {
+            console.error("Failed to Import Icon: ", err.message)
+        }
+    }
 
     const isUser = displayUser?.username === userData?.username
     const isFriend = friends.some(friend => friend.name === username)
