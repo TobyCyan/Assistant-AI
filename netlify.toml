@@ -3,3 +3,7 @@
 
 [functions]
     directory = "server"
+
+[redirects]
+    from = "/*"
+    to = "/index.html"
