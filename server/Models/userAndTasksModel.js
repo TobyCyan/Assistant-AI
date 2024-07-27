@@ -42,6 +42,12 @@ module.exports = (sequelize, DataTypes) => {
 
     // Defines a tasks table with its parameters.
     const Tasks = sequelize.define('Task', {
+        id: {
+            primaryKey: true,
+            autoIncrement: true,
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
         userId: {
             type: DataTypes.INTEGER,
             allowNull: false,

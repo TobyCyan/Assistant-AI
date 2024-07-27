@@ -29,7 +29,6 @@ const editTask = require("./Methods/taskMethods.js").editTask
 const deleteTask = require("./Methods/taskMethods.js").deleteTask
 const completeTask = require("./Methods/taskMethods.js").completeTask
 const unCompleteTask = require("./Methods/taskMethods.js").uncompleteTask
-const userCompleteTutorial = require("./Methods/userMethods.js").setUserCompleteTutorial
 
 // Friend Methods
 const getFriends = require("./Methods/friendshipMethods.js").getFriends
@@ -60,9 +59,6 @@ app.get("/GetUserInfo", authenticateToken(secretKey), getUserInfo)
 
 // Get Request to get User Info by Username.
 app.get("/user/:username", authenticateToken(secretKey), getUserInfoByUsername)
-
-// Get Request to set user complete tutorial status.
-app.get("/SetUserCompleteTutorial", authenticateToken(secretKey), userCompleteTutorial)
 
 
 // Task-related Requests
@@ -99,7 +95,7 @@ app.post("/requests/:username", authenticateToken(secretKey), createFriendReques
 app.put("/requests/:username", authenticateToken(secretKey), updateFriendRequest)
 
 //Delete Method for friend request.
-app.delete("/request/:username", authenticateToken(secretKey), deleteFriendRequest)
+app.delete("/requests/:username", authenticateToken(secretKey), deleteFriendRequest)
 
 // Item-related requests.
 app.get("/Items", authenticateToken(secretKey), getItems)

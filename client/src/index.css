@@ -454,13 +454,13 @@ button {
   border-radius: 0.25rem;
 }
 
-.priorityAndDatesBox, .priorityAndDeadlineBox, .intervalAndReminderBox {
+.priorityAndDatesBox, .priorityAndDeadlineBox, .creationAndReminderBox {
   display: flex;
   justify-content: space-between;
   margin-top: 1rem;
 }
 
-.intervalAndReminderBox {
+.creationAndReminderBox {
   align-items: center;
 }
 
