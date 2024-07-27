@@ -8,6 +8,11 @@ import Modal from "react-modal";
 import ExchangeItemsModal from "../components/Shop/ExchangeItemsModal";
 import IntroElement from "../components/IntroElements/IntroElement";
 
+/**
+ * 
+ * @component
+ * @returns 
+ */
 const Shop = () => {
     const {tokenStatus, userInfo} = useTokenContext()
     /**
@@ -203,6 +208,7 @@ const Shop = () => {
                     item={item}
                     isObtained={userItems[index]}
                     onExchange={() => handleExchange(item)}
+                    userPoints={userData.points}
                 />
             ))}
         </div>

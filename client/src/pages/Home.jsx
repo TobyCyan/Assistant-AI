@@ -181,9 +181,9 @@ const Home = () => {
         try {
             const res = await fetch(`${expressApiUrl}Tasks`, dataToPost)
             if (res.ok) {
-                console.log("TaskModals successfully retrieved")
+                // console.log("TaskModals successfully retrieved")
             } else {
-                console.log("Invalid User/TaskModals")
+                // console.log("Invalid User/TaskModals")
             }
 
             const data = await res.json()
@@ -213,9 +213,9 @@ const Home = () => {
         try {
             const res = await fetch(`${expressApiUrl}GetUserInfo`, dataToPost)
             if (res.ok) {
-                console.log("UserInfo successfully retrieved")
+                // console.log("UserInfo successfully retrieved")
             } else {
-                console.log("Invalid User/Info")
+                // console.log("Invalid User/Info")
             }
 
             const data = await res.json()
@@ -434,7 +434,7 @@ const Home = () => {
 
                 </div>
 
-                <AIBox/>
+                <AIBox />
 
                 <Modal
                     isOpen={addEditModalOpen.isShown}

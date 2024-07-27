@@ -33,27 +33,6 @@ const RequestModal = ({request, type, getAllFriends, getAllFriendRequests, onClo
         }
     }
 
-    /*
-    const createFriendRequest = async () => {
-        const dataToPost = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        }
-        try {
-            const res = await fetch(`http://localhost:5001/${request.name}`, dataToPost)
-            if(res.ok) {
-                console.log(`Friend request successfully sent!`)
-            }
-            getAllFriendRequests()
-            onClose()
-        } catch (error) {
-            console.error('Failed to send friend request!', error)
-        }
-    */
-
     const acceptFriendRequest = async () => {
         const dataToPost = {
             method: 'PUT',
@@ -64,8 +43,8 @@ const RequestModal = ({request, type, getAllFriends, getAllFriendRequests, onClo
         }
         try {
             const res = await fetch(`${expressApiUrl}requests/${request.name}`, dataToPost)
-            if(res.ok) {
-                console.log(`Friend request successfully sent!`)
+            if (res.ok) {
+                // console.log(`Friend request successfully sent!`)
             }
             getAllFriends()
             getAllFriendRequests()
@@ -86,8 +65,8 @@ const RequestModal = ({request, type, getAllFriends, getAllFriendRequests, onClo
         }
         try {
             const res = await fetch(`${expressApiUrl}requests/${request.name}`, dataToPost)
-            if(res.ok) {
-                console.log(`Friend request successfully sent!`)
+            if (res.ok) {
+                // console.log(`Friend request successfully sent!`)
             }
             getAllFriendRequests()
             onClose()

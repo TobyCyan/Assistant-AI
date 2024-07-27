@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ItemBox = ({item, isObtained, onExchange}) => {
+const ItemBox = ({item, isObtained, onExchange, userPoints}) => {
     return (
         <div className="itemBox">
             <h2 className="itemTitle">{item.title}</h2>
@@ -11,7 +11,7 @@ const ItemBox = ({item, isObtained, onExchange}) => {
                 <button disabled={isObtained} className="exchangeButton" style={{
                     cursor: isObtained ? 'not-allowed' : 'pointer',
                 }} onClick={() => onExchange(item)}>
-                    {isObtained ? 'Obtained' : 'Exchange'}
+                    {isObtained ? 'Obtained' : userPoints < item.points ? "Insufficient Points"  : 'Exchange'}
                 </button>
             </div>
         </div>

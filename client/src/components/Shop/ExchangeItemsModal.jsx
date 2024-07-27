@@ -36,7 +36,7 @@ const ExchangeItemsModal = ({itemData, onClose, getUserInfo, getUserItems}) => {
         try {
             const res = await fetch(`${expressApiUrl}CreateUserItem`, dataToPost)
             if(res.ok) {
-                console.log('Item exchange successfully sent')
+                // console.log('Item exchange successfully sent')
             }
             getUserInfo()
             getUserItems()

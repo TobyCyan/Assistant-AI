@@ -53,17 +53,18 @@ Our goal is to develop a task management application that helps users to organiz
 
 1.  Frontend - React, HTML, CSS
 2.  Backend - Node.js, Express.js
-3.  Database - MySQL
-4.  Unit Testing - Jest, Vitest & React Testing Library
+3.  Database - PostgreSQL
+4.  Chatbot - Python, Flask
+5.  Unit Testing - Jest, Vitest & React Testing Library
 
 ### Try It Youself
 
-1.  Users are required to have the following installed: Node.js, Express.js, XAMPP, and MySQL.
-2.  After cloning, users need to setup a MySQL database and configure it to the config folder by matching the name and password.
-3.  Run the XAMPP control panel and click on the "start" button for both Apache and MySQL.
+1.  Users are required to have the following installed: Node.js, Express.js, XAMPP, and PostgreSQL.
+2.  After cloning, users need to setup a PostgreSQL database and configure it to the config folder by matching the name and password.
+3.  Run the XAMPP control panel and click on the "start" button for both Apache and PostgreSQL.
 4.  If you wish to test out getting weather information from the AI Assistant, you will have to obtain an API key from OpenWeatherMap.org.
 5.  Create a .env file in the root directory, and add a Secret\_Key, a PORT, and the Weather\_API\_Key variable.
-6.  Run "pip3 install" in the terminal of the root directory to install all python dependencies.
+6.  Run "pip3 install -r requirements.txt" in the terminal of the ChatBot directory to install all python dependencies.
 7.  For running the frontend, users may change directory to /client, run "npm install" in the terminal to install all dependencies, and run "npm run dev".
 8.  For running the backend, users may change directory to /server, run "npm install" in the terminal to install all dependencies, and run "npm run dev".
 9.  For running the chatbot, users may change directory to /ChatBot, and run "python main.py".
@@ -430,6 +431,37 @@ Assistant AI is essentially a task management system with the help of a Virtual 
         ![Navigation Bar](./images/CoreFeaturesInstructionImg/NavBar.png)
         
         *   At the shop, users will be able to purchase customisables in which they can use for their profile.
+        *   At this stage, we plan to have mainly two types of customisables that users can purchase with their points, Assistant Outfits and Profile Icons!
+        *   As we still have not received the outfit sprites and icons, we have placed temporary images to substitute for the actual one which will be added soon.
+        *   ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/d0613709d39ac36e7419ba572c27987b43434921061e9a8c.png)
+            
+            To exchange for an item, simply click on the “Exchange” button, and a confirmation window will pop up!
+            
+            ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/3243a1cfcdc7575583f142baaf06d9889d76d75cbec1b204.png)
+            
+        *   Once the item has been exchanged, the button will be shown as “Obtained” and become non-interactable.
+        *   ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/2cdde9e8f63fc6b604414703bdce9751e70536d1c2f85cea.png)
+            
+
+*   **User Profile**
+    *   To allow users to check out their profile details, items owned/ purchased, their friends and friend requests.
+        
+        **Instructions/ Details**
+        
+        *   To navigate to the user profile, simply click on the user info section in the top right corner of the page next to the Log Out button.
+        *   ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/248de0288fd2a0049ad63feafe8e1b856f9d88c1a7058962.png)
+            
+            Then, the user will be greeted with their profile page!
+            
+            ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/b65195ad16a5641a96363b3295dc79840194d8c2bc7d5165.png)
+            
+        *   Here, the user is able to update their profiles, view their profile details, friends list, friend requests, as well as search for other users!
+        *   Moreover, the user can check out their items in the Item Collection Box.
+        *   ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/7b69a8e7531229764391c08f52b34bb4c38d82df23c77856.png)
+            
+            Items that are exchanged from the shop are displayed in this area!
+            
+        
 
 ### Milestone Timeline
 

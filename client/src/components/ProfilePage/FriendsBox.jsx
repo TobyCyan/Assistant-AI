@@ -2,7 +2,6 @@ import React from 'react';
 import Friend from "./Friend.jsx";
 
 const FriendsBox = ({friendsToShow}) => {
-    // console.log(friendsToShow)
     const friends = friendsToShow?.map((friend, index) =>
         <Friend
             key = {index}

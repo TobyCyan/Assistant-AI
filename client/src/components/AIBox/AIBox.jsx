@@ -3,7 +3,7 @@ import "../../index.css"
 import { useTokenContext } from "../TokenContext/TokenContext";
 import { useNavigate } from "react-router-dom";
 import { randIntervalGenerator, getRandomVoiceLine } from "../../utilities/utilities";
-// import { importSprites } from "../../utilities/SpriteUtilities";
+import { Items, isOutfitOwned } from "../../utilities/ShopItemUtilities";
 
 /**
  * A React component that displays the region where the AI assistant can be seen, this includes the assistant itself and any dialogues.
@@ -19,6 +19,12 @@ const AIBox = () => {
     const [winkSprite, setWinkSprite] = useState(null)
 
     const navigate = useNavigate()
+
+    /**
+     * The Express API URL for this React app.
+     * @type {string}
+     */
+    const expressApiUrl = import.meta.env.VITE_EXPRESS_API_URL
 
     /**
      * The current user data and setter function to update it.
@@ -67,23 +73,78 @@ const AIBox = () => {
         setDialogue(`Welcome Back! ${ userData.username ? userData.username : ""}`)
     }, [userData])
 
+    useEffect(() => {
+        if (userData.username) {
+            getUserDataByUsername()
+        }
+    }, [userData.username])
+
+    const getUserDataByUsername = async () => {
+        try {
+            const response = await fetch(`${expressApiUrl}user/${userData.username}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('User not found');
+            }
+
+            const data = await response.json()
+            await importSprites(data.userItems)
+
+        } catch (err) {
+            console.log(`Error getting by username`)
+        }
+    }
+
     /**
      * @function useEffect
-     * @description Imports the necessary sprites based on the current sprite type.
+     * @description Updates the sprite whenever a new one is equipped.
      */
     useEffect(() => {
-        const importSprites = async () => {
-            try {
-                const sprite1 = await import(`../../AppImages/Mei Chibi Icons/${assistantSprite}_Wave.png`)
-                const sprite2 = await import(`../../AppImages/Mei Chibi Icons/${assistantSprite}_Wink.png`)
+        const updateSprite = async () => {
+            const sprite1 = await import(`../../AppImages/Mei Chibi Icons/${assistantSprite}_Wave.png`)
+            const sprite2 = await import(`../../AppImages/Mei Chibi Icons/${assistantSprite}_Wink.png`)
+            setWaveSprite(sprite1.default)
+            setWinkSprite(sprite2.default)
+        }
+        updateSprite()
+    }, [assistantSprite])
+
+    /**
+     * Imports the user's assistant sprites.
+     * @param {Array<Object>} items The list of items owned by the user.
+     */
+    const importSprites = async (items) => {
+        try {
+            /**
+             * The list of items owned by the user based on the itemId.
+             * @type {Array<Object>}
+             */
+            const mappedItems = [...items].map(each => Items[each.itemId-1])
+            const storageSprite = localStorage.getItem("assistantSprite")
+            if (storageSprite && isOutfitOwned(storageSprite, mappedItems)) {
+                const sprite1 = await import(`../../AppImages/Mei Chibi Icons/${storageSprite}_Wave.png`)
+                const sprite2 = await import(`../../AppImages/Mei Chibi Icons/${storageSprite}_Wink.png`)
                 setWaveSprite(sprite1.default)
                 setWinkSprite(sprite2.default)
-            } catch (err) {
-                console.error("Failed to Import Sprites: ", err.message)
-            }
+                localStorage.setItem("assistantSprite", storageSprite)
+            } else {
+                const defaultName = "Mei_Chibi"
+                const sprite1 = await import(`../../AppImages/Mei Chibi Icons/${defaultName}_Wave.png`)
+                const sprite2 = await import(`../../AppImages/Mei Chibi Icons/${defaultName}_Wink.png`)
+                setWaveSprite(sprite1.default)
+                setWinkSprite(sprite2.default)
+                localStorage.setItem("assistantSprite", defaultName)
+            }  
+        } catch (err) {
+            console.error("Failed to Import Icon: ", err.message)
         }
-        importSprites()
-    }, [token, assistantSprite])
+    }
 
     /**
      * @function useEffect
@@ -119,7 +180,7 @@ const AIBox = () => {
                 setDialogue(getRandomVoiceLine(voiceLines)) 
             })
         } else {
-            console.log("dialogueBox does not exist.")
+            // console.log("dialogueBox does not exist.")
         }
     }, [])
 

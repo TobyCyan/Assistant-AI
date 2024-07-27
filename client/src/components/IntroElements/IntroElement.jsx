@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Steps } from 'intro.js-react';
-import 'intro.js/introjs.css'
-import { useTokenContext } from '../TokenContext/TokenContext';
+import React from "react";
+import { Steps } from "intro.js-react";
+import "intro.js/introjs.css"
+import { useTokenContext } from "../TokenContext/TokenContext";
 
 /**
  * A React component that displays the page intro.
@@ -38,10 +38,10 @@ const IntroElement = ({steps, activate, setActivate, hasDoneTutorial, endIntro, 
                 steps={steps()}
                 initialStep={0}
                 options={{
-                    tooltipClass: 'introToolTip',
+                    tooltipClass: "introToolTip",
                     scrollToElement: true,
                     showStepNumbers: true,
-                    tooltipPosition: 'auto',
+                    tooltipPosition: "auto",
                     exitOnOverlayClick: false,
                     nextToDone: false,
                     exitOnEsc: false,
