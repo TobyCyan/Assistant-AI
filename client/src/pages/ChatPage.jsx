@@ -357,10 +357,10 @@ const ChatPage = () => {
                 localStorage.setItem("assistantSprite", storageSprite)
             } else {
                 const defaultName = "Mei_Chibi"
-                const sprite1 = await import(`../AppImages/Mei Chibi Icons/${defaultName}_Wave.png`)
-                const sprite2 = await import(`../AppImages/Mei Chibi Icons/${defaultName}_Wink.png`)
-                setWaveSprite(sprite1.default)
-                setWinkSprite(sprite2.default)
+                const sprite1 = await import(`../AppImages/Mei Chibi Icons/${defaultName}_Phone_Texting.png`)
+                const sprite2 = await import(`../AppImages/Mei Chibi Icons/${defaultName}_Phone_Staring.png`)
+                setTextingSprite(sprite1.default)
+                setStaringSprite(sprite2.default)
                 localStorage.setItem("assistantSprite", defaultName)
             }  
         } catch (err) {

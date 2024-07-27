@@ -221,7 +221,6 @@ const Home = () => {
             const data = await res.json()
             if (data) {
                 setUserData(data)
-                console.log(data)
             }
         } catch (error) {
             console.error("Failed to Fetch User Info!", error.message)
