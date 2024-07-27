@@ -1,6 +1,6 @@
 const db = require('../Models/dataBase.js')
 
-const User = db.user
+const User = db.users
 const Tasks = db.tasks
 const { getTodayDate } = require('../utilities/utilities')
 

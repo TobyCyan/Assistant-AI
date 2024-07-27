@@ -45,7 +45,6 @@ const Login = () => {
      * @type {string}
      */
     const expressApiUrl = import.meta.env.VITE_EXPRESS_API_URL
-    console.log(expressApiUrl)
 
     /**
      * Sends User to the Home Page.

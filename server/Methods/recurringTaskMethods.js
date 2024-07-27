@@ -1,6 +1,6 @@
 const db = require('../Models/dataBase.js')
 
-const RecurringTasks = db.recurringTasks
+const RecurringTasks = db.recurringtasks
 
 /**
  * Gets All the User's TaskModals by the userId.

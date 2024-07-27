@@ -1,7 +1,7 @@
 const db = require('../Models/dataBase.js')
 const jwt = require('jsonwebtoken')
 
-const User = db.user
+const User = db.users
 const Tasks = db.tasks
 const Items = db.items
 
