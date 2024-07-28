@@ -15,18 +15,15 @@ import random
 import json
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
-from dotenv import load_dotenv
-import pickle
 
-Weather_API_Key = os.environ.get('Weather_API_Key')
 model_in_use = 'model.mei_v1'
+model = None
 
 file = open('behavior.json')
 behavior_data = json.load(file)
 
 app = Flask(__name__)
 CORS(app)
-load_dotenv()
 
 @app.route('/')
 def home():
@@ -173,7 +170,7 @@ def predict_behavior_type_from_prompt(prompt, model):
 @app.route('/startchat', methods=['POST'])
 def start_chat():
     data = request.get_json()
-    print(data)
+    # print(data)
     chatText = data['input']
     model_name = data['model']
 
@@ -182,7 +179,9 @@ def start_chat():
     if chatText.lower() in quit_prompt:
         return jsonify({'response': 'Goodbye!'})
     
-    model = load_model(model_name, training, output)
+    global model
+    if not model:
+        model = load_model(model_name, training, output)
 
     prompt_behavior_type = predict_behavior_type_from_prompt(chatText, model)
 
@@ -195,9 +194,6 @@ def start_chat():
     responseArr = behaviorTypeArr['response']
     rand = random.random()
     response = responseArr[int(rand * (len(responseArr) - 1))]
-
-    if prompt_behavior_type == 'Weather':
-        return jsonify({'response': response, 'type': prompt_behavior_type, 'API_Key': Weather_API_Key})
     
     return jsonify({'response': response, 'type': prompt_behavior_type})
 
@@ -230,7 +226,7 @@ def behavior_array():
 
 if __name__ == "__main__":
     # retrain()
-    app.run(debug=True, port=5500)
+    app.run(debug=True, host='0.0.0.0', port=5000)
 
 
 
