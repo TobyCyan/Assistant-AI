@@ -227,7 +227,10 @@ def behavior_array():
 
     return jsonify({'dataArray': behavior_data})
 
-app.run(debug=True)
+
+if __name__ == "__main__":
+    # retrain()
+    app.run(debug=True, host='0.0.0.0', port=5000)
 
 
 
