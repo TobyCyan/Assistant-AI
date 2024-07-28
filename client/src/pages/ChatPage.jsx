@@ -2,11 +2,10 @@ import React, { useState, useEffect, useRef, ReactNode } from "react";
 import Modal from "react-modal";
 import NavBar from "../components/NavBar/NavBar.jsx";
 import { useTokenContext } from "../components/TokenContext/TokenContext";
-import getCurrentPositionWeather from "../../../ChatBot/static/API Calls/weather";
 import { randomItem, compareTasksPriority, randIntervalGenerator, getRandomVoiceLine, calculateTaskProductivity, getProductivityBarComments, startIntro, setHasFinishedIntroAtPage } from "../utilities/utilities.js";
 import ChatBotResponseElement from "../components/MessageElement/ChatBotResponseElement.jsx";
 import UserMessageElement from "../components/MessageElement/UserMessageElement.jsx";
-import { dateAfterToday, reminderBeforeDeadline, wait, removeSpaces, taskInfoString } from "../utilities/ChatPageUtilities.js";
+import { dateAfterToday, reminderBeforeDeadline, wait, removeSpaces, taskInfoString, getCurrentPositionWeather } from "../utilities/ChatPageUtilities.js";
 import ListMessageElement from "../components/MessageElement/ListMessageElement.jsx";
 import AddEditTaskMessageElement from "../components/MessageElement/AddEditTaskMessageElement.jsx";
 import avatarIcon from "../AppImages/Mei Chibi Icons/Mei_Chibi_Icon.png"
@@ -104,6 +103,12 @@ const ChatPage = () => {
     const chatbotFlaskApiUrl = import.meta.env.VITE_CHATBOT_FLASK_API_URL
 
     /**
+     * The Flask API URL for the chat bot.
+     * @type {string}
+     */
+    const weatherApiUrl = import.meta.env.VITE_WEATHER_API_URL
+
+    /**
      * The user's productivity
      * @type {number}
      */
@@ -124,6 +129,7 @@ const ChatPage = () => {
         "Try asking me if I have a favorite food.",
         "I can answer any questions about this application.",
         "Curious about today's weather forecast?",
+        "You may ask me to add, edit, delete, or even suggest a task for you to do!"
     ]
 
     /**
@@ -561,7 +567,7 @@ const ChatPage = () => {
                 const output = reply.response
                 addNewChatBotResponse(output)
                 
-                handleResponseType(reply.type, reply.API_Key)
+                handleResponseType(reply.type)
             })
             .catch(err => {
                 console.error("Error Getting a Response: ", err)
@@ -624,7 +630,7 @@ const ChatPage = () => {
      * @param {string} responseType The response type to handle.
      * @param {string} apiKey The API Key to pass in to get certain information. 
      */
-    const handleResponseType = async (responseType, apiKey) => {
+    const handleResponseType = async (responseType) => {
         const obtainingTaskText = "Obtaining all of your tasks..."
         const showTaskListText = `Please enter the index number of the task to ${responseType == "DeleteTask" ? "delete" : "edit"} it (which means ${tasks.length == 1 ? 1 : `1 - ${tasks.length}`})!`
         const quitInstructionText = `Please say either of ${quitInputsString} to quit input mode!`
@@ -641,9 +647,8 @@ const ChatPage = () => {
 
         switch (responseType) {
             case "Weather":
-                const weatherResponse = await getCurrentPositionWeather(apiKey)
-                const createWeatherResponse = weatherResponse
-                await addNewChatBotResponse(createWeatherResponse)
+                const weatherResponse = await getCurrentPositionWeather(weatherApiUrl)
+                await addNewChatBotResponse(weatherResponse)
                 break
             
             case "AddTask":
