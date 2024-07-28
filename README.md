@@ -571,6 +571,37 @@ Assistant AI is essentially a task management system with the help of a Virtual 
 *   **BackEnd Unit Testing**
     *   Unit Testing for the backend API server conducted using Postman API Testing to verify that API functions correctly when the request is sent from the client.
 
+    * Sign Up
+        ![Sign Up 1](./images/SignUp.png)
+        ![Sign Up 2](./images/NameTaken.png)
+        ![Sign Up 3](./images/EmailTaken.png)
+    * Login
+        ![Login 1](./images/Login.png)
+    * Get User Info
+        ![Get User Info 1](./images/GetUserInfo.png)
+        ![Get User Info 1](./images/GetUserInfoByName.png)
+    * Task Actions
+        ![Task Actions 1](./images/GetUserTasks.png)
+        ![Task Actions 2](./images/AddTask.png)
+        ![Task Actions 3](./images/EditTask.png)
+        ![Task Actions 4](./images/CompleteTask.png)
+        ![Task Actions 5](./images/UncompleteTask.png)
+        ![Task Actions 6](./images/DeleteTask.png)
+    * Recurring Task Actions
+        ![Recurring Task Actions 1](./images/GetRecTasks.png)
+        ![Recurring Task Actions 1](./images/AddRecTask.png)
+        ![Recurring Task Actions 1](./images/EditRecTask.png)
+        ![Recurring Task Actions 1](./images/DeleteRecTask.png)
+    * Friends Actions
+        ![Friends Actions 1](./images/GetUserFriends.png)
+        ![Friends Actions 2](./images/GetFriendRequests.png)
+        ![Friends Actions 3](./images/AddFriend.png)
+        ![Friends Actions 4](./images/AcceptFriendRequest.png)
+        ![Friends Actions 5](./images/RejectFriendRequest.png)
+    * Item Actions
+        ![Item Actions 1](./images/GetItems.png)
+        ![Item Actions 2](./images/ExchangeItem.png)
+
 *   **User Testing**
     *   We have conducted user testing with some of our friends and family members. The testing was conducted using the deployed version.
     *   While the users were testing the web application, we were watching how they were interacting with the application, constantly looking out for potential bugs and seeking feedback from the users in terms of their experience using and navigating through the application.
