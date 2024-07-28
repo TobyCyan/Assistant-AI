@@ -107,6 +107,7 @@ const ChatPage = () => {
         "Try asking me if I have a favorite food.",
         "I can answer any questions about this application.",
         "Curious about today's weather forecast?",
+        "You may ask me to add, edit, delete, or even suggest a task for you to do!"
     ]
 
     /**
