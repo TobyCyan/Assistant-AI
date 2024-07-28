@@ -15,17 +15,15 @@ import random
 import json
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
-from dotenv import load_dotenv
 
-Weather_API_Key = os.environ.get('Weather_API_Key')
 model_in_use = 'model.mei_v1'
+model = None
 
 file = open('behavior.json')
 behavior_data = json.load(file)
 
 app = Flask(__name__)
 CORS(app)
-load_dotenv()
 
 @app.route('/')
 def home():
@@ -115,7 +113,7 @@ def train_model_and_load(model_name: str, training_data, output_data):
     model = tfl.DNN(network=network)
     model.fit(training_data, output_data, n_epoch=1000, batch_size=0, show_metric=True)
     model.save(model_name)
-    model.load(model_name)
+
     return model
 
 
@@ -127,13 +125,12 @@ def load_model(model_name: str, training_data, output_data):
     network = tfl.fully_connected(network, 8)
     network = tfl.fully_connected(network, output_size, activation='softmax')
     network = tfl.regression(network)
-
-    model = tfl.DNN(network=network)
+    model = tfl.DNN(network)
 
     try:
-        # print('Loading Model...')
-        model.load(model_file=model_name)
-        # print('Model Loaded: ' + model_name)
+        print('Loading Model...')
+        model.load(f'./{model_in_use}')
+        print('Model Loaded: ' + model_name)
         return model
     
     except Exception as e:
@@ -165,7 +162,7 @@ def predict_behavior_type_from_prompt(prompt, model):
 
     output_type = behavior_types[output_type_index]
     print('Highest Predicted Probability: ' + str(output_type_probability), output_type)
-    if output_type_probability < 0.3:
+    if output_type_probability < 0.35:
         return 'Unsure'
     
     return output_type
@@ -182,7 +179,9 @@ def start_chat():
     if chatText.lower() in quit_prompt:
         return jsonify({'response': 'Goodbye!'})
     
-    model = load_model(model_name, training, output)
+    global model
+    if not model:
+        model = load_model(model_name, training, output)
 
     prompt_behavior_type = predict_behavior_type_from_prompt(chatText, model)
 
@@ -195,9 +194,6 @@ def start_chat():
     responseArr = behaviorTypeArr['response']
     rand = random.random()
     response = responseArr[int(rand * (len(responseArr) - 1))]
-
-    if prompt_behavior_type == 'Weather':
-        return jsonify({'response': response, 'type': prompt_behavior_type, 'API_Key': Weather_API_Key})
     
     return jsonify({'response': response, 'type': prompt_behavior_type})
 
@@ -228,9 +224,9 @@ def behavior_array():
     return jsonify({'dataArray': behavior_data})
 
 
-# if __name__ == "__main__":
-#     # retrain()
-#     app.run(debug=True, port=5500)
+if __name__ == "__main__":
+    # retrain()
+    app.run(debug=True, host='0.0.0.0', port=5000)
 
 
 

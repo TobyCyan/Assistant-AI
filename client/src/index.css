@@ -836,7 +836,7 @@ ul {
   padding: 0px 0px;
 }
 
-.addTaskBtn, .addRecurringTaskBtn {
+.addTaskBtn, .addRecurringTaskBtn, .behaviorIndexBtn {
   padding: 8px 12px;
   border-radius: 4px;
   border: 2px solid black;
@@ -847,7 +847,7 @@ ul {
   margin-bottom: 10px;
 }
 
-.addTaskBtn:hover, .addRecurringTaskBtn:hover, .shopBtn:hover, .myTasksBtn:hover, .profileBtn:hover {
+.addTaskBtn:hover, .addRecurringTaskBtn:hover, .shopBtn:hover, .myTasksBtn:hover, .profileBtn:hover, .behaviorIndexBtn:hover {
   background-color: darkgrey;
 }
 
@@ -1243,6 +1243,33 @@ ul {
 
 #chatbox:focus {
   outline: none;
+}
+
+.behaviorIndexBtn {
+  position: absolute;
+  top: 40px;
+  right: 0px;
+}
+
+.behaviorIndexModal {
+  height: 70%;
+  width: 600px;
+  background-color: white;
+  border-radius: 0.375rem;
+  padding: 1.25rem;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.behaviorIndexTable, td {
+  font-size: 18px;
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+.indexTitle {
+  font-weight: bold;
+  font-family: 'Raleway', sans-serif;
 }
 
 .reminderroomContainer, .chatroomContainer {

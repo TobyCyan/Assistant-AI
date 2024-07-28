@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useRef, ReactNode } from "react";
+import Modal from "react-modal";
 import NavBar from "../components/NavBar/NavBar.jsx";
 import { useTokenContext } from "../components/TokenContext/TokenContext";
-import getCurrentPositionWeather from "../../../ChatBot/static/API Calls/weather";
 import { randomItem, compareTasksPriority, randIntervalGenerator, getRandomVoiceLine, calculateTaskProductivity, getProductivityBarComments, startIntro, setHasFinishedIntroAtPage } from "../utilities/utilities.js";
 import ChatBotResponseElement from "../components/MessageElement/ChatBotResponseElement.jsx";
 import UserMessageElement from "../components/MessageElement/UserMessageElement.jsx";
-import { dateAfterToday, reminderBeforeDeadline, wait, removeSpaces, taskInfoString } from "../utilities/ChatPageUtilities.js";
+import { dateAfterToday, reminderBeforeDeadline, wait, removeSpaces, taskInfoString, getCurrentPositionWeather } from "../utilities/ChatPageUtilities.js";
 import ListMessageElement from "../components/MessageElement/ListMessageElement.jsx";
 import AddEditTaskMessageElement from "../components/MessageElement/AddEditTaskMessageElement.jsx";
 import avatarIcon from "../AppImages/Mei Chibi Icons/Mei_Chibi_Icon.png"
 import IntroElement from "../components/IntroElements/IntroElement.jsx";
 import { Items, isOutfitOwned } from "../utilities/ShopItemUtilities.js";
+import BehaviorIndex from "../components/BehaviorIndex/BehaviorIndex.jsx";
 
 /**
  * A React component that displays the page where users can interact and chat with the AI Assistant.
@@ -52,6 +53,26 @@ const ChatPage = () => {
     const errorListRef = useRef([])
 
     /**
+     * The current state of Behavior Index Modal and setter function to update it.
+     * @type {[Object, function]}
+     */
+    const[behaviorIndexModalOpen, setBehaviorIndexModalOpen] = useState({
+        isShown: false,
+    })
+
+    const closeBehaviorIndexModal = () => {
+        setBehaviorIndexModalOpen({
+            isShown: false,
+        })
+    }
+
+    const openBehaviorIndexModal = () => {
+        setBehaviorIndexModalOpen({
+            isShown: true,
+        })
+    }
+
+    /**
      * The minimum time for the random interval in milliseconds.
      * @type {number}
      */
@@ -82,6 +103,12 @@ const ChatPage = () => {
     const chatbotFlaskApiUrl = import.meta.env.VITE_CHATBOT_FLASK_API_URL
 
     /**
+     * The Flask API URL for the chat bot.
+     * @type {string}
+     */
+    const weatherApiUrl = import.meta.env.VITE_WEATHER_API_URL
+
+    /**
      * The user's productivity
      * @type {number}
      */
@@ -102,6 +129,7 @@ const ChatPage = () => {
         "Try asking me if I have a favorite food.",
         "I can answer any questions about this application.",
         "Curious about today's weather forecast?",
+        "You may ask me to add, edit, delete, or even suggest a task for you to do!",
     ]
 
     /**
@@ -127,6 +155,10 @@ const ChatPage = () => {
         {
             element: ".chatroom",
             intro: "Our messages will appear in here."
+        },
+        {
+            element: ".behaviorIndexBtn",
+            intro: "To understand my behavior in detail, you may click on the button here!"
         },
         {
             intro: "These messages are just between you and me so keep it a secret okay?"
@@ -223,17 +255,25 @@ const ChatPage = () => {
      */
     const quittedConfirmationTalk = ["? It seems that you are trying to submit another form.. Just let me know what you want to do and I'll prepare it for you again!", "Calm down, I'll give you another one. Just say so!", "Hmm? What would you like to do? You can always tell me :)"]
 
-    /**
-     * Filters the uncompleted task and sort them by the deadline.
-     * @type {Array<Object>} The list of uncompleted tasks sorted by deadline.
-     */
-    const uncompletedTasks = tasks.filter(task => !task.completed)
+    // /**
+    //  * Filters the uncompleted task and sort them by the deadline.
+    //  * @type {Array<Object>} The list of uncompleted tasks sorted by deadline.
+    //  */
+    // const uncompletedTasks = tasks.filter(task => !task.completed)
     
+    // /**
+    //  * An array of strings that shows the index, title, category and deadline in the DDMM format of uncompleted tasks.
+    //  * @type {Array<string>}
+    //  */
+    // const uncompletedTaskList = uncompletedTasks.map((task, index) => {
+    //     return taskInfoString(task, index)
+    // })
+
     /**
      * An array of strings that shows the index, title, category and deadline in the DDMM format of each task.
      * @type {Array<string>}
      */
-    const taskList = uncompletedTasks.map((task, index) => {
+    const taskList = tasks.map((task, index) => {
         return taskInfoString(task, index)
     })
 
@@ -241,7 +281,7 @@ const ChatPage = () => {
      * Array of tasks sorted from high to low priority.
      * @type {Array<Object>}
      */
-    const priorityTasks = uncompletedTasks.sort(compareTasksPriority)
+    const priorityTasks = tasks.sort(compareTasksPriority)
 
     /**
      * Array of string that shows the index, title, cateogry and deadline of the tasks sorted from high to low priority.
@@ -404,6 +444,7 @@ const ChatPage = () => {
             if (res.ok) {
                 const addTaskSuccessMessage = "Task has been successfully added!"
                 addNewChatBotResponse(addTaskSuccessMessage)
+                setTakingInput(false)
                 return res.json()
             } else {
                 console.error(err => "Add Task Failed!", err)
@@ -468,8 +509,11 @@ const ChatPage = () => {
 
         try {
             const res = await fetch(`${expressApiUrl}DeleteTask`, dataToPost)
-            if(res) {
+            if (res) {
                 await res.json()
+                const deleteTaskSuccessMessage = "Task has been successfully deleted!"
+                await addNewChatBotResponse(deleteTaskSuccessMessage)
+                setTakingInput(false)
                 getUserTasks()
             }
 
@@ -503,6 +547,7 @@ const ChatPage = () => {
                if (res.ok) {
                     const editTaskSuccessMessage = "Task has been successfully edited!"
                     addNewChatBotResponse(editTaskSuccessMessage)
+                    setTakingInput(false)
                     return res.json()
                } else {
                    console.error(err => "Edit Task Failed!", err)
@@ -535,7 +580,7 @@ const ChatPage = () => {
                 const output = reply.response
                 addNewChatBotResponse(output)
                 
-                handleResponseType(reply.type, reply.API_Key)
+                handleResponseType(reply.type)
             })
             .catch(err => {
                 console.error("Error Getting a Response: ", err)
@@ -598,7 +643,7 @@ const ChatPage = () => {
      * @param {string} responseType The response type to handle.
      * @param {string} apiKey The API Key to pass in to get certain information. 
      */
-    const handleResponseType = async (responseType, apiKey) => {
+    const handleResponseType = async (responseType) => {
         const obtainingTaskText = "Obtaining all of your tasks..."
         const showTaskListText = `Please enter the index number of the task to ${responseType == "DeleteTask" ? "delete" : "edit"} it (which means ${tasks.length == 1 ? 1 : `1 - ${tasks.length}`})!`
         const quitInstructionText = `Please say either of ${quitInputsString} to quit input mode!`
@@ -607,15 +652,15 @@ const ChatPage = () => {
         const readyText = ["All set!", "Ready!", "Here they are!"]
         const emptyTaskListResponse = () => ["Strange... I don't have anything to show right now.", "Hmm... My list is empty, why don't you try adding a task first?", "It seems that you have no tasks at hand, do you wanna maybe start adding one?", "Oops! It seems like I have nothing on my list for you. Perhaps you can tell me to 'Add Task' instead?"]
         const addTaskResponseFlow = () => [quitInstructionText, backInstructionText, randomItem(readyText), titleInputText, <AddEditTaskMessageElement applyConfirmation={applyConfirmation} taskToEdit={null} />]
-        const editTaskResponseFlow = () => tasks.length > 0 ? [quitInstructionText, backInstructionText, obtainingTaskText, randomItem(readyText), showTaskListText, <ListMessageElement list={tasks} />] : [randomItem(emptyTaskListResponse())]
-        const deleteTaskResponseFlow = () => tasks.length > 0 ? [obtainingTaskText, randomItem(readyText), showTaskListText, <ListMessageElement list={tasks} />] : [randomItem(emptyTaskListResponse())]
-        const allTasksResponseFlow = () => tasks.length > 0 ? [obtainingTaskText, <ListMessageElement list={tasks} />] : [randomItem(emptyTaskListResponse())]
+        const editTaskResponseFlow = () => tasks.length > 0 ? [quitInstructionText, backInstructionText, obtainingTaskText, randomItem(readyText), showTaskListText, <ListMessageElement list={taskList} />] : [randomItem(emptyTaskListResponse())]
+        const deleteTaskResponseFlow = () => tasks.length > 0 ? [obtainingTaskText, randomItem(readyText), showTaskListText, <ListMessageElement list={taskList} />] : [randomItem(emptyTaskListResponse())]
+        const allTasksResponseFlow = () => tasks.length > 0 ? [obtainingTaskText, <ListMessageElement list={taskList} />] : [randomItem(emptyTaskListResponse())]
         const priorityTaskResponseFlow = () => priorityTasksList.length > 0 ? [randomItem(readyText), <ListMessageElement list={priorityTasksList} />, `I would recommend you to start with the top prioritised task: ${taskInfoString(priorityTasks[0], 0)}`] : [randomItem(emptyTaskListResponse())]
         const productivityReportResponseFlow = () => [`Your current productivity is at ${productivity}.`, `${getProductivityBarComments(productivity)}`]
 
         switch (responseType) {
             case "Weather":
-                const weatherResponse = await getCurrentPositionWeather(apiKey)
+                const weatherResponse = await getCurrentPositionWeather(weatherApiUrl)
                 const createWeatherResponse = weatherResponse
                 await addNewChatBotResponse(createWeatherResponse)
                 break
@@ -924,9 +969,6 @@ const ChatPage = () => {
             case "DeleteTask":
                 const taskId = tasks[index - 1].id
                 await deleteTask(taskId)
-
-                const deleteTaskSuccessMessage = "Task has been successfully deleted!"
-                await addNewChatBotResponse(deleteTaskSuccessMessage)
                 break
             
             case "EditTask":
@@ -988,12 +1030,13 @@ const ChatPage = () => {
     }, [])
 
     return (
+        <>
         <div className="chatpage" >
             <NavBar />
             <IntroElement steps={introSteps} activate={activateIntro} setActivate={setActivateIntro} hasDoneTutorial={userData.hasDoneTutorial} endIntro={false} page={page} />
             <div className="chatpageContainer">
-                <div className="emptyDiv"></div>
 
+                <button className="behaviorIndexBtn" onClick={openBehaviorIndexModal}>Behavior Index</button>
                 <div className="chatroomContainer">
                     <div className="chatroom" id="chatroom" ref={lastMessage}>
                         <div className="chatroomHeader">
@@ -1035,9 +1078,23 @@ const ChatPage = () => {
                             <div>Loading Image...</div>
                     )}
                 </div>
+                
             </div>
         </div>
 
+        <Modal
+            isOpen={behaviorIndexModalOpen.isShown}
+            onRequestClose={closeBehaviorIndexModal}
+            style={{
+                overlay: {
+                    backgroundColor: "rgba(0, 0, 0, 0.2)"
+                }
+            }}
+            className="behaviorIndexModal"
+        >
+            <BehaviorIndex />
+        </Modal>
+    </>
     )
 }
 

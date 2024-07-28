@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, ReactNode } from "react";
 import NavBar from "../components/NavBar/NavBar";
 import { startIntro, setHasFinishedIntroAtPage } from "../utilities/utilities";
 import { Items } from "../utilities/ShopItemUtilities";
@@ -9,9 +9,9 @@ import ExchangeItemsModal from "../components/Shop/ExchangeItemsModal";
 import IntroElement from "../components/IntroElements/IntroElement";
 
 /**
- * 
+ * A React component that displays the Shop Page.
  * @component
- * @returns 
+ * @returns {ReactNode} A React element that renders the shop.
  */
 const Shop = () => {
     const {tokenStatus, userInfo} = useTokenContext()
@@ -140,9 +140,9 @@ const Shop = () => {
         try {
             const res = await fetch(`${expressApiUrl}GetUserInfo`, dataToPost)
             if (res.ok) {
-                console.log("UserInfo successfully retrieved")
+                // console.log("UserInfo successfully retrieved")
             } else {
-                console.log("Invalid User/Info")
+                // console.log("Invalid User/Info")
             }
 
             const data = await res.json()
@@ -172,9 +172,9 @@ const Shop = () => {
         try {
             const res = await fetch(`${expressApiUrl}Items`, dataToPost)
             if (res.ok) {
-                console.log("User Items successfully retrieved")
+                // console.log("User Items successfully retrieved")
             } else {
-                console.log("Invalid User/Info")
+                // console.log("Invalid User/Info")
             }
 
             const data = await res.json()

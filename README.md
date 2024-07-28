@@ -18,7 +18,7 @@ Apollo 11
 2.  Aim
 3.  User Stories
 4.  Tech Stack
-5.  Try It Yourself
+5.  Try It Yourself!
 6.  Project Scope
 7.  Features Summary
 8.  Core Features Details
@@ -57,17 +57,31 @@ Our goal is to develop a task management application that helps users to organiz
 4.  Chatbot - Python, Flask
 5.  Unit Testing - Jest, Vitest & React Testing Library
 
-### Try It Youself
+### Try It Yourself!
 
-1.  Users are required to have the following installed: Node.js, Express.js, XAMPP, and PostgreSQL.
-2.  After cloning, users need to setup a PostgreSQL database and configure it to the config folder by matching the name and password.
-3.  Run the XAMPP control panel and click on the "start" button for both Apache and PostgreSQL.
-4.  If you wish to test out getting weather information from the AI Assistant, you will have to obtain an API key from OpenWeatherMap.org.
-5.  Create a .env file in the root directory, and add a Secret\_Key, a PORT, and the Weather\_API\_Key variable.
-6.  Run "pip3 install -r requirements.txt" in the terminal of the ChatBot directory to install all python dependencies.
-7.  For running the frontend, users may change directory to /client, run "npm install" in the terminal to install all dependencies, and run "npm run dev".
-8.  For running the backend, users may change directory to /server, run "npm install" in the terminal to install all dependencies, and run "npm run dev".
-9.  For running the chatbot, users may change directory to /ChatBot, and run "python main.py".
+**We have prepared two ways for users to test out our web application.**
+
+*   **Testing Online**
+    *   We have deployed the application in the following manner: The Front-end on Netlify, the Back-end, Database, and Chat Bot on Render.
+    *   Please use this link to test our web application: [https://assistantmei.netlify.app](https://assistantmei.netlify.app)
+*   **Testing on Local Machine**
+    1.  Users are required to have the following installed: Node.js, Express.js, XAMPP, and PostgreSQL.
+    2.  After cloning, users need to setup a PostgreSQL database and configure it to the config folder by matching the name and password.
+    3.  Run the XAMPP control panel and click on the "start" button for both Apache and PostgreSQL.
+    4.  If you wish to test out getting weather information from the AI Assistant, you will have to obtain an API key from OpenWeatherMap.org.
+    5.  Create a .env file in the root directory, and add a Secret\_Key, a PORT, and the Weather\_API\_Key variable.
+    6.  In the /server directory, open server.js and insert the following code.
+
+```javascript
+app.listen(port, () => {
+    console.log(`App is listening on ${port}`)
+})
+```
+
+1.  Run "pip3 install -r requirements.txt" in the terminal of the ChatBot directory to install all python dependencies.
+2.  For running the frontend, users may change directory to /client, run "npm install" in the terminal to install all dependencies, and run "npm run dev".
+3.  For running the backend, users may change directory to /server, run "npm install" in the terminal to install all dependencies, and run "npm run dev".
+4.  For running the chatbot, users may change directory to /ChatBot, and run "python main.py".
 
 ### Project Scope
 
@@ -109,6 +123,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
     *   All character sprites are provided by an artist friend of Jun Xi, Rena (@\_\_rrena on Twitter/ X)! More details of her can be found at the end of this README, including the full set of character sprites that she has provided us for this project.
     *   Mei (めい) is a Japanese high schooler who lives in a virtual school within our web application and she loves to chat and assist anyone who comes to visit her!
     *   Mei acts as our mascot and will be the one users see and interact with the most throughout their experience on our application!
+
 *   **Sign Up**
     *   User to be able to sign up for new account using a **unique** username and password.
     *   Username to be unique, user to face error if signing up for new account using existing username
@@ -143,6 +158,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
         ![Login Page](./images/CoreFeaturesInstructionImg/LoginPage.png)
         
         *   Existing users can enter their username and password, then press on the Login button at the bottom of the form to login.
+
 *   **Add Tasks**
     *   Users to be able to add tasks with the following fields:
     *   Title
@@ -229,6 +245,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
             ![Upcoming Tasks Container](./images/CoreFeaturesInstructionImg/UpcomingTasksContainer.png)
         *   Once clicked, a confirmation pop up window will appear, just click DELETE to confirm delete!  
             ![Delete Confirmation](./images/CoreFeaturesInstructionImg/DeleteConfirmation.png)
+
 *   **Complete Tasks**
     *   Users to be able to press complete task, in which task completion will reward users with XP points. Late completion of tasks will reward with 1 points.
         
@@ -239,8 +256,8 @@ Assistant AI is essentially a task management system with the help of a Virtual 
             ![Complete Confirmation](./images/CoreFeaturesInstructionImg/CompleteConfirmation.png)
         *   Points based on how early the user has completed the task and the priority level of the task will be calculated and deposited into the user's account.
         *   The points can be found on the left-hand side of the home page, or at the top right corner where the user's information can be found next to the Log Out button.
-        *   Hooray! The user has completed their task and earned 17 points!  
-
+        *   Hooray! The user has completed their task and earned 17 points!
+        
         ![Show User Points 1](./images/CoreFeaturesInstructionImg/ShowUserPoints1.png)
         
         ![Show User Points 2](./images/CoreFeaturesInstructionImg/ShowUserPoints2.png)
@@ -253,8 +270,32 @@ Assistant AI is essentially a task management system with the help of a Virtual 
         *   The navigation bar can be found at the top of every page throughout the application.
         *   Users can click on any of them to navigate to the page they desire.  
             ![Navigation Bar](./images/CoreFeaturesInstructionImg/NavBar.png)
-*   **Receive Reminders** (To be developed further)
+
+*   **Receive Reminders**
+    
     *   Users to receive reminders from the AI Assistant when the task has reached the reminder date.
+        
+        **Instructions/ Details**
+        
+        *   As shown in the images above, users are required to enter a reminder date for each task in order for Mei to remind them on time.
+        *   Users will be receiving reminders in two different ways.
+            1.  Email
+                *   An email will be sent out to the user's email address, this is what the email address field at the sign up page is for!
+            2.  Reminder Bell
+                *   Users may have noticed a bell positioned next to their user profile information in the top right corner.
+                *   This reminder bell is shown ringing with a red notification mark to indicate there is a reminder to be read.
+                *   ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/583b8785d8b4059691b9abcd2545f6c71240ba76c33bd61f.png)
+                    
+                    When the user clicks on the ringing bell, a reminder window in the form of a chat room pops up, which will then simulate Mei sending the user messages to remind them of their upcoming, overdue, reminder, and most prioritised tasks.
+                    
+                *   The following image is a sample of a few messages in the reminder window.
+                *   ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/8573c9edd59350f20f7617c97f416522945470035f1c6836.png)
+                    
+                    Once the reminder has been completed automatically, the reminder bell will stop ringing and has a green tick next to it.
+                    
+                    ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/4322777e5f3c4b2b0351c543752357af38bb2629acc2ff66.png)
+                    
+    
 *   **View Tasks - Categorisation**
     *   Users to be able to sort their task list using a sidebar that shows the filters available.
         
@@ -263,7 +304,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
         *   To view all of the user's tasks, the user can navigate to My Tasks from the navigation bar. (See above)
         *   The user will be able to see the My Tasks page as follows.  
             ![My Tasks Page](./images/CoreFeaturesInstructionImg/MyTasksPage.png)
-        *   All the tasks have been nicely categorised by our Assistant AI into their own categories, as well as by their priority levels.
+        *   All the tasks have been nicely categorised by Mei into their own categories, as well as by their priority levels.
         *   There's even another Add Task button!  
             ![My Tasks Side Bar](./images/CoreFeaturesInstructionImg/MyTasksSideBar.png)
         *   Once the user has added a task, they should be able to view their tasks in detail as shown below.  
@@ -304,6 +345,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
         ![Home Page Left Side Bar](./images/CoreFeaturesInstructionImg/HomePageLeftSideBar.png)
         
         *   As mentioned above, only tasks completed on time would result in a higher productivity, so be sure to do them!
+            
 *   **Chat with Mei!**
     *   A chatroom that allows users to chat with the AI Assistant, Mei.
         
@@ -348,6 +390,12 @@ Assistant AI is essentially a task management system with the help of a Virtual 
         ![Unsure Response](./images/CoreFeaturesInstructionImg/UnsureResponse.png)
         
         *   Just like in the home page, a chat bubble is placed above Mei to hint the user in the type of inputs she can take in which changes at random intervals!
+        *   We have added a **“Behavior Index”** button at the side so that users can take a look at the behavior index in the application itself by clicking on it.
+        *   ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/ae5811a45c8c371d3c66cbb06f961fc76e3713882df3336b.png)
+            
+            Users may input similar texts to (hopefully) obtain the desired response!
+            
+
 *   **Automation Task**
     *   Website to allow interaction with Mei to add, edit, and delete tasks.
         
@@ -409,6 +457,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
     
     *   This is an intro guide implemented using Intro.js! Users are able to get a brief run through of our web application without much confusion. It aims to enhance new user experience getting on board our product!
     *   New users can simply click on Next to go to the next step, Back to go to the previous step, and the x on the top-right corner to skip the intro!
+        
 *   **Task Priority Suggestion**
     
     *   To allow suggestions by AI based on the priority of task. 
@@ -418,9 +467,11 @@ Assistant AI is essentially a task management system with the help of a Virtual 
     ![Prioritised Task](./images/CoreFeaturesInstructionImg/PrioritisedTask.png)
     
 *   **Recurring Tasks**
+    
     *   Site to provide automatic creation of recurring tasks based on creation.
     *   Daily / Weekly / Monthly (To be explored).
     *   Users will be able to enable/ disable recurring mode for their new and existing tasks.
+    
 *   **Exchange of Items using Points (In-Progress)**
     *   To provide a “shop” to exchange decorative items for the Assistant AI.
     *   Decoration and customisation of the Assistant AI character will bring gamification and engagement to users.
@@ -434,41 +485,39 @@ Assistant AI is essentially a task management system with the help of a Virtual 
         *   At the shop, users will be able to purchase customisables in which they can use for their profile.
         *   At this stage, we plan to have mainly two types of customisables that users can purchase with their points, Assistant Outfits and Profile Icons!
         *   As we still have not received the outfit sprites and icons, we have placed temporary images to substitute for the actual one which will be added soon.
-
-        ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/d0613709d39ac36e7419ba572c27987b43434921061e9a8c.png)
-            
+        *   If the user has insufficient points, the button will show accordingly.
+        
+        ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/08f4f254e83a6a57caca1c4846a5a6eea8f13fabfddf68e6.png)
+        
         *   To exchange for an item, simply click on the “Exchange” button, and a confirmation window will pop up!
-            
-        ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/3243a1cfcdc7575583f142baaf06d9889d76d75cbec1b204.png)
-            
+        
+        ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/c3206dcb3e190f49b52fa04b5c0641d5bb09fb1e307ac4b7.png)
+        
         *   Once the item has been exchanged, the button will be shown as “Obtained” and become non-interactable.
-
+        
         ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/2cdde9e8f63fc6b604414703bdce9751e70536d1c2f85cea.png)
-            
-
+        
 *   **User Profile**
     *   To allow users to check out their profile details, items owned/ purchased, their friends and friend requests.
         
         **Instructions/ Details**
         
         *   To navigate to the user profile, simply click on the user info section in the top right corner of the page next to the Log Out button.
-
+        
         ![Show User Points 2](./images/CoreFeaturesInstructionImg/ShowUserPoints2.png)
-            
+        
         *   Then, the user will be greeted with their profile page!
-            
+        
         ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/b65195ad16a5641a96363b3295dc79840194d8c2bc7d5165.png)
-            
+        
         *   Here, the user is able to update their profiles, view their profile details, friends list, friend requests, as well as search for other users!
         *   Moreover, the user can check out their items in the Item Collection Box.
-
+        
         ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/7b69a8e7531229764391c08f52b34bb4c38d82df23c77856.png)
-            
+        
         *   Items that are exchanged from the shop are displayed in this area!
-            
         *   To equip the item, simply click on the “Equip” button, which will then update the user's profile accordingly, and show “Equipped” afterwards.
-        
-        
+            
 
 ### Milestone Timeline
 
@@ -547,7 +596,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
 
 ### Mei's Behavior Index
 
-<table><tbody><tr><td>Input Pattern</td><td>Response Description</td></tr><tr><td><ul><li>Who are you?</li><li>What’s your name?</li><li>Can you introduce yourself.</li></ul></td><td>Introduction of the AI Assistant to the user.</td></tr><tr><td><ul><li>Give me all my tasks.</li><li>My list of tasks.</li><li>What tasks do I have?</li></ul></td><td>The complete list of the user's tasks.</td></tr><tr><td><ul><li>Favorite food.</li><li>What is your favorite food?</li><li>What do you like to eat?</li></ul></td><td>Free talk about the AI Assistant's favorite food.</td></tr><tr><td><ul><li>Favorite color.</li><li>What is your favorite color?</li><li>What color do you like?</li></ul></td><td>Free talk about the AI Assistant's favorite color.</td></tr><tr><td><ul><li>What do you like?</li><li>What are your hobbies?</li></ul></td><td>Free talk about the Assistant's hobbies.</td></tr><tr><td><ul><li>Shop.</li><li>Tell me about the shop.</li><li>What is the shop?</li></ul></td><td>Introduction to the application's shop page.</td></tr><tr><td><ul><li>Completion.</li><li>Completing tasks.</li><li>Incompletion.</li></ul></td><td>Introduction to the application's task completion/ uncompletion system.</td></tr><tr><td><ul><li>Productivity Report</li><li>What is my productivity report?</li><li>Tell me about the productivity report.</li></ul></td><td>Introduction to the application's productivity report system.</td></tr><tr><td><ul><li>Hey!</li><li>Hello.</li><li>Good to see you.</li><li>How are you?</li><li>What's Up?</li><li>Hi</li></ul></td><td>Greeting the user.</td></tr><tr><td><ul><li>Can you add a task for me?</li><li>Add a task.</li><li>Add task.</li></ul></td><td>Guides the user through the process of adding a new task.</td></tr><tr><td><ul><li>Can you delete this task for me please?</li><li>Delete a task.</li><li>Delete task.</li></ul></td><td>Guides the user through the process of deleting an existing task.</td></tr><tr><td><ul><li>Can you edit this task for me please?</li><li>Edit a ask.</li><li>Edit task.</li></ul></td><td>Guides the user through the process of editing an existing task.</td></tr><tr><td><ul><li>What is the weather today?</li><li>Weather</li></ul></td><td>Informs the user about the weather in their local area.</td></tr><tr><td><ul><li>Priority task.</li><li>Highest prioritised task.</li><li>What tasks should I prioritise.</li></ul></td><td>A suggestion from the AI Assistant about the user's highest prioritised task.</td></tr></tbody></table>
+<table><tbody><tr><td>Input Pattern</td><td>Response Description</td></tr><tr><td><ul><li>Who are you?</li><li>What’s your name?</li><li>Can you introduce yourself.</li></ul></td><td>Introduction of the AI Assistant to the user.</td></tr><tr><td><ul><li>Give me all my tasks.</li><li>My list of tasks.</li><li>What tasks do I have?</li></ul></td><td>The complete list of the user's tasks.</td></tr><tr><td><ul><li>Favorite food.</li><li>What is your favorite food?</li><li>What do you like to eat?</li></ul></td><td>Free talk about the AI Assistant's favorite food.</td></tr><tr><td><ul><li>Favorite color.</li><li>What is your favorite color?</li><li>What color do you like?</li></ul></td><td>Free talk about the AI Assistant's favorite color.</td></tr><tr><td><ul><li>What do you like?</li><li>What are your hobbies?</li></ul></td><td>Free talk about the Assistant's hobbies.</td></tr><tr><td><ul><li>Shop.</li><li>Tell me about the shop.</li><li>What is the shop?</li></ul></td><td>Introduction to the application's shop page.</td></tr><tr><td><ul><li>Completion.</li><li>Completing tasks.</li><li>Incompletion.</li></ul></td><td>Introduction to the application's task completion/ uncompletion system.</td></tr><tr><td><ul><li>Productivity Report</li><li>What is my productivity report?</li><li>Tell me about the productivity report.</li></ul></td><td>Introduction to the application's productivity report system.</td></tr><tr><td><ul><li>Hey!</li><li>Hello.</li><li>Good to see you.</li><li>How are you?</li><li>What's Up?</li><li>Hi</li></ul></td><td>Greeting the user.</td></tr><tr><td><ul><li>Can you add a task for me?</li><li>Add a task.</li><li>Add task.</li></ul></td><td>Guides the user through the process of adding a new task.</td></tr><tr><td><ul><li>Can you delete this task for me please?</li><li>Delete a task.</li><li>Delete task.</li></ul></td><td>Guides the user through the process of deleting an existing task.</td></tr><tr><td><ul><li>Can you edit this task for me please?</li><li>Edit a task.</li><li>Edit task.</li></ul></td><td>Guides the user through the process of editing an existing task.</td></tr><tr><td><ul><li>What is the weather today?</li><li>Weather</li></ul></td><td>Informs the user about the weather in their local area.</td></tr><tr><td><ul><li>Priority task.</li><li>Highest prioritised task.</li><li>What tasks should I prioritise.</li></ul></td><td>A suggestion from the AI Assistant about the user's highest prioritised task.</td></tr></tbody></table>
 
 ### Artist
 

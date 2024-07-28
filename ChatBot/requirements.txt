@@ -2,7 +2,6 @@ Flask
 Flask_Cors
 nltk
 numpy
-python-dotenv
 tensorflow
 Pillow==9.5.0
 gunicorn==22.0.0
