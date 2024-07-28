@@ -1,2 +1,2 @@
-model_checkpoint_path: "C:\\Users\\ernes\\OneDrive\\Documents\\Godot Game Projects\\temp\\Assistant-AI\\ChatBot\\model.mei_v1"
-all_model_checkpoint_paths: "C:\\Users\\ernes\\OneDrive\\Documents\\Godot Game Projects\\temp\\Assistant-AI\\ChatBot\\model.mei_v1"
+model_checkpoint_path: "C:\\Users\\ernes\\OneDrive\\Documents\\Godot Game Projects\\temp\\Assistant-AI\\ChatBot\\model.mei_v1.keras"
+all_model_checkpoint_paths: "C:\\Users\\ernes\\OneDrive\\Documents\\Godot Game Projects\\temp\\Assistant-AI\\ChatBot\\model.mei_v1.keras"
