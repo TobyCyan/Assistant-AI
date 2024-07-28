@@ -66,7 +66,7 @@ Our goal is to develop a task management application that helps users to organiz
     *   We have deployed the application in the following manner: The Front-end on Netlify, the Back-end, Database, and Chat Bot on Render.
     *   Please use this link to test our web application: [https://assistantmei.netlify.app](https://assistantmei.netlify.app)
 
-*   **Testing on Local Machine**
+*   **Testing on Local Machine (testInstallation branch)**
     1.  Users are required to have the following installed: Node.js, Express.js, XAMPP, and PostgreSQL.
     2.  After cloning, users need to setup a PostgreSQL database and configure it to the config folder by matching the name and password.
     3.  Run the XAMPP control panel and click on the "start" button for both Apache and PostgreSQL.
