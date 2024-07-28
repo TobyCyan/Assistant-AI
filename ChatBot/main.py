@@ -15,9 +15,7 @@ import random
 import json
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
-from dotenv import load_dotenv
 
-Weather_API_Key = os.environ.get('Weather_API_Key')
 model_in_use = 'model.mei_v1'
 model = None
 
@@ -26,7 +24,6 @@ behavior_data = json.load(file)
 
 app = Flask(__name__)
 CORS(app)
-load_dotenv()
 
 @app.route('/')
 def home():
