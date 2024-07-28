@@ -40,7 +40,7 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
      * The current task deadline and setter function to update it.
      * @type {[string, function]}
      */
-    const [deadline, setDeadline] = useState(computeDeadline);
+    const [deadline, setDeadline] = useState(recurringTask ? computeDeadline : '');
 
     /**
      * The current task priority and setter function to update it.
@@ -250,6 +250,8 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
          * @type {Date} Current date.
          */
         const currentDate = new Date()
+        currentDate.setDate(currentDate.getDate() - 1)
+        currentDate.setHours(23, 59, 59)
 
         /**
          * @type {Date} Task deadline date.
@@ -258,6 +260,8 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
 
         if(deadlineObj < currentDate) {
             setError('deadlinePast')
+            console.log(currentDate)
+            console.log(deadlineObj)
             return
         }
 

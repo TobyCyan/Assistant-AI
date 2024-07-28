@@ -1,6 +1,8 @@
 import React from 'react';
 
 const ItemBox = ({item, isObtained, onExchange, userPoints}) => {
+    const enoughPoints = userPoints >= item?.points
+
     return (
         <div className="itemBox">
             <h2 className="itemTitle">{item.title}</h2>
@@ -8,7 +10,7 @@ const ItemBox = ({item, isObtained, onExchange, userPoints}) => {
             <img src={item.imageURL} alt={item.title} className="itemImage" />
             <div className="pointsAndExchangeBox">
                 <p className="itemPoints">{item.points} points</p>
-                <button disabled={isObtained} className="exchangeButton" style={{
+                <button disabled={isObtained || !enoughPoints} className="exchangeButton" style={{
                     cursor: isObtained ? 'not-allowed' : 'pointer',
                 }} onClick={() => onExchange(item)}>
                     {isObtained ? 'Obtained' : userPoints < item.points ? "Insufficient Points"  : 'Exchange'}
