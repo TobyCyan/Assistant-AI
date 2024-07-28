@@ -336,7 +336,7 @@ const Home = () => {
     }
 
     /**
-     * Open modal when it"s the user"s birthday.
+     * Open modal when it"s the user's birthday.
      */
     const handleBirthday = () => {
         setBirthdayModalOpen({
@@ -358,16 +358,13 @@ const Home = () => {
 
     /**
      * @function useEffect
-     * @description Checks whether today is user"s birthday and shows the birthday card if it is.
+     * @description Checks whether today is user's birthday and shows the birthday card if it is.
      */
     useEffect(() => {
         const birthday = userData.dateOfBirth
-        if (!birthday) {
-            return
-        }
 
         const birthdayShown = JSON.parse(localStorage.getItem("birthdayShown"))
-        if (isTodayBirthday(birthday) && !birthdayShown) {
+        if (birthday && isTodayBirthday(birthday) && !birthdayShown) {
             setTimeout(() => {
                 handleBirthday()
             }, 500)
@@ -376,7 +373,7 @@ const Home = () => {
 
     /**
      * @function useEffect
-     * @description Resets birthdayShown state the next day after user"s birthday.
+     * @description Resets birthdayShown state the next day after user's birthday.
      */
     useEffect(() => {
         const birthday = userData.dateOfBirth
