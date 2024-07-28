@@ -61,7 +61,9 @@ const today = new Date();
  * isDateBirthday('2003-02-25T00:00:00.000Z')
  */
 export const isTodayBirthday = (birthday) => {
-    const todayDate = today.toISOString().split('T')[0]
+    const timeZoneOffset = today.getTimezoneOffset() * 60000
+    const todayLocalTime = new Date(today.getTime() - timeZoneOffset)
+    const todayDate = todayLocalTime.toISOString().split('T')[0]
     const birthdayDate = birthday.split('T')[0]
 
     const todayDateInDDMM = getDDMM(todayDate)
