@@ -17,6 +17,10 @@ const ReminderBell = () => {
      */
     const todayDate = (new Date()).getDate()
 
+    /**
+     * The current state if user is reminded and function to update it
+     * @type {[boolean, function]}
+     */
     const [hasReminded, setHasReminded] = useState(false)
 
     /**

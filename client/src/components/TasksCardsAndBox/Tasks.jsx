@@ -33,7 +33,7 @@ const Tasks = ({taskId, title, deadline, priority, category, onEdit, onComplete,
                     </div>
 
                     <div className="taskActions">
-                        <button onClick={onEdit} className="taskEditButton">
+                        <button onClick={onEdit} data-testid={`editButton`} className="taskEditButton">
                             <FontAwesomeIcon icon={faEdit}/>
                         </button>
                         <button onClick={onComplete} className="taskTickButton"></button>

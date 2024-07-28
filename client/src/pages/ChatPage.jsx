@@ -992,8 +992,9 @@ const ChatPage = () => {
             <NavBar />
             <IntroElement steps={introSteps} activate={activateIntro} setActivate={setActivateIntro} hasDoneTutorial={userData.hasDoneTutorial} endIntro={false} page={page} />
             <div className="chatpageContainer">
-                <div className="chatroomContainer">
+                <div className="emptyDiv"></div>
 
+                <div className="chatroomContainer">
                     <div className="chatroom" id="chatroom" ref={lastMessage}>
                         <div className="chatroomHeader">
                             <img src={avatarIcon} className="chatroomHeaderIcon"/>
@@ -1001,13 +1002,13 @@ const ChatPage = () => {
                             <div className="chatroomHeaderStatus">I'm always free</div>
                         </div>
                         {...chatMessages}
-                    </div> 
-                    
+                    </div>
+
                     <div className="chatboxContainer">
-                        <input 
-                            id="chatbox" 
-                            onChange={(e) => setInput(e.target.value)} 
-                            value={input} 
+                        <input
+                            id="chatbox"
+                            onChange={(e) => setInput(e.target.value)}
+                            value={input}
                             placeholder="Enter an Input"
                             autoComplete="off"
                             onKeyDown={(e) => {
@@ -1015,25 +1016,28 @@ const ChatPage = () => {
                                     handleInput()
                                 }
                             }}
-                            >
-                                
+                        >
+
                         </input>
-                        <button onClick= {() => handleInput()} className="sendButton"></button>
+                        <button onClick={() => handleInput()} className="sendButton"></button>
                         <span className="border"></span>
                     </div>
 
                 </div>
+
                 <div className="chatpageAIBox">
                     <div id="assistantChatPageDialogue">{dialogue}</div>
-                    {isTexting ? ( 
-                        textingSprite ? <img className="chatpageAssistantTexting" src={textingSprite} /> : <div>Loading Image...</div> 
-                    ) : ( 
-                        staringSprite ? <img className="chatpageAssistantStaring" src={staringSprite} /> : <div>Loading Image...</div> 
+                    {isTexting ? (
+                        textingSprite ? <img className="chatpageAssistantTexting" src={textingSprite}/> :
+                            <div>Loading Image...</div>
+                    ) : (
+                        staringSprite ? <img className="chatpageAssistantStaring" src={staringSprite}/> :
+                            <div>Loading Image...</div>
                     )}
                 </div>
             </div>
         </div>
-        
+
     )
 }
 

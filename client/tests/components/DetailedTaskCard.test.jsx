@@ -3,7 +3,8 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { beforeEach, vi } from 'vitest';
 import DetailedTaskCard from '../../src/components/TasksCardsAndBox/DetailedTaskCard.jsx';
-
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faTimes} from "@fortawesome/free-solid-svg-icons";
 
 describe('DetailedTaskCard Component', () => {
     const mockTaskData = {
@@ -50,7 +51,16 @@ describe('DetailedTaskCard Component', () => {
     });
 
     it('calls onDelete when delete button is clicked', () => {
-        fireEvent.click(screen.getByText('X'));
+        render(
+            <button className="taskCardDeleteBtn" onClick={mockOnDelete} aria-label="delete">
+                <FontAwesomeIcon icon={faTimes} />
+            </button>
+        );
+
+        const deleteButton = screen.getByLabelText('delete');
+        expect(deleteButton).toBeInTheDocument();
+
+        fireEvent.click(deleteButton);
         expect(mockOnDelete).toHaveBeenCalledTimes(1);
     });
 

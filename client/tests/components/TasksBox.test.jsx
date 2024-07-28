@@ -16,7 +16,7 @@ describe('TasksCardsAndBox Component', () => {
     // Check top display
     it('renders the title with the correct count of tasks', () => {
         render(<TasksBox title="My Tasks" tasksToShow={mockTasks} onEdit={mockOnEdit} onDelete={mockOnDelete} onComplete={mockOnComplete} />);
-        expect(screen.getByText('My TaskModals (2)')).toBeInTheDocument();
+        expect(screen.getByText('My Tasks (2)')).toBeInTheDocument();
     });
 
     // Check if tasks are shown properly
@@ -29,7 +29,7 @@ describe('TasksCardsAndBox Component', () => {
     // Check edit button
     it('calls the onEdit function when the edit button is clicked', () => {
         render(<TasksBox title="My Tasks" tasksToShow={mockTasks} onEdit={mockOnEdit} onDelete={mockOnDelete} onComplete={mockOnComplete} />);
-        fireEvent.click(screen.getAllByText('Edit')[0]);
+        fireEvent.click(screen.getAllByTestId('editButton')[0]);
         expect(mockOnEdit).toHaveBeenCalledWith(mockTasks[0]);
     });
 

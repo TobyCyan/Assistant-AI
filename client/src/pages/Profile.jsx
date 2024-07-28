@@ -373,9 +373,11 @@ const Profile = () => {
         <button onClick={createFriendRequest}>Add Friend</button>
     )
 
+    /*
     const updateProfileDetails = (
         <button onClick={()=>navigate("/updateprofile")}>Update Profile</button>
     )
+    */
 
     return (
         <>
@@ -388,7 +390,7 @@ const Profile = () => {
 
                         <div className="userDetailsBox">
                             <div className="friendStatus">
-                                {isUser ? updateProfileDetails : isFriend ? (<p>Friends</p>) : requestSent ? (<p>Friend Request Sent</p>) : requestFrom ? acceptRequest : addFriend}
+                                {isUser ? (<p>Profile</p>) : isFriend ? (<p>Friends</p>) : requestSent ? (<p>Friend Request Sent</p>) : requestFrom ? acceptRequest : addFriend}
                             </div>
                             <div className="profilePic">
                                { icon ? <img src={icon} /> : <p>Loading Icon...</p>} 

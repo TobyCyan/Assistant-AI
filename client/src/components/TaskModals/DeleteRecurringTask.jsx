@@ -61,7 +61,7 @@ const DeleteRecurringTask = ({recurringTask, onClose, getAllTasks}) => {
         <div className="delTasksContainer">
             <button className="closeSmallModalBtn" onClick={onClose}></button>
             <div></div>
-            <div className="confirmMessage">{`Are you sure you want to "delete" recurring task "${recurringTask?.title}"?`}</div>
+            <div className="confirmMessage">{`Are you sure you want to delete recurring task "${recurringTask?.title}"?`}</div>
             <button className="confirmDelBtn" onClick={deleteTask}>DELETE</button>
         </div>
     )
