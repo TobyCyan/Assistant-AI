@@ -73,12 +73,20 @@ const AIBox = () => {
         setDialogue(`Welcome Back! ${ userData.username ? userData.username : ""}`)
     }, [userData])
 
+    /**
+     * @function useEffect
+     * @description Gets user data
+     */
     useEffect(() => {
         if (userData.username) {
             getUserDataByUsername()
         }
     }, [userData.username])
 
+    /**
+     * Gets user info from database
+     * @params None
+     */
     const getUserDataByUsername = async () => {
         try {
             const response = await fetch(`${expressApiUrl}user/${userData.username}`, {

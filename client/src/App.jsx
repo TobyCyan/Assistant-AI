@@ -21,7 +21,6 @@ const routes = (
         <Routes>
             <Route path="/login" exact element={<Login />} />
             <Route path="/signup" exact element={<SignUp />} />
-            <Route path="/updateprofile" exact element={<UpdateProfile />} />
             <Route element={<PrivateRoutes/>}>
                 <Route path="/" exact element={<Home />} />
                 <Route path="/tasks" exact element = {<MyTasks />} />

@@ -51,17 +51,29 @@ const UserInfo = () => {
      */
     const expressApiUrl = import.meta.env.VITE_EXPRESS_API_URL
 
+    /**
+     * @function useEffect
+     * @description If token exists, get user info
+     */
     useEffect(() => {
         if (token) {
             getUserInfo()
         }
     },[token])
 
+    /**
+     * @function useEffect
+     * @description If user data is changed, setusername and setpoints
+     */
     useEffect(() => {
         setUsername(userData?.username)
         setPoints(userData?.points)
     }, [userData]);
 
+    /**
+     * @function useEffect
+     * @description Gets the users items by username
+     */
     useEffect(() => {
         if (username) {
             getUserItemsByUsername()
@@ -109,6 +121,10 @@ const UserInfo = () => {
         }
     }
 
+    /**
+     * @function
+     * @description API CALL to get user items
+     */
     const getUserItemsByUsername = async () => {
         try {
             const response = await fetch(`${expressApiUrl}user/${username}`, {

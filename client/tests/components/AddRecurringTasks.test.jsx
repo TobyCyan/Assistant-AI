@@ -2,11 +2,11 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import {TokenProvider} from "../../src/components/TokenContext/TokenContext.jsx";
-import AddEditTasks from '../../src/components/TaskModals/AddEditTasks.jsx'; // Adjust the path as per your file structure
+import AddRecurringTasks from '../../src/components/TaskModals/AddRecurringTasks.jsx'; // Adjust the path as per your file structure
 
 describe('AddEditTasks Component', () => {
     it('renders Add mode on add correctly and loads details', () => {
-        render(<AddEditTasks taskData={null} />, {
+        render(<AddRecurringTasks recurringTask={null}/>, {
             wrapper: TokenProvider,
         });
 
@@ -15,38 +15,50 @@ describe('AddEditTasks Component', () => {
         const titleInput = screen.getByLabelText('Title');
         expect(titleInput).toBeInTheDocument()
         expect(titleInput).toHaveValue('');
-        fireEvent.change(titleInput, { target: { value: 'Test Title' } });
+        fireEvent.change(titleInput, {target: {value: 'Test Title'}});
         expect(titleInput).toHaveValue('Test Title');
 
         const descriptionInput = screen.getByLabelText('Description');
         expect(descriptionInput).toBeInTheDocument()
         expect(descriptionInput).toHaveValue('');
-        fireEvent.change(descriptionInput, { target: { value: 'Test Description' } });
+        fireEvent.change(descriptionInput, {target: {value: 'Test Description'}});
         expect(descriptionInput).toHaveValue('Test Description');
 
         const categoryInput = screen.getByLabelText('Category');
         expect(categoryInput).toBeInTheDocument()
         expect(categoryInput).toHaveValue('');
-        fireEvent.change(categoryInput, { target: { value: 'Test Cat' } });
+        fireEvent.change(categoryInput, {target: {value: 'Test Cat'}});
         expect(categoryInput).toHaveValue('Test Cat');
 
         const priorityInput = screen.getByLabelText('Priority');
         expect(priorityInput).toBeInTheDocument()
         expect(priorityInput).toHaveValue('');
-        fireEvent.change(priorityInput, { target: { value: 'Low' } });
+        fireEvent.change(priorityInput, {target: {value: 'Low'}});
         expect(priorityInput).toHaveValue('Low');
 
-        const deadlineInput = screen.getByLabelText('Deadline:');
+        const deadlineInput = screen.getByLabelText('Next Deadline:');
         expect(deadlineInput).toBeInTheDocument()
         expect(deadlineInput).toHaveValue('');
-        fireEvent.change(deadlineInput, { target: { value: '2025-09-09' } });
+        fireEvent.change(deadlineInput, {target: {value: '2025-09-09'}});
         expect(deadlineInput).toHaveValue('2025-09-09');
 
-        const reminderInput = screen.getByLabelText('Reminder Date:');
+        const intervalInput = screen.getByLabelText('Interval (Days):');
+        expect(intervalInput).toBeInTheDocument()
+        expect(intervalInput).toHaveValue(null);
+        fireEvent.change(intervalInput, {target: {value: 4}});
+        expect(intervalInput).toHaveValue(4);
+
+        const creationInput = screen.getByLabelText('Task Creation:');
+        expect(creationInput).toBeInTheDocument()
+        expect(creationInput).toHaveValue(null);
+        fireEvent.change(creationInput, {target: {value: 4}});
+        expect(creationInput).toHaveValue(4);
+
+        const reminderInput = screen.getByLabelText('Reminder:');
         expect(reminderInput).toBeInTheDocument()
-        expect(reminderInput).toHaveValue('');
-        fireEvent.change(reminderInput, { target: { value: '2025-08-08' } });
-        expect(reminderInput).toHaveValue('2025-08-08');
+        expect(reminderInput).toHaveValue(null);
+        fireEvent.change(reminderInput, {target: {value: 4}});
+        expect(reminderInput).toHaveValue(4);
 
         const addButton = screen.getByText('ADD')
         expect(addButton).toBeInTheDocument();
@@ -59,18 +71,21 @@ describe('AddEditTasks Component', () => {
             title: 'Mock Task',
             description: 'Mock Description',
             category: 'Mock Category',
-            deadline: '2025-09-09',
             priority: 'Medium',
-            reminder: '2025-07-08',
-            completed: false,
-            points: 0,
+            interval: 4,
+            lastCreated: null,
+            nextCreation: '2025-08-04T00:00:00Z',
+            creationToDeadline: 4,
+            reminderToDeadline: 4,
         };
 
-        render(<AddEditTasks
-            taskData={mockTaskData}
+        render(<AddRecurringTasks
+            recurringTask={mockTaskData}
             type="edit"
-            getAllTasks={() => {}}
-            onClose={() => {}}
+            getAllTasks={() => {
+            }}
+            onClose={() => {
+            }}
         />, {
             wrapper: TokenProvider,
         });
@@ -93,16 +108,27 @@ describe('AddEditTasks Component', () => {
         expect(priorityInput).toBeInTheDocument()
         expect(priorityInput).toHaveValue('Medium');
 
-        const deadlineInput = screen.getByLabelText('Deadline:');
+        const deadlineInput = screen.getByLabelText('Next Deadline:');
         expect(deadlineInput).toBeInTheDocument()
-        expect(deadlineInput).toHaveValue('2025-09-09');
+        expect(deadlineInput).toHaveValue('2025-08-08');
 
-        const reminderInput = screen.getByLabelText('Reminder Date:');
+        const intervalInput = screen.getByLabelText('Interval (Days):');
+        expect(intervalInput).toBeInTheDocument()
+        expect(intervalInput).toHaveValue(4);
+
+        const creationInput = screen.getByLabelText('Task Creation:');
+        expect(creationInput).toBeInTheDocument()
+        expect(creationInput).toHaveValue(4);
+
+        const reminderInput = screen.getByLabelText('Reminder:');
         expect(reminderInput).toBeInTheDocument()
-        expect(reminderInput).toHaveValue('2025-07-08');
+        expect(reminderInput).toHaveValue(4);
 
         const updateButton = screen.getByText('UPDATE')
         expect(updateButton).toBeInTheDocument();
     });
 });
+
+
+
 

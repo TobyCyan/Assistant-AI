@@ -306,7 +306,7 @@ button {
   background-size: cover;
   background-position: center;
   */
-  height: 91vh;
+  height: 93vh;
   width: 100%;
 
   position: relative;
@@ -645,7 +645,7 @@ ul {
 
 .tasksPageContainer {
   display: flex;
-  height: 91vh;
+  height: 93vh;
   overflow-y: hidden;
 }
 
@@ -1120,7 +1120,7 @@ ul {
 
 .chatpageContainer {
   background-color: #010c3d;
-  height: 91vh;
+  height: 93vh;
   width: 100%;
   overflow: hidden;
   position: relative;
@@ -1179,7 +1179,6 @@ ul {
   width: 100%;
   max-height: 100%;
   margin-top: 35px;
-  flex: 1 1 auto;
 }
 
 .chatpageAssistantTexting {
@@ -1522,7 +1521,7 @@ ul {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 91vh; /* Full height of the viewport */
+  height: 93vh;
   width: 100%;
   background: #ADD8E6;
 }
@@ -1864,10 +1863,12 @@ ul {
   width: 70%;
 }
 
-.shopPageContainer {
+.shopPageContainer, .shopPageInnerContainer {
+  height: 93vh;
   width: 100%;              /* Makes the container take the full width of its parent */
   display: flex;           /* Enables Flexbox layout */
   justify-content: center; /* Centers the items horizontally */
+  align-items: center;
   box-sizing: border-box;  /* Ensures padding and border are included in the width */
   background: #ADD8E6;
 }

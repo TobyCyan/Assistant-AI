@@ -534,7 +534,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
 
 **Database Diagram**
 
-![Database Diagram](./images/databaseModelDiagram.png)
+![Database Diagram](./images/OrbitalERDiagram.png)
 
 **Sequence Diagram**
 
