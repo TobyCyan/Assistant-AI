@@ -107,7 +107,8 @@ Assistant AI is essentially a task management system with the help of a Virtual 
 1.  User Onboarding.
 2.  Tasks Prioritisation Suggestion by AI.
 3.  Recurring Task (Periodically Recurring Tasks).
-4.  Exchange of Points for Decorative Items and Accessories for the Virtual Assistant.
+4.  Exchange of Points for Decorative Items and Accessories for the User and Virtual Assistant.
+5.  User Profile, Friend Request and Equipment System.
 
 ### Core Features Details
 
@@ -469,6 +470,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
 
     *   This is an intro guide implemented using Intro.js! Users are able to get a brief run through of our web application without much confusion. It aims to enhance new user experience getting on board our product!
     *   New users can simply click on Next to go to the next step, Back to go to the previous step, and the x on the top-right corner to skip the intro!
+
 *   **Task Priority Suggestion**
     *   To allow suggestions by AI based on the priority of task. 
     *   In the future, we can look into task priority suggestions based on the title of the task which can be implemented using text classification. (e.g. Cleaning of Dishes - Low, Meeting with Client - High)
@@ -487,6 +489,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
         *   “Intervals (Days)” would be how many days after which should the next task recur.
         *   “Task Creation” refers to how many days should the next recurring task be created **before the deadline**.
         *   “Reminder” is how many days should the reminder happen **before the deadline**.
+
 *   **Exchange of Items using Points**
     *   To provide a “shop” to exchange decorative items for the Assistant AI.
     *   Decoration and customisation of the Assistant AI character will bring gamification and engagement to users.
@@ -541,15 +544,15 @@ Assistant AI is essentially a task management system with the help of a Virtual 
 
 **Database Diagram**
 
-    ![Database Diagram](./images/OrbitalERDiagram.png)
+![Database Diagram](./images/OrbitalERDiagram.png)
 
 **Sequence Diagram**
 
-    ![Sequence Diagram](./images/sequenceDiagram.png)
+![Sequence Diagram](./images/sequenceDiagram.png)
 
 **User Flow Diagram**
 
-    ![User Flow Diagram](./images/userFlowDiagram.png)
+![User Flow Diagram](./images/userFlowDiagram.png)
 
 ### Software Engineering Principles
 
