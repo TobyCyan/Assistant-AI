@@ -556,6 +556,24 @@ Assistant AI is essentially a task management system with the help of a Virtual 
         
 *   **BackEnd Unit Testing**
     *   Unit Testing for the backend API server conducted using Postman API Testing to verify that API functions correctly when the request is sent from the client.
+*   **User Testing**
+    *   We have conducted user testing with some of our friends and family members. The testing was conducted using the deployed version.
+    *   While the users were testing the web application, we were watching how they were interacting with the application, constantly looking out for potential bugs and seeking feedback from the users in terms of their experience using and navigating through the application.
+    *   Some unexpected bugs were discovered and resolved on the spot.
+    *   We've received feedbacks and criticism as follows:
+        *   Navigation is generally not a problem with the simple user interface (UI), it is clear in terms of which buttons lead to which pages.
+        *   The UI is not confusing or difficult to look at.
+        *   Users are satisfied and entertained by the chat bot system.
+        *   User experience is generally good but some quality of life changes could be made.
+        *   More clarifications/ better and clearer labelling are needed for the “Category”, “Task Creation”, and “Reminder” before deadline fields when adding a recurring task.
+        *   “Task Creation” before deadline field does not seem necessary as the next recurring task should be added automatically right as the previous one is overdue.
+        *   Mono color may be too simple and background colors could be slightly fancier. Yellow is also too bright for the eyes.
+    *   Users also suggested extension features such as:
+        *   Dark/ light mode.
+        *   Add exact timings to deadlines and reminders.
+        *   Account deletion feature.
+        *   Addition of points by interacting with the assistant to encourage interaction.
+        *   New behaviors such as responding to “How to quit?” and “What are my upcoming/ overdue tasks?”.
 *   **Version Control**
     *   Version Control using Github - Working on features on different branches, merge and pull requests.
         
@@ -573,6 +591,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
         
 *   **Single Responsibility Principle**
     *   Ensuring each component has only one responsibility.
+
 *   **Documentation**
     *   The front-end and back-end of the application has been documented using the format of JSDoc.
     *   Below are some examples of documentation written:
@@ -596,7 +615,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
 
 ### Mei's Behavior Index
 
-<table><tbody><tr><td>Input Pattern</td><td>Response Description</td></tr><tr><td><ul><li>Who are you?</li><li>What’s your name?</li><li>Can you introduce yourself.</li></ul></td><td>Introduction of the AI Assistant to the user.</td></tr><tr><td><ul><li>Give me all my tasks.</li><li>My list of tasks.</li><li>What tasks do I have?</li></ul></td><td>The complete list of the user's tasks.</td></tr><tr><td><ul><li>Favorite food.</li><li>What is your favorite food?</li><li>What do you like to eat?</li></ul></td><td>Free talk about the AI Assistant's favorite food.</td></tr><tr><td><ul><li>Favorite color.</li><li>What is your favorite color?</li><li>What color do you like?</li></ul></td><td>Free talk about the AI Assistant's favorite color.</td></tr><tr><td><ul><li>What do you like?</li><li>What are your hobbies?</li></ul></td><td>Free talk about the Assistant's hobbies.</td></tr><tr><td><ul><li>Shop.</li><li>Tell me about the shop.</li><li>What is the shop?</li></ul></td><td>Introduction to the application's shop page.</td></tr><tr><td><ul><li>Completion.</li><li>Completing tasks.</li><li>Incompletion.</li></ul></td><td>Introduction to the application's task completion/ uncompletion system.</td></tr><tr><td><ul><li>Productivity Report</li><li>What is my productivity report?</li><li>Tell me about the productivity report.</li></ul></td><td>Introduction to the application's productivity report system.</td></tr><tr><td><ul><li>Hey!</li><li>Hello.</li><li>Good to see you.</li><li>How are you?</li><li>What's Up?</li><li>Hi</li></ul></td><td>Greeting the user.</td></tr><tr><td><ul><li>Can you add a task for me?</li><li>Add a task.</li><li>Add task.</li></ul></td><td>Guides the user through the process of adding a new task.</td></tr><tr><td><ul><li>Can you delete this task for me please?</li><li>Delete a task.</li><li>Delete task.</li></ul></td><td>Guides the user through the process of deleting an existing task.</td></tr><tr><td><ul><li>Can you edit this task for me please?</li><li>Edit a ask.</li><li>Edit task.</li></ul></td><td>Guides the user through the process of editing an existing task.</td></tr><tr><td><ul><li>What is the weather today?</li><li>Weather</li></ul></td><td>Informs the user about the weather in their local area.</td></tr><tr><td><ul><li>Priority task.</li><li>Highest prioritised task.</li><li>What tasks should I prioritise.</li></ul></td><td>A suggestion from the AI Assistant about the user's highest prioritised task.</td></tr></tbody></table>
+<table><tbody><tr><td>Input Pattern</td><td>Response Description</td></tr><tr><td><ul><li>Who are you?</li><li>What’s your name?</li><li>Can you introduce yourself.</li></ul></td><td>Introduction of the AI Assistant to the user.</td></tr><tr><td><ul><li>Give me all my tasks.</li><li>My list of tasks.</li><li>What tasks do I have?</li></ul></td><td>The complete list of the user's tasks.</td></tr><tr><td><ul><li>Favorite food.</li><li>What is your favorite food?</li><li>What do you like to eat?</li></ul></td><td>Free talk about the AI Assistant's favorite food.</td></tr><tr><td><ul><li>Favorite color.</li><li>What is your favorite color?</li><li>What color do you like?</li></ul></td><td>Free talk about the AI Assistant's favorite color.</td></tr><tr><td><ul><li>What do you like?</li><li>What are your hobbies?</li></ul></td><td>Free talk about the Assistant's hobbies.</td></tr><tr><td><ul><li>Shop.</li><li>Tell me about the shop.</li><li>What is the shop?</li></ul></td><td>Introduction to the application's shop page.</td></tr><tr><td><ul><li>Completion.</li><li>Completing tasks.</li><li>Incompletion.</li></ul></td><td>Introduction to the application's task completion/ uncompletion system.</td></tr><tr><td><ul><li>Productivity Report.</li><li>What is my productivity report?</li><li>Tell me about the productivity report.</li></ul></td><td>Introduction to the application's productivity report system.</td></tr><tr><td><ul><li>Hey!</li><li>Hello.</li><li>Good to see you.</li><li>How are you?</li><li>What's Up?</li><li>Hi.</li></ul></td><td>Greeting the user.</td></tr><tr><td><ul><li>Can you add a task for me?</li><li>Add a task.</li><li>Add task.</li></ul></td><td>Guides the user through the process of adding a new task.</td></tr><tr><td><ul><li>Can you delete this task for me please?</li><li>Delete a task.</li><li>Delete task.</li></ul></td><td>Guides the user through the process of deleting an existing task.</td></tr><tr><td><ul><li>Can you edit this task for me please?</li><li>Edit a task.</li><li>Edit task.</li></ul></td><td>Guides the user through the process of editing an existing task.</td></tr><tr><td><ul><li>What is the weather today?</li><li>Weather.</li></ul></td><td>Informs the user about the weather in their local area.</td></tr><tr><td><ul><li>Priority task.</li><li>Highest prioritised task.</li><li>What tasks should I prioritise.</li></ul></td><td>A suggestion from the AI Assistant about the user's highest prioritised task.</td></tr><tr><td><ul><li>Recurring Task.</li><li>What are recurring tasks?</li><li>Tell me about recurring tasks.</li></ul></td><td>Introduction to the application's recurring task system.</td></tr></tbody></table>
 
 ### Artist
 
