@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef, ReactNode } from "react";
 import NavBar from "../components/NavBar/NavBar.jsx";
 import { useTokenContext } from "../components/TokenContext/TokenContext";
-import getCurrentPositionWeather from "../../../ChatBot/static/API Calls/weather";
 import { randomItem, compareTasksPriority, randIntervalGenerator, getRandomVoiceLine, calculateTaskProductivity, getProductivityBarComments, startIntro, setHasFinishedIntroAtPage } from "../utilities/utilities.js";
 import ChatBotResponseElement from "../components/MessageElement/ChatBotResponseElement.jsx";
 import UserMessageElement from "../components/MessageElement/UserMessageElement.jsx";
-import { dateAfterToday, reminderBeforeDeadline, wait, removeSpaces, taskInfoString } from "../utilities/ChatPageUtilities.js";
+import { dateAfterToday, reminderBeforeDeadline, wait, removeSpaces, taskInfoString, getCurrentPositionWeather } from "../utilities/ChatPageUtilities.js";
 import ListMessageElement from "../components/MessageElement/ListMessageElement.jsx";
 import AddEditTaskMessageElement from "../components/MessageElement/AddEditTaskMessageElement.jsx";
 import avatarIcon from "../AppImages/Mei Chibi Icons/Mei_Chibi_Icon.png"
@@ -616,8 +615,7 @@ const ChatPage = () => {
         switch (responseType) {
             case "Weather":
                 const weatherResponse = await getCurrentPositionWeather(apiKey)
-                const createWeatherResponse = weatherResponse
-                await addNewChatBotResponse(createWeatherResponse)
+                await addNewChatBotResponse(weatherResponse)
                 break
             
             case "AddTask":
