@@ -143,7 +143,7 @@ const behaviorIndex = () => {
                         <td>
                             <ul>
                                 <li>Can you edit this task for me please?</li>
-                                <li>Edit a ask.</li>
+                                <li>Edit a task.</li>
                                 <li>Edit task.</li>
                             </ul>
                         </td>
