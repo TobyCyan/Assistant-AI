@@ -1,21 +1,18 @@
 const {Sequelize, DataTypes} = require('sequelize')
+require('dotenv').config()
 
-/*
+// Enter name of database, user, password and port (psql default - 5432)
+
 const sequelize = new Sequelize({
     dialect: 'postgres',
-    database: 'assistantai2',
-    user: 'daryl',
-    password: '790800',
+    database: `${process.env.DATABASE}`,
+    user: `${process.env.USER}`,
+    password: `${process.env.PASSWORD}`,
     host: 'localhost',
     port: 5432,
     ssl: true,
     clientMinMessages: 'notice',
 });
-*/
-
-const dbURL = process.env.DATABASE_URL;
-
-const sequelize = new Sequelize(`${dbURL}`);
 
 sequelize.authenticate()
 .then(() => {
