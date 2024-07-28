@@ -162,7 +162,7 @@ def predict_behavior_type_from_prompt(prompt, model):
 
     output_type = behavior_types[output_type_index]
     print('Highest Predicted Probability: ' + str(output_type_probability), output_type)
-    if output_type_probability < 0.3:
+    if output_type_probability < 0.35:
         return 'Unsure'
     
     return output_type
