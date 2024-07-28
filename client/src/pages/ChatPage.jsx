@@ -247,27 +247,13 @@ const ChatPage = () => {
      * The array of possible dialogues that the assistant can say when user tries to say something while waiting for user"s input to add task.
      * @type {Array<string>}
      */
-    const addEditTaskIdleTalk = ["Hmm? Wanna chat with me? Then quit from this session first.", "Fill out the form first then we'll talk! :)", "One step at a time, don't be impatient!"]
+    const addEditTaskIdleTalk = ["Hmm? Wanna chat with me? Then quit from this session first.", "Fill out the form first then we'll talk! Or quit the session! :)", "One step at a time, don't be impatient! Try leaving input mode first."]
 
     /**
      * The array of possible dialogues that the assistant can say when user tries to say submit a form outside of input mode.
      * @type {Array<string>}
      */
     const quittedConfirmationTalk = ["? It seems that you are trying to submit another form.. Just let me know what you want to do and I'll prepare it for you again!", "Calm down, I'll give you another one. Just say so!", "Hmm? What would you like to do? You can always tell me :)"]
-
-    // /**
-    //  * Filters the uncompleted task and sort them by the deadline.
-    //  * @type {Array<Object>} The list of uncompleted tasks sorted by deadline.
-    //  */
-    // const uncompletedTasks = tasks.filter(task => !task.completed)
-    
-    // /**
-    //  * An array of strings that shows the index, title, category and deadline in the DDMM format of uncompleted tasks.
-    //  * @type {Array<string>}
-    //  */
-    // const uncompletedTaskList = uncompletedTasks.map((task, index) => {
-    //     return taskInfoString(task, index)
-    // })
 
     /**
      * An array of strings that shows the index, title, category and deadline in the DDMM format of each task.
