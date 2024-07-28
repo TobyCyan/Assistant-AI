@@ -135,16 +135,17 @@ const saveNewResponseBasedOnTypeAndPattern = (response, type, pattern) => {
     return typeIndex
 }
 
-console.log(dataArray)
-//saveNewResponseBasedOnTypeAndPattern("Yep sure! Please wait a moment!", "DeleteTask", "Delete a Task")
+// console.log(dataArray)
+// saveNewResponseBasedOnTypeAndPattern("Recurring tasks are there so that I could remind you of the same task repeatedly! You may choose how many days you would like the task to recur, how early would you like the task to be created before deadline, and how many days I should remind you before the deadline!", "RecurringTask", "Recurring Task")
 //saveNewPatternBasedOnType("Can you delete this task for me please?", "DeleteTask")
-//saveNewPatternBasedOnType("Add a Task", "AddTask")
-//saveNewPatternBasedOnType("Add Task", "AddTask")
-saveNewResponseBasedOnTypeAndPattern("Your productivity report shows how efficient you’ve been in terms of completing your tasks on time. You can do it!", "ProductivityReport", "Productivity Report.")
+// saveNewPatternBasedOnType("What are recurring tasks?", "RecurringTask")
+// saveNewPatternBasedOnType("Tell me about recurring tasks.", "RecurringTask")
+//saveNewResponseBasedOnTypeAndPattern("Your productivity report shows how efficient you’ve been in terms of completing your tasks on time. You can do it!", "ProductivityReport", "Productivity Report.")
 //saveNewResponseBasedOnTypeAndPattern("Understood!", "PriorityTask", "Highest prioritised task.")
 //saveNewResponseBasedOnTypeAndPattern("You got it!", "PriorityTask", "What tasks should I prioritise.")
-saveNewPatternBasedOnType("What is my productivity report?", "ProductivityReport")
-saveNewPatternBasedOnType("Tell me about the productivity report.", "ProductivityReport")
+// saveNewPatternBasedOnType("What is my productivity report?", "ProductivityReport")
+// saveNewPatternBasedOnType("Tell me about the productivity report.", "ProductivityReport")
+
 
 // saveNewPatternBasedOnType("What is the weather today?" , "Weather")
 

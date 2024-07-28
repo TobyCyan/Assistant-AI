@@ -95,7 +95,7 @@ const behaviorIndex = () => {
                     <tr>
                         <td>
                             <ul>
-                                <li>Productivity Report</li>
+                                <li>Productivity Report.</li>
                                 <li>What is my productivity report?</li>
                                 <li>Tell me about the productivity report.</li>
                             </ul>
@@ -111,7 +111,7 @@ const behaviorIndex = () => {
                                 <li>Good to see you.</li>
                                 <li>How are you?</li>
                                 <li>What's Up?</li>
-                                <li>Hi</li>
+                                <li>Hi.</li>
                             </ul>
                         </td>
                         <td>Greeting the user.</td>
@@ -154,7 +154,7 @@ const behaviorIndex = () => {
                         <td>
                             <ul>
                                 <li>What is the weather today?</li>
-                                <li>Weather</li>
+                                <li>Weather.</li>
                             </ul>
                         </td>
                         <td>Informs the user about the weather in their local area.</td>
@@ -169,7 +169,18 @@ const behaviorIndex = () => {
                             </ul>
                         </td>
                         <td>A suggestion from the AI Assistant about the user's highest prioritised task.</td>
-                    </tr>         
+                    </tr>       
+
+                    <tr>
+                        <td>
+                            <ul>
+                                <li>Recurring Task.</li>
+                                <li>What are recurring tasks?</li>
+                                <li>Tell me about recurring tasks.</li>
+                            </ul>
+                        </td>
+                        <td>Introduction to the application's recurring task system.</td>
+                    </tr>   
                 </tbody>
             </table>
         </>
