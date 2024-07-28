@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, ReactNode } from "react";
+import Modal from "react-modal";
 import NavBar from "../components/NavBar/NavBar.jsx";
 import { useTokenContext } from "../components/TokenContext/TokenContext";
 import { randomItem, compareTasksPriority, randIntervalGenerator, getRandomVoiceLine, calculateTaskProductivity, getProductivityBarComments, startIntro, setHasFinishedIntroAtPage } from "../utilities/utilities.js";
@@ -10,6 +11,7 @@ import AddEditTaskMessageElement from "../components/MessageElement/AddEditTaskM
 import avatarIcon from "../AppImages/Mei Chibi Icons/Mei_Chibi_Icon.png"
 import IntroElement from "../components/IntroElements/IntroElement.jsx";
 import { Items, isOutfitOwned } from "../utilities/ShopItemUtilities.js";
+import BehaviorIndex from "../components/BehaviorIndex/BehaviorIndex.jsx";
 
 /**
  * A React component that displays the page where users can interact and chat with the AI Assistant.
@@ -49,6 +51,26 @@ const ChatPage = () => {
     const lastMessage = useRef(null)
     const inputTypeRef = useRef("")
     const errorListRef = useRef([])
+
+    /**
+     * The current state of Behavior Index Modal and setter function to update it.
+     * @type {[Object, function]}
+     */
+    const[behaviorIndexModalOpen, setBehaviorIndexModalOpen] = useState({
+        isShown: false,
+    })
+
+    const closeBehaviorIndexModal = () => {
+        setBehaviorIndexModalOpen({
+            isShown: false,
+        })
+    }
+
+    const openBehaviorIndexModal = () => {
+        setBehaviorIndexModalOpen({
+            isShown: true,
+        })
+    }
 
     /**
      * The minimum time for the random interval in milliseconds.
@@ -133,6 +155,10 @@ const ChatPage = () => {
         {
             element: ".chatroom",
             intro: "Our messages will appear in here."
+        },
+        {
+            element: ".behaviorIndexBtn",
+            intro: "To understand my behavior in detail, you may click on the button here!"
         },
         {
             intro: "These messages are just between you and me so keep it a secret okay?"
@@ -993,12 +1019,13 @@ const ChatPage = () => {
     }, [])
 
     return (
+        <>
         <div className="chatpage" >
             <NavBar />
             <IntroElement steps={introSteps} activate={activateIntro} setActivate={setActivateIntro} hasDoneTutorial={userData.hasDoneTutorial} endIntro={false} page={page} />
             <div className="chatpageContainer">
+                <button className="behaviorIndexBtn" onClick={openBehaviorIndexModal}>Behavior Index</button>
                 <div className="chatroomContainer">
-
                     <div className="chatroom" id="chatroom" ref={lastMessage}>
                         <div className="chatroomHeader">
                             <img src={avatarIcon} className="chatroomHeaderIcon"/>
@@ -1036,9 +1063,22 @@ const ChatPage = () => {
                         staringSprite ? <img className="chatpageAssistantStaring" src={staringSprite} /> : <div>Loading Image...</div> 
                     )}
                 </div>
+                
             </div>
         </div>
-        
+        <Modal
+            isOpen={behaviorIndexModalOpen.isShown}
+            onRequestClose={closeBehaviorIndexModal}
+            style={{
+                overlay: {
+                    backgroundColor: "rgba(0, 0, 0, 0.2)"
+                }
+            }}
+            className="behaviorIndexModal"
+        >
+            <BehaviorIndex />
+        </Modal>
+    </>
     )
 }
 
