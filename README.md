@@ -291,7 +291,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
                 *   The following image is a sample of a few messages in the reminder window.
                 *   ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/8573c9edd59350f20f7617c97f416522945470035f1c6836.png)
                     
-                    Once the reminder has been completed automatically, the reminder bell will stop ringing and has a green tick next to it.
+                    Once the reminder has been completed, and the user decides to close the window, the reminder bell will stop ringing and has a green tick next to it.
                     
                     ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/4322777e5f3c4b2b0351c543752357af38bb2629acc2ff66.png)
                     
@@ -468,11 +468,18 @@ Assistant AI is essentially a task management system with the help of a Virtual 
     
 *   **Recurring Tasks**
     
-    *   Site to provide automatic creation of recurring tasks based on creation.
-    *   Daily / Weekly / Monthly (To be explored).
+    *   Site to provide automatic creation of recurring tasks based on creation..
     *   Users will be able to enable/ disable recurring mode for their new and existing tasks.
+        
+        **Instructions/ Details**
+        
+        *   To add a recurring task, users can either click on the “Add Recurring Task” button at the home page, or navigate to the Recurring Task page.
+        *   There are three main fields that the user will have to enter: “Intervals (Days)”, “Task Creation”, and “Reminder”.
+        *   “Intervals (Days)” would be how many days after which should the next task recur.
+        *   “Task Creation” refers to how many days should the next recurring task be created **before the deadline**.
+        *   “Reminder” is how many days should the reminder happen **before the deadline**.
     
-*   **Exchange of Items using Points (In-Progress)**
+*   **Exchange of Items using Points**
     *   To provide a “shop” to exchange decorative items for the Assistant AI.
     *   Decoration and customisation of the Assistant AI character will bring gamification and engagement to users.
         
@@ -510,8 +517,8 @@ Assistant AI is essentially a task management system with the help of a Virtual 
         
         ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/b65195ad16a5641a96363b3295dc79840194d8c2bc7d5165.png)
         
-        *   Here, the user is able to update their profiles, view their profile details, friends list, friend requests, as well as search for other users!
-        *   Moreover, the user can check out their items in the Item Collection Box.
+        *   Here, the user is able to view their profile details, friends list, friend requests, as well as search for other users!
+        *   Moreover, the user can check out their items in the Item Collection Box, and equip them.
         
         ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/7b69a8e7531229764391c08f52b34bb4c38d82df23c77856.png)
         
@@ -591,7 +598,6 @@ Assistant AI is essentially a task management system with the help of a Virtual 
         
 *   **Single Responsibility Principle**
     *   Ensuring each component has only one responsibility.
-
 *   **Documentation**
     *   The front-end and back-end of the application has been documented using the format of JSDoc.
     *   Below are some examples of documentation written:

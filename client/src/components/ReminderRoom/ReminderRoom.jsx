@@ -67,7 +67,6 @@ const ReminderRoom = ({closeReminderRoomModal, taskData, setHasReminded, timeOfT
             // If the user waits until the reminder completes, the reminder ends and reminded status is set to true.
             if (index == reminderDialogueFlow.length) {
                 localStorage.setItem(timeOfTheDay, JSON.stringify({reminded: true, date: todayDate}))
-                closeReminderRoomModal()
                 setHasReminded(true)
                 clearInterval(messageTimer)
                 return
