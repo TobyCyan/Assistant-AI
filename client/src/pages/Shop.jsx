@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, ReactNode } from "react";
 import NavBar from "../components/NavBar/NavBar";
 import { startIntro, setHasFinishedIntroAtPage } from "../utilities/utilities";
 import { Items } from "../utilities/ShopItemUtilities";
@@ -9,9 +9,9 @@ import ExchangeItemsModal from "../components/Shop/ExchangeItemsModal";
 import IntroElement from "../components/IntroElements/IntroElement";
 
 /**
- * 
+ * A React component that displays the Shop Page.
  * @component
- * @returns 
+ * @returns {ReactNode} A React element that renders the shop.
  */
 const Shop = () => {
     const {tokenStatus, userInfo} = useTokenContext()
