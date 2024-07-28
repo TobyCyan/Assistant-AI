@@ -74,15 +74,15 @@ Our goal is to develop a task management application that helps users to organiz
     5.  Create a .env file in the client directory, and add 
        - VITE\_EXPRESS\_API\_URL
        - VITE\_CHATBOT\_FLASK\_API\_URL
-       - VITE\_WEATHER\_API\_Key .
+       - VITE\_WEATHER\_API\_Key
     6.  Create a .env file in the server directory, and add 
-       - NODEMAILER_EMAIL (Personal or Dummy email to send email)
-       - NODEMAILER_PW (App Password, 2FA required) - https://nodemailer.com/usage/using-gmail/
+       - NODEMAILER\_EMAIL (Personal or Dummy email to send email)
+       - NODEMAILER\_PW (App Password, 2FA required) - https://nodemailer.com/usage/using-gmail/
        - PORT 
-       - Secret_Key
+       - Secret\_Key
        - DATABASE (Database name, to be created in PostGreSQL first)
-       - DB_USER
-       - PASSWORD
+       - DB\_USER (PSQL)
+       - PASSWORD (PSQL)
     7. In the /server directory, open server.js and insert the following code.
     8. Run "pip3 install -r requirements.txt" in the terminal of the ChatBot directory to install all python dependencies.
     9. For running the frontend, users may change directory to /client, run "npm install" in the terminal to install all dependencies, and run "npm run dev".

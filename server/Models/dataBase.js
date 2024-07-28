@@ -6,7 +6,7 @@ require('dotenv').config()
 const sequelize = new Sequelize({
     dialect: 'postgres',
     database: `${process.env.DATABASE}`,
-    user: `${process.env.USER}`,
+    user: `${process.env.DB_USER}`,
     password: `${process.env.PASSWORD}`,
     host: 'localhost',
     port: 5432,

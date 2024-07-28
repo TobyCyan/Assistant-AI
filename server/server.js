@@ -1,5 +1,4 @@
 const express = require("express")
-// const serverless = require("serverless-http")
 const cors = require("cors")
 const {authenticateToken} = require("./utilities/utilities")
 
@@ -121,4 +120,3 @@ app.listen(port, () => {
     console.log(`App is listening on ${port}`)
 })
 
-// module.exports.handler = serverless(app)
