@@ -1,18 +1,5 @@
 const {Sequelize, DataTypes} = require('sequelize')
 
-/*
-const sequelize = new Sequelize({
-    dialect: 'postgres',
-    database: 'assistantai2',
-    user: 'daryl',
-    password: '790800',
-    host: 'localhost',
-    port: 5432,
-    ssl: true,
-    clientMinMessages: 'notice',
-});
-*/
-
 const dbURL = process.env.DATABASE_URL;
 
 const sequelize = new Sequelize(`${dbURL}`);
