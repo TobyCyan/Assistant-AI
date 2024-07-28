@@ -104,7 +104,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
 11.  User **productivity report analysis (based on task completion).**
 12.  **Chat with Mei!**
 13.  **Quitting an Operation/ Going back a Step**
-14.  User voice to provide input to **automate each task.**
+14.  User input to Mei in chatroom to **automate each task.**
 15.  **Interactive messages** **(Birthday wishes, greetings, daily life conversations).**
 
 **Extensions**
