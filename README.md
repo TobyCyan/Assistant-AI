@@ -506,7 +506,7 @@ Assistant AI is essentially a task management system with the help of a Virtual 
 
         *   To exchange for an item, simply click on the “Exchange” button, and a confirmation window will pop up!
 
-            ![Exchange Confirmation](http./images/CoreFeaturesInstructionImg/ExchangeConfirmation.png)
+            ![Exchange Confirmation](./images/CoreFeaturesInstructionImg/ExchangeConfirmation.png)
 
         *   Once the item has been exchanged, the button will be shown as “Obtained” and become non-interactable.
 
