@@ -131,9 +131,9 @@ def load_model(model_name: str, training_data, output_data):
     model = tfl.DNN(network=network)
 
     try:
-        # print('Loading Model...')
+        print('Loading Model...')
         model.load(model_file=model_name)
-        # print('Model Loaded: ' + model_name)
+        print('Model Loaded: ' + model_name)
         return model
     
     except Exception as e:
@@ -173,7 +173,7 @@ def predict_behavior_type_from_prompt(prompt, model):
 @app.route('/startchat', methods=['POST'])
 def start_chat():
     data = request.get_json()
-    # print(data)
+    print(data)
     chatText = data['input']
     model_name = data['model']
 
