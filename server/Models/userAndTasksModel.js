@@ -30,11 +30,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DATE,
             allowNull: false
         },
-        hasDoneTutorial: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: false,
-            allowNull: false
-        }
     }, {
         tableName: 'users',
         schema: 'public', // Specify schema if necessary (default is 'public')
@@ -42,6 +37,12 @@ module.exports = (sequelize, DataTypes) => {
 
     // Defines a tasks table with its parameters.
     const Tasks = sequelize.define('Task', {
+        id: {
+            primaryKey: true,
+            autoIncrement: true,
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
         userId: {
             type: DataTypes.INTEGER,
             allowNull: false,

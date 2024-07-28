@@ -243,6 +243,7 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
 
         if(!reminderDays){
             setError('noReminder')
+            return
         }
 
         /**
@@ -281,6 +282,7 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
 
         if(intReminderDays > intCreationDays) {
             setError('reminderBeforeCreation')
+            return
         }
 
         setError('')
@@ -320,7 +322,6 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
                 />
             </div>
 
-            {RenderError.renderNoTaskCategoryError(error)}
             <div className="categoryBox">
                 <label htmlFor="recCategoryInput">Category</label>
                 <input
@@ -332,6 +333,7 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
                     onChange={e => setCategory(e.target.value)}
                 />
             </div>
+            {RenderError.renderNoTaskCategoryError(error)}
 
             <div className="priorityAndDeadlineBox">
                 <div className="priorityBox">
@@ -359,7 +361,7 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
 
             {RenderError.renderPriorityOrDateError(error)}
 
-            <div className="intervalAndReminderBox">
+            <div className="creationAndReminderBox">
                 <div className="beforeDeadline">
                     Before Deadline (Days):
                 </div>
@@ -377,6 +379,8 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
                 </div>
 
             </div>
+
+            {RenderError.renderCreationOrReminderError(error)}
 
             <button className="saveTaskBtn" onClick={handleSave}>
                 {type === 'edit' ? 'UPDATE' : 'ADD'}

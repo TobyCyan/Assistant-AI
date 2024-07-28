@@ -198,6 +198,18 @@ const renderPriorityOrDateError = (error) => {
                 Reminder Must Come Before Deadline!
             </div>
         )
+    } else if (error == 'noTaskInterval') {
+        return (
+            <div className='error'>
+                Please Enter An Interval!
+            </div>
+        )
+    } else if (error == 'negativeInterval') {
+        return (
+            <div className='error'>
+                Interval must be at least 1 day!
+            </div>
+        )
     }
 }
 
@@ -225,6 +237,40 @@ const renderWeakPWError = (error) => {
     }
 }
 
+const renderCreationOrReminderError = (error) => {
+    if (error == 'noTaskCreation') {
+        return (
+            <div className='error'>
+                Please Enter Task Creation(Days) before Deadline!
+            </div>
+        )
+    } else if (error === 'noReminder') {
+        return (
+            <div className='error'>
+                Please Enter Reminder(Days) before Deadline!
+            </div>
+        )
+    } else if (error == 'negativeCreation') {
+        return (
+            <div className='error'>
+                Creation (days) before task cannot be negative!
+            </div>
+        )
+    } else if (error == 'negativeReminder') {
+        return (
+            <div className='error'>
+                Reminder (days) before task cannot be negative!
+            </div>
+        )
+    } else if (error == 'reminderBeforeCreation') {
+        return (
+            <div className='error'>
+                Reminder cannot be before creation!
+            </div>
+        )
+    }
+}
+
 export default {
     renderDateOfBirthError,
     renderUsernameError,
@@ -235,5 +281,6 @@ export default {
     renderNoTaskTitleError,
     renderNoTaskCategoryError,
     renderPriorityOrDateError,
+    renderCreationOrReminderError,
     renderWeakPWError,
 }

@@ -140,9 +140,9 @@ const Shop = () => {
         try {
             const res = await fetch(`${expressApiUrl}GetUserInfo`, dataToPost)
             if (res.ok) {
-                console.log("UserInfo successfully retrieved")
+                // console.log("UserInfo successfully retrieved")
             } else {
-                console.log("Invalid User/Info")
+                // console.log("Invalid User/Info")
             }
 
             const data = await res.json()
@@ -172,9 +172,9 @@ const Shop = () => {
         try {
             const res = await fetch(`${expressApiUrl}Items`, dataToPost)
             if (res.ok) {
-                console.log("User Items successfully retrieved")
+                // console.log("User Items successfully retrieved")
             } else {
-                console.log("Invalid User/Info")
+                // console.log("Invalid User/Info")
             }
 
             const data = await res.json()
