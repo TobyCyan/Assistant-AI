@@ -16,10 +16,10 @@ import json
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from dotenv import load_dotenv
-import pickle
 
 Weather_API_Key = os.environ.get('Weather_API_Key')
 model_in_use = 'model.mei_v1'
+model = None
 
 file = open('behavior.json')
 behavior_data = json.load(file)
@@ -173,7 +173,7 @@ def predict_behavior_type_from_prompt(prompt, model):
 @app.route('/startchat', methods=['POST'])
 def start_chat():
     data = request.get_json()
-    print(data)
+    # print(data)
     chatText = data['input']
     model_name = data['model']
 
@@ -182,7 +182,9 @@ def start_chat():
     if chatText.lower() in quit_prompt:
         return jsonify({'response': 'Goodbye!'})
     
-    model = load_model(model_name, training, output)
+    global model
+    if not model:
+        model = load_model(model_name, training, output)
 
     prompt_behavior_type = predict_behavior_type_from_prompt(chatText, model)
 
