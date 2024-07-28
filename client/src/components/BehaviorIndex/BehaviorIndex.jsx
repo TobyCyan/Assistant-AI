@@ -1,14 +1,19 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
+/**
+ * A React component that displays the full behavioral index, showing the user the possible input patterns and description of the response.
+ * @component
+ * @returns {ReactNode} A React element that renders the behavior index.
+ */
 const behaviorIndex = () => {
     
     return (
         <>
-            <table>
+            <table className="behaviorIndexTable">
                 <tbody>
                     <tr>
-                        <td>Input Pattern</td>
-                        <td>Response Description</td>
+                        <td className="indexTitle">Input Pattern</td>
+                        <td className="indexTitle">Response Description</td>
                     </tr>
                     
                     <tr>

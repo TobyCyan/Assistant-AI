@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, ReactNode } from "react";
+import Modal from "react-modal";
 import NavBar from "../components/NavBar/NavBar.jsx";
 import { useTokenContext } from "../components/TokenContext/TokenContext";
 import getCurrentPositionWeather from "../../../ChatBot/static/API Calls/weather";
@@ -11,7 +12,7 @@ import AddEditTaskMessageElement from "../components/MessageElement/AddEditTaskM
 import avatarIcon from "../AppImages/Mei Chibi Icons/Mei_Chibi_Icon.png"
 import IntroElement from "../components/IntroElements/IntroElement.jsx";
 import { Items, isOutfitOwned } from "../utilities/ShopItemUtilities.js";
-import behaviorIndex from "../components/BehaviorIndex/BehaviorIndex.jsx";
+import BehaviorIndex from "../components/BehaviorIndex/BehaviorIndex.jsx";
 
 /**
  * A React component that displays the page where users can interact and chat with the AI Assistant.
@@ -148,6 +149,10 @@ const ChatPage = () => {
         {
             element: ".chatroom",
             intro: "Our messages will appear in here."
+        },
+        {
+            element: ".behaviorIndexBtn",
+            intro: "To understand my behavior in detail, you may click on the button here!"
         },
         {
             intro: "These messages are just between you and me so keep it a secret okay?"
@@ -1014,8 +1019,8 @@ const ChatPage = () => {
             <NavBar />
             <IntroElement steps={introSteps} activate={activateIntro} setActivate={setActivateIntro} hasDoneTutorial={userData.hasDoneTutorial} endIntro={false} page={page} />
             <div className="chatpageContainer">
+                <button className="behaviorIndexBtn" onClick={openBehaviorIndexModal}>Behavior Index</button>
                 <div className="chatroomContainer">
-
                     <div className="chatroom" id="chatroom" ref={lastMessage}>
                         <div className="chatroomHeader">
                             <img src={avatarIcon} className="chatroomHeaderIcon"/>
@@ -1053,7 +1058,7 @@ const ChatPage = () => {
                         staringSprite ? <img className="chatpageAssistantStaring" src={staringSprite} /> : <div>Loading Image...</div> 
                     )}
                 </div>
-                <button className="behaviorIndexBtn" onClick={openBehaviorIndexModal}>Shop</button>
+                
             </div>
         </div>
         <Modal
@@ -1064,9 +1069,9 @@ const ChatPage = () => {
                     backgroundColor: "rgba(0, 0, 0, 0.2)"
                 }
             }}
-            className="BirthdayCardModal"
+            className="behaviorIndexModal"
         >
-            <behaviorIndex />
+            <BehaviorIndex />
         </Modal>
     </>
     )
