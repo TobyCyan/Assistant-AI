@@ -197,9 +197,6 @@ def start_chat():
     responseArr = behaviorTypeArr['response']
     rand = random.random()
     response = responseArr[int(rand * (len(responseArr) - 1))]
-
-    if prompt_behavior_type == 'Weather':
-        return jsonify({'response': response, 'type': prompt_behavior_type, 'API_Key': Weather_API_Key})
     
     return jsonify({'response': response, 'type': prompt_behavior_type})
 

@@ -81,6 +81,12 @@ const ChatPage = () => {
     const chatbotFlaskApiUrl = import.meta.env.VITE_CHATBOT_FLASK_API_URL
 
     /**
+     * The Flask API URL for the chat bot.
+     * @type {string}
+     */
+    const weatherApiUrl = import.meta.env.VITE_WEATHER_API_URL
+
+    /**
      * The user's productivity
      * @type {number}
      */
@@ -534,7 +540,7 @@ const ChatPage = () => {
                 const output = reply.response
                 addNewChatBotResponse(output)
                 
-                handleResponseType(reply.type, reply.API_Key)
+                handleResponseType(reply.type)
             })
             .catch(err => {
                 console.error("Error Getting a Response: ", err)
@@ -597,7 +603,7 @@ const ChatPage = () => {
      * @param {string} responseType The response type to handle.
      * @param {string} apiKey The API Key to pass in to get certain information. 
      */
-    const handleResponseType = async (responseType, apiKey) => {
+    const handleResponseType = async (responseType) => {
         const obtainingTaskText = "Obtaining all of your tasks..."
         const showTaskListText = `Please enter the index number of the task to ${responseType == "DeleteTask" ? "delete" : "edit"} it (which means ${tasks.length == 1 ? 1 : `1 - ${tasks.length}`})!`
         const quitInstructionText = `Please say either of ${quitInputsString} to quit input mode!`
@@ -614,7 +620,7 @@ const ChatPage = () => {
 
         switch (responseType) {
             case "Weather":
-                const weatherResponse = await getCurrentPositionWeather(apiKey)
+                const weatherResponse = await getCurrentPositionWeather(weatherApiUrl)
                 await addNewChatBotResponse(weatherResponse)
                 break
             
