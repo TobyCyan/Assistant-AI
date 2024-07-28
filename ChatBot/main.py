@@ -173,7 +173,7 @@ def predict_behavior_type_from_prompt(prompt, model):
 @app.route('/startchat', methods=['POST'])
 def start_chat():
     data = request.get_json()
-    # print(data)
+    print(data)
     chatText = data['input']
     model_name = data['model']
 

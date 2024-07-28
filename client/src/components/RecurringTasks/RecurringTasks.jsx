@@ -4,12 +4,14 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit, faTimes} from "@fortawesome/free-solid-svg-icons";
 
 function RecurringTasks({recurringTask, onEdit, onDelete}) {
-    const{lastCreated, creationToDeadline, interval, reminderToDeadline} = recurringTask
-    const lastCreatedDate = new Date(lastCreated)
-    const lastCreation = getDDMM(lastCreatedDate.toLocaleDateString('en-CA'))
-    const nextCreation = getDDMM(addDays(lastCreatedDate, interval).toLocaleDateString('en-CA'))
-    const latestDeadline = getDDMM(addDays(lastCreatedDate, creationToDeadline).toLocaleDateString('en-CA'))
-    const nextDeadline = getDDMM(addDays(lastCreatedDate, interval + creationToDeadline).toLocaleDateString('en-CA'))
+    const{lastCreated, nextCreation, creationToDeadline, interval, reminderToDeadline} = recurringTask
+    const lastCreatedDate = lastCreated ? new Date(lastCreated) : null
+    const lastCreation = lastCreated ? getDDMM(lastCreatedDate.toLocaleDateString('en-CA')) : 'NA'
+    const latestDeadline = lastCreated ? getDDMM(addDays(lastCreatedDate, creationToDeadline).toLocaleDateString('en-CA')) : 'NA'
+    const nextCreationDate = new Date(nextCreation)
+    const nextCreationString = getDDMM(nextCreationDate.toLocaleDateString('en-CA'))
+    const nextDeadline = getDDMM(addDays(nextCreationDate, creationToDeadline).toLocaleDateString('en-CA'))
+
 
     return (
         <div className="recTableRow">
@@ -17,8 +19,8 @@ function RecurringTasks({recurringTask, onEdit, onDelete}) {
             <div className="recTableColumn">{recurringTask?.category}</div>
             <div className="recTableColumn">{recurringTask?.priority}</div>
             <div className="recTableColumn">{lastCreation}</div>
-            <div className="recTableColumn">{nextCreation}</div>
             <div className="recTableColumn">{latestDeadline}</div>
+            <div className="recTableColumn">{nextCreationString}</div>
             <div className="recTableColumn">{nextDeadline}</div>
             <div className="recTableColumn">{interval}</div>
             <div className="recTableColumn">{reminderToDeadline}</div>

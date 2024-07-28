@@ -166,42 +166,10 @@ const getUserInfoByUsername = async (req, res) => {
     }
 }
 
-/**
- * Edits the Given Task and Updates its Data.
- * @param {*} req The request from the front-end.
- * @param {*} res The response to the front-end.
- */
-const setUserCompleteTutorial = async (req, res) => {
-    const { id } = req.user
-
-    // Data of the Edited Task.
-    let updateFields = {
-        hasDoneTutorial: true,
-    }
-
-    // Updates the Task Instance.
-    const userCompleteTutorial = await User.update(updateFields,
-        {
-            where: {
-                id: id,
-            }
-        }
-    )
-
-    if (userCompleteTutorial) {
-        console.log("User has completed tutorial!")
-    } else {
-        res.status(404).send("Failed to Update User Tutorial Status.")
-    }
-}
-
-
-
 module.exports = {
     addUser,
     loginUser,
     getUserInfo,
     getUserInfoByUsername,
-    setUserCompleteTutorial,
 }
 
