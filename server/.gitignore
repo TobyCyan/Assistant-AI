@@ -3,4 +3,5 @@
 .env
 .env.test
 node_modules
+/config/
 /Website Tutorial
