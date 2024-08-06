@@ -8,8 +8,6 @@ const {Sequelize, DataTypes} = require('sequelize')
 //     password: config.password,
 //     host: config.host,
 // });
-
-
 const dbURL = process.env.DATABASE_URL;
 
 const sequelize = new Sequelize(`${dbURL}`);

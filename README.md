@@ -66,17 +66,30 @@ Our goal is to develop a task management application that helps users to organiz
     *   We have deployed the application in the following manner: The Front-end on Netlify, the Back-end, Database, and Chat Bot on Render.
     *   Please use this link to test our web application: [https://assistantmei.netlify.app](https://assistantmei.netlify.app)
 
-*   **Testing on Local Machine**
+*   **Testing on Local Machine (testInstallation branch)**
     1.  Users are required to have the following installed: Node.js, Express.js, XAMPP, and PostgreSQL.
     2.  After cloning, users need to setup a PostgreSQL database and configure it to the config folder by matching the name and password.
     3.  Run the XAMPP control panel and click on the "start" button for both Apache and PostgreSQL.
     4.  If you wish to test out getting weather information from the AI Assistant, you will have to obtain an API key from OpenWeatherMap.org.
-    5.  Create a .env file in the root directory, and add a Secret\_Key, a PORT, and the Weather\_API\_Key variable.
-    6.  In the /server directory, open server.js and insert the following code.
-    7.  Run "pip3 install -r requirements.txt" in the terminal of the ChatBot directory to install all python dependencies.
-    8.  For running the frontend, users may change directory to /client, run "npm install" in the terminal to install all dependencies, and run "npm run dev".
-    9.  For running the backend, users may change directory to /server, run "npm install" in the terminal to install all dependencies, and run "npm run dev".
-    10.  For running the chatbot, users may change directory to /ChatBot, and run "python main.py".
+    5.  Create a .env file in the client directory, and add
+    - VITE\_EXPRESS\_API\_URL
+    - VITE\_CHATBOT\_FLASK\_API\_URL
+    - VITE\_WEATHER\_API\_Key
+
+    6.  Create a .env file in the server directory, and add
+    - NODEMAILER\_EMAIL (Personal / Dummy email to send email)
+    - NODEMAILER\_PW (App Password, 2FA required) Setup guide: https://nodemailer.com/usage/using-gmail/
+    - PORT
+    - Secret\_Key
+    - DATABASE (Database name, to be created in PostGreSQL first)
+    - DB\_USER (PSQL)
+    - PASSWORD (PSQL)
+
+    7. In the /server directory, open server.js and insert the following code.
+    8. Run "pip3 install -r requirements.txt" in the terminal of the ChatBot directory to install all python dependencies.
+    9. For running the frontend, users may change directory to /client, run "npm install" in the terminal to install all dependencies, and run "npm run dev".
+    10. For running the backend, users may change directory to /server, run "npm install" in the terminal to install all dependencies, and run "npm run dev".
+    11. For running the chatbot, users may change directory to /ChatBot, and run "python main.py".
 
 ### Project Scope
 
