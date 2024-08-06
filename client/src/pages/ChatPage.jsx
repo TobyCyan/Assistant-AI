@@ -106,7 +106,7 @@ const ChatPage = () => {
      * The Flask API URL for the chat bot.
      * @type {string}
      */
-    const weatherApiUrl = import.meta.env.VITE_WEATHER_API_URL
+    const weatherApiUrl = import.meta.env.VITE_WEATHER_API_KEY
 
     /**
      * The user's productivity
