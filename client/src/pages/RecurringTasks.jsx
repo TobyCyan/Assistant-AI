@@ -1,13 +1,12 @@
-import React, { useEffect, useState, ReactNode } from 'react'
+import React, { useEffect, useState, ReactNode } from "react"
 import NavBar from "../components/NavBar/NavBar.jsx";
-import '../index.css'
+import "../index.css"
 import { useTokenContext } from "../components/TokenContext/TokenContext";
 import DetailedTaskCard from "../components/TasksCardsAndBox/DetailedTaskCard.jsx";
 import AddEditTasks from "../components/TaskModals/AddEditTasks";
 import CompleteDeleteTasks from "../components/TaskModals/CompleteDeleteTasks";
 import { compareTasksDeadline } from "../utilities/utilities.js";
-import Modal from 'react-modal';
-import { parseToken } from "../utilities/utilities.js";
+import Modal from "react-modal";
 
 /**
  * A Functional React component that displays all user tasks based on their categories, level of priority and completion status, and allows user to perform task operations such as add, edit, complete, uncomplete and delete.
@@ -20,7 +19,7 @@ function RecurringTasks() {
      * The current token and setter function to update it.
      * @type {[string, function]}
      */
-    const [token, setToken] = tokenStatus
+    const [token, ] = tokenStatus
 
     /**
      * The current user data and setter function to update it.
@@ -44,7 +43,7 @@ function RecurringTasks() {
      * The filter and setter function to update it.
      * @type {[String, function]}
      */
-    const [filter, setFilter] = useState('All')
+    const [filter, setFilter] = useState("All")
 
     /**
      * The current state of AddEditModal and setter function to update it.
@@ -67,12 +66,18 @@ function RecurringTasks() {
     })
 
     /**
+     * The Express API URL for this React app.
+     * @type {string}
+     */
+    const expressApiUrl = import.meta.env.VITE_EXPRESS_API_URL
+
+    /**
      * @function useEffect
      * @description Get User Info and User TaskModals if there is token.
      */
     useEffect(() => {
         if (token) {
-            localStorage.setItem('token', token);
+            localStorage.setItem("token", token);
             getUserInfo();
             getUserTasks();
         }
@@ -148,16 +153,16 @@ function RecurringTasks() {
      * @param {string} value Value to filter the tasks by.
      */
     const filterTasks = (value) => {
-        if(value === 'All') {
+        if(value === "All") {
             setDisplayTasks(uncompletedTasks)
-        } else if (value === 'Completed') {
+        } else if (value === "Completed") {
             setDisplayTasks(tasks.filter(each => each.completed))
-        } else if (value === 'Low') {
-            setDisplayTasks(uncompletedTasks.filter(each => each.priority === 'Low'))
-        } else if (value === 'Medium') {
-            setDisplayTasks(uncompletedTasks.filter(each => each.priority === 'Medium'))
-        } else if (value === 'High') {
-            setDisplayTasks(uncompletedTasks.filter(each => each.priority === 'High'))
+        } else if (value === "Low") {
+            setDisplayTasks(uncompletedTasks.filter(each => each.priority === "Low"))
+        } else if (value === "Medium") {
+            setDisplayTasks(uncompletedTasks.filter(each => each.priority === "Medium"))
+        } else if (value === "High") {
+            setDisplayTasks(uncompletedTasks.filter(each => each.priority === "High"))
         } else {
             setDisplayTasks(uncompletedTasks.filter(each => each.category === filter))
         }
@@ -211,20 +216,20 @@ function RecurringTasks() {
     /**
      * Async GET method to get user tasks.
      * @async
-     * @returns {Promise<void>} A promise that gets the current user's tasks.
+     * @returns {Promise<void>} A promise that gets the current user"s tasks.
      * @throws {Error} Throws an error if getting user tasks fails.
      */
     const getUserTasks = async () => {
         const dataToPost = {
-            method: 'GET',
+            method: "GET",
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             }
-        };
+        }
 
         try {
-            const res = await fetch('http://localhost:5001/Tasks', dataToPost)
+            const res = await fetch(`${expressApiUrl}Tasks`, dataToPost)
             if (res.ok) {
                 // console.log("TaskModals successfully retrieved")
             } else {
@@ -232,32 +237,32 @@ function RecurringTasks() {
             }
 
             const data = await res.json()
-            if(data) {
+            if (data) {
                 setTasks(data.tasks)
                 setDisplayTasks(tasks)
             }
         } catch (error) {
-            console.error('Failed to Fetch TaskModals!', error)
+            console.error("Failed to Fetch TaskModals!", error)
         }
     }
 
     /**
      * Async GET method to get user info.
      * @async
-     * @returns {Promise<void>} A promise that gets the current user's info.
+     * @returns {Promise<void>} A promise that gets the current user"s info.
      * @throws {Error} Throws an error if getting user info fails.
      */
     const getUserInfo = async () => {
         const dataToPost = {
-            method: 'GET',
+            method: "GET",
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             }
-        };
+        }
 
         try {
-            const res = await fetch('http://localhost:5001/GetUserInfo', dataToPost)
+            const res = await fetch(`${expressApiUrl}GetUserInfo`, dataToPost)
             if(res.ok) {
                 // console.log("UserInfo successfully retrieved")
             } else {
@@ -265,11 +270,11 @@ function RecurringTasks() {
             }
 
             const data = await res.json()
-            if(data) {
+            if (data) {
                 setUserData(data)
             }
         } catch (error) {
-            console.error('Failed to Fetch User Info!', error)
+            console.error("Failed to Fetch User Info!", error)
         }
     }
 
@@ -300,7 +305,7 @@ function RecurringTasks() {
                 />
             ))}
         </div>
-    );
+    )
 
     return (
         <>
@@ -310,12 +315,12 @@ function RecurringTasks() {
                     <button className="addTaskBtn" onClick={handleAddTask}>Add Task</button>
                     <div className="categoriesSidebar">Categories</div>
                     <ul id="category-list">
-                        <li onClick={() => handleFilterTasks('All')}>All ({uncompletedTasks.length})</li>
-                        <li onClick={() => handleFilterTasks('Completed')}>Completed ({tasks.filter(each => each.completed).length})</li>
+                        <li onClick={() => handleFilterTasks("All")}>All ({uncompletedTasks.length})</li>
+                        <li onClick={() => handleFilterTasks("Completed")}>Completed ({tasks.filter(each => each.completed).length})</li>
                         {categories}
-                        <li onClick={() => handleFilterTasks('High')}>High ({uncompletedTasks.filter(each => each.priority === 'High').length})</li>
-                        <li onClick={() => handleFilterTasks('Medium')}>Medium ({uncompletedTasks.filter(each => each.priority === 'Medium').length})</li>
-                        <li onClick={() => handleFilterTasks('Low')}>Low ({uncompletedTasks.filter(each => each.priority === 'Low').length})</li>
+                        <li onClick={() => handleFilterTasks("High")}>High ({uncompletedTasks.filter(each => each.priority === "High").length})</li>
+                        <li onClick={() => handleFilterTasks("Medium")}>Medium ({uncompletedTasks.filter(each => each.priority === "Medium").length})</li>
+                        <li onClick={() => handleFilterTasks("Low")}>Low ({uncompletedTasks.filter(each => each.priority === "Low").length})</li>
                     </ul>
                 </div>
                 <div className="detailedTasksContainer">
@@ -367,4 +372,4 @@ function RecurringTasks() {
     )
 }
 
-export default RecurringTasks;
+export default RecurringTasks

@@ -1,5 +1,5 @@
-import {useTokenContext} from "../TokenContext/TokenContext.jsx";
-import React, {ReactNode} from 'react'
+import { useTokenContext } from "../TokenContext/TokenContext.jsx";
+import React, { ReactNode } from "react"
 
 /**
  * A React component that calculates the task points and assign it to the user when completing task, deduct when uncompleting, and removes the task when deleting.
@@ -35,11 +35,11 @@ const DeleteRecurringTask = ({recurringTask, onClose, getAllTasks}) => {
     const deleteTask = async () => {
         const taskId = recurringTask.id
         const dataToPost = {
-            method: 'DELETE',
+            method: "DELETE",
             body: JSON.stringify({taskId}),
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             }
         };
 
@@ -53,7 +53,7 @@ const DeleteRecurringTask = ({recurringTask, onClose, getAllTasks}) => {
             }
 
         } catch (error) {
-            console.error('Failed to Delete task!', error)
+            console.error("Failed to Delete task!", error)
         }
     }
 
@@ -67,4 +67,4 @@ const DeleteRecurringTask = ({recurringTask, onClose, getAllTasks}) => {
     )
 }
 
-export default DeleteRecurringTask;
+export default DeleteRecurringTask

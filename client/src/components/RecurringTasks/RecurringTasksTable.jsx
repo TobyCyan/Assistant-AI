@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 import RecurringTasks from "./RecurringTasks.jsx";
 
-const RecurringTasksTable = ({ recurringTasks, onEdit, onDelete }) => {
+const RecurringTasksTable = ({recurringTasks, onEdit, onDelete}) => {
     return (
         <div className="recurringTasksTable">
             <div className="recTableHeader">
@@ -22,7 +22,7 @@ const RecurringTasksTable = ({ recurringTasks, onEdit, onDelete }) => {
                 ))}
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default RecurringTasksTable;
+export default RecurringTasksTable

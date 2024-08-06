@@ -1,5 +1,5 @@
-import {useTokenContext} from "../TokenContext/TokenContext.jsx";
-import React, {ReactNode} from 'react'
+import { useTokenContext } from "../TokenContext/TokenContext.jsx";
+import React, { ReactNode } from "react"
 import { calculateTaskPoints } from "../../utilities/utilities.js";
 
 /**
@@ -37,11 +37,11 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
         const toEarn = calculateTaskPoints(taskData)
         const completedTask = {...taskData, completed: true, points: toEarn}
         const dataToPost = {
-            method: 'PUT',
+            method: "PUT",
             body: JSON.stringify(completedTask),
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             }
         }
         try {
@@ -53,7 +53,7 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
             getUserInfo()
             onClose()
         } catch (error) {
-            console.error('Failed to Complete task!', error)
+            console.error("Failed to Complete task!", error)
         }
     }
 
@@ -67,11 +67,11 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
         const toDeduct = taskData.points
         const uncompletedTask = {...taskData, completed: false, points: 0}
         const dataToPost = {
-            method: 'PUT',
+            method: "PUT",
             body: JSON.stringify({uncompletedTask, toDeduct}),
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             }
         };
         try {
@@ -83,7 +83,7 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
             getUserInfo()
             onClose()
         } catch (error) {
-            console.error('Failed to uncomplete task!', error)
+            console.error("Failed to uncomplete task!", error)
         }
     }
 
@@ -96,11 +96,11 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
     const deleteTask = async () => {
         const taskId = taskData.id
         const dataToPost = {
-            method: 'DELETE',
+            method: "DELETE",
             body: JSON.stringify({taskId}),
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             }
         };
 
@@ -114,7 +114,7 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
             }
 
         } catch (error) {
-            console.error('Failed to Delete task!', error)
+            console.error("Failed to Delete task!", error)
         }
     }
 
@@ -141,4 +141,4 @@ const CompleteDeleteTasks = ({taskData, type, getAllTasks, getUserInfo, onClose}
     )
 }
 
-export default CompleteDeleteTasks;
+export default CompleteDeleteTasks

@@ -1,6 +1,6 @@
-import React, {ReactNode, useEffect} from 'react';
+import React, {ReactNode, useEffect} from "react";
 import {useTokenContext} from "../../components/TokenContext/TokenContext.jsx";
-import {Navigate, Outlet} from 'react-router-dom'
+import {Navigate, Outlet} from "react-router-dom"
 
 /**
  * A Functional React component that redirects user to the outlet if a login token exists.
@@ -11,7 +11,7 @@ function PrivateRoutes() {
     const {tokenStatus, } = useTokenContext()
     const [token, setToken] = tokenStatus
 
-    const localToken = localStorage.getItem('token')
+    const localToken = localStorage.getItem("token")
 
     /**
      * @function useEffect
@@ -29,14 +29,14 @@ function PrivateRoutes() {
      */
     useEffect(() => {
         if (token) {
-            localStorage.setItem('token', token);
+            localStorage.setItem("token", token);
         }
-    }, [token]);
+    }, [token])
 
 
     return (
         localToken ? <Outlet/> : <Navigate to="/login"/>
-    );
+    )
 }
 
-export default PrivateRoutes;
+export default PrivateRoutes

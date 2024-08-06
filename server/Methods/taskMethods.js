@@ -1,8 +1,8 @@
-const db = require('../Models/dataBase.js')
+const db = require("../Models/dataBase.js")
 
 const User = db.users
 const Tasks = db.tasks
-const { getTodayDate } = require('../utilities/utilities')
+const { getTodayDate } = require("../utilities/utilities")
 
 // Refer to sequelize.org/master/manual for full API reference of queries.
 
@@ -29,7 +29,7 @@ const getTasks = async (req, res) => {
         res.send({tasks})
     } else {
         // Sends an Error Message If The User is Invalid or TaskModals are Not Found.
-        res.status(404).send('Invalid User/ TaskModals')
+        res.status(404).send("Invalid User/ TaskModals")
     }
 }
 
@@ -49,23 +49,22 @@ const addTask = async (req, res) => {
      */
     let newTaskData = {
         userId: id,
-        title: data['title'],
-        description: data['description'],
-        category: data['category'],
-        deadline: data['deadline'],
-        priority: data['priority'],
-        reminder: data['reminder'],
-        completed: data['completed'],
+        title: data["title"],
+        description: data["description"],
+        category: data["category"],
+        deadline: data["deadline"],
+        priority: data["priority"],
+        reminder: data["reminder"],
+        completed: data["completed"],
         dateCompleted: null,
     }
     // Create the New Task Instance.
     const newTask = await Tasks.create(newTaskData)
-    if(newTask) {
+    if (newTask) {
         // Sends the Added Task as a Response to be Added into the Task List.
         res.status(201).send({newTask})
-        console.log(newTask.title + ' added to database!')
     } else {
-        res.status(400).send('Invalid User/ TaskModals')
+        res.status(400).send("Invalid User/ TaskModals")
     }
 }
 
@@ -81,20 +80,20 @@ const editTask = async (req, res) => {
 
     // Data of the Edited Task.
     let updateFields = {
-        title: data['title'],
-        description: data['description'],
-        category: data['category'],
-        deadline: data['deadline'],
-        priority: data['priority'],
-        reminder: data['reminder'],
-        completed: data['completed'],
+        title: data["title"],
+        description: data["description"],
+        category: data["category"],
+        deadline: data["deadline"],
+        priority: data["priority"],
+        reminder: data["reminder"],
+        completed: data["completed"],
     }
     // Updates the Task Instance.
     const editTask = await Tasks.update(updateFields,
         {
             where: {
                 userId: id,
-                id: data['taskId']
+                id: data["taskId"]
             }
         }
     )
@@ -102,9 +101,8 @@ const editTask = async (req, res) => {
     if(editTask) {
         // Sends the Edited Task as a Response to be Added into the Task List.
         res.status(200).send({updateFields})
-        console.log(`${editTask[0]} task edited!`)
     } else {
-        res.status(400).send('Failed to edit task')
+        res.status(400).send("Failed to edit task")
     }
 }
 
@@ -136,12 +134,12 @@ const completeTask = async (req, res) => {
 
     // Increments the User's Points.
     await userData.increment(
-        'points',
+        "points",
         {
             by: completedTask.points
         }
     )
-    .catch(err => console.error('Error Updating Points', err))
+    .catch(err => console.error("Error Updating Points", err))
 
     // Update the Completion Status of the Task.
     const updated = await Tasks.update(updateFields,
@@ -153,13 +151,12 @@ const completeTask = async (req, res) => {
         }
     )
     .catch(err => {
-        console.error('Error Completing Task', err)
+        console.error("Error Completing Task", err)
     })
 
-    if(updated) {
+    if (updated) {
         // Sends an ok Response.
         res.status(200).send({completedTask, userUpdatedPoints: userData.points})
-        console.log('Points Successfully Added!')
     }
 }
 
@@ -172,7 +169,7 @@ const completeTask = async (req, res) => {
  */
 const uncompleteTask = async (req, res) => {
     const { id } = req.user
-    const {uncompletedTask, toDeduct} = req.body
+    const { uncompletedTask, toDeduct } = req.body
     const updateFields = {
         completed: uncompletedTask.completed,
         points: 0,
@@ -190,14 +187,12 @@ const uncompleteTask = async (req, res) => {
 
     // Decrements the User's Points
     await userData.decrement(
-        'points',
+        "points",
         {
             by: toDeduct
         }
     )
-    .catch(err => console.error('Error Updating Points', err))
-
-    console.log(id)
+    .catch(err => console.error("Error Updating Points", err))
 
     // Update the Completion Status of the Task.
     updated = await Tasks.update(updateFields,
@@ -209,14 +204,13 @@ const uncompleteTask = async (req, res) => {
         }
     )
     .catch(err => {
-        console.error('Error InCompleting Task', err)
+        console.error("Error InCompleting Task", err)
         return
     })
 
-    if(updated) {
+    if (updated) {
         // Sends an ok Response.
         res.status(200).send({uncompletedTask, userUpdatedPoints: userData.points})
-        console.log('Points Successfully Deducted!')
     }
 }
 
@@ -238,16 +232,16 @@ const deleteTask = async (req, res) => {
             userId: id
         }
     }).catch(err => {
-        console.error('Error Deleting Task / No Such Task', err)
+        console.error("Error Deleting Task / No Such Task", err)
     })
 
     if (result) {
         if(result > 0) {
-            console.log("Deleted Successfully");
-            res.send({ message: "Task deleted successfully" });
+            console.log("Deleted Successfully")
+            res.send({ message: "Task deleted successfully" })
         } else {
-            console.log("No task found to delete");
-            res.status(404).send({ error: "Task not found" });
+            console.log("No task found to delete")
+            res.status(404).send({ error: "Task not found" })
         }
     }
 }

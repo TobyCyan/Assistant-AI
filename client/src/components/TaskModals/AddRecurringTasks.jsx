@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 import RenderError from "../RenderError/RenderError.jsx";
-import {useTokenContext} from "../TokenContext/TokenContext.jsx";
-import {getTodayYYYYMMDD, addDays} from "../../utilities/utilities.js";
+import { useTokenContext } from "../TokenContext/TokenContext.jsx";
+import { addDays } from "../../utilities/utilities.js";
 
 const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
     const {tokenStatus} = useTokenContext()
@@ -11,19 +11,19 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
      * The current task title and setter function to update it.
      * @type {[string, function]}
      */
-    const [title, setTitle] = useState(recurringTask?.title || '');
+    const [title, setTitle] = useState(recurringTask?.title || "");
 
     /**
      * The current task description and setter function to update it.
      * @type {[string, function]}
      */
-    const [description, setDescription] = useState(recurringTask?.description  || '');
+    const [description, setDescription] = useState(recurringTask?.description  || "");
 
     /**
      * The current task category and setter function to update it.
      * @type {[string, function]}
      */
-    const [category, setCategory] = useState(recurringTask?.category || '');
+    const [category, setCategory] = useState(recurringTask?.category || "");
 
     const computeDeadline = () => {
         if (recurringTask && recurringTask.nextCreation && recurringTask.creationToDeadline) {
@@ -31,30 +31,30 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
             // Create a new date object for the deadline
             const deadlineDate = new Date(nextCreation);
             deadlineDate.setDate(nextCreation.getDate() + recurringTask.creationToDeadline);
-            return deadlineDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+            return deadlineDate.toISOString().split("T")[0]; // Format as YYYY-MM-DD
         }
-        return ''; // Default to empty string if no valid recurringTask
+        return ""; // Default to empty string if no valid recurringTask
     };
 
     /**
      * The current task deadline and setter function to update it.
      * @type {[string, function]}
      */
-    const [deadline, setDeadline] = useState(recurringTask ? computeDeadline : '');
+    const [deadline, setDeadline] = useState(recurringTask ? computeDeadline : "");
 
     /**
      * The current task priority and setter function to update it.
      * @type {[string, function]}
      */
-    const [priority, setPriority] = useState(recurringTask?.priority || '');
+    const [priority, setPriority] = useState(recurringTask?.priority || "");
 
-    const [interval, setInterval] = useState(recurringTask?.interval || '')
+    const [interval, setInterval] = useState(recurringTask?.interval || "")
 
-    const [creationDays, setCreationDays] = useState(recurringTask?.creationToDeadline || '')
+    const [creationDays, setCreationDays] = useState(recurringTask?.creationToDeadline || "")
 
-    const [reminderDays, setReminderDays] = useState(recurringTask?.reminderToDeadline || '')
+    const [reminderDays, setReminderDays] = useState(recurringTask?.reminderToDeadline || "")
 
-    const [error, setError] = useState('')
+    const [error, setError] = useState("")
 
     /**
      * The Express API URL for this React app.
@@ -96,37 +96,37 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
          * @type {Object}
          */
         const dataToPost = {
-            method: 'POST',
+            method: "POST",
             body: JSON.stringify(newTask),
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             }
         };
 
         fetch(`${expressApiUrl}AddRecTask`, dataToPost)
             .then(res => {
                 if (res.ok) {
-                    console.log('Task Successfully Added!')
+                    console.log("Task Successfully Added!")
                     return res.json()
                 } else {
-                    console.error(err => 'Add Task Failed!', err)
+                    console.error(err => "Add Task Failed!", err)
                 }
             })
             .then(task => {
-                setTitle('')
-                setDescription('')
-                setCategory('')
-                setDeadline('')
-                setPriority('')
-                setInterval('')
-                setCreationDays('')
-                setReminderDays('')
+                setTitle("")
+                setDescription("")
+                setCategory("")
+                setDeadline("")
+                setPriority("")
+                setInterval("")
+                setCreationDays("")
+                setReminderDays("")
                 getAllTasks()
                 onClose()
             })
             .catch(err => {
-                console.error('Error Adding Task: ', err.message)
+                console.error("Error Adding Task: ", err.message)
             })
     }
 
@@ -171,37 +171,37 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
          * @type {Object}
          */
         const dataToPost = {
-            method: 'PUT',
+            method: "PUT",
             body: JSON.stringify(editedTask),
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             }
         };
 
         fetch(`${expressApiUrl}EditRecTask`, dataToPost)
             .then(res => {
                 if (res.ok) {
-                    console.log('Task Successfully Edited!')
+                    console.log("Task Successfully Edited!")
                     return res.json()
                 } else {
-                    console.error(err => 'Edit Task Failed!', err)
+                    console.error(err => "Edit Task Failed!", err)
                 }
             })
             .then(task => {
-                setTitle('')
-                setDescription('')
-                setCategory('')
-                setDeadline('')
-                setPriority('')
-                setInterval('')
-                setCreationDays('')
-                setReminderDays('')
+                setTitle("")
+                setDescription("")
+                setCategory("")
+                setDeadline("")
+                setPriority("")
+                setInterval("")
+                setCreationDays("")
+                setReminderDays("")
                 getAllTasks()
                 onClose()
             })
             .catch(err => {
-                console.error('Error Editing Task: ', err.message)
+                console.error("Error Editing Task: ", err.message)
             })
     }
 
@@ -210,12 +210,12 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
      */
     const handleSave = () => {
         if(!title) {
-            setError('noTaskTitle');
+            setError("noTaskTitle");
             return;
         }
 
         if(!category) {
-            setError('noTaskCategory');
+            setError("noTaskCategory");
             return;
         }
 
@@ -225,22 +225,22 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
         }
 
         if(!deadline) {
-            setError('noTaskDeadline');
+            setError("noTaskDeadline");
             return;
         }
 
         if(!interval) {
-            setError('noTaskInterval')
+            setError("noTaskInterval")
             return
         }
 
         if(!creationDays){
-            setError('noTaskCreation')
+            setError("noTaskCreation")
             return
         }
 
         if(!reminderDays){
-            setError('noReminder')
+            setError("noReminder")
             return
         }
 
@@ -257,7 +257,7 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
         const deadlineObj = new Date(deadline)
 
         if(deadlineObj < currentDate) {
-            setError('deadlinePast')
+            setError("deadlinePast")
             console.log(currentDate)
             console.log(deadlineObj)
             return
@@ -268,26 +268,26 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
         const intReminderDays = parseInt(reminderDays,10)
 
         if(intInterval <= 0) {
-            setError('negativeInterval')
+            setError("negativeInterval")
             return
         }
 
         if(intCreationDays < 0) {
-            setError('negativeCreation')
+            setError("negativeCreation")
             return
         }
 
         if(intReminderDays < 0) {
-            setError('negativeReminder')
+            setError("negativeReminder")
             return
         }
 
         if(intReminderDays > intCreationDays) {
-            setError('reminderBeforeCreation')
+            setError("reminderBeforeCreation")
             return
         }
 
-        setError('')
+        setError("")
 
         if (type === "add") {
             addNewRecurringTask()
@@ -385,10 +385,10 @@ const AddRecurringTasks = ({type, recurringTask, onClose, getAllTasks}) => {
             {RenderError.renderCreationOrReminderError(error)}
 
             <button className="saveTaskBtn" onClick={handleSave}>
-                {type === 'edit' ? 'UPDATE' : 'ADD'}
+                {type === "edit" ? "UPDATE" : "ADD"}
             </button>
         </div>
-    );
+    )
 }
 
-export default AddRecurringTasks;
+export default AddRecurringTasks

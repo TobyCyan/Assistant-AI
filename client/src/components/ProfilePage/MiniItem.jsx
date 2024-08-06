@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
-import { useTokenContext } from '../TokenContext/TokenContext.jsx';
+import React, { ReactNode } from "react";
+import { useTokenContext } from "../TokenContext/TokenContext.jsx";
 
 /**
  * A React component that displays the items owned by the user in a small container in the Item Collection section in the Profile page.

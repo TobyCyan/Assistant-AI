@@ -4,7 +4,7 @@
  * @returns {string} The given date in the DDMM format.
  * @example
  * // Returns "10/08"
- * getDDMM('2024-08-10') or getDDMM('2024-08-10T00:00:00.000Z')
+ * getDDMM("2024-08-10") or getDDMM("2024-08-10T00:00:00.000Z")
  */
 export const getDDMM = (date) => {
     return `${date.substring(8, 10)}/${date.substring(5, 7)}`
@@ -16,7 +16,7 @@ export const getDDMM = (date) => {
  * @returns {string} The given date in the DDMMYY format.
  * @example
  * // Returns "10/08/24"
- * getDDMM('2024-08-10') or getDDMM('2024-08-10T00:00:00.000Z')
+ * getDDMM("2024-08-10") or getDDMM("2024-08-10T00:00:00.000Z")
  */
 export const getDDMMYY = (date) => {
     return `${date.substring(8, 10)}/${date.substring(5, 7)}/${date.substring(2,4)}`
@@ -28,10 +28,10 @@ export const getDDMMYY = (date) => {
  * @returns {string} The given date in the YYYY-MM-DD format.
  * @example
  * // Returns "2024-08-10"
- * getDDMM('2024-08-10T00:00:00.000Z')
+ * getDDMM("2024-08-10T00:00:00.000Z")
  */
 export const getYYYYMMDD = (date) => {
-    return date.split('T')[0]
+    return date.split("T")[0]
 }
 
 /**
@@ -40,31 +40,31 @@ export const getYYYYMMDD = (date) => {
  * @returns {string} Today date in the YYYY-MM-DD format.
  * @example
  * // Returns "2024-08-10"
- * getDDMM('2024-08-10T00:00:00.000Z')
+ * getDDMM("2024-08-10T00:00:00.000Z")
  */
 export const getTodayYYYYMMDD = () => {
-    return new Date().toLocaleDateString('en-CA')
+    return new Date().toLocaleDateString("en-CA")
 }
 
 /**
- * Today's date.
+ * Today"s date.
  * @type {Date}
  */
-const today = new Date();
+const today = new Date()
 
 /**
- * Converts today's date string and a birthday date string into DDMM format, and compares them to see if they match.
+ * Converts today"s date string and a birthday date string into DDMM format, and compares them to see if they match.
  * @param {string} birthday Birthday string to convert into DDMM format.
  * @returns {boolean} true or false.
  * @example
- * // Returns false if today isn't 25th Febuary, else returns true.
- * isDateBirthday('2003-02-25T00:00:00.000Z')
+ * // Returns false if today isn"t 25th Febuary, else returns true.
+ * isDateBirthday("2003-02-25T00:00:00.000Z")
  */
 export const isTodayBirthday = (birthday) => {
     const timeZoneOffset = today.getTimezoneOffset() * 60000
     const todayLocalTime = new Date(today.getTime() - timeZoneOffset)
-    const todayDate = todayLocalTime.toISOString().split('T')[0]
-    const birthdayDate = birthday.split('T')[0]
+    const todayDate = todayLocalTime.toISOString().split("T")[0]
+    const birthdayDate = birthday.split("T")[0]
 
     const todayDateInDDMM = getDDMM(todayDate)
     const birthdayDateInDDMM = getDDMM(birthdayDate)
@@ -73,7 +73,7 @@ export const isTodayBirthday = (birthday) => {
 }
 
 /**
- * Checks if today is the next day of the user's birthday by checking if the difference in days is 1.
+ * Checks if today is the next day of the user"s birthday by checking if the difference in days is 1.
  * @param {string} birthday Birthday string to compare with the today.
  * @returns {boolean} true or false.
  */
@@ -120,9 +120,9 @@ export const isTaskUpcoming = (task) => {
  */
 export const checkStrongPW = (password) => {
     const len = password.length
-    const alphabets = 'abcdefghijklmnopqrstuvwxyz'
+    const alphabets = "abcdefghijklmnopqrstuvwxyz"
     const uppercaseAlphabets = alphabets.toUpperCase()
-    const numbers = '0123456789'
+    const numbers = "0123456789"
 
     let isAlphabetExist = false
     let isUppercaseExist = false
@@ -142,7 +142,7 @@ export const checkStrongPW = (password) => {
     return len >= 8 && isAlphabetExist && isUppercaseExist && isnumberExist
 }
 
-const priorityOrder = { High: 3, Medium: 2, Low: 1 };
+const priorityOrder = { High: 3, Medium: 2, Low: 1 }
 
 /**
  * Sorts the tasks by priority first, then deadline.
@@ -151,17 +151,17 @@ const priorityOrder = { High: 3, Medium: 2, Low: 1 };
  * @returns {number} The difference in priority level or deadline.
  */
 export const compareTasksPriority = (task1, task2) => {
-    const priority1 = priorityOrder[task1.priority];
-    const priority2 = priorityOrder[task2.priority];
+    const priority1 = priorityOrder[task1.priority]
+    const priority2 = priorityOrder[task2.priority]
 
     // If priorities are different, sort by priority (High > Medium > Low)
     if (priority1 !== priority2) {
-        return priority2 - priority1; // Sort descending by priority
+        return priority2 - priority1 // Sort descending by priority
     }
 
     // Same priority - earlier deadline first
-    return new Date(task1.deadline) - new Date(task2.deadline);
-};
+    return new Date(task1.deadline) - new Date(task2.deadline)
+}
 
 /**
  * Sorts the tasks by deadline first, then priority.
@@ -173,14 +173,14 @@ export const compareTasksDeadline = (task1, task2) => {
     const deadline1 = new Date(task1.deadline).getTime()
     const deadline2 = new Date(task2.deadline).getTime()
 
-    if(deadline1 !== deadline2) {
-        return deadline1 - deadline2;
+    if (deadline1 !== deadline2) {
+        return deadline1 - deadline2
     }
 
-    const priority1 = priorityOrder[task1.priority];
-    const priority2 = priorityOrder[task2.priority];
+    const priority1 = priorityOrder[task1.priority]
+    const priority2 = priorityOrder[task2.priority]
 
-    return priority2 - priority1;
+    return priority2 - priority1
 }
 
 /** 
@@ -203,7 +203,7 @@ const weightages = {
         Medium: 0.2,
         Low: 0.1
     }
-};
+}
 
 /**
  * Difference in days, returns negative if date2 is earlier / date 1 is later.
@@ -236,27 +236,27 @@ const pointsPerTask = (task) => {
         // Compute punctual / lateness (-ve) if late, 0 if punctual, +ve if early.
         const deadlineToCompletion = getDaysDifference(completedDate, taskDate)
  
-        let weight = 0;
+        let weight = 0
 
         // Weightage
         if(deadlineToCompletion > 0) {
-            weight = weightages['early'][task.priority] * Math.min(deadlineToCompletion, 30) / 30
+            weight = weightages["early"][task.priority] * Math.min(deadlineToCompletion, 30) / 30
         } else if(deadlineToCompletion === 0) {
-            weight = weightages['punctual'][task.priority]
+            weight = weightages["punctual"][task.priority]
         } else {
-            weight = weightages['overduedTasks'][task.priority] * Math.min(Math.abs(deadlineToCompletion), 30) / 30
+            weight = weightages["overduedTasks"][task.priority] * Math.min(Math.abs(deadlineToCompletion), 30) / 30
         }
 
-        return 1 + weight * (30 - todayToCompletion) / 30;
+        return 1 + weight * (30 - todayToCompletion) / 30
 
     } else {
         // Compare deadline, negative weightage prorated up to a maximum effect of a month
         if(days < 0) {
             // Overdued
-            const weight = weightages['overduedTasks'][task.priority]
-            return days <= -30 ? 1 + weight : 1 + weight * days / -30;
+            const weight = weightages["overduedTasks"][task.priority]
+            return days <= -30 ? 1 + weight : 1 + weight * days / -30
         } else {
-            return 1;
+            return 1
         }
     }
 }
@@ -315,7 +315,7 @@ export const calculatePriorityPoints = (priority, hours) => {
     const priorityMap = {
         High: 3,
         Medium: 2,
-        Low: 1
+        Low: 1,
     }
     return priorityMap[priority] + roundNum(hours / 24)
 }
@@ -342,7 +342,7 @@ export const calculateTaskPoints = (taskData) => {
  * @returns {[string, number]} Array of the username and userId.
  */
 export const parseToken = (token) => {
-    const tokenPayload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))
+    const tokenPayload = JSON.parse(atob(token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/")))
     const username = tokenPayload?.username
     const userId = tokenPayload?.userId
     return [username, userId]
@@ -372,24 +372,24 @@ export const randIntervalGenerator = (minInterval, maxInterval) => {
  * @returns A random voice line.
  */
 export const getRandomVoiceLine = (voiceLines) => {
-    const randIndex = Math.floor(Math.random() * voiceLines.length);
+    const randIndex = Math.floor(Math.random() * voiceLines.length)
     return voiceLines[randIndex]
 }
 
 /**
- * Gets a comment based on the user's productivity.
- * @param {number} productivity The user's productivity.
- * @returns {String} A string that comments about the user's productivity.
+ * Gets a comment based on the user"s productivity.
+ * @param {number} productivity The user"s productivity.
+ * @returns {String} A string that comments about the user"s productivity.
  */
 export const getProductivityBarComments = (productivity) => {
     if (productivity >= 80) {
-        return 'Good Progress! Keep It Up!'
+        return "Good Progress! Keep It Up!"
     }
     if (productivity >= 50) {
         return "You are getting there! I believe in you!"
     }
     if (productivity >= 20) {
-        return "Hmm... You may need some work... But it's still doable!"
+        return "Hmm... You may need some work... But its still doable!"
     }
     return "... Maybe the productivity is the memories we made along the way!"
 }
@@ -400,9 +400,9 @@ export const getProductivityBarComments = (productivity) => {
  * @returns {Date} A date after adding number of days
  */
 export const addDays = (date, days) => {
-    const result = new Date(date);
-    result.setDate(result.getDate() + days);
-    return result;
+    const result = new Date(date)
+    result.setDate(result.getDate() + days)
+    return result
 }
 
 /**
@@ -441,6 +441,6 @@ export const setHasFinishedIntroAtPage = (page) => {
  * @param {string} email The email.
  */
 export const checkValidEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
 }

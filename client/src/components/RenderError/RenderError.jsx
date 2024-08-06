@@ -6,15 +6,15 @@ import React, { ReactNode } from "react"
  * @returns {ReactNode} A React element that renders the empty username sign up error.
  */
 const renderUsernameError = (error) => {
-    if (error == 'UsernameError') {
+    if (error == "UsernameError") {
         return (
-            <div className='error'>
+            <div className="error">
                 Username Must Not Be Empty!
             </div>
         )
-    } else if (error == 'UsernameSpaceError') {
+    } else if (error == "UsernameSpaceError") {
         return (
-            <div className='error'>
+            <div className="error">
                 Username Cannot Have Space!
             </div>
         )
@@ -27,19 +27,19 @@ const renderUsernameError = (error) => {
  * @returns {ReactNode} A React element that renders the email sign up error.
  */
 const renderEmailError = (error) => {
-    if (error == 'EmptyEmailError') {
+    if (error == "EmptyEmailError") {
         return (
-            <div className='error'>
+            <div className="error">
                 Email Must Not Be Empty!
             </div>
         )
-    } else if (error == 'EmailTaken') {
+    } else if (error == "EmailTaken") {
         return (
-            <div className='error'>
+            <div className="error">
                 Email Already Taken!
             </div>
         )
-    } else if (error == 'InvalidEmail') {
+    } else if (error == "InvalidEmail") {
         return (
             <div className="error">
                 Invalid Email!
@@ -54,21 +54,21 @@ const renderEmailError = (error) => {
  * @returns {ReactNode} A React element that renders the password mismatch sign up error.
  */
 const renderPWError = (error) => {
-    if (error == 'MismatchPW') {
+    if (error == "MismatchPW") {
         return (
-            <div className='error'>
+            <div className="error">
                 Passwords Do Not Match!
             </div>
         )
-    } else if (error == 'EmptyPW') {
+    } else if (error == "EmptyPW") {
         return (
-            <div className='error'>
+            <div className="error">
                 Passwords Must Not Be Empty!
             </div>
         )
-    } else if (error == 'SpacePW') {
+    } else if (error == "SpacePW") {
         return (
-            <div className='error'>
+            <div className="error">
                 Password cannot have space!
             </div>
         )
@@ -81,9 +81,9 @@ const renderPWError = (error) => {
  * @returns {ReactNode} A React element that renders the username taken sign up error.
  */
 const renderSignUpError = (error) => {
-    if (error == 'UsernameTaken') {
+    if (error == "UsernameTaken") {
         return (
-            <div className='error'>
+            <div className="error">
                 Username Already Taken!
             </div>
         )
@@ -96,15 +96,15 @@ const renderSignUpError = (error) => {
  * @returns {ReactNode} A React element that renders the empty or invalid date of birth sign up error.
  */
 const renderDateOfBirthError = (error) => {
-    if (error == 'EmptyDOB') {
+    if (error == "EmptyDOB") {
         return (
-            <div className='error'>
+            <div className="error">
                 Please Fill Up Your Birthday!
             </div>
         )
-    } else if (error == 'DOBFuture') {
+    } else if (error == "DOBFuture") {
         return (
-            <div className='error'>
+            <div className="error">
                 Date Of Birth Cannot Be In Future
             </div>
         )
@@ -117,9 +117,9 @@ const renderDateOfBirthError = (error) => {
  * @returns {ReactNode} A React element that renders the invalid user credentials log in error.
  */
 const renderInvalidCredentialsError = (error) => {
-    if (error == 'InvalidCreds') {
+    if (error == "InvalidCreds") {
         return (
-            <div className='error'>
+            <div className="error">
                 Invalid Username or Password!
             </div>
         )
@@ -132,9 +132,9 @@ const renderInvalidCredentialsError = (error) => {
  * @returns {ReactNode} A React element that renders the empty task title add task error.
  */
 const renderNoTaskTitleError = (error) => {
-    if (error == 'noTaskTitle') {
+    if (error == "noTaskTitle") {
         return (
-            <div className='error'>
+            <div className="error">
                 Please Enter A Title!
             </div>
         )
@@ -147,9 +147,9 @@ const renderNoTaskTitleError = (error) => {
  * @returns {ReactNode} A React element that renders the empty task category add task error.
  */
 const renderNoTaskCategoryError = (error) => {
-    if (error == 'noTaskCategory') {
+    if (error == "noTaskCategory") {
         return (
-            <div className='error'>
+            <div className="error">
                 Please Enter A Category!
             </div>
         )
@@ -162,51 +162,51 @@ const renderNoTaskCategoryError = (error) => {
  * @returns {ReactNode} A React element that renders the invalid task priority, deadline and reminder add task error.
  */
 const renderPriorityOrDateError = (error) => {
-    if (error == 'noTaskPriority') {
+    if (error == "noTaskPriority") {
         return (
-            <div className='error'>
+            <div className="error">
                 Please Enter A Priority Level!
             </div>
         )
-    } else if (error == 'noTaskDeadline') {
+    } else if (error == "noTaskDeadline") {
         return (
-            <div className='error'>
+            <div className="error">
                 Please Enter A Deadline!
             </div>
         )
-    } else if (error == 'deadlinePast') {
+    } else if (error == "deadlinePast") {
         return (
-            <div className='error'>
+            <div className="error">
                 Deadline Cannot Be In The Past!
             </div>
         )
-    } else if (error == 'noTaskReminder') {
+    } else if (error == "noTaskReminder") {
         return (
-            <div className='error'>
+            <div className="error">
                 Please Enter A Reminder!
             </div>
         )
-    } else if (error == 'reminderPast') {
+    } else if (error == "reminderPast") {
         return (
-            <div className='error'>
+            <div className="error">
                 Reminder Cannot be In The Past!
             </div>
         )
-    } else if (error == 'reminderBeforeDeadline') {
+    } else if (error == "reminderBeforeDeadline") {
         return (
-            <div className='error'>
+            <div className="error">
                 Reminder Must Come Before Deadline!
             </div>
         )
-    } else if (error == 'noTaskInterval') {
+    } else if (error == "noTaskInterval") {
         return (
-            <div className='error'>
+            <div className="error">
                 Please Enter An Interval!
             </div>
         )
-    } else if (error == 'negativeInterval') {
+    } else if (error == "negativeInterval") {
         return (
-            <div className='error'>
+            <div className="error">
                 Interval must be at least 1 day!
             </div>
         )
@@ -219,17 +219,17 @@ const renderPriorityOrDateError = (error) => {
  * @returns {ReactNode} A React element that renders the weak password sign up error.
  */
 const renderWeakPWError = (error) => {
-    if (error == 'WeakPW') {
+    if (error == "WeakPW") {
         return (
             <>
-                <div className='error'>Password Must Have:</div>
-                <div className='error'>
+                <div className="error">Password Must Have:</div>
+                <div className="error">
                     At Least 8 Characters.
                 </div>
-                <div className='error'>
+                <div className="error">
                     At Least 1 Lowercase and Uppercase Alphabet.
                 </div>
-                <div className='error'>
+                <div className="error">
                     At Least 1 Number.
                 </div>
             </>
@@ -238,33 +238,33 @@ const renderWeakPWError = (error) => {
 }
 
 const renderCreationOrReminderError = (error) => {
-    if (error == 'noTaskCreation') {
+    if (error == "noTaskCreation") {
         return (
-            <div className='error'>
+            <div className="error">
                 Please Enter Task Creation(Days) before Deadline!
             </div>
         )
-    } else if (error === 'noReminder') {
+    } else if (error === "noReminder") {
         return (
-            <div className='error'>
+            <div className="error">
                 Please Enter Reminder(Days) before Deadline!
             </div>
         )
-    } else if (error == 'negativeCreation') {
+    } else if (error == "negativeCreation") {
         return (
-            <div className='error'>
+            <div className="error">
                 Creation (days) before task cannot be negative!
             </div>
         )
-    } else if (error == 'negativeReminder') {
+    } else if (error == "negativeReminder") {
         return (
-            <div className='error'>
+            <div className="error">
                 Reminder (days) before task cannot be negative!
             </div>
         )
-    } else if (error == 'reminderBeforeCreation') {
+    } else if (error == "reminderBeforeCreation") {
         return (
-            <div className='error'>
+            <div className="error">
                 Reminder cannot be before creation!
             </div>
         )

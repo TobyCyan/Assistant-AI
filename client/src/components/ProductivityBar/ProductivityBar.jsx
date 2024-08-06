@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 /**
  * A React component that displays the user's productivity bar.
@@ -15,4 +15,4 @@ const ProductivityBar = ({percentage}) => {
     );
 }
 
-export default ProductivityBar;
+export default ProductivityBar

@@ -173,7 +173,6 @@ const RingingReminderBell = ({setHasReminded, timeOfTheDay, todayDate}) => {
             >
 
                 <ReminderRoom
-                    closeReminderRoomModal={closeReminderRoomModal}
                     taskData={reminderRoomModalOpen.data}
                     setHasReminded={setHasReminded}
                     timeOfTheDay={timeOfTheDay}

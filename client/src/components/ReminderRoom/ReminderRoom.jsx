@@ -8,7 +8,7 @@ import { taskInfoString } from "../../utilities/ChatPageUtilities";
  * A React component that displays the reminder room where the AI Assistant can talk to the user.
  * @returns {ReactNode} A React element that renders the reminder room.
  */
-const ReminderRoom = ({closeReminderRoomModal, taskData, setHasReminded, timeOfTheDay, todayDate}) => {
+const ReminderRoom = ({taskData, setHasReminded, timeOfTheDay, todayDate}) => {
     const [chatMessages, setChatMessages] = useState([])
     const lastMessage = useRef(null)
 

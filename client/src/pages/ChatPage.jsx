@@ -330,15 +330,15 @@ const ChatPage = () => {
     const getUserItemsByUsername = async () => {
         try {
             const response = await fetch(`${expressApiUrl}user/${userData.username}`, {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
                 }
             });
 
             if (!response.ok) {
-                throw new Error('User not found');
+                throw new Error("User not found");
             }
 
             const data = await response.json()

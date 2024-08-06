@@ -6,7 +6,6 @@ module.exports = {
     password: 'Test1234',
     db: 'AssistantAI',
     dialect: 'postgres',
-
     pool: {
         max: 10,
         min: 0,

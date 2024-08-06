@@ -1,13 +1,13 @@
-import React, { useEffect, useState, ReactNode } from 'react'
+import React, { useEffect, useState, ReactNode } from "react"
 import NavBar from "../components/NavBar/NavBar.jsx";
-import '../index.css'
+import "../index.css"
 import { useTokenContext } from "../components/TokenContext/TokenContext";
 import AddRecurringTasks from "../components/TaskModals/AddRecurringTasks";
 import DeleteRecurringTask from "../components/TaskModals/DeleteRecurringTask"
 import RecurringTasksTable from "../components/RecurringTasks/RecurringTasksTable";
 import { compareTasksDeadline, startIntro, setHasFinishedIntroAtPage } from "../utilities/utilities.js";
-import Modal from 'react-modal';
-import IntroElement from '../components/IntroElements/IntroElement.jsx';
+import Modal from "react-modal";
+import IntroElement from "../components/IntroElements/IntroElement.jsx";
 
 /**
  * A Functional React component that displays all user tasks based on their categories, level of priority and completion status, and allows user to perform task operations such as add, edit, complete, uncomplete and delete.
@@ -44,7 +44,7 @@ const Scheduler = () => {
      * The filter and setter function to update it.
      * @type {[String, function]}
      */
-    const [filter, setFilter] = useState('All')
+    const [filter, setFilter] = useState("All")
 
     /**
      * The current state of AddEditModal and setter function to update it.
@@ -127,11 +127,11 @@ const Scheduler = () => {
      */
     useEffect(() => {
         if (token) {
-            localStorage.setItem('token', token);
-            getUserInfo();
-            getUserRecTasks();
+            localStorage.setItem("token", token);
+            getUserInfo()
+            getUserRecTasks()
         }
-    }, [token]);
+    }, [token])
 
     /**
      * @function useEffect
@@ -141,7 +141,7 @@ const Scheduler = () => {
         recTasks.sort(compareTasksDeadline)
         setDisplayRecTasks(recTasks)
         filterTasks(filter)
-    }, [recTasks]);
+    }, [recTasks])
 
     /**
      * @function useEffect
@@ -149,7 +149,7 @@ const Scheduler = () => {
      */
     useEffect(() => {
         filterTasks(filter)
-    }, [filter]);
+    }, [filter])
 
     /**
      * Function that closes the add or edit modal.
@@ -200,16 +200,16 @@ const Scheduler = () => {
      * @param {string} value Value to filter the tasks by.
      */
     const filterTasks = (value) => {
-        if(value === 'All') {
+        if(value === "All") {
             setDisplayRecTasks(recTasks)
-        } else if (value === 'Completed') {
+        } else if (value === "Completed") {
             setDisplayRecTasks(recTasks.filter(each => each.completed))
-        } else if (value === 'Low') {
-            setDisplayRecTasks(recTasks.filter(each => each.priority === 'Low'))
-        } else if (value === 'Medium') {
-            setDisplayRecTasks(recTasks.filter(each => each.priority === 'Medium'))
-        } else if (value === 'High') {
-            setDisplayRecTasks(recTasks.filter(each => each.priority === 'High'))
+        } else if (value === "Low") {
+            setDisplayRecTasks(recTasks.filter(each => each.priority === "Low"))
+        } else if (value === "Medium") {
+            setDisplayRecTasks(recTasks.filter(each => each.priority === "Medium"))
+        } else if (value === "High") {
+            setDisplayRecTasks(recTasks.filter(each => each.priority === "High"))
         } else {
             setDisplayRecTasks(recTasks.filter(each => each.category === filter))
         }
@@ -242,12 +242,12 @@ const Scheduler = () => {
      */
     const getUserRecTasks = async () => {
         const dataToPost = {
-            method: 'GET',
+            method: "GET",
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             }
-        };
+        }
 
         try {
             const res = await fetch(`${expressApiUrl}RecurringTasks`, dataToPost)
@@ -263,7 +263,7 @@ const Scheduler = () => {
                 setDisplayRecTasks(recTasks)
             }
         } catch (error) {
-            console.error('Failed to Fetch Recurring Tasks!', error)
+            console.error("Failed to Fetch Recurring Tasks!", error)
         }
     }
 
@@ -275,12 +275,12 @@ const Scheduler = () => {
      */
     const getUserInfo = async () => {
         const dataToPost = {
-            method: 'GET',
+            method: "GET",
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             }
-        };
+        }
 
         try {
             const res = await fetch(`${expressApiUrl}GetUserInfo`, dataToPost)
@@ -295,7 +295,7 @@ const Scheduler = () => {
                 setUserData(data)
             }
         } catch (error) {
-            console.error('Failed to Fetch User Info!', error)
+            console.error("Failed to Fetch User Info!", error)
         }
     }
 
@@ -309,25 +309,6 @@ const Scheduler = () => {
         </li>
     ))
 
-    /**
-     * A React component that displays every recurring tasks in their own cards with the edit and delete buttons.
-     * @component
-     */
-    /*
-    const recTasksInGrid = (
-        <div className="tasksGridBox">
-            {displayRecTasks.map((task, index) => (
-                <DetailedTaskCard
-                    key={index}
-                    taskData={task}
-                    onEdit={()=>handleEditTask(task)}
-                    onDelete={()=>handleDeleteTask(task)}
-                />
-            ))}
-        </div>
-    );
-    */
-
     return (
         <>
             <NavBar/>
@@ -337,7 +318,7 @@ const Scheduler = () => {
                     <button className="addTaskBtn" onClick={handleAddTask}>Add Recurring Task</button>
                     <div className="categoriesSidebar">Categories</div>
                     <ul id="category-list">
-                        <li onClick={() => handleFilterTasks('All')}>All ({recTasks.length})</li>
+                        <li onClick={() => handleFilterTasks("All")}>All ({recTasks.length})</li>
                         {categories}
                     </ul>
                 </div>

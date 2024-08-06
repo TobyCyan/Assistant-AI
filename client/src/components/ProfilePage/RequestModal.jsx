@@ -1,4 +1,4 @@
-import {useTokenContext} from "../TokenContext/TokenContext.jsx";
+import { useTokenContext } from "../TokenContext/TokenContext.jsx";
 import React, { ReactNode } from "react";
 
 /**
@@ -26,7 +26,7 @@ const RequestModal = ({request, type, getAllFriends, getAllFriendRequests, onClo
     const expressApiUrl = import.meta.env.VITE_EXPRESS_API_URL
 
     const handleConfirm = () => {
-        if(type === "accept") {
+        if (type === "accept") {
             acceptFriendRequest()
         } else {
             deleteFriendRequest()
@@ -35,10 +35,10 @@ const RequestModal = ({request, type, getAllFriends, getAllFriendRequests, onClo
 
     const acceptFriendRequest = async () => {
         const dataToPost = {
-            method: 'PUT',
+            method: "PUT",
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             }
         }
         try {
@@ -50,17 +50,17 @@ const RequestModal = ({request, type, getAllFriends, getAllFriendRequests, onClo
             getAllFriendRequests()
             onClose()
         } catch (error) {
-            console.error('Failed to send friend request!', error)
+            console.error("Failed to send friend request!", error)
         }
     }
 
 
     const deleteFriendRequest = async () => {
         const dataToPost = {
-            method: 'DELETE',
+            method: "DELETE",
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             }
         }
         try {
@@ -71,7 +71,7 @@ const RequestModal = ({request, type, getAllFriends, getAllFriendRequests, onClo
             getAllFriendRequests()
             onClose()
         } catch (error) {
-            console.error('Failed to send friend request!', error)
+            console.error("Failed to send friend request!", error)
         }
     }
 
@@ -79,10 +79,10 @@ const RequestModal = ({request, type, getAllFriends, getAllFriendRequests, onClo
         <div className="requestContainer">
             <button className="closeSmallModalBtn" onClick={onClose}></button>
             <div></div>
-            <div className="confirmMessage">{`${type === "delete" ? "Reject" : "Accept"} ${request?.name}'s friend request?`}</div>
+            <div className="confirmMessage">{`${type === "delete" ? "Reject" : "Accept"} ${request?.name}"s friend request?`}</div>
             <button className="confirmRequestButton" onClick={handleConfirm}>{type ==="delete" ? "REJECT" : "ACCEPT"}</button>
         </div>
     )
 }
 
-export default RequestModal;
+export default RequestModal

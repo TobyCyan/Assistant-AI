@@ -1,8 +1,8 @@
-import React, { useState, ReactNode } from 'react'
+import React, { useState, ReactNode } from "react"
 import {Link, useNavigate} from "react-router-dom";
 import NavBar from "../components/NavBar/NavBar.jsx";
-import CryptoJS from 'crypto-js';
-import '../index.css'
+import CryptoJS from "crypto-js";
+import "../index.css"
 import RenderError from "../components/RenderError/RenderError";
 import { useTokenContext } from "../components/TokenContext/TokenContext.jsx";
 import { checkStrongPW, checkValidEmail } from "../utilities/utilities.js";
@@ -25,23 +25,23 @@ function SignUp() {
      * The current confirmation password and setter function to update it.
      * @type {[string, function]}
      */
-    const [confirmPassword, setConfirmPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState("")
 
     /**
      * The current error faced by user during sign up and setter function to update it.
      * @type {[string, function]}
      */
-    const [error, setError] = useState('')
+    const [error, setError] = useState("")
     
     /**
      * The current userData state and setter function to update it.
      * @type {[Object, function]}
      */
     const [userData, setUserData] = useState({
-        username: '',
-        email: '',
-        password: '',
-        dateOfBirth: ''
+        username: "",
+        email: "",
+        password: "",
+        dateOfBirth: "",
     })
 
     const navigate = useNavigate()
@@ -57,7 +57,7 @@ function SignUp() {
      * @returns {boolean} true or false.
      */
     function pwMatch() {
-        return confirmPassword === userData.password;
+        return confirmPassword === userData.password
     }
     
     /**
@@ -67,9 +67,9 @@ function SignUp() {
      */
     const handleNameChange = (newName) => {
         return setUserData((prevState) => {
-              return { ...prevState, username: newName };
-            });
-      };
+              return { ...prevState, username: newName }
+            })
+      }
 
     /**
      * Update userData with the new email.
@@ -78,9 +78,9 @@ function SignUp() {
      */
     const handleEmailChange = (newEmail) => {
         return setUserData((prevState) => {
-            return { ...prevState, email: newEmail };
-        });
-    };
+            return { ...prevState, email: newEmail }
+        })
+    }
 
     /**
      * Update userData with the new password.
@@ -100,11 +100,11 @@ function SignUp() {
      */
     const handleBirthDateChange = (newBirthDate) => {
         const birthDateObject = new Date(newBirthDate)
-        const formattedDate = birthDateObject.toISOString().split('T')[0];
+        const formattedDate = birthDateObject.toISOString().split("T")[0];
 
         return setUserData((prevState) => {
             return { ...prevState, dateOfBirth: formattedDate };
-        });
+        })
     }
 
     /**
@@ -112,27 +112,27 @@ function SignUp() {
      */
     function clearPW() {
         setUserData((prevState) => {
-            return { ...prevState, password: '' };
+            return { ...prevState, password: "" }
         })
-        setConfirmPassword('')
+        setConfirmPassword("")
     }
 
     /**
      * Updates the sign up error when username is empty.
      */
     function handleEmptyUsername() {
-        setError('UsernameError')
+        setError("UsernameError")
     }
 
     /**
      * Updates the sign up error when email is empty.
      */
     function handleEmptyEmail() {
-        setError('EmptyEmailError')
+        setError("EmptyEmailError")
     }
 
     function handleInvalidEmail() {
-        setError('InvalidEmail')
+        setError("InvalidEmail")
     }
 
     /**
@@ -140,60 +140,60 @@ function SignUp() {
      */
     function handleDifferentPassword() {
         clearPW()
-        setError('MismatchPW')
+        setError("MismatchPW")
     }
 
     /**
      * Updates the sign up error when password is empty.
      */
     function handleEmptyPW() {
-        setError('EmptyPW')
+        setError("EmptyPW")
     }
 
     /**
      * Updates the sign up error when birth date is empty.
      */
     function handleEmptyDateOfBirth() {
-        setError('EmptyDOB')
+        setError("EmptyDOB")
     }
 
     /**
      * Updates the sign up error when birth date is in the future.
      */
     function handleFutureDOB() {
-        setError('DOBFuture')
+        setError("DOBFuture")
     }
 
     /**
      * Updates the sign up error when password is weak.
      */
     function handleWeakPassword() {
-        setError('WeakPW')
-        setConfirmPassword('')
+        setError("WeakPW")
+        setConfirmPassword("")
     }
 
     /**
      * Updates the sign up error when password is weak.
      */
     function handleSpaceUsername() {
-        setError('UsernameSpaceError')
+        setError("UsernameSpaceError")
     }
 
     /**
      * Updates the sign up error when password is weak.
      */
     function handleSpacePassword() {
-        setError('SpacePW')
+        setError("SpacePW")
     }
 
     /**
      * Updates the sign up error when username is already taken.
      */
     function handleFailedSignUp(error) {
-        if (error == 'Username Already Taken!') {
-            setError('UsernameTaken')
-        } else if (error == 'Email Already Taken!') {
-            setError('EmailTaken')
+        if (error == "Username Already Taken!") {
+            setError("UsernameTaken")
+        } else if (error == "Email Already Taken!") {
+            setError("EmailTaken")
         }
     }
 
@@ -201,7 +201,7 @@ function SignUp() {
      * Sends User to the Home Page.
      */
     function sendToHomePage() {
-        navigate('/')
+        navigate("/")
     }
 
 
@@ -214,19 +214,19 @@ function SignUp() {
      */
     const handleSignUp = async (e) => {
         e.preventDefault()
-        setError('')
+        setError("")
 
-        if (userData.username === '') {
+        if (userData.username === "") {
             handleEmptyUsername()
             return
         }
 
-        if(userData.username.includes(' ')) {
+        if(userData.username.includes(" ")) {
             handleSpaceUsername()
-            return;
+            return
         }
 
-        if (userData.email === '') {
+        if (userData.email === "") {
             handleEmptyEmail()
             return
         }
@@ -238,7 +238,7 @@ function SignUp() {
             return
         }
 
-        if (userData.dateOfBirth == '') {
+        if (userData.dateOfBirth == "") {
             handleEmptyDateOfBirth()
             return
         }
@@ -251,12 +251,12 @@ function SignUp() {
             return
         }
 
-        if (userData.password == '') {
+        if (userData.password == "") {
             handleEmptyPW()
             return
         }
 
-        if(userData.password.includes(' ')) {
+        if(userData.password.includes(" ")) {
             handleSpacePassword()
             return
         }
@@ -277,12 +277,12 @@ function SignUp() {
         const updatedData = {...userData, password: hashedPW};
 
         const dataToPost = {
-            method: 'POST', 
+            method: "POST", 
             body: JSON.stringify(updatedData),
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json"
             }
-        };
+        }
 
         try {
             const res = await fetch(`${expressApiUrl}SignUp`, dataToPost)
@@ -290,7 +290,7 @@ function SignUp() {
             if (res.ok) {
                 const data = await res.json()
                 const resToken = data.token
-                localStorage.setItem('token', resToken)
+                localStorage.setItem("token", resToken)
                 setToken(resToken)
                 sendToHomePage()
                 return
@@ -299,7 +299,7 @@ function SignUp() {
                 handleFailedSignUp(text)
             }
         } catch (error) {
-            console.error('Error occured during Sign Up', error)
+            console.error("Error occured during Sign Up", error)
         }
     }
 
@@ -315,7 +315,7 @@ function SignUp() {
                         {RenderError.renderUsernameError(error)}
                         {RenderError.renderSignUpError(error)}
                         <div className="signUpBox">
-                            <input type='text'
+                            <input type="text"
                                    placeholder="Username"
                                    value={userData.username}
                                    className="usernameInput"
@@ -325,7 +325,7 @@ function SignUp() {
 
                         {RenderError.renderEmailError(error)}
                         <div className="signUpBox">
-                            <input type='text'
+                            <input type="text"
                                    placeholder="Email"
                                    value={userData.email}
                                    className="emailInput"
@@ -336,16 +336,16 @@ function SignUp() {
                         {RenderError.renderDateOfBirthError(error)}
                         <div className="dateOfBirthBox">
                             <label id="dateOfBirthLabel">Birthdate</label>
-                            <input type='date'
-                                   placeholder='dd-mm-yyyy'
+                            <input type="date"
+                                   placeholder="dd-mm-yyyy"
                                    value={userData.dateOfBirth}
-                                   className='dateOfBirthInput'
+                                   className="dateOfBirthInput"
                                    onChange={(e) => handleBirthDateChange(e.target.value)}
                             />
                         </div>
                         {RenderError.renderPWError(error)}
                         <div className="signUpBox">
-                            <input type='password'
+                            <input type="password"
                                    placeholder="Password"
                                    value={userData.password}
                                    className="passwordInput"
@@ -353,7 +353,7 @@ function SignUp() {
                             />
                         </div>
                         <div className="signUpBox">
-                            <input type='password'
+                            <input type="password"
                                    placeholder="Confirm Password"
                                    value={confirmPassword}
                                    className="passwordInput"
@@ -363,7 +363,7 @@ function SignUp() {
                             />
                         </div>
                         {RenderError.renderWeakPWError(error)}
-                        <button type='submit' className="primary-btn">
+                        <button type="submit" className="primary-btn">
                             Sign Up
                         </button>
 
@@ -376,7 +376,7 @@ function SignUp() {
             </div>
         </div>
         </>
-    );
+    )
 }
 
-export default SignUp;
+export default SignUp

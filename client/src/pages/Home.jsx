@@ -161,7 +161,14 @@ const Home = () => {
             getUserInfo()
             getUserTasks()
         }
-    }, [token]);
+    }, [token])
+
+    /**
+     * Sends User to the Home Page.
+     */
+    function sendTologinPage() {
+        navigate("/")
+    }
 
     /**
      * Async GET method to get user tasks.
@@ -176,7 +183,7 @@ const Home = () => {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
             }
-        };
+        }
 
         try {
             const res = await fetch(`${expressApiUrl}Tasks`, dataToPost)
@@ -208,14 +215,12 @@ const Home = () => {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
             }
-        };
+        }
 
         try {
             const res = await fetch(`${expressApiUrl}GetUserInfo`, dataToPost)
-            if (res.ok) {
-                // console.log("UserInfo successfully retrieved")
-            } else {
-                // console.log("Invalid User/Info")
+            if (!res.ok) {
+                sendTologinPage()
             }
 
             const data = await res.json()
@@ -388,111 +393,117 @@ const Home = () => {
 
     return (
         <>
-        <IntroElement steps={introSteps} activate={activateIntro} setActivate={setActivateIntro} hasDoneTutorial={userData.hasDoneTutorial} endIntro={false} page={page} />
-        <NavBar />
-            <div className="homepageContainer">
-
-                <div className="extraInfoTab">
-                    <div className="addButtonBox">
-                        <button className="addTaskBtn" onClick={handleAddTask}>Add Task</button>
-                        <button className="addRecurringTaskBtn" onClick={() => navigate('/recurringTasks')}>Add Recurring Task</button>
-                    </div>
-                    <div className="shopAndPointsBox">
-                        <div className="points">Points: {userData?.points || 0}</div>
-                        <button className="shopBtn" onClick={() => navigate('/shop')}>Shop</button>
-                        <button className="profileBtn" onClick={() => navigate(`/users/${userData.username}`)}>My Profile</button>
-                        <button className="myTasksBtn" onClick={() => navigate(`/tasks`)}>My Tasks</button>
-                    </div>
-                    <div className="userDisplayBox">
-                        <div className="productivityBox">
-                        <h3>Productivity Report</h3>
-                            <ProductivityBar percentage={productivity}/>
-                            <h3>{productivity}%</h3>
-                            <p>{getProductivityBarComments(productivity)}</p>
+        { token && userData.id ? (
+            <>
+                <IntroElement steps={introSteps} activate={activateIntro} setActivate={setActivateIntro} hasDoneTutorial={userData.hasDoneTutorial} endIntro={false} page={page} />
+                <NavBar />
+                <div className="homepageContainer">
+    
+                    <div className="extraInfoTab">
+                        <div className="addButtonBox">
+                            <button className="addTaskBtn" onClick={handleAddTask}>Add Task</button>
+                            <button className="addRecurringTaskBtn" onClick={() => navigate('/recurringTasks')}>Add Recurring Task</button>
+                        </div>
+                        <div className="shopAndPointsBox">
+                            <div className="points">Points: {userData?.points || 0}</div>
+                            <button className="shopBtn" onClick={() => navigate('/shop')}>Shop</button>
+                            <button className="profileBtn" onClick={() => navigate(`/users/${userData.username}`)}>My Profile</button>
+                            <button className="myTasksBtn" onClick={() => navigate(`/tasks`)}>My Tasks</button>
+                        </div>
+                        <div className="userDisplayBox">
+                            <div className="productivityBox">
+                            <h3>Productivity Report</h3>
+                                <ProductivityBar percentage={productivity}/>
+                                <h3>{productivity}%</h3>
+                                <p>{getProductivityBarComments(productivity)}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div className="homepageTaskContainer homepageChildDiv">
-                    <div className="overdueAndRemindersBox">
-                        <TasksBox id="overdueBox" key="Overdued" title="Overdued" className="overdueBox" tasks={tasks}
-                                  tasksToShow={overduedTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}
-                                  onDelete={handleDeleteTask}/>
-                        <TasksBox id="reminderBox" key="Reminders" title="Reminders" tasks={tasks}
-                                  tasksToShow={remindersTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}
-                                  onDelete={handleDeleteTask}/>
+    
+                    <div className="homepageTaskContainer homepageChildDiv">
+                        <div className="overdueAndRemindersBox">
+                            <TasksBox id="overdueBox" key="Overdued" title="Overdued" className="overdueBox" tasks={tasks}
+                                      tasksToShow={overduedTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}
+                                      onDelete={handleDeleteTask}/>
+                            <TasksBox id="reminderBox" key="Reminders" title="Reminders" tasks={tasks}
+                                      tasksToShow={remindersTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}
+                                      onDelete={handleDeleteTask}/>
+                        </div>
+                        <div className="upcomingAndPriorityBox">
+                            <TasksBox id="upcomingBox" key="Upcoming" title="Upcoming" tasks={tasks}
+                                      tasksToShow={upcomingTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}
+                                      onDelete={handleDeleteTask}/>
+                            <TasksBox id="priorityBox" key="Priority" title="Priority" tasks={tasks}
+                                      tasksToShow={priorityTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}
+                                      onDelete={handleDeleteTask}/>
+                        </div>
+    
                     </div>
-                    <div className="upcomingAndPriorityBox">
-                        <TasksBox id="upcomingBox" key="Upcoming" title="Upcoming" tasks={tasks}
-                                  tasksToShow={upcomingTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}
-                                  onDelete={handleDeleteTask}/>
-                        <TasksBox id="priorityBox" key="Priority" title="Priority" tasks={tasks}
-                                  tasksToShow={priorityTasks} onEdit={handleEditTask} onComplete={handleCompleteTask}
-                                  onDelete={handleDeleteTask}/>
-                    </div>
-
+    
+                    <AIBox />
+    
+                    <Modal
+                        isOpen={addEditModalOpen.isShown}
+                        onRequestClose={closeAddEditModal}
+                        style={{
+                            overlay: {
+                                backgroundColor: "rgba(0, 0, 0, 0.2)"
+                            },
+                        }}
+                        contentLabel=""
+                        className="AddEditTaskModal"
+                    >
+                        <AddEditTasks
+                            type={addEditModalOpen.type}
+                            taskData={addEditModalOpen.data}
+                            onClose={closeAddEditModal}
+                            getAllTasks={getUserTasks}
+                        />
+                    </Modal>
+    
+                    <Modal
+                        isOpen={compDelModalOpen.isShown}
+                        onRequestClose={closeCompDelModal}
+                        style={{
+                            overlay: {
+                                backgroundColor: "rgba(0, 0, 0, 0.2)"
+                            },
+                        }}
+                        contentLabel=""
+                        className="CompDelTaskModal"
+                    >
+                        <CompleteDeleteTasks
+                            type={compDelModalOpen.type}
+                            taskData={compDelModalOpen.data}
+                            onClose={closeCompDelModal}
+                            getAllTasks={getUserTasks}
+                            getUserInfo={getUserInfo}
+                        />
+                    </Modal>
+    
+                    <Modal
+                        isOpen={birthdayModalOpen.isShown}
+                        onRequestClose={closeBirthdayModal}
+                        style={{
+                            overlay: {
+                                backgroundColor: "rgba(0, 0, 0, 0.2)"
+                            }
+                        }}
+                        className="BirthdayCardModal"
+                    >
+                        <BirthdayCard
+                            onClose={closeBirthdayModal}
+                        />
+                    </Modal>
                 </div>
-
-                <AIBox />
-
-                <Modal
-                    isOpen={addEditModalOpen.isShown}
-                    onRequestClose={closeAddEditModal}
-                    style={{
-                        overlay: {
-                            backgroundColor: "rgba(0, 0, 0, 0.2)"
-                        },
-                    }}
-                    contentLabel=""
-                    className="AddEditTaskModal"
-                >
-                    <AddEditTasks
-                        type={addEditModalOpen.type}
-                        taskData={addEditModalOpen.data}
-                        onClose={closeAddEditModal}
-                        getAllTasks={getUserTasks}
-                    />
-                </Modal>
-
-                <Modal
-                    isOpen={compDelModalOpen.isShown}
-                    onRequestClose={closeCompDelModal}
-                    style={{
-                        overlay: {
-                            backgroundColor: "rgba(0, 0, 0, 0.2)"
-                        },
-                    }}
-                    contentLabel=""
-                    className="CompDelTaskModal"
-                >
-                    <CompleteDeleteTasks
-                        type={compDelModalOpen.type}
-                        taskData={compDelModalOpen.data}
-                        onClose={closeCompDelModal}
-                        getAllTasks={getUserTasks}
-                        getUserInfo={getUserInfo}
-                    />
-                </Modal>
-
-                <Modal
-                    isOpen={birthdayModalOpen.isShown}
-                    onRequestClose={closeBirthdayModal}
-                    style={{
-                        overlay: {
-                            backgroundColor: "rgba(0, 0, 0, 0.2)"
-                        }
-                    }}
-                    className="BirthdayCardModal"
-                >
-                    <BirthdayCard
-                        onClose={closeBirthdayModal}
-                    />
-                </Modal>
-            </div>
+            </>
+        ) : (
+            <div className="loadingScreen">Loading...</div>
+        )}
         </>
     )
 
 }
 
 
-export default Home;
+export default Home

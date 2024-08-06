@@ -1,4 +1,4 @@
-import React, {useEffect, useState, ReactNode} from 'react';
+import React, { useEffect, useState, ReactNode } from "react";
 import "../../index.css"
 import Tasks from "./Tasks.jsx";
 
@@ -47,7 +47,7 @@ const TasksBox = ({title, tasks, tasksToShow, onEdit, onDelete, onComplete}) => 
                 </ul>
             </div>
         </div>
-    );
+    )
 }
 
-export default TasksBox;
+export default TasksBox

@@ -1,7 +1,7 @@
-import React, { useState, ReactNode } from 'react';
-import  { useTokenContext } from '../TokenContext/TokenContext';
-import RenderError from '../RenderError/RenderError';
-import {getTodayYYYYMMDD} from "../../utilities/utilities.js";
+import React, { useState, ReactNode } from "react";
+import  { useTokenContext } from "../TokenContext/TokenContext";
+import RenderError from "../RenderError/RenderError";
+import { getTodayYYYYMMDD } from "../../utilities/utilities.js";
 
 /**
  * A React component to add or edit tasks.
@@ -14,50 +14,50 @@ import {getTodayYYYYMMDD} from "../../utilities/utilities.js";
  */
 const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
     const {tokenStatus} = useTokenContext()
-    const [token, setToken] = tokenStatus
+    const [token, ] = tokenStatus
 
     /**
      * The current task title and setter function to update it.
      * @type {[string, function]}
      */
-    const [title, setTitle] = useState(taskData?.title || '');
+    const [title, setTitle] = useState(taskData?.title || "");
 
     /**
      * The current task description and setter function to update it.
      * @type {[string, function]}
      */
-    const [description, setDescription] = useState(taskData?.description  || '');
+    const [description, setDescription] = useState(taskData?.description  || "");
 
     /**
      * The current task category and setter function to update it.
      * @type {[string, function]}
      */
-    const [category, setCategory] = useState(taskData?.category || '');
+    const [category, setCategory] = useState(taskData?.category || "");
 
     /**
      * The current task deadline and setter function to update it.
      * @type {[string, function]}
      */
-    const [deadline, setDeadline] = useState(taskData?.deadline?.substring(0, 10) || '');
+    const [deadline, setDeadline] = useState(taskData?.deadline?.substring(0, 10) || "");
 
     /**
      * The current task priority and setter function to update it.
      * @type {[string, function]}
      */
-    const [priority, setPriority] = useState(taskData?.priority || '');
+    const [priority, setPriority] = useState(taskData?.priority || "");
 
     /**
      * The current task reminder date and setter function to update it.
      * @type {[string, function]}
      */
-    const [reminderDate, setReminderDate] = useState(taskData?.reminder?.substring(0,10) || '');
-    // const [reminderTime, setReminderTime] = useState(taskData?.reminder.substring(11,16) || '');
+    const [reminderDate, setReminderDate] = useState(taskData?.reminder?.substring(0,10) || "");
+    // const [reminderTime, setReminderTime] = useState(taskData?.reminder.substring(11,16) || "");
 
     const [recurring, setRecurring] = useState(taskData?.recurring || false)
 
     const [startDate, setStartDate] = useState(taskData?.startDate || getTodayYYYYMMDD())
 
-    const [interval, setInterval] = useState(taskData?.interval || '')
+    const [interval, setInterval] = useState(taskData?.interval || "")
 
     /**
      * The Express API URL for this React app.
@@ -69,13 +69,13 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
      * The current task error and setter function to update it.
      * @type {[string, function]}
      */
-    const[error, setError] = useState('');
+    const[error, setError] = useState("");
 
     const handleCheckboxChange = (event) => {
         setRecurring(event.target.checked);
         if (!event.target.checked) {
             setStartDate(getTodayYYYYMMDD());
-            setInterval('');
+            setInterval("");
         }
     }
 
@@ -103,35 +103,35 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
          * @type {Object}
          */
         const dataToPost = {
-            method: 'POST',
+            method: "POST",
             body: JSON.stringify(newTask),
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             }
         };
 
         fetch(`${expressApiUrl}AddTask`, dataToPost)
         .then(res => {
             if (res.ok) {
-                // console.log('Task Successfully Added!')
+                // console.log("Task Successfully Added!")
                 return res.json()
             } else {
-                console.error(err => 'Add Task Failed!', err)
+                console.error(err => "Add Task Failed!", err)
             }
         })
         .then(task => {
-            setTitle('')
-            setDescription('')
-            setCategory('')
-            setDeadline('')
-            setPriority('')
-            setReminderDate('')
+            setTitle("")
+            setDescription("")
+            setCategory("")
+            setDeadline("")
+            setPriority("")
+            setReminderDate("")
             getAllTasks()
             onClose()
         })
         .catch(err => {
-            console.error('Error Adding Task: ', err.message)
+            console.error("Error Adding Task: ", err.message)
         })
     }
 
@@ -164,21 +164,21 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
          * @type {Object}
          */
         const dataToPost = {
-            method: 'PUT',
+            method: "PUT",
             body: JSON.stringify(editedTask),
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             }
         };
 
         await fetch(`${expressApiUrl}EditTask`, dataToPost)
             .then(res => {
                 if (res.ok) {
-                    // console.log('Task Successfully Edited!')
+                    // console.log("Task Successfully Edited!")
                     return res.json()
                 } else {
-                    console.error(err => 'Edit Task Failed!', err)
+                    console.error(err => "Edit Task Failed!", err)
                 }
             })
             .then(task => {
@@ -186,7 +186,7 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
                 onClose()
             })
             .catch(err => {
-                console.error('Error Editing Task: ', err.message)
+                console.error("Error Editing Task: ", err.message)
             })
     }
 
@@ -195,12 +195,12 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
      */
     const handleSave = () => {
         if(!title) {
-            setError('noTaskTitle');
+            setError("noTaskTitle");
             return;
         }
 
         if(!category) {
-            setError('noTaskCategory');
+            setError("noTaskCategory");
             return;
         }
 
@@ -210,12 +210,12 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
         }
 
         if(!deadline) {
-            setError('noTaskDeadline');
+            setError("noTaskDeadline");
             return;
         }
 
         if(!reminderDate) {
-            setError('noTaskReminder')
+            setError("noTaskReminder")
             return
         }
 
@@ -235,21 +235,21 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
         const reminderObj = new Date(reminderDate)
 
         if(deadlineObj < currentDate) {
-            setError('deadlinePast')
+            setError("deadlinePast")
             return
         }
 
         if(reminderObj < currentDate) {
-            setError('reminderPast')
+            setError("reminderPast")
             return
         }
 
         if(reminderObj > deadlineObj) {
-            setError('reminderBeforeDeadline')
+            setError("reminderBeforeDeadline")
             return
         }
 
-        setError('')
+        setError("")
 
         if (type === "add") {
             addNewTask()
@@ -349,10 +349,10 @@ const AddEditTasks = ({taskData, type, getAllTasks, onClose}) => {
             {RenderError.renderPriorityOrDateError(error)}
 
             <button className="saveTaskBtn" onClick={handleSave}>
-                {type === 'edit' ? 'UPDATE' : 'ADD'}
+                {type === "edit" ? "UPDATE" : "ADD"}
             </button>
         </div>
     )
 }
 
-export default AddEditTasks;
+export default AddEditTasks

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar/NavBar.jsx";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTokenContext } from "../components/TokenContext/TokenContext.jsx";
@@ -6,11 +6,11 @@ import { getDDMMYY, startIntro, setHasFinishedIntroAtPage } from "../utilities/u
 import SearchBar from "../components/ProfilePage/SearchBar.jsx";
 import FriendReqsBox from "../components/ProfilePage/FriendReqsBox.jsx";
 import FriendsBox from "../components/ProfilePage/FriendsBox.jsx";
-import Modal from 'react-modal';
+import Modal from "react-modal";
 import RequestModal from "../components/ProfilePage/RequestModal.jsx";
-import IntroElement from '../components/IntroElements/IntroElement.jsx';
+import IntroElement from "../components/IntroElements/IntroElement.jsx";
 import ItemCollectionBox from "../components/ProfilePage/ItemCollectionBox";
-import { Items, isIconOwned } from '../utilities/ShopItemUtilities.js';
+import { Items, isIconOwned } from "../utilities/ShopItemUtilities.js";
 
 const Profile = () => {
     const navigate = useNavigate()
@@ -138,10 +138,10 @@ const Profile = () => {
 
     /*
     const[friends, setFriends] = useState([{
-        name: 'Test',
+        name: "Test",
         points: 0},
         {
-            name: 'Test2',
+            name: "Test2",
             points: 1},
     ])
 
@@ -149,10 +149,10 @@ const Profile = () => {
 
     /*
     const[friendReqs, setFriendReqs] = useState([{
-        name: 'Test',
+        name: "Test",
         points: 0},
         {
-            name: 'Test2',
+            name: "Test2",
             points: 1
         },
     ])
@@ -215,15 +215,15 @@ const Profile = () => {
     const getUserDataByUsername = async () => {
         try {
             const response = await fetch(`${expressApiUrl}user/${username}`, {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
                 }
             });
 
             if (!response.ok) {
-                throw new Error('User not found');
+                throw new Error("User not found");
             }
 
             const data = await response.json();
@@ -239,19 +239,19 @@ const Profile = () => {
     const getUserFriends = async () => {
         try {
             const res = await fetch(`${expressApiUrl}Friends`, {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
                 }
             })
 
             if(!res.ok) {
-                throw new Error('Friend cannot be retrieved')
+                throw new Error("Friend cannot be retrieved")
             }
 
             const data = await res.json()
-            // console.log('Array' + data.friends)
+            // console.log("Array" + data.friends)
             setFriends(data.friends)
             // console.log(friends)
         } catch (err) {
@@ -262,15 +262,15 @@ const Profile = () => {
     const getUserFriendRequests = async () => {
         try {
             const res = await fetch(`${expressApiUrl}FriendRequests`, {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
                 }
             })
 
             if(!res.ok) {
-                throw new Error('Requests cannot be retrieved')
+                throw new Error("Requests cannot be retrieved")
             }
 
             const data = await res.json()
@@ -278,7 +278,7 @@ const Profile = () => {
             setSentReqs(data.sentRequests)
             // console.log(friendReqs)
             // console.log(sentReqs)
-            // console.log('Successfully retrieved friend reqs!')
+            // console.log("Successfully retrieved friend reqs!")
         } catch (err) {
             console.log("Error getting user friend requests")
         }
@@ -288,10 +288,10 @@ const Profile = () => {
     const createFriendRequest = async () => {
         try {
             const res = await fetch(`${expressApiUrl}requests/${username}`, {
-                method: 'POST',
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
                 }
             })
 

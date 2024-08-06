@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     // Defines a user table with its parameters.
-    const User = sequelize.define('User', {
+    const User = sequelize.define("User", {
         id: {
             primaryKey: true,
             autoIncrement: true,
@@ -31,12 +31,12 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
     }, {
-        tableName: 'users',
-        schema: 'public', // Specify schema if necessary (default is 'public')
-    });
+        tableName: "users",
+        schema: "public", // Specify schema if necessary (default is "public")
+    })
 
     // Defines a tasks table with its parameters.
-    const Tasks = sequelize.define('Task', {
+    const Tasks = sequelize.define("Task", {
         id: {
             primaryKey: true,
             autoIncrement: true,
@@ -48,10 +48,10 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             references: {
                 model: User,
-                key: 'id'
+                key: "id"
             },
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE'
+            onDelete: "CASCADE",
+            onUpdate: "CASCADE"
         },
         title: {
             type: DataTypes.TEXT,
@@ -96,11 +96,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
         }
     }, {
-        tableName: 'tasks',
-        schema: 'public', // Specify schema if necessary (default is 'public')
-    });
+        tableName: "tasks",
+        schema: "public", // Specify schema if necessary (default is "public")
+    })
 
-    const Friendships = sequelize.define('Friendship', {
+    const Friendships = sequelize.define("Friendship", {
         id: {
             primaryKey: true,
             autoIncrement: true,
@@ -112,31 +112,31 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             references: {
                 model: User,
-                key: 'id'
+                key: "id"
             },
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE'
+            onDelete: "CASCADE",
+            onUpdate: "CASCADE"
         },
         relatedUser: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
                 model: User,
-                key: 'id'
+                key: "id"
             },
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE'
+            onDelete: "CASCADE",
+            onUpdate: "CASCADE"
         },
         type: {
             type: DataTypes.STRING,
             allowNull: false
         }
     }, {
-        tableName: 'friendships',
-        schema: 'public', // Specify schema if necessary (default is 'public')
-    });
+        tableName: "friendships",
+        schema: "public", // Specify schema if necessary (default is "public")
+    })
 
-    const Items = sequelize.define('Item', {
+    const Items = sequelize.define("Item", {
         id: {
             primaryKey: true,
             autoIncrement: true,
@@ -148,21 +148,21 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             references: {
                 model: User,
-                key: 'id'
+                key: "id"
             },
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE'
+            onDelete: "CASCADE",
+            onUpdate: "CASCADE"
         },
         itemId: {
             allowNull: false,
             type: DataTypes.INTEGER,
         },
     }, {
-        tableName: 'items',
-        schema: 'public', // Specify schema if necessary (default is 'public')
-    });
+        tableName: "items",
+        schema: "public", // Specify schema if necessary (default is "public")
+    })
 
-    const RecurringTasks = sequelize.define('RecurringTask', {
+    const RecurringTasks = sequelize.define("RecurringTask", {
         id: {
             primaryKey: true,
             autoIncrement: true,
@@ -174,10 +174,10 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             references: {
                 model: User,
-                key: 'id'
+                key: "id"
             },
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE'
+            onDelete: "CASCADE",
+            onUpdate: "CASCADE"
         },
         title: {
             type: DataTypes.TEXT,
@@ -216,23 +216,23 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         }
     }, {
-        tableName: 'recurringtasks',
-        schema: 'public', // Specify schema if necessary (default is 'public')
-    });
+        tableName: "recurringtasks",
+        schema: "public", // Specify schema if necessary (default is "public")
+    })
 
     // Defines relationships
-    User.hasMany(Tasks, { foreignKey: 'userId' });
-    Tasks.belongsTo(User, { foreignKey: 'userId' });
+    User.hasMany(Tasks, { foreignKey: "userId" })
+    Tasks.belongsTo(User, { foreignKey: "userId" })
 
-    Friendships.belongsTo(User, { foreignKey: 'relatingUser', as: 'RelatingUser' });
-    Friendships.belongsTo(User, { foreignKey: 'relatedUser', as: 'RelatedUser' });
+    Friendships.belongsTo(User, { foreignKey: "relatingUser", as: "RelatingUser" })
+    Friendships.belongsTo(User, { foreignKey: "relatedUser", as: "RelatedUser" })
 
-    User.hasMany(Items, { foreignKey: 'userId' });
-    Items.belongsTo(User, { foreignKey: 'userId' });
+    User.hasMany(Items, { foreignKey: "userId" })
+    Items.belongsTo(User, { foreignKey: "userId" })
 
-    User.hasMany(RecurringTasks, { foreignKey: 'userId' });
-    RecurringTasks.belongsTo(User, { foreignKey: 'userId' });
+    User.hasMany(RecurringTasks, { foreignKey: "userId" })
+    RecurringTasks.belongsTo(User, { foreignKey: "userId" })
 
-    return [User, Tasks, Friendships, Items, RecurringTasks];
-};
+    return [User, Tasks, Friendships, Items, RecurringTasks]
+}
 
