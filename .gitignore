@@ -2,5 +2,6 @@
 .vscode/
 .env
 .env.test
+config/
 node_modules
 /Website Tutorial
