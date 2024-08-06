@@ -1,8 +1,8 @@
-import React, {ReactNode} from 'react';
-import '../../index.css';
-import {getDDMM} from "../../utilities/utilities.js";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import React, {ReactNode} from "react";
+import "../../index.css";
+import { getDDMM } from "../../utilities/utilities.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
 
 /**
@@ -25,7 +25,7 @@ const Tasks = ({taskId, title, deadline, priority, category, onEdit, onComplete,
                 <div className="taskInnerBox">
                     <div className="titleAndPriorityBox">
                         <div className="taskTitle">
-                            <span style={{fontWeight: 'bold'}} className="titleSpan">{getDDMM(deadline)}</span> {title}
+                            <span style={{fontWeight: "bold"}} className="titleSpan">{getDDMM(deadline)}</span> {title}
                         </div>
                         <div className="taskPriorityAndCategory">
                             {priority} | {category}
@@ -42,7 +42,7 @@ const Tasks = ({taskId, title, deadline, priority, category, onEdit, onComplete,
                 </div>
             </div>
         </li>
-    );
+    )
 }
 
-export default Tasks;
+export default Tasks

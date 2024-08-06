@@ -38,7 +38,7 @@ export const wait = (n) => {
  * @returns A text string without spaces.
  */
 export const removeSpaces = (text) => {
-    return text.replace(/\s+/g, '')
+    return text.replace(/\s+/g, "")
 }
 
 /**
@@ -51,18 +51,18 @@ export const taskInfoString = (task, index) => `${(index + 1)}. ${task.title}, $
 
 /**
  * @async
- * Gets the user's current location's weather and returns it as a promise.
+ * Gets the user"s current location"s weather and returns it as a promise.
  * @returns {Promise<string>} A promise that returns a weather response.
  */
 export const getCurrentPositionWeather = async (APIKey) => {
     return new Promise((resolve, reject) => {
-        if ('geolocation' in navigator) {
+        if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(async (position) => {
                 const lat = position.coords.latitude
                 const lon = position.coords.longitude
     
-                let fetchLink = 'https://api.openweathermap.org/data/2.5/weather?'
-                fetchLink += 'lat=' + lat + '&lon=' + lon + '&appid=' + APIKey
+                let fetchLink = "https://api.openweathermap.org/data/2.5/weather?"
+                fetchLink += "lat=" + lat + "&lon=" + lon + "&appid=" + APIKey
     
                 try {
                     const response = await fetch(fetchLink)
@@ -74,7 +74,7 @@ export const getCurrentPositionWeather = async (APIKey) => {
                         resolve(weatherResponse)
                     }
                 } catch (err) {
-                    console.error('Error Fetching Weather Info! ', err)
+                    console.error("Error Fetching Weather Info! ", err)
                     reject(err)
                 }
                 

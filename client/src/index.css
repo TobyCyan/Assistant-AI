@@ -112,6 +112,11 @@ button {
   text-decoration: underline;
 }
 
+.loadingScreen {
+  font-family: 'Raleway', sans-serif;
+  font-size: 30px;
+}
+
 .navBarRightContainer {
   display: flex;
   justify-content: space-between;

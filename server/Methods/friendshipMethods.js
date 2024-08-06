@@ -1,8 +1,8 @@
-const db = require('../Models/dataBase.js')
+const db = require("../Models/dataBase.js")
 
 const User = db.users
 const Friendships = db.friendships
-const {Op} = require('sequelize')
+const {Op} = require("sequelize")
 
 const getFriends = async (req, res) => {
     const { id } = req.user
@@ -10,7 +10,7 @@ const getFriends = async (req, res) => {
     // Finds All Task Instances of the User.
     const friendships = await Friendships.findAll({
         where: {
-            type: 'friend',
+            type: "friend",
             [Op.or]: [
                 { relatingUser: id },
                 { relatedUser: id }
@@ -19,16 +19,16 @@ const getFriends = async (req, res) => {
         include: [
             {
                 model: User,
-                as: 'RelatingUser',
-                attributes: ['id', 'name', 'points']
+                as: "RelatingUser",
+                attributes: ["id", "name", "points"]
             },
             {
                 model: User,
-                as: 'RelatedUser',
-                attributes: ['id', 'name', 'points']
+                as: "RelatedUser",
+                attributes: ["id", "name", "points"]
             }
         ]
-    });
+    })
 
     if(friendships) {
         console.log(friendships)
@@ -39,20 +39,20 @@ const getFriends = async (req, res) => {
                     id: friendship.RelatedUser.id,
                     name: friendship.RelatedUser.name,
                     points: friendship.RelatedUser.points
-                };
+                }
             } else {
                 // If the current user is the relatedUser, get the relatingUser's information
                 return {
                     id: friendship.RelatingUser.id,
                     name: friendship.RelatingUser.name,
                     points: friendship.RelatingUser.points
-                };
+                }
             }
-        });
+        })
         console.log(friends)
         res.send({friends})
     } else {
-        res.status(400).send('Unable to retrieve user friends')
+        res.status(400).send("Unable to retrieve user friends")
     }
 }
 
@@ -62,7 +62,7 @@ const getFriendRequests = async (req, res) => {
     // Finds All Request Instances of the User.
     const requests = await Friendships.findAll({
         where: {
-            type: 'request',
+            type: "request",
             [Op.or]: [
                 { relatingUser: id },
                 { relatedUser: id }
@@ -71,16 +71,16 @@ const getFriendRequests = async (req, res) => {
         include: [
             {
                 model: User,
-                as: 'RelatingUser',
-                attributes: ['id', 'name', 'points']
+                as: "RelatingUser",
+                attributes: ["id", "name", "points"]
             },
             {
                 model: User,
-                as: 'RelatedUser',
-                attributes: ['id', 'name', 'points']
+                as: "RelatedUser",
+                attributes: ["id", "name", "points"]
             }
         ]
-    });
+    })
 
     // Sends the List of TaskModals as a Response If TaskModals Found.
     if (requests) {
@@ -110,7 +110,7 @@ const getFriendRequests = async (req, res) => {
         res.send({sentRequests, receivedRequests})
     } else {
         // Sends an Error Message If The User is Invalid or TaskModals are Not Found.
-        res.status(404).send('Invalid friendship requests')
+        res.status(404).send("Invalid friendship requests")
     }
 }
 
@@ -141,7 +141,7 @@ const createFriendRequest = async (req, res) => {
         const request = {
             relatingUser: id,
             relatedUser: receiver.id,
-            type: 'request'
+            type: "request"
         }
 
         // Create the New Task Instance.
@@ -151,10 +151,10 @@ const createFriendRequest = async (req, res) => {
             res.status(201).send({newRequest})
             console.log(`Request from ${ id } to ${receiver}  added to database!`)
         } else {
-            res.status(400).send('Invalid Request')
+            res.status(400).send("Invalid Request")
         }
     } else {
-        res.status(404).send('Could not find receiver')
+        res.status(404).send("Could not find receiver")
     }
 }
 
@@ -179,7 +179,7 @@ const updateFriendRequest = async (req, res) => {
         const request = {
             relatingUser: requester.id,
             relatedUser: id,
-            type: 'friend'
+            type: "friend"
         }
 
         // Updates the Task Instance.
@@ -197,10 +197,10 @@ const updateFriendRequest = async (req, res) => {
             res.status(200).send({request})
             console.log(`Request from ${requester} to ${ id } accepted!`)
         } else {
-            res.status(400).send('Invalid Request')
+            res.status(400).send("Invalid Request")
         }
     } else {
-        res.status(404).send('Could not find requester')
+        res.status(404).send("Could not find requester")
     }
 }
 
@@ -221,16 +221,16 @@ const deleteFriendRequest = async (req, res) => {
                 relatedUser: id
             }
         }).catch(err => {
-            console.error('Error Deleting Request / No Such Request', err)
+            console.error("Error Deleting Request / No Such Request", err)
         })
 
         if (result) {
             if(result > 0) {
-                console.log("Deleted Successfully");
-                res.send({ message: "Request deleted successfully" });
+                console.log("Deleted Successfully")
+                res.send({ message: "Request deleted successfully" })
             } else {
-                console.log("No request found to delete");
-                res.status(404).send({ error: "Request not found" });
+                console.log("No request found to delete")
+                res.status(404).send({ error: "Request not found" })
             }
         }
     }

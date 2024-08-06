@@ -26,23 +26,23 @@ const ExchangeItemsModal = ({itemData, onClose, getUserInfo, getUserItems}) => {
      */
     const exchangeItems = async() => {
         const dataToPost = {
-            method: 'POST',
+            method: "POST",
             body: JSON.stringify(itemData),
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             }
         }
         try {
             const res = await fetch(`${expressApiUrl}CreateUserItem`, dataToPost)
             if(res.ok) {
-                // console.log('Item exchange successfully sent')
+                // console.log("Item exchange successfully sent")
             }
             getUserInfo()
             getUserItems()
             onClose()
         } catch (error) {
-            console.error('Failed to obtain item!', error)
+            console.error("Failed to obtain item!", error)
         }
     }
 
@@ -56,4 +56,4 @@ const ExchangeItemsModal = ({itemData, onClose, getUserInfo, getUserItems}) => {
     )
 }
 
-export default ExchangeItemsModal;
+export default ExchangeItemsModal

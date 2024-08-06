@@ -1,6 +1,6 @@
-import React, { useEffect, useState, ReactNode } from 'react'
+import React, { useEffect, useState, ReactNode } from "react"
 import NavBar from "../components/NavBar/NavBar.jsx";
-import '../index.css'
+import "../index.css"
 import { useTokenContext } from "../components/TokenContext/TokenContext";
 import DetailedTaskCard from "../components/TasksCardsAndBox/DetailedTaskCard.jsx";
 import AddEditTasks from "../components/TaskModals/AddEditTasks";
@@ -11,8 +11,8 @@ import {
     setHasFinishedIntroAtPage,
     compareTasksPriority
 } from "../utilities/utilities.js";
-import Modal from 'react-modal';
-import IntroElement from '../components/IntroElements/IntroElement.jsx';
+import Modal from "react-modal";
+import IntroElement from "../components/IntroElements/IntroElement.jsx";
 
 /**
  * A Functional React component that displays all user tasks based on their categories, level of priority and completion status, and allows user to perform task operations such as add, edit, complete, uncomplete and delete.
@@ -112,7 +112,7 @@ function MyTasks() {
      * The filter and setter function to update it.
      * @type {[String, function]}
      */
-    const [filter, setFilter] = useState('All')
+    const [filter, setFilter] = useState("All")
 
     /**
      * The current state of AddEditModal and setter function to update it.
@@ -140,11 +140,11 @@ function MyTasks() {
      */
     useEffect(() => {
         if (token) {
-            localStorage.setItem('token', token);
-            getUserInfo();
-            getUserTasks();
+            localStorage.setItem("token", token);
+            getUserInfo()
+            getUserTasks()
         }
-    }, [token]);
+    }, [token])
 
     /**
      * @function useEffect
@@ -154,7 +154,7 @@ function MyTasks() {
         tasks.sort(compareTasksPriority).sort(compareTasksDeadline)
         setDisplayTasks(tasks)
         filterTasks(filter)
-    }, [tasks]);
+    }, [tasks])
 
     /**
      * @function useEffect
@@ -162,7 +162,7 @@ function MyTasks() {
      */
     useEffect(() => {
         filterTasks(filter)
-    }, [filter]);
+    }, [filter])
 
     /**
      * Function that closes the add or edit modal.
@@ -216,16 +216,16 @@ function MyTasks() {
      * @param {string} value Value to filter the tasks by.
      */
     const filterTasks = (value) => {
-        if(value === 'All') {
+        if(value === "All") {
             setDisplayTasks(uncompletedTasks)
-        } else if (value === 'Completed') {
+        } else if (value === "Completed") {
             setDisplayTasks(tasks.filter(each => each.completed))
-        } else if (value === 'Low') {
-            setDisplayTasks(uncompletedTasks.filter(each => each.priority === 'Low'))
-        } else if (value === 'Medium') {
-            setDisplayTasks(uncompletedTasks.filter(each => each.priority === 'Medium'))
-        } else if (value === 'High') {
-            setDisplayTasks(uncompletedTasks.filter(each => each.priority === 'High'))
+        } else if (value === "Low") {
+            setDisplayTasks(uncompletedTasks.filter(each => each.priority === "Low"))
+        } else if (value === "Medium") {
+            setDisplayTasks(uncompletedTasks.filter(each => each.priority === "Medium"))
+        } else if (value === "High") {
+            setDisplayTasks(uncompletedTasks.filter(each => each.priority === "High"))
         } else {
             setDisplayTasks(uncompletedTasks.filter(each => each.category === filter))
         }
@@ -284,12 +284,12 @@ function MyTasks() {
      */
     const getUserTasks = async () => {
         const dataToPost = {
-            method: 'GET',
+            method: "GET",
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             }
-        };
+        }
 
         try {
             const res = await fetch(`${expressApiUrl}Tasks`, dataToPost)
@@ -306,7 +306,7 @@ function MyTasks() {
                 setDisplayTasks(tasks)
             }
         } catch (error) {
-            console.error('Failed to Fetch TaskModals!', error)
+            console.error("Failed to Fetch TaskModals!", error)
         }
     }
 
@@ -318,12 +318,12 @@ function MyTasks() {
      */
     const getUserInfo = async () => {
         const dataToPost = {
-            method: 'GET',
+            method: "GET",
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             }
-        };
+        }
 
         try {
             const res = await fetch(`${expressApiUrl}GetUserInfo`, dataToPost)
@@ -338,7 +338,7 @@ function MyTasks() {
                 setUserData(data)
             }
         } catch (error) {
-            console.error('Failed to Fetch User Info!', error)
+            console.error("Failed to Fetch User Info!", error)
         }
     }
 
@@ -369,7 +369,7 @@ function MyTasks() {
                 />
             ))}
         </div>
-    );
+    )
 
     return (
         <>
@@ -380,20 +380,20 @@ function MyTasks() {
                     <button className="addTaskBtn" onClick={handleAddTask}>Add Task</button>
                     <div className="categoriesSidebar">Categories</div>
                     <ul id="category-list">
-                        <li onClick={() => handleFilterTasks('All')}>All ({uncompletedTasks.length})</li>
-                        <li onClick={() => handleFilterTasks('High')}>High
-                            ({uncompletedTasks.filter(each => each.priority === 'High').length})
+                        <li onClick={() => handleFilterTasks("All")}>All ({uncompletedTasks.length})</li>
+                        <li onClick={() => handleFilterTasks("High")}>High
+                            ({uncompletedTasks.filter(each => each.priority === "High").length})
                         </li>
-                        <li onClick={() => handleFilterTasks('Medium')}>Medium
-                            ({uncompletedTasks.filter(each => each.priority === 'Medium').length})
+                        <li onClick={() => handleFilterTasks("Medium")}>Medium
+                            ({uncompletedTasks.filter(each => each.priority === "Medium").length})
                         </li>
-                        <li onClick={() => handleFilterTasks('Low')}>Low
-                            ({uncompletedTasks.filter(each => each.priority === 'Low').length})
+                        <li onClick={() => handleFilterTasks("Low")}>Low
+                            ({uncompletedTasks.filter(each => each.priority === "Low").length})
                         </li>
                         {categories}
                         <li
-                            onClick={() => handleFilterTasks('Completed')}
-                            style={{ color: 'green' }}
+                            onClick={() => handleFilterTasks("Completed")}
+                            style={{ color: "green" }}
                         >Completed
                             ({tasks.filter(each => each.completed).length})
                         </li>

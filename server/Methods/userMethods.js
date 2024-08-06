@@ -1,8 +1,7 @@
-const db = require('../Models/dataBase.js')
-const jwt = require('jsonwebtoken')
+const db = require("../Models/dataBase.js")
+const jwt = require("jsonwebtoken")
 
 const User = db.users
-const Tasks = db.tasks
 const Items = db.items
 
 const secretKey = process.env.Secret_Key
@@ -17,36 +16,36 @@ const addUser = async (req, res) => {
     const data = req.body
 
     let newUserData = {
-        name: data['username'],
-        password: data['password'],
-        points: data['points'],
-        email: data['email'],
-        dateOfBirth: data['dateOfBirth']
+        name: data["username"],
+        password: data["password"],
+        points: data["points"],
+        email: data["email"],
+        dateOfBirth: data["dateOfBirth"]
     }
 
     // Username must be unique.
     const findUser = await User.findOne({
         where: {
-            name: data['username']
+            name: data["username"]
         }
     })
     
     // Sends an Error Messages as Response If User Already Exists.
     if (findUser) {
-        res.status(401).send('Username Already Taken!')
+        res.status(401).send("Username Already Taken!")
         return
     }
 
     // Email must be unique
     const findEmail = await User.findOne({
         where: {
-            email: data['email']
+            email: data["email"]
         }
     })
 
     // Sends an Error Messages as Response If Email Already Exists.
     if(findEmail) {
-        res.status(401).send('Email Already Taken!')
+        res.status(401).send("Email Already Taken!")
         return
     } else {
         // Creates the New User Instance and Signs a JSON Web Token with the Username and Secret Key.
@@ -54,9 +53,9 @@ const addUser = async (req, res) => {
         // Remove expiresIn first
         const token = jwt.sign({username: newUser.name, id:newUser.id}, secretKey)
 
-        // Sends an ok Response and the JWT Token to Begin the User's Session.
+        // Sends an ok Response and the JWT Token to Begin the User"s Session.
         res.status(200).send({token})
-        console.log(newUser + ' added to database!')
+        console.log(newUser + " added to database!")
     }
 }
 
@@ -87,12 +86,12 @@ const loginUser = async (req, res) => {
         res.send({token, userId: findUser.id})
     } else {
         // Sends an Error Message If Credentials are Invalid.
-        res.status(401).send('Invalid Credentials')
+        res.status(401).send("Invalid Credentials")
     }
 }
 
 /**
- * Get user's info.
+ * Get user"s info.
  * @async
  * @param {*} req The request from the front-end.
  * @param {*} res The response to the front-end.
@@ -121,12 +120,12 @@ const getUserInfo = async (req, res) => {
         
         res.send(userDetails)
     } else {
-        res.status(404).send('Invalid User')
+        res.status(404).send("Invalid User")
     }
 }
 
 /**
- * Get user's info.
+ * Get user"s info.
  * @async
  * @param {*} req The request from the front-end.
  * @param {*} res The response to the front-end.
@@ -162,7 +161,7 @@ const getUserInfoByUsername = async (req, res) => {
 
         res.send({userDetails, userItems})
     } else {
-        res.status(404).send('No Such User in DB')
+        res.status(404).send("No Such User in DB")
     }
 }
 

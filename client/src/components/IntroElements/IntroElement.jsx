@@ -14,15 +14,7 @@ import { useTokenContext } from "../TokenContext/TokenContext";
  * @param {string} page The current page name. 
  * @returns {ReactNode} A React element that renders the intro.
  */
-const IntroElement = ({steps, activate, setActivate, hasDoneTutorial, endIntro, page}) => {
-    const {tokenStatus, } = useTokenContext()
-
-    /**
-     * The current token and setter function to update it.
-     * @type {[string, function]}
-     */
-    const [token, setToken] = tokenStatus
-
+const IntroElement = ({steps, activate, setActivate, page}) => {
     /**
      * Set the intro at the current page to be finished.
      */
@@ -46,7 +38,6 @@ const IntroElement = ({steps, activate, setActivate, hasDoneTutorial, endIntro, 
                     nextToDone: false,
                     exitOnEsc: false,
                 }}
-                ref={steps => steps}
                 onExit={quitIntro}
             />
 

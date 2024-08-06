@@ -1,8 +1,8 @@
-import React, { useState, useEffect, ReactNode, useCallback } from 'react'
-import '../../index.css'
+import React, { useState, useEffect, ReactNode, useCallback } from "react"
+import "../../index.css"
 import { useNavigate } from "react-router-dom";
 import { useTokenContext } from "../TokenContext/TokenContext.jsx";
-import { Items, isIconOwned } from '../../utilities/ShopItemUtilities.js';
+import { Items, isIconOwned } from "../../utilities/ShopItemUtilities.js";
 
 /**
  * A React component that retrieves the current user data and points to display them.
@@ -37,7 +37,7 @@ const UserInfo = () => {
      * The current username of the logged in user and setter function to update it.
      * @type {[string, function]}
      */
-    const [username, setUsername] = useState('')
+    const [username, setUsername] = useState("")
 
     /**
      * The current points of the logged in user and setter function to update it.
@@ -128,15 +128,15 @@ const UserInfo = () => {
     const getUserItemsByUsername = async () => {
         try {
             const response = await fetch(`${expressApiUrl}user/${username}`, {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
                 }
             });
 
             if (!response.ok) {
-                throw new Error('User not found');
+                throw new Error("User not found");
             }
 
             const data = await response.json();
@@ -149,10 +149,10 @@ const UserInfo = () => {
 
     const getUserInfo = async () => {
         const dataToPost = {
-            method: 'GET',
+            method: "GET",
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             }
         };
 
@@ -169,7 +169,7 @@ const UserInfo = () => {
                 setUserData(data)
             }
         } catch (error) {
-            console.error('Failed to Fetch User Info!', error.message)
+            console.error("Failed to Fetch User Info!", error.message)
         }
     }
 
@@ -178,7 +178,7 @@ const UserInfo = () => {
      * Clears token and userData on log out, to login page.
      */
     const onLogOut = () => {
-        setToken('')
+        setToken("")
         setUserData({
             username: null,
             id: null,

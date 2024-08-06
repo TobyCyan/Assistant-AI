@@ -1,16 +1,16 @@
-import React from 'react';
+import React from "react";
 import { addDays, getDDMM } from "../../utilities/utilities.js";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEdit, faTimes} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 function RecurringTasks({recurringTask, onEdit, onDelete}) {
     const{lastCreated, nextCreation, creationToDeadline, interval, reminderToDeadline} = recurringTask
     const lastCreatedDate = lastCreated ? new Date(lastCreated) : null
-    const lastCreation = lastCreated ? getDDMM(lastCreatedDate.toLocaleDateString('en-CA')) : 'NA'
-    const latestDeadline = lastCreated ? getDDMM(addDays(lastCreatedDate, creationToDeadline).toLocaleDateString('en-CA')) : 'NA'
+    const lastCreation = lastCreated ? getDDMM(lastCreatedDate.toLocaleDateString("en-CA")) : "NA"
+    const latestDeadline = lastCreated ? getDDMM(addDays(lastCreatedDate, creationToDeadline).toLocaleDateString("en-CA")) : "NA"
     const nextCreationDate = new Date(nextCreation)
-    const nextCreationString = getDDMM(nextCreationDate.toLocaleDateString('en-CA'))
-    const nextDeadline = getDDMM(addDays(nextCreationDate, creationToDeadline).toLocaleDateString('en-CA'))
+    const nextCreationString = getDDMM(nextCreationDate.toLocaleDateString("en-CA"))
+    const nextDeadline = getDDMM(addDays(nextCreationDate, creationToDeadline).toLocaleDateString("en-CA"))
 
 
     return (
@@ -33,7 +33,7 @@ function RecurringTasks({recurringTask, onEdit, onDelete}) {
                 </button>
             </div>
         </div>
-    );
+    )
 }
 
-export default RecurringTasks;
+export default RecurringTasks

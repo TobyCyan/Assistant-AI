@@ -44,5 +44,5 @@ const NavBar = ({overduedTasks, remindersTasks, upcomingTasks, priorityTasks}) =
     )
 }
 
-export default NavBar;
+export default NavBar
 

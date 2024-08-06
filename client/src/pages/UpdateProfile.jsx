@@ -1,11 +1,11 @@
 import { React, useState, ReactNode } from "react";
 import NavBar from "../components/NavBar/NavBar.jsx";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../index.css";
 import CryptoJS from "crypto-js";
 import RenderError from "../components/RenderError/RenderError";
 import { useTokenContext } from "../components/TokenContext/TokenContext";
-import {checkStrongPW} from "../utilities/utilities";
+import { checkStrongPW } from "../utilities/utilities";
 
 
 /**
@@ -26,22 +26,22 @@ const UpdateProfile = () => {
      * The current confirmation password and setter function to update it.
      * @type {[string, function]}
      */
-    const [confirmPassword, setConfirmPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState("")
 
     /**
      * The current error faced by user during sign up and setter function to update it.
      * @type {[string, function]}
      */
-    const [error, setError] = useState('')
+    const [error, setError] = useState("")
 
     /**
      * The current userData state and setter function to update it.
      * @type {[Object, function]}
      */
     const [userData, setUserData] = useState({
-        email: '',
-        password: '',
-        dateOfBirth: ''
+        email: "",
+        password: "",
+        dateOfBirth: "",
     })
 
     const navigate = useNavigate()
@@ -51,7 +51,7 @@ const UpdateProfile = () => {
      * @returns {boolean} true or false.
      */
     function pwMatch() {
-        return confirmPassword === userData.password;
+        return confirmPassword === userData.password
     }
 
     /**
@@ -61,9 +61,9 @@ const UpdateProfile = () => {
      */
     const handleNameChange = (newName) => {
         return setUserData((prevState) => {
-            return { ...prevState, username: newName };
-        });
-    };
+            return { ...prevState, username: newName }
+        })
+    }
 
     /**
      * Update userData with the new email.
@@ -73,8 +73,8 @@ const UpdateProfile = () => {
     const handleEmailChange = (newEmail) => {
         return setUserData((prevState) => {
             return { ...prevState, email: newEmail };
-        });
-    };
+        })
+    }
 
     /**
      * Update userData with the new password.
@@ -83,9 +83,9 @@ const UpdateProfile = () => {
      */
     const handlePasswordChange = (newPW) => {
         return setUserData((prevState) => {
-            return { ...prevState, password: newPW };
-        });
-    };
+            return { ...prevState, password: newPW }
+        })
+    }
 
     /**
      * Update userData with the new birth date.
@@ -94,11 +94,11 @@ const UpdateProfile = () => {
      */
     const handleBirthDateChange = (newBirthDate) => {
         const birthDateObject = new Date(newBirthDate)
-        const formattedDate = birthDateObject.toISOString().split('T')[0];
+        const formattedDate = birthDateObject.toISOString().split("T")[0];
 
         return setUserData((prevState) => {
-            return { ...prevState, dateOfBirth: formattedDate };
-        });
+            return { ...prevState, dateOfBirth: formattedDate }
+        })
     }
 
     /**
@@ -106,16 +106,16 @@ const UpdateProfile = () => {
      */
     function clearPW() {
         setUserData((prevState) => {
-            return { ...prevState, password: '' };
+            return { ...prevState, password: "" }
         })
-        setConfirmPassword('')
+        setConfirmPassword("")
     }
 
     /**
      * Updates the sign up error when username is empty.
      */
     function handleEmptyUsername() {
-        setError('UsernameError')
+        setError("UsernameError")
     }
 
     /**
@@ -123,59 +123,59 @@ const UpdateProfile = () => {
      */
     function handleDifferentPassword() {
         clearPW()
-        setError('MismatchPW')
+        setError("MismatchPW")
     }
 
     /**
      * Updates the sign up error when password is empty.
      */
     function handleEmptyPW() {
-        setError('EmptyPW')
+        setError("EmptyPW")
     }
 
     /**
      * Updates the sign up error when birth date is empty.
      */
     function handleEmptyDateOfBirth() {
-        setError('EmptyDOB')
+        setError("EmptyDOB")
     }
 
     /**
      * Updates the sign up error when birth date is in the future.
      */
     function handleFutureDOB() {
-        setError('DOBFuture')
+        setError("DOBFuture")
     }
 
     /**
      * Updates the sign up error when password is weak.
      */
     function handleWeakPassword() {
-        setError('WeakPW')
-        setConfirmPassword('')
+        setError("WeakPW")
+        setConfirmPassword("")
     }
 
     /**
      * Updates the sign up error when password is weak.
      */
     function handleSpaceUsername() {
-        setError('UsernameSpaceError')
+        setError("UsernameSpaceError")
     }
 
     /**
      * Updates the sign up error when password is weak.
      */
     function handleSpacePassword() {
-        setError('SpacePW')
+        setError("SpacePW")
     }
 
     /**
      * Updates the sign up error when username is already taken.
      */
     function handleFailedSignUp(error) {
-        if (error == 'Username Already Taken!') {
+        if (error == "Username Already Taken!") {
             clearPW()
-            setError('UsernameTaken')
+            setError("UsernameTaken")
         }
     }
 
@@ -183,7 +183,7 @@ const UpdateProfile = () => {
      * Sends User to the Home Page.
      */
     function sendToHomePage() {
-        navigate('/')
+        navigate("/")
     }
 
 
@@ -196,20 +196,20 @@ const UpdateProfile = () => {
      */
     const handleSignUp = async (e) => {
         e.preventDefault()
-        setError('')
+        setError("")
 
-        if (userData.username === '') {
+        if (userData.username === "") {
             handleEmptyUsername()
             return
         }
 
 
-        if(userData.username.includes(' ')) {
+        if(userData.username.includes(" ")) {
             handleSpaceUsername()
             return;
         }
 
-        if (userData.dateOfBirth == '') {
+        if (userData.dateOfBirth == "") {
             handleEmptyDateOfBirth()
             return
         }
@@ -222,12 +222,12 @@ const UpdateProfile = () => {
             return
         }
 
-        if (userData.password == '') {
+        if (userData.password == "") {
             handleEmptyPW()
             return
         }
 
-        if(userData.password.includes(' ')) {
+        if(userData.password.includes(" ")) {
             handleSpacePassword()
             return
         }
@@ -248,20 +248,20 @@ const UpdateProfile = () => {
         const updatedData = {...userData, password: hashedPW};
 
         const dataToPost = {
-            method: 'POST',
+            method: "POST",
             body: JSON.stringify(updatedData),
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json"
             }
-        };
+        }
 
         try {
-            const res = await fetch('http://localhost:5001/SignUp', dataToPost)
+            const res = await fetch("http://localhost:5001/SignUp", dataToPost)
 
             if(res.ok) {
                 const data = await res.json()
                 const resToken = data.token
-                localStorage.setItem('token', resToken)
+                localStorage.setItem("token", resToken)
                 setToken(resToken)
                 sendToHomePage()
                 return
@@ -270,13 +270,13 @@ const UpdateProfile = () => {
                 handleFailedSignUp(text)
             }
         } catch (error) {
-            console.error('Error occured during Sign Up', error)
+            console.error("Error occured during Sign Up", error)
         }
     }
 
     /* To insert email
                             <div className="signUpBox">
-                            <input type='text'
+                            <input type="text"
                                    placeholder="Email"
                                    value={userData.email}
                                    className="emailInput"
@@ -302,7 +302,7 @@ const UpdateProfile = () => {
                             </div>
 
                             <div className="signUpBox">
-                                <input type='text'
+                                <input type="text"
                                        placeholder="Email"
                                        value={userData.email}
                                        className="emailInput"
@@ -313,16 +313,16 @@ const UpdateProfile = () => {
                             {RenderError.renderDateOfBirthError(error)}
                             <div className="dateOfBirthBox">
                                 <label id="dateOfBirthLabel">Birthdate</label>
-                                <input type='date'
-                                       placeholder='dd-mm-yyyy'
+                                <input type="date"
+                                       placeholder="dd-mm-yyyy"
                                        value={userData.dateOfBirth}
-                                       className='dateOfBirthInput'
+                                       className="dateOfBirthInput"
                                        onChange={(e) => handleBirthDateChange(e.target.value)}
                                 />
                             </div>
                             {RenderError.renderPWError(error)}
                             <div className="signUpBox">
-                                <input type='password'
+                                <input type="password"
                                        placeholder="New Password"
                                        value={userData.password}
                                        className="passwordInput"
@@ -330,7 +330,7 @@ const UpdateProfile = () => {
                                 />
                             </div>
                             <div className="signUpBox">
-                                <input type='password'
+                                <input type="password"
                                        placeholder="Confirm New Password"
                                        value={confirmPassword}
                                        className="passwordInput"
@@ -340,7 +340,7 @@ const UpdateProfile = () => {
                                 />
                             </div>
                             {RenderError.renderWeakPWError(error)}
-                            <button type='submit' className="primary-btn">
+                            <button type="submit" className="primary-btn">
                                 Update Details
                             </button>
                         </form>
@@ -348,7 +348,7 @@ const UpdateProfile = () => {
                 </div>
             </div>
         </>
-    );
+    )
 }
 
 export default UpdateProfile

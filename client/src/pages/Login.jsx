@@ -26,6 +26,12 @@ const Login = () => {
     const [password, setPassword] = useState("")
 
     /**
+     * The state of whether the user is logging into the app and setter function to update it.
+     * @type {[boolean, function]}
+     */
+    const [loggingIn, setLoggingIn] = useState(false)
+
+    /**
      * The error faced by the current user while logging in and setter function to update it.
      * @type {[string, function]}
      */
@@ -86,6 +92,7 @@ const Login = () => {
         }
 
         setError("")
+        setLoggingIn(true)
 
         /**
          * Hashing the user password using the SHA512 hashing algorithm from CryptoJS.
@@ -118,6 +125,7 @@ const Login = () => {
                     return res.json()
                 } else {
                     res.text().then(text => handleFailedLogin(text))
+                    setLoggingIn(false)
                 }
             })
             .then(tokenResponse => {
@@ -125,11 +133,13 @@ const Login = () => {
                     const token = tokenResponse.token
                     localStorage.setItem("token", token)
                     setToken(token)
+                    setLoggingIn(false)
                     sendToHomePage()
                 }
             })
             .catch(error => {
                 console.error("Login failed:", error.message)
+                setLoggingIn(false)
             })
     }
 
@@ -160,6 +170,12 @@ const Login = () => {
                             value={password}
                             onChange={e => setPassword(e.target.value)}
                         />
+
+                        { loggingIn ? (
+                            <div className="loggingInMsg">Logging In...</div>
+                        ) : (
+                            <div></div>
+                        )}
 
                         <button type="submit" className="primary-btn">
                             Login

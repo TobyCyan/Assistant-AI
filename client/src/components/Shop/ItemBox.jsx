@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const ItemBox = ({item, isObtained, onExchange, userPoints}) => {
     const enoughPoints = userPoints >= item?.points
@@ -11,13 +11,13 @@ const ItemBox = ({item, isObtained, onExchange, userPoints}) => {
             <div className="pointsAndExchangeBox">
                 <p className="itemPoints">{item.points} points</p>
                 <button disabled={isObtained || !enoughPoints} className="exchangeButton" style={{
-                    cursor: isObtained ? 'not-allowed' : 'pointer',
+                    cursor: isObtained ? "not-allowed" : "pointer",
                 }} onClick={() => onExchange(item)}>
-                    {isObtained ? 'Obtained' : userPoints < item.points ? "Insufficient Points"  : 'Exchange'}
+                    {isObtained ? "Obtained" : userPoints < item.points ? "Insufficient Points"  : "Exchange"}
                 </button>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default ItemBox;
+export default ItemBox

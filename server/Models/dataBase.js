@@ -1,17 +1,14 @@
 const {Sequelize, DataTypes} = require('sequelize')
+// const config = require("../config/dbConfig.js")
 
-/*
-const sequelize = new Sequelize({
-    dialect: 'postgres',
-    database: 'assistantai2',
-    user: 'daryl',
-    password: '790800',
-    host: 'localhost',
-    port: 5432,
-    ssl: true,
-    clientMinMessages: 'notice',
-});
-*/
+// const sequelize = new Sequelize({
+//     dialect: config.dialect,
+//     database: config.db,
+//     user: config.user,
+//     password: config.password,
+//     host: config.host,
+// });
+
 
 const dbURL = process.env.DATABASE_URL;
 

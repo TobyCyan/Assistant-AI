@@ -1,7 +1,7 @@
-const cron = require('node-cron')
-const { Op } = require('sequelize');
-const db = require('../Models/dataBase')
-const nodemailer = require('nodemailer')
+const cron = require("node-cron")
+const { Op } = require("sequelize");
+const db = require("../Models/dataBase")
+const nodemailer = require("nodemailer")
 
 const Users = db.users
 const Tasks = db.tasks
@@ -11,7 +11,7 @@ const email = process.env.NODEMAILER_EMAIL
 const password = process.env.NODEMAILER_PW
 
 const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
+    host: "smtp.gmail.com",
     port: 465,
     secure: true,
     pool: true,
@@ -19,7 +19,7 @@ const transporter = nodemailer.createTransport({
         user: email,
         pass: password,
     }
-});
+})
 
 const recurringTask = async () => {
     try {
@@ -33,9 +33,9 @@ const recurringTask = async () => {
                     [Op.lte]: now
                 }
             }
-        });
+        })
 
-        if(recurringTasks) {
+        if (recurringTasks) {
             console.log(`${recurringTasks} retrieved`)
         }
 
@@ -52,7 +52,7 @@ const recurringTask = async () => {
                 reminderToDeadline,
                 lastCreated,
                 nextCreation
-            } = task;
+            } = task
 
             const DayOfCreation = new Date(nextCreation)
 
@@ -75,9 +75,9 @@ const recurringTask = async () => {
                 reminder: newReminder,
                 completed: false,
                 dateCompleted: null,
-            });
+            })
 
-            if(createdTask) {
+            if (createdTask) {
                 console.log(`Node-cron created ${createdTask}`)
             }
 
@@ -93,12 +93,12 @@ const recurringTask = async () => {
                 {where:
                         {id}
                 }
-            );
+            )
         }
     } catch (err) {
-        console.error('Error occured in adding all tasks', err)
+        console.error("Error occured in adding all tasks", err)
     }
-};
+}
 
 const sendReminderEmails = async () => {
     console.log("Checking for reminders...")
@@ -115,7 +115,7 @@ const sendReminderEmails = async () => {
                 reminderSent: false,
                 completed: false,
             }
-        });
+        })
 
         if(reminders) {
             console.log(`${reminders} retrieved`)
@@ -127,7 +127,7 @@ const sendReminderEmails = async () => {
                     where: {
                         id: task.userId
                     },
-                });
+                })
 
                 if (!user) {
                     console.log(`User with id ${task.userId} not found`);
@@ -135,18 +135,18 @@ const sendReminderEmails = async () => {
                 }
 
                 const deadline = new Date(task.deadline)
-                deadline.setHours(23, 59, 59, 999);
+                deadline.setHours(23, 59, 59, 999)
 
                 const mailOptions = {
                     to: user.email,
                     subject: `Reminder: ${task.title} due on ${deadline}`,
                     text: `Reminder from Assistant AI: Your task "${task.title}" is due on ${deadline}!`
-                };
+                }
 
                 // Send email using your preferred email service
                 // For example, using nodemailer:
-                await transporter.sendMail(mailOptions);
-                console.log(`Reminder sent to ${user.email} for task "${task.title}"`);
+                await transporter.sendMail(mailOptions)
+                console.log(`Reminder sent to ${user.email} for task "${task.title}"`)
 
                 await Tasks.update(
                     { reminderSent: true },
@@ -155,18 +155,18 @@ const sendReminderEmails = async () => {
                         }
                     }
                 )
-                console.log(`Task ${task.id} updated to reminderSent = true`);
+                console.log(`Task ${task.id} updated to reminderSent = true`)
 
             } catch (error) {
-                console.error('Error processing task reminder:', error);
+                console.error("Error processing task reminder:", error)
                 // Handle the error appropriately
             }
         }
     } catch (err) {
-        console.error('Error occured in sending reminders', err)
+        console.error("Error occured in sending reminders", err)
     }
 }
 
-cron.schedule('* * * * * *', recurringTask)
-cron.schedule('*/5 * * * *', sendReminderEmails)
+cron.schedule("* * * * * *", recurringTask)
+cron.schedule("*/5 * * * *", sendReminderEmails)
 

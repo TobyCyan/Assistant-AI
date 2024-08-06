@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode } from "react";
 import MiniItem from "./MiniItem.jsx";
 import { Items } from "../../utilities/ShopItemUtilities.js";
 import {useTokenContext} from "../TokenContext/TokenContext.jsx";
