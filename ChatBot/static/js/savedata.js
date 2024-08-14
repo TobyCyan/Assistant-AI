@@ -5,15 +5,16 @@ const data = JSON.parse(fs.readFileSync(link))
 
 const dataArray = data['behavior']
 
-// Checks if the Given type Exists.
-// Accepts a type string.
-// Returns a typeFound boolean and typeIndex number.
+/**
+ * Checks if the given type exists.
+ * @param {string} type The type to check for existence.
+ * @returns {Object} An object with a boolean of whether the type is found and a number of the type's index.
+ */
 const isTypeExist = (type) => {
     let typeFound = false
     let typeIndex = -1
     for (let i = 0; i < dataArray.length; i++) {
         if (dataArray[i]['type'] == type) {
-            console.log('Behavior Type ' + type + ' already exists!')
             typeFound = true
             typeIndex = i
             break
@@ -22,9 +23,12 @@ const isTypeExist = (type) => {
     return {typeFound, typeIndex}
 }
 
-// Checks if pattern of the Given type Exists.
-// Accepts a pattern string and type string.
-// Returns a patternFound boolean and typeIndex number.
+/**
+ * Checks if pattern of the given type exists.
+ * @param {string} pattern The pattern to check for existence.
+ * @param {string} type The type of the pattern.
+ * @returns {Object} An object with a boolean of whether the pattern is found and a number of the type's index.
+ */
 const isPatternExist = (pattern, type) => {
     let patternFound = false
     
@@ -33,7 +37,6 @@ const isPatternExist = (pattern, type) => {
     const patternArray = dataArray[typeIndex]['pattern']
     for (let j = 0; j < patternArray.length; j++) {
         if (patternArray[j] == pattern) {
-            console.log('Pattern: ' + pattern + ' already exists!')
             patternFound = true
             break
         }
@@ -41,9 +44,13 @@ const isPatternExist = (pattern, type) => {
     return {patternFound, typeIndex}
 }
 
-// Checks if response of the Given type Exists.
-// Accepts a response string, a type string and a pattern string.
-// Returns a responseFound boolean and a typeIndex number.
+/**
+ * Checks if response of the given type exists.
+ * @param {string} response The response to check for existence.
+ * @param {string} type The type of the pattern.
+ * @param {string} pattern The pattern of the response.
+ * @returns {Object} An object with a boolean of whether the response is found and a number of the type's index.
+ */
 const isResponseExist = (response, type, pattern) => {
     let responseFound = false
 
@@ -52,7 +59,6 @@ const isResponseExist = (response, type, pattern) => {
     const responseArray = dataArray[typeIndex]['response']
     for (let i = 0; i < responseArray.length; i++) {
         if (responseArray[i] == response) {
-            console.log('Response: ' + response + ' already exists!')
             responseFound = true
             break
         }
@@ -60,9 +66,11 @@ const isResponseExist = (response, type, pattern) => {
     return {responseFound, typeIndex}
 }
 
-// Saves a New type Entry if type doesn't exist.
-// Accepts a type string.
-// Returns a typeIndex number.
+/**
+ * Saves a new type entry if type doesn't exist.
+ * @param {string} type The type to save.
+ * @returns {number} The type index.
+ */
 const saveNewTypeEntry = (type) => {
     let {typeFound, typeIndex} = isTypeExist(type)
 
@@ -82,7 +90,6 @@ const saveNewTypeEntry = (type) => {
                     console.error('Error Saving New Type Entry: ', err)
                 }
             })
-            console.log('Type: ' + type + ' created!')
         } catch (error) {
             console.error('Error reading the file:', error);
         }
@@ -90,10 +97,12 @@ const saveNewTypeEntry = (type) => {
     return typeIndex
 }
 
-// Saves a New pattern of the Given type.
-// Also handles if type doesn't exist.
-// Accepts a pattern string and a type string.
-// Returns a typeIndex number.
+/**
+ * Saves a new pattern of the given type.
+ * @param {string} pattern The pattern to save.
+ * @param {string} type The type of the pattern.
+ * @returns {number} The type index.
+ */
 const saveNewPatternBasedOnType = (pattern, type)  => {
     const {patternFound, typeIndex} = isPatternExist(pattern, type)
     
@@ -113,9 +122,13 @@ const saveNewPatternBasedOnType = (pattern, type)  => {
     return typeIndex
 }
 
-// Saves a New response Based on the Given type and the pattern.
-// Accepts a response string, a type string and a pattern string.
-// Returns a typeIndex number.
+/**
+ * Saves a new response based on the given type and the pattern.
+ * @param {string} response The response to save.
+ * @param {string} type The type of the response.
+ * @param {string} pattern The pattern of the response.
+ * @returns {number} The type index.
+ */
 const saveNewResponseBasedOnTypeAndPattern = (response, type, pattern) => {
     const {responseFound, typeIndex} = isResponseExist(response, type, pattern)
 
@@ -135,16 +148,13 @@ const saveNewResponseBasedOnTypeAndPattern = (response, type, pattern) => {
     return typeIndex
 }
 
+/**
+ * Below are reserved for code to execute to add new types, pattern, or response entries.
+ */
+
 // console.log(dataArray)
 //saveNewPatternBasedOnType("Can you delete this task for me please?", "DeleteTask")
 // saveNewPatternBasedOnType("New Task", "AddTask")
 // saveNewPatternBasedOnType("Tell me about recurring tasks.", "RecurringTask")
 //saveNewResponseBasedOnTypeAndPattern("Your productivity report shows how efficient you’ve been in terms of completing your tasks on time. You can do it!", "ProductivityReport", "Productivity Report.")
-//saveNewResponseBasedOnTypeAndPattern("Understood!", "PriorityTask", "Highest prioritised task.")
-//saveNewResponseBasedOnTypeAndPattern("You got it!", "PriorityTask", "What tasks should I prioritise.")
-// saveNewPatternBasedOnType("What is my productivity report?", "ProductivityReport")
-// saveNewPatternBasedOnType("Tell me about the productivity report.", "ProductivityReport")
-
-
-// saveNewPatternBasedOnType("What is the weather today?" , "Weather")
 
