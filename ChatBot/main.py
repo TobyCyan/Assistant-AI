@@ -25,15 +25,22 @@ behavior_data = json.load(file)
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/')
-def home():
-    return render_template('index.html')
-
 with open("behavior.json") as file:
         data = json.load(file)
 
 
 def tokenize_and_stem_string(string: str):
+    '''
+    Tokenizes the given string and stem it, excluding any punctuations in the tokenized string.
+    Parameters
+    ----------
+    string: str
+        The string to tokenize and stem.
+
+    Returns
+    -------
+    The result list that includes the stemmed tokens of the tokenized string without any punctuations.
+    '''
     punctuations = '.?!,'
     result = nltk.word_tokenize(string)
     result = [stemmer.stem(s.lower()) for s in result if s not in punctuations]
@@ -41,12 +48,34 @@ def tokenize_and_stem_string(string: str):
 
 
 def stem_tokenized_list(list: list):
+    '''
+    Stems the already tokenized string, excluding any punctuations in the tokenized string.
+    Parameters
+    ----------
+    list: list
+        The tokenized string to stem.
+
+    Returns
+    -------
+    The result list that includes the stemmed tokens of the tokenized string without any punctuations.
+    '''
     punctuations = '.?!,'
     result = [stemmer.stem(s.lower()) for s in list if s not in punctuations]
     return result
 
 
 def prepare_training_input_and_output():
+    '''
+    Prepares the training input and output data from the imported data file, tokenizing and stemming each pattern,
+    and mapping them to the respective behavior types. A bag of 1s and 0s is also created for each tokenized patterns that
+    with the size of the total number of words available across all the patterns. These bags are then used as the training data.
+    The respective behavior types are also added into the output list with the same position index at the first level.
+
+    Returns
+    -------
+    The training data and output data as 2D `ndarray`s to both be used to train the model. 
+    The list that contains all the tokenized input words and behavior types are also returned.
+    '''
     input_words = []
     behavior_types = []
     tokenized_patterns = []
@@ -65,8 +94,6 @@ def prepare_training_input_and_output():
     input_words = stem_tokenized_list(input_words)
     input_words = sorted(list(set(input_words)))
 
-    # print('inputWords: ' + str(input_words))
-
     training = []
     output = []
     output_map = [0 for _ in range(len(behavior_types))]
@@ -76,11 +103,9 @@ def prepare_training_input_and_output():
 
         pattern = set(stem_tokenized_list(tokenizedPattern))
 
-        # print('pattern: ' + str(pattern))
         for word in input_words:
             if word in pattern:
                 bag.append(1)
-                # print(word)
             else:
                 bag.append(0)
         
@@ -102,6 +127,22 @@ def prepare_training_input_and_output():
 
 
 def train_model_and_load(model_name: str, training_data, output_data):
+    '''
+    Trains the model of the given name with the training and output data as 2D `ndarray`s, then returns the model to be loaded.
+    Parameters
+    ----------
+    model_name: str
+        The model's name to be trained and returned.
+    training_data: np.ndarray
+        2D `ndarray` with each row representing the bag of 1s and 0s on whether certain tokenized words exist in the pattern.
+    output_data: np.ndarray
+        2D `ndarray` with each row representing a list of 1s and 0s with the size of all the available behavior types with a 1 at the
+        position where the corresponding pattern's behavior type is located.
+
+    Returns
+    -------
+    The loaded newly trained model.
+    '''
     input_size = len(training_data[0])
     output_size = len(output_data[0])
     network = tfl.input_data(shape=[None, input_size])
@@ -118,6 +159,22 @@ def train_model_and_load(model_name: str, training_data, output_data):
 
 
 def load_model(model_name: str, training_data, output_data):
+    '''
+    Returns the model to be loaded of the given name with the training and output data as 2D `ndarray`s.
+    Parameters
+    ----------
+    model_name: str
+        The model's name to be returned.
+    training_data: np.ndarray
+        2D `ndarray` with each row representing the bag of 1s and 0s on whether certain tokenized words exist in the pattern.
+    output_data: np.ndarray
+        2D `ndarray` with each row representing a list of 1s and 0s with the size of all the available behavior types with a 1 at the
+        position where the corresponding pattern's behavior type is located.
+
+    Returns
+    -------
+    The loaded model.
+    '''
     input_size = len(training_data[0])
     output_size = len(output_data[0])
     network = tfl.input_data(shape=[None, input_size])
@@ -128,9 +185,7 @@ def load_model(model_name: str, training_data, output_data):
     model = tfl.DNN(network)
 
     try:
-        print('Loading Model...')
-        model.load(f'./{model_in_use}')
-        print('Model Loaded: ' + model_name)
+        model.load(f'./{model_name}')
         return model
     
     except Exception as e:
@@ -138,6 +193,21 @@ def load_model(model_name: str, training_data, output_data):
 
 
 def create_input_from_prompt(prompt, input_words):
+    '''
+    Creates the input to be fed into the model to obtain a response using the given user prompt.
+    Parameters
+    ----------
+    prompt: str
+        The user prompt to be converted into a bag of 1s and 0s 
+        to be used as the input to obtain a response from the model.
+    input_words: np.ndarray
+        1D `ndarray` that contains all the tokenized words from the possible
+
+    Returns
+    -------
+    The 2D `ndarray` with a single row which represents the bag of 1s and 0s depending on whether a word in the give prompt
+    exists in the available input words.
+    '''
     n = len(input_words)
     tokenized_prompt = tokenize_and_stem_string(prompt)
 
@@ -154,6 +224,22 @@ def create_input_from_prompt(prompt, input_words):
 
 
 def predict_behavior_type_from_prompt(prompt, model):
+    '''
+    Predicts the behavior type of the given user prompt by converting it into an input readable by the specified model.
+    Parameters
+    ----------
+    prompt: str
+        The user prompt to be converted into a bag of 1s and 0s 
+        to be used as the input to obtain a response from the model.
+    model: DNN
+        The model that consists of a deep neural network to fetch a response from.
+
+    Returns
+    -------
+    The behavior type of the given prompt.
+    Returns 'Unsure' if the predicted probability is below a certain threshold.
+    '''
+    n = len(input_words)
     prompt_input = create_input_from_prompt(prompt, input_words)
     
     output = model.predict(prompt_input)
@@ -161,7 +247,6 @@ def predict_behavior_type_from_prompt(prompt, model):
     output_type_probability = output[0][output_type_index]
 
     output_type = behavior_types[output_type_index]
-    print('Highest Predicted Probability: ' + str(output_type_probability), output_type)
     if output_type_probability < 0.35:
         return 'Unsure'
     
@@ -169,8 +254,15 @@ def predict_behavior_type_from_prompt(prompt, model):
 
 @app.route('/startchat', methods=['POST'])
 def start_chat():
+    '''
+    Starts the chat with the model, the desired model to be loaded and the required input to be fed into the model
+    are sent here from the front-end via a post method. Once a behavior type has been predicted by the model, a random response
+    is obtained and its behavior type are then sent back to the front-end to be displayed on screen.
+    Returns
+    -------
+    A random response of the predicted behavior type and the behavior type itself which are sent back to the front-end.
+    '''
     data = request.get_json()
-    # print(data)
     chatText = data['input']
     model_name = data['model']
 
@@ -203,6 +295,14 @@ unsure_response = ["I'm not quite sure about the answer.",
                    "Sorry I'm not picking up what you are trying to say..."
                    ]
 def handle_unsure_behavior():
+    '''
+    Handles the case where the model predicts the highest behavior type probability to be below
+    a certain threshold and the returned behavior type is 'Unsure'. In this case, a random response from
+    the declared unsure_response list is returned instead.
+    Returns
+    -------
+    A random response of the 'Unsure' behavior type with the behavior type itself.
+    '''
     rand = random.random()
     response = unsure_response[int(rand * (len(unsure_response) - 1))]
     return jsonify({'response': response, 'type': 'Unsure'})
@@ -210,19 +310,13 @@ def handle_unsure_behavior():
 
 training, output, input_words, behavior_types = prepare_training_input_and_output()
 
-@app.route('/retrain')
 def retrain():
+    '''
+    Retrains the current model in use.
+    Only to be used in this environment.
+    '''
     model = train_model_and_load(model_in_use, training, output)
     return None
-
-
-@app.route('/behaviorarray')
-def behavior_array():
-    file = open('behavior.json')
-    behavior_data = json.load(file)
-
-    return jsonify({'dataArray': behavior_data})
-
 
 if __name__ == "__main__":
     # retrain()

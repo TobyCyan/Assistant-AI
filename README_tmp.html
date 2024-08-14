@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h2 id="nus-orbital---milestone-3-submission">NUS Orbital - Milestone 3 Submission</h2>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/client/src/AppImages/Mei Chibi Icons/Mei_Chibi_Icon.png" alt="Mei Chibi Icon"></p>
+<h3 id="team-name">Team Name :</h3>
+<p>Assistant AI 助手 AI</p>
+<h3 id="proposed-level-of-achievement">Proposed Level of Achievement :</h3>
+<p>Apollo 11</p>
+<h3 id="index">Index</h3>
+<ul>
+<li>Note: Feel Free to Use Find Command for Quick Searching of the Following Keywords.</li>
+</ul>
+<ol>
+<li>Motivation</li>
+<li>Aim</li>
+<li>User Stories</li>
+<li>Tech Stack</li>
+<li>Try It Yourself!</li>
+<li>Project Scope</li>
+<li>Features Summary</li>
+<li>Core Features Details</li>
+<li>Extension Features Details</li>
+<li>Milestone Timeline</li>
+<li>Diagrams</li>
+<li>Software Engineering Principles</li>
+<li>Technical Proof of Concept</li>
+<li>Project Log</li>
+<li>Mei's Behavior Index</li>
+<li>Artist</li>
+<li>Art Gallery</li>
+</ol>
+<h3 id="motivation">Motivation</h3>
+<p>Welcome to our web application, 助手 AI , which stands for Assistant AI in Japanese! Our application will be a task management web application that allows users to track and organise their due tasks for better productivity and boosts user engagement via implementing a virtual assistant character.</p>
+<p>With our Web Application, we aim to add utility and functionality with personalization. We understand that people have personal, work and familial responsibilities, which are all bound to have tasks to be completed. 助手 AI aims to help users organise tasks, record ongoing progress and provide analytics on their current productivity with a personal Assistant AI to serve reminders and engage users as their own personal characters.</p>
+<h3 id="aim">Aim</h3>
+<p>Our goal is to develop a task management application that helps users to organize their tasks efficiently and encourage commitment to task fulfillment through a personal rewards system.</p>
+<h3 id="user-stories">User Stories</h3>
+<ol>
+<li>As a University student who has a lot of tasks at hand, I sometimes don't feel the motivation to complete my tasks.</li>
+<li>As a student who always create and organize my tasks on my smartphone, I wish that someone would help me automate that process through voice commands.</li>
+<li>As a Computer Science student who spends most of my time in front of a screen, sometimes I get too carried away and notifications of my tasks would go unnoticed and I would miss a deadline, I wish there was an assistant who would verbally remind me of those tasks.</li>
+<li>As a University student who has to juggle between multiple tasks of different levels of priorities, I wished there was AI who could help me with that and give reminders based on deadline priority.</li>
+</ol>
+<h3 id="tech-stack">Tech Stack</h3>
+<ol>
+<li>Frontend - React, HTML, CSS</li>
+<li>Backend</li>
+<li>Chatbot - Python, Flask</li>
+<li>Tasks - Node.js, Express.js</li>
+<li>Database - PostgreSQL</li>
+<li>Unit Testing - Jest, Vitest &amp; React Testing Library</li>
+</ol>
+<h3 id="try-it-yourself">Try It Yourself!</h3>
+<p><strong>We have prepared two ways for users to test out our web application.</strong></p>
+<ul>
+<li>
+<p><strong>Testing Online</strong></p>
+<ul>
+<li>We have deployed the application in the following manner: The Front-end on Netlify, the Back-end, Database, and Chat Bot on Render.</li>
+<li>Please use this link to test our web application: <a href="https://assistantmei.netlify.app">https://assistantmei.netlify.app</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Testing on Local Machine (testInstallation branch)</strong></p>
+<ol>
+<li>Users are required to have the following installed: Node.js, Express.js, XAMPP, and PostgreSQL.</li>
+<li>After cloning, users need to setup a PostgreSQL database and configure it to the config folder by matching the name and password.</li>
+<li>Run the XAMPP control panel and click on the &quot;start&quot; button for both Apache and PostgreSQL.</li>
+<li>If you wish to test out getting weather information from the AI Assistant, you will have to obtain an API key from OpenWeatherMap.org.</li>
+<li>Create a .env file in the client directory, and add</li>
+</ol>
+<ul>
+<li>VITE_EXPRESS_API_URL</li>
+<li>VITE_CHATBOT_FLASK_API_URL</li>
+<li>VITE_WEATHER_API_Key</li>
+</ul>
+<ol start="6">
+<li>Create a .env file in the server directory, and add</li>
+</ol>
+<ul>
+<li>NODEMAILER_EMAIL (Personal / Dummy email to send email)</li>
+<li>NODEMAILER_PW (App Password, 2FA required) Setup guide: https://nodemailer.com/usage/using-gmail/</li>
+<li>PORT</li>
+<li>Secret_Key</li>
+<li>DATABASE (Database name, to be created in PostGreSQL first)</li>
+<li>DB_USER (PSQL)</li>
+<li>PASSWORD (PSQL)</li>
+</ul>
+<ol start="7">
+<li>In the /server directory, open server.js and insert the following code.</li>
+<li>Run &quot;pip3 install -r requirements.txt&quot; in the terminal of the ChatBot directory to install all python dependencies.</li>
+<li>For running the frontend, users may change directory to /client, run &quot;npm install&quot; in the terminal to install all dependencies, and run &quot;npm run dev&quot;.</li>
+<li>For running the backend, users may change directory to /server, run &quot;npm install&quot; in the terminal to install all dependencies, and run &quot;npm run dev&quot;.</li>
+<li>For running the chatbot, users may change directory to /ChatBot, and run &quot;python main.py&quot;.</li>
+</ol>
+</li>
+</ul>
+<h3 id="project-scope">Project Scope</h3>
+<p>Assistant AI is essentially a task management system with the help of a Virtual Assistant to automate simple tasks for a more interactive user experience.</p>
+<h3 id="features-summary">Features Summary</h3>
+<h4 id="core">Core</h4>
+<ol>
+<li><strong>The Assistant AI.</strong></li>
+<li>Users to be able to <strong>sign up</strong> for account.</li>
+<li>Users to be able to <strong>log in / log out</strong> of account.</li>
+<li>Users to be able to <strong>add tasks.</strong></li>
+<li>Users to be able to <strong>edit tasks.</strong></li>
+<li>Users to be able to <strong>delete tasks.</strong></li>
+<li>Users to be able to <strong>complete tasks.</strong></li>
+<li>Users to be able to <strong>uncomplete tasks.</strong></li>
+<li>Users to <strong>receive reminders</strong> on time.</li>
+<li>Users to be able to <strong>view tasks by categorisation.</strong></li>
+<li>User <strong>productivity report analysis (based on task completion).</strong></li>
+<li><strong>Chat with Mei!</strong></li>
+<li><strong>Quitting an Operation/ Going back a Step</strong></li>
+<li>User input to Mei in chatroom to <strong>automate each task.</strong></li>
+<li><strong>Interactive messages</strong> <strong>(Birthday wishes, greetings, daily life conversations).</strong></li>
+</ol>
+<p><strong>Extensions</strong></p>
+<ol>
+<li>User Onboarding.</li>
+<li>Tasks Prioritisation Suggestion by AI.</li>
+<li>Recurring Task (Periodically Recurring Tasks).</li>
+<li>Exchange of Points for Decorative Items and Accessories for the User and Virtual Assistant.</li>
+<li>User Profile, Friend Request and Equipment System.</li>
+</ol>
+<h3 id="core-features-details">Core Features Details</h3>
+<ul>
+<li>
+<p><strong>Assistant AI</strong></p>
+<ul>
+<li>
+<p>Why call our web application Assistant AI when we don't even have one present, right?</p>
+</li>
+<li>
+<p>Meet our user's personal Virtual Assistant AI, Mei!</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/MeetOurAI.png" alt="Meet Our AI"></p>
+</li>
+<li>
+<p>All character sprites are provided by an artist friend of Jun Xi, Rena (@__rrena on Twitter/ X)! More details of her can be found at the end of this README, including the full set of character sprites that she has provided us for this project.</p>
+</li>
+<li>
+<p>Mei (めい) is a Japanese high schooler who lives in a virtual school within our web application and she loves to chat and assist anyone who comes to visit her!</p>
+</li>
+<li>
+<p>Mei acts as our mascot and will be the one users see and interact with the most throughout their experience on our application!</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Sign Up</strong></p>
+<ul>
+<li>
+<p>User to be able to sign up for new account using a <strong>unique</strong> username and password.</p>
+</li>
+<li>
+<p>Username to be unique, user to face error if signing up for new account using existing username</p>
+</li>
+<li>
+<p>Users to start off with 0 points</p>
+<p><strong>Instructions/ Details</strong></p>
+<ul>
+<li>
+<p>The screen below is what every new user would see when they click on the Sign Up button.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/SignUpPage.png" alt="Sign Up Page"></p>
+</li>
+<li>
+<p>By entering a unique username, birthdate, and valid password, the new user can press Sign Up at the bottom of the form to submit and create a new account.</p>
+</li>
+<li>
+<p>A password is valid if and only if it satisfies the following criteria:</p>
+</li>
+<li>
+<p>At least an uppercase and lowercase alphabet.</p>
+</li>
+<li>
+<p>At least a number.</p>
+</li>
+<li>
+<p>At least 8 characters.</p>
+</li>
+<li>
+<p>Upon Successful sign up, the user will be brought to our home page.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/HomePage.png" alt="Home Page"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Login / Logout</strong></p>
+<ul>
+<li>
+<p>On Login, users should be redirected to the home page as shown above where there is a dashboard that displays the following:</p>
+</li>
+<li>
+<p>Tasks by deadline and priority</p>
+</li>
+<li>
+<p>Reminders of Tasks</p>
+</li>
+<li>
+<p>User Productivity Rate</p>
+</li>
+<li>
+<p>On Logout, users should be redirected to the login page</p>
+<p><strong>Instructions/ Details</strong></p>
+<ul>
+<li>
+<p>The screen below is what every new user would see when they click on the Login button.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/LoginPage.png" alt="Login Page"></p>
+</li>
+<li>
+<p>Existing users can enter their username and password, then press on the Login button at the bottom of the form to login.</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Add Tasks</strong></p>
+<ul>
+<li>
+<p>Users to be able to add tasks with the following fields:</p>
+</li>
+<li>
+<p>Title</p>
+</li>
+<li>
+<p>Description</p>
+</li>
+<li>
+<p>Category</p>
+</li>
+<li>
+<p>Recurring mode</p>
+</li>
+<li>
+<p>Priority</p>
+</li>
+<li>
+<p>Reminder (DateTime)</p>
+</li>
+<li>
+<p>Deadline (DateTime)</p>
+<p><strong>Instructions/ Details</strong></p>
+<ul>
+<li>
+<p>There are 2 ways for users to add a new task, for this part we will be discussing the first way.</p>
+</li>
+<li>
+<p>Users can look out for the Add Task button (which should be quite obvious to spot).</p>
+</li>
+<li>
+<p>The button should look something like this.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/HomePageAddTaskButton.png" alt="Home Page Add Task Button"></p>
+</li>
+<li>
+<p>When the button is pressed, a form pops up for the user to fill up.</p>
+</li>
+<li>
+<p>The user will need to enter all the fields as required, then click on the confirmation button to submit.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/AddTaskModalEmpty.png" alt="Add Task Modal Empty"></p>
+</li>
+<li>
+<p>In the form, users can enable recurring mode to get reminders for the task in set intervals.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/AddTaskRecurringMode.png" alt="Add Task Recurring Mode"></p>
+</li>
+<li>
+<p>A priority level must also be chosen (i.e. Low, Medium, or High)</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/AddTaskPriority.png" alt="Add Task Priority"></p>
+</li>
+<li>
+<p>A deadline in which when passed will result in the task being overdue, and a reminder date when users will receive a reminder for that task can be set under a few conditions.</p>
+</li>
+<li>
+<p>The deadline and reminder date must not come before the date the task is added.</p>
+</li>
+<li>
+<p>The reminder date must come before the deadline (It kinda makes sense right?)</p>
+</li>
+<li>
+<p>Failure to comply to the above conditions will result in an error message.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/AddTaskDeadline&amp;Reminder.png" alt="Add Task Deadline &amp; Reminder"></p>
+</li>
+<li>
+<p>Once the details are filled up and ready, just click on the ADD button to add the new task!</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/AddTaskConfirmation.png" alt="Add Task Confirmation"></p>
+</li>
+<li>
+<p>Afterwards, the newly added task can be found in both the Upcoming and Priority section of the task containers.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/Upcoming&amp;PriorityTasksContainer.png" alt="Priority Tasks Container"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Edit Tasks</strong></p>
+<ul>
+<li>
+<p>Users to be able to edit the following fields for a task:</p>
+</li>
+<li>
+<p>Title</p>
+</li>
+<li>
+<p>Description</p>
+</li>
+<li>
+<p>Category</p>
+</li>
+<li>
+<p>Recurring mode</p>
+</li>
+<li>
+<p>Priority</p>
+</li>
+<li>
+<p>Reminder (DateTime)</p>
+</li>
+<li>
+<p>Deadline (DateTime)</p>
+<p><strong>Instructions/ Details</strong></p>
+<ul>
+<li>
+<p>To promote a flexible task managing experience, we (just like any other task management applications) allow our users to edit their existing tasks in the case where they change their minds.</p>
+</li>
+<li>
+<p>So how can users do it? It's simple! Users may notice 3 buttons next to each of their tasks.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/ShowTaskButtons.png" alt="Show Task Buttons"></p>
+</li>
+<li>
+<p>And there's the Edit button! Similar, users may click on it to start editing their tasks.</p>
+</li>
+<li>
+<p>The exact same pop up screen for adding tasks would appear, however this time with the fields filled out according to the task's current data.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/EditTaskModalBeforeChange.png" alt="Edit Task Modal Before Change"></p>
+</li>
+<li>
+<p>And it's also the exact same procedure as Add Task! Just change whichever fields you like, then click on the UPDATE button to edit that task!</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/EditTaskModalAfterChange.png" alt="Edit Task Modal After Change"></p>
+</li>
+<li>
+<p>The edited task can be found at the usual place.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/UpcomingTasksContainer.png" alt="Upcoming Tasks Container"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Delete Tasks</strong></p>
+<ul>
+<li>
+<p>Users to be able to delete tasks from the dashboard / edit task section</p>
+<p><strong>Instructions/ Details</strong></p>
+<ul>
+<li>
+<p>Take a look at the task containers, other than the Edit button, there are 2 more buttons.</p>
+</li>
+<li>
+<p>The x button is what users should click to delete unwanted tasks!</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/UpcomingTasksContainer.png" alt="Upcoming Tasks Container"></p>
+</li>
+<li>
+<p>Once clicked, a confirmation pop up window will appear, just click DELETE to confirm delete!</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/DeleteConfirmation.png" alt="Delete Confirmation"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Complete Tasks</strong></p>
+<ul>
+<li>
+<p>Users to be able to press complete task, in which task completion will reward users with XP points. Late completion of tasks will reward with 1 points.</p>
+<p><strong>Instruction</strong></p>
+<ul>
+<li>
+<p>What about the final button? Well, it is a tick, which is to complete a task!</p>
+</li>
+<li>
+<p>Similarly, there will be a confirmation pop up window, just click on COMPLETE to complete the task!</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/CompleteConfirmation.png" alt="Complete Confirmation"></p>
+</li>
+<li>
+<p>Points based on how early the user has completed the task and the priority level of the task will be calculated and deposited into the user's account.</p>
+</li>
+<li>
+<p>The points can be found on the left-hand side of the home page, or at the top right corner where the user's information can be found next to the Log Out button.</p>
+</li>
+<li>
+<p>Hooray! The user has completed their task and earned 17 points!</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/ShowUserPoints1.png" alt="Show User Points 1"></p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/ShowUserPoints2.png" alt="Show User Points 2"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Navigation Bar</strong></p>
+<ul>
+<li>
+<p>Users to be able to navigate through the application using a navigation bar.</p>
+<p><strong>Instructions/ Details</strong></p>
+<ul>
+<li>
+<p>The navigation bar can be found at the top of every page throughout the application.</p>
+</li>
+<li>
+<p>Users can click on any of them to navigate to the page they desire.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/NavBar.png" alt="Navigation Bar"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Receive Reminders</strong></p>
+<ul>
+<li>
+<p>Users to receive reminders from the AI Assistant when the task has reached the reminder date.</p>
+<p><strong>Instructions/ Details</strong></p>
+<ul>
+<li>As shown in the images above, users are required to enter a reminder date for each task in order for Mei to remind them on time.</li>
+<li>Users will be receiving reminders in two different ways.</li>
+</ul>
+<ol>
+<li>Email</li>
+</ol>
+<ul>
+<li>An email will be sent out to the user's email address, this is what the email address field at the sign up page is for!</li>
+</ul>
+<ol>
+<li>Reminder Bell</li>
+</ol>
+<ul>
+<li>
+<p>Users may have noticed a bell positioned next to their user profile information in the top right corner.</p>
+</li>
+<li>
+<p>This reminder bell is shown ringing with a red notification mark to indicate there is a reminder to be read.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/RingingReminderBell.png" alt="Ringing Reminder Bell"></p>
+</li>
+<li>
+<p>When the user clicks on the ringing bell, a reminder window in the form of a chat room pops up, which will then simulate Mei sending the user messages to remind them of their upcoming, overdue, reminder, and most prioritised tasks.</p>
+</li>
+<li>
+<p>The following image is a sample of a few messages in the reminder window.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/ReminderRoom.png" alt="Reminder Room"></p>
+</li>
+<li>
+<p>Once the reminder has been completed, and the user decides to close the window, the reminder bell will stop ringing and has a green tick next to it.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/CheckedReminderBell.png" alt="Checked Reminder Bell"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>View Tasks - Categorisation</strong></p>
+<ul>
+<li>
+<p>Users to be able to sort their task list using a sidebar that shows the filters available.</p>
+<p><strong>Instructions/ Details</strong></p>
+<ul>
+<li>
+<p>To view all of the user's tasks, the user can navigate to My Tasks from the navigation bar. (See above)</p>
+</li>
+<li>
+<p>The user will be able to see the My Tasks page as follows.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/MyTasksPage.png" alt="My Tasks Page"></p>
+</li>
+<li>
+<p>All the tasks have been nicely categorised by Mei into their own categories, as well as by their priority levels.</p>
+</li>
+<li>
+<p>There's even another Add Task button!</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/MyTasksSideBar.png" alt="My Tasks Side Bar"></p>
+</li>
+<li>
+<p>Once the user has added a task, they should be able to view their tasks in detail as shown below.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/AllTasksSection.png" alt="All Tasks Section"></p>
+</li>
+<li>
+<p>There are also the same 3 buttons for each tasks to Edit, Complete, or Delete!</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/IncompleteTaskDetails.png" alt="Incomplete Task Details"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Uncomplete Tasks</strong></p>
+<ul>
+<li>
+<p>Users to be able to press uncomplete task, in which points earned will be deducted.</p>
+<p><strong>Instructions/ Details</strong></p>
+<ul>
+<li>
+<p>Do you remember the task that we have completed previously? Mei doesn't just remove it completely like how she deletes your tasks! Instead, completed tasks are stored in the Completed section of the user's My Tasks page.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/CompletedTaskSection.png" alt="Completed Task Section"></p>
+</li>
+<li>
+<p>Let's zoom in a little, we can observe that instead of the Complete button, there is now an Uncomplete button!</p>
+</li>
+<li>
+<p>Users can click on it to bring their tasks back to the “Incomplete” status and the points will also be taken out!</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/CompletedTaskDetails.png" alt="Completed Task Details"></p>
+</li>
+<li>
+<p>As usual, a confirmation pop up window will appear in case of accidents!</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/UncompleteConfirmation.png" alt="Uncomplete Confirmation"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Productivity Report</strong></p>
+<ul>
+<li>
+<p>Generate a productivity report showing productivity rate based on number of tasks completed, date of task completion relative to deadline, and priority of tasks completed.</p>
+</li>
+<li>
+<p>Tasks completed before the deadline will result in higher productivity.</p>
+</li>
+<li>
+<p>Tasks completed after the deadline will result in lower productivity.</p>
+</li>
+<li>
+<p>Tasks yet to be completed after the deadline will also result int lower productivity.</p>
+</li>
+<li>
+<p>The priority of tasks will affect the weightage and its increase on decrease in productivity rate.</p>
+<p><strong>Instructions/ Details</strong></p>
+<ul>
+<li>
+<p>Other than points, there is one more thing that users can view from the left-hand side in the home page, which is the productivity report!</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/HomePageLeftSideBar.png" alt="Home Page Left Side Bar"></p>
+</li>
+<li>
+<p>As mentioned above, only tasks completed on time would result in a higher productivity, so be sure to do them!</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Chat with Mei!</strong></p>
+<ul>
+<li>
+<p>A chatroom that allows users to chat with the AI Assistant, Mei.</p>
+<p><strong>Instructions/ Details</strong></p>
+<ul>
+<li>
+<p>Mei's AI model is built in Python using machine learning libraries such as tflearn and tensorflow, as well as the NumPy library to deal with the linear algebra.</p>
+</li>
+<li>
+<p>Mei has a pre-defined behavior that is stored as a JavaScript object, which contains the response type, user input pattern, and the possible response that Mei can give. These are all stored using arrays. (A full set of possible inputs will be appended at the end)</p>
+</li>
+<li>
+<p>The training data is prepared using this behavior object and is used to train the model's deep neural network.</p>
+</li>
+<li>
+<p>Users can navigate to the chat room by first finding Mei, who will be standing by the classroom door.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/NavigateToChatPage1.png" alt="Navigate To Chat Page 1"></p>
+</li>
+<li>
+<p>By hovering over Mei, users can observe an expression change.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/NavigateToChatPage2.png" alt="Navigate To Chat Page 2"></p>
+</li>
+<li>
+<p>Users will then be navigated to the chat room by simply clicking on her!</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/ChatPage.png" alt="Chat Page"></p>
+</li>
+<li>
+<p>This is the area where users interacts with Mei by text.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/ChatRoomContainer.png" alt="Chat Room Container"></p>
+</li>
+<li>
+<p>To write a message, simply click on the input area and start typing!</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/InputArea.png" alt="Input Area"></p>
+</li>
+<li>
+<p>To send the message, users can just press Enter on their keyboards, or click on the send icon on the right-hand side.</p>
+</li>
+<li>
+<p>When a message is sent, notice an expression change from Mei as she's typing a reply!</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/ChatPageTexting.png" alt="Chat Page Texting"></p>
+</li>
+<li>
+<p>Mei will then return to her usual expression with a new response from her appearing in the chat room!</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/ChatPageStaring.png" alt="Chat Page Staring"></p>
+</li>
+<li>
+<p>When the AI model receives an input, its neural network will breakdown the sentence string and try to predict its response type.</p>
+</li>
+<li>
+<p>Once a response type is predicted, a random response will be selected using the random Python library and sent back to the front-end which shows on the user's screen.</p>
+</li>
+<li>
+<p>Of course, when Mei receives an input which she doesn't understand, the response type would simply be “Unsure” and one random response from the specified array will be returned.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/UnsureResponse.png" alt="Unsure Response"></p>
+</li>
+<li>
+<p>Just like in the home page, a chat bubble is placed above Mei to hint the user in the type of inputs she can take in which changes at random intervals!</p>
+</li>
+<li>
+<p>We have added a <strong>“Behavior Index”</strong> button at the side so that users can take a look at the behavior index in the application itself by clicking on it.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/BehaviorIndex.png" alt="Behavior Index"></p>
+</li>
+<li>
+<p>Users may input similar texts to (hopefully) obtain the desired response!</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Automation Task</strong></p>
+<ul>
+<li>
+<p>Website to allow interaction with Mei to add, edit, and delete tasks.</p>
+<p><strong>Instructions/ Details</strong></p>
+<ul>
+<li>In the chat room, users can give commands like add task, edit task, and delete task to initiate the respective task operations.</li>
+<li>For <strong>adding a new task</strong>, a form like the one below will be brought up where users can enter the details before confirming.</li>
+</ul>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/AutomationAddTaskForm.png" alt="Automation Add Task Form"></p>
+<ul>
+<li>For <strong>editing an existing task</strong>, Mei will first ask the user which task they would like to edit (by index), then a similar form but with the fields filled out will appear instead.</li>
+</ul>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/AutomationEditTask1.png" alt="Automation Edit Task 1"></p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/AutomationEditTask2.png" alt="Automation Edit Task 2"></p>
+</li>
+<li>
+<p>For <strong>deleting an existing task</strong>, Mei will first ask for the index of the task the user would like to delete, then the user will have to send a confirmation input to confirm the deletion.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/AutomationDeleteTask1.png" alt="Automation Delete Task 1"></p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/AutomationDeleteTask2.png" alt="Automation Delete Task 2"></p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>Quitting an Operation/ Going back a Step</strong></p>
+<ul>
+<li>
+<p>At any point of time during the task operation, the user may send one of the quit inputs (i.e. quit, q, bye, stop, or leave) to quit, or use a back input (i.e. back, go back, or previous) to go back to the previous step of the process.</p>
+</li>
+<li>
+<p>All the necessary inputs will be mentioned by Mei in the chat room at the beginning of an operation.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/QuitOrGoBackAStep1.png" alt="Quit Or Go Back A Step 1"></p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/QuitOrGoBackAStep2.png" alt="Quit Or Go Back A Step 2"></p>
+</li>
+<li>
+<p><strong>Interactive Messages</strong></p>
+<ul>
+<li>
+<p>Users to receive messages from AI Assistant for events.  (Greetings for logging in, birthday wishes, simple conversations, etc.)</p>
+<p><strong>Instructions/ Details</strong></p>
+<ul>
+<li>Realise how Mei takes note of a new user's birthdate when they sign up? She has uses for them!</li>
+<li>During the user's birthday, they will receive a letter from Mei, wishing them a Happy Birthday!</li>
+<li>Every time the user logs in, the application checks whether it's their birthday, if it is, a birthday letter pops up! And the data is stored in the local storage, indicating that the user has been wished a Happy Birthday, which will reset its status on the next day.</li>
+</ul>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/BirthdayCard.png" alt="Birthday Card"></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Conversational Chat Bubbles</strong></p>
+<ul>
+<li>
+<p>There is a chat bubble right above the Meis throughout the application. These chat bubbles rotate through an array of speech lines which are set randomly at a random interval. This is to simulate a real assistant interacting with the user in a one-way manner, sometimes giving hints to what the user can do in the application.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/ConversationalChatBubble.png" alt="Conversational Chat Bubble"></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Speech Recognition (Text-to-Speech &amp; Speech-to-Text) (In Progress)</strong></p>
+<ul>
+<li>This feature is still under production. Our thought is to use either the Python TTS library or JavaScript to take in voice inputs and return a voice output.</li>
+</ul>
+</li>
+</ul>
+<h3 id="extension-features-details"><strong>Extension Features Details</strong></h3>
+<ul>
+<li>
+<p><strong>User Onboarding</strong></p>
+<ul>
+<li>
+<p>If you have been paying attention to some of the images being shown above, you may have noticed rectangular-sized guide boxes like this.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/UserOnboarding.png" alt="User Onboarding"></p>
+</li>
+<li>
+<p>This is an intro guide implemented using Intro.js! Users are able to get a brief run through of our web application without much confusion. It aims to enhance new user experience getting on board our product!</p>
+</li>
+<li>
+<p>New users can simply click on Next to go to the next step, Back to go to the previous step, and the x on the top-right corner to skip the intro!</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Task Priority Suggestion</strong></p>
+<ul>
+<li>
+<p>To allow suggestions by AI based on the priority of task.</p>
+</li>
+<li>
+<p>In the future, we can look into task priority suggestions based on the title of the task which can be implemented using text classification. (e.g. Cleaning of Dishes - Low, Meeting with Client - High)</p>
+</li>
+<li>
+<p>Currently, Mei is only able to tell the user their most prioritsed task in her list.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/PrioritisedTask.png" alt="Prioritised Task"></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Recurring Tasks</strong></p>
+<ul>
+<li>
+<p>Site to provide automatic creation of recurring tasks based on creation..</p>
+</li>
+<li>
+<p>Users will be able to enable/ disable recurring mode for their new and existing tasks.</p>
+<p><strong>Instructions/ Details</strong></p>
+<ul>
+<li>To add a recurring task, users can either click on the “Add Recurring Task” button at the home page, or navigate to the Recurring Task page.</li>
+<li>There are three main fields that the user will have to enter: “Intervals (Days)”, “Task Creation”, and “Reminder”.</li>
+<li>“Intervals (Days)” would be how many days after which should the next task recur.</li>
+<li>“Task Creation” refers to how many days should the next recurring task be created <strong>before the deadline</strong>.</li>
+<li>“Reminder” is how many days should the reminder happen <strong>before the deadline</strong>.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Exchange of Items using Points</strong></p>
+<ul>
+<li>
+<p>To provide a “shop” to exchange decorative items for the Assistant AI.</p>
+</li>
+<li>
+<p>Decoration and customisation of the Assistant AI character will bring gamification and engagement to users.</p>
+<p><strong>Instructions/ Details</strong></p>
+<ul>
+<li>
+<p>Users can navigate to the Shop page via the Navigation Bar.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/NavBar.png" alt="Navigation Bar"></p>
+</li>
+<li>
+<p>At the shop, users will be able to purchase customisables in which they can use for their profile.</p>
+</li>
+<li>
+<p>At this stage, we plan to have mainly two types of customisables that users can purchase with their points, Assistant Outfits and Profile Icons!</p>
+</li>
+<li>
+<p>As we still have not received the outfit sprites and icons, we have placed temporary images to substitute for the actual one which will be added soon.</p>
+</li>
+<li>
+<p>If the user has insufficient points, the button will show accordingly.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/ShopPage.png" alt="Shop Page"></p>
+</li>
+<li>
+<p>To exchange for an item, simply click on the “Exchange” button, and a confirmation window will pop up!</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/ExchangeConfirmation.png" alt="Exchange Confirmation"></p>
+</li>
+<li>
+<p>Once the item has been exchanged, the button will be shown as “Obtained” and become non-interactable.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/ObtainedItem.png" alt="Obtained Item"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>User Profile</strong></p>
+<ul>
+<li>
+<p>To allow users to check out their profile details, items owned/ purchased, their friends and friend requests.</p>
+<p><strong>Instructions/ Details</strong></p>
+<ul>
+<li>
+<p>To navigate to the user profile, simply click on the user info section in the top right corner of the page next to the Log Out button.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/ShowUserPoints2.png" alt="Show User Points 2"></p>
+</li>
+<li>
+<p>Then, the user will be greeted with their profile page!</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/ProfilePage.png" alt="Profile Page"></p>
+</li>
+<li>
+<p>Here, the user is able to view their profile details, friends list, friend requests, as well as search for other users!</p>
+</li>
+<li>
+<p>Moreover, the user can check out their items in the Item Collection Box, and equip them.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CoreFeaturesInstructionImg/ItemCollectionBox.png" alt="Item Collection Box"></p>
+</li>
+<li>
+<p>Items that are exchanged from the shop are displayed in this area!</p>
+</li>
+<li>
+<p>To equip the item, simply click on the “Equip” button, which will then update the user's profile accordingly, and show “Equipped” afterwards.</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="milestone-timeline">Milestone Timeline</h3>
+<table><tbody><tr><td>Milestone</td><td>Tasks</td><td>Month</td><td>Week(s)</td></tr><tr><td rowspan="5">1</td><td><p>Research on relevant technologies, including</p><p>speech recognition and neural networks.</p></td><td rowspan="5">May</td><td rowspan="2">3</td></tr><tr><td><p>Pick up the necessary tech knowledge for front-end</p><p>back-end and attending Mission Control Workshops.</p></td></tr><tr><td>Set up the front-end by creating a basic interface for home, sign up, login and task pages.</td><td rowspan="3">4</td></tr><tr><td>Research on the databases to use for back-end, set it up, and achieve a successful connection between the front-end and back-end.</td></tr><tr><td>Completion of the sign up form and implement error handling for it in both front and back-ends.</td></tr><tr><td rowspan="9">2</td><td>Implementation of authentication for signed-in users.</td><td rowspan="9">June</td><td rowspan="3">1</td></tr><tr><td>Complete the login page with error handling for it.</td></tr><tr><td>Implementation of all the task-related functions. (Add, Edit, Delete, and Complete w/ Calculation of points earned)</td></tr><tr><td>Implementation of a reminder prompt when near the deadline/ reminder time indicated by the user.</td><td rowspan="3">2</td></tr><tr><td>Complete task viewer page with the categorization feature.</td></tr><tr><td>Implementation of User Productivity Report Analysis.</td></tr><tr><td><p>Begin preparation for implementation of the Virtual Assistant.</p><p>(Character design, personality)</p></td><td rowspan="3">3, 4</td></tr><tr><td>User input features (Speech recognition, Natural Language Processing)</td></tr><tr><td>Interactive Voice Lines (Write-up) (Implementation if there&apos;s time)</td></tr><tr><td rowspan="10">3</td><td>Further Improvements to the AI of the Virtual Assistant.</td><td rowspan="10">July</td><td rowspan="3">1</td></tr><tr><td>Research into ways to give the Virtual Assistant an actual human voice.</td></tr><tr><td><p>Tidy up the front-end of the web application.&#xA0;</p><p>(Adding better CSS styling for a greater user experience)</p></td></tr><tr><td>Implementation of the AI voice.</td><td rowspan="3">2</td></tr><tr><td>Continue to work on when would each voice line be said in the web application.</td></tr><tr><td>Task prioritisation by the Virtual Assistant.</td></tr><tr><td>Implementation of Recurring Task (Periodically Recurring Tasks).</td><td rowspan="4">3, 4</td></tr><tr><td>Points Exchange System.</td></tr><tr><td>Design of Decorative Items and Accessories for the Virtual Assistant.</td></tr><tr><td>Final Brush Ups to the system.</td></tr></tbody></table>
+<h3 id="diagrams">Diagrams</h3>
+<p><strong>Database Diagram</strong></p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/OrbitalERDiagram.png" alt="Database Diagram"></p>
+<p><strong>Sequence Diagram</strong></p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/sequenceDiagram.png" alt="Sequence Diagram"></p>
+<p><strong>User Flow Diagram</strong></p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/userFlowDiagram.png" alt="User Flow Diagram"></p>
+<h3 id="software-engineering-principles">Software Engineering Principles</h3>
+<ul>
+<li>
+<p><strong>Front-End Unit Testing</strong></p>
+<ul>
+<li>
+<p>Unit Testing for the frontend components were conducted using Vitest and React Testing-Library. As of now, only the tasks and tasksbox have simple tests to run and more will be added for other units / components.</p>
+</li>
+<li>
+<p>Certain functions are also unit tested using Jest to ensure that they work as intended.</p>
+</li>
+<li>
+<p>Some examples of unit tests are shown below:</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/Front-EndUnitTesting1.png" alt="Front-End Unit Testing 1"></p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/Front-EndUnitTesting2.png" alt="Front-End Unit Testing 2"></p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/Front-EndUnitTesting3.png" alt="Front-End Unit Testing 3"></p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/Front-EndUnitTesting4.png" alt="Front-End Unit Testing 4"></p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/Front-EndUnitTesting5.png" alt="Front-End Unit Testing 5"></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>BackEnd Unit Testing</strong></p>
+<ul>
+<li>
+<p>Unit Testing for the backend API server conducted using Postman API Testing to verify that API functions correctly when the request is sent from the client.</p>
+</li>
+<li>
+<p>Sign Up
+<img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/SignUp.png" alt="Sign Up 1">
+<img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/NameTaken.png" alt="Sign Up 2">
+<img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/EmailTaken.png" alt="Sign Up 3"></p>
+</li>
+<li>
+<p>Login
+<img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/Login.png" alt="Login 1"></p>
+</li>
+<li>
+<p>Get User Info
+<img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/GetUserInfo.png" alt="Get User Info 1">
+<img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/GetUserInfoByName.png" alt="Get User Info 1"></p>
+</li>
+<li>
+<p>Task Actions
+<img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/GetUserTasks.png" alt="Task Actions 1">
+<img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/AddTask.png" alt="Task Actions 2">
+<img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/EditTask.png" alt="Task Actions 3">
+<img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CompleteTask.png" alt="Task Actions 4">
+<img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/UncompleteTask.png" alt="Task Actions 5">
+<img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/DeleteTask.png" alt="Task Actions 6"></p>
+</li>
+<li>
+<p>Recurring Task Actions
+<img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/GetRecTasks.png" alt="Recurring Task Actions 1">
+<img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/AddRecTask.png" alt="Recurring Task Actions 1">
+<img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/EditRecTask.png" alt="Recurring Task Actions 1">
+<img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/DeleteRecTask.png" alt="Recurring Task Actions 1"></p>
+</li>
+<li>
+<p>Friends Actions
+<img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/GetUserFriends.png" alt="Friends Actions 1">
+<img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/GetFriendRequests.png" alt="Friends Actions 2">
+<img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/AddFriend.png" alt="Friends Actions 3">
+<img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/AcceptFriendRequest.png" alt="Friends Actions 4">
+<img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/RejectFriendRequest.png" alt="Friends Actions 5"></p>
+</li>
+<li>
+<p>Item Actions
+<img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/GetItems.png" alt="Item Actions 1">
+<img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/ExchangeItem.png" alt="Item Actions 2"></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>User Testing</strong></p>
+<ul>
+<li>
+<p>We have conducted user testing with some of our friends and family members. The testing was conducted using the deployed version.</p>
+</li>
+<li>
+<p>While the users were testing the web application, we were watching how they were interacting with the application, constantly looking out for potential bugs and seeking feedback from the users in terms of their experience using and navigating through the application.</p>
+</li>
+<li>
+<p>Some unexpected bugs were discovered and resolved on the spot.</p>
+</li>
+<li>
+<p>We've received feedbacks and criticism as follows:</p>
+</li>
+<li>
+<p>Navigation is generally not a problem with the simple user interface (UI), it is clear in terms of which buttons lead to which pages.</p>
+</li>
+<li>
+<p>The UI is not confusing or difficult to look at.</p>
+</li>
+<li>
+<p>Users are satisfied and entertained by the chat bot system.</p>
+</li>
+<li>
+<p>User experience is generally good but some quality of life changes could be made.</p>
+</li>
+<li>
+<p>More clarifications/ better and clearer labelling are needed for the “Category”, “Task Creation”, and “Reminder” before deadline fields when adding a recurring task.</p>
+</li>
+<li>
+<p>“Task Creation” before deadline field does not seem necessary as the next recurring task should be added automatically right as the previous one is overdue.</p>
+</li>
+<li>
+<p>Mono color may be too simple and background colors could be slightly fancier. Yellow is also too bright for the eyes.</p>
+</li>
+<li>
+<p>Users also suggested extension features such as:</p>
+</li>
+<li>
+<p>Dark/ light mode.</p>
+</li>
+<li>
+<p>Add exact timings to deadlines and reminders.</p>
+</li>
+<li>
+<p>Account deletion feature.</p>
+</li>
+<li>
+<p>Addition of points by interacting with the assistant to encourage interaction.</p>
+</li>
+<li>
+<p>New behaviors such as responding to “How to quit?” and “What are my upcoming/ overdue tasks?”.</p>
+</li>
+<li>
+<p><strong>Version Control</strong></p>
+</li>
+<li>
+<p>Version Control using Github - Working on features on different branches, merge and pull requests.</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/Branches.png" alt="Branches"></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Code Readability</strong></p>
+<ul>
+<li>
+<p>Commenting on code to ensure readability and clarity for developers.</p>
+</li>
+<li>
+<p>Below are some examples of comments added:</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CodeReadability1.png" alt="Code Readability 1"></p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CodeReadability2.png" alt="Code Readability 2"></p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/CodeReadability3.png" alt="Code Readability 3"></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Single Responsibility Principle</strong></p>
+<ul>
+<li>Ensuring each component has only one responsibility.</li>
+</ul>
+</li>
+<li>
+<p><strong>Documentation</strong></p>
+<ul>
+<li>
+<p>The front-end and back-end of the application has been documented using the format of JSDoc.</p>
+</li>
+<li>
+<p>Below are some examples of documentation written:</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/Documentation1.png" alt="Documentation 1"></p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/Documentation2.png" alt="Documentation 2"></p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/Documentation3.png" alt="Documentation 3"></p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/images/Documentation4.png" alt="Documentation 4"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="technical-proof-of-concept">Technical Proof of Concept</h3>
+<p><a href="https://drive.google.com/file/d/1zJ-W6Mnwhf3kvtDq5AHZDyBLQlX40LVF/view">https://drive.google.com/file/d/1zJ-W6Mnwhf3kvtDq5AHZDyBLQlX40LVF/view</a></p>
+<h3 id="project-log">Project Log</h3>
+<p><a href="https://docs.google.com/spreadsheets/d/17HxSnRviubHJgGpeZq1HtBrLmgk7EVS24I_u2EfXtiA/edit?usp=sharing">https://docs.google.com/spreadsheets/d/17HxSnRviubHJgGpeZq1HtBrLmgk7EVS24I_u2EfXtiA/edit?usp=sharing</a></p>
+<h3 id="meis-behavior-index">Mei's Behavior Index</h3>
+<table><tbody><tr><td>Input Pattern</td><td>Response Description</td></tr><tr><td><ul><li>Who are you?</li><li>What&#x2019;s your name?</li><li>Can you introduce yourself.</li></ul></td><td>Introduction of the AI Assistant to the user.</td></tr><tr><td><ul><li>Give me all my tasks.</li><li>My list of tasks.</li><li>What tasks do I have?</li></ul></td><td>The complete list of the user&apos;s tasks.</td></tr><tr><td><ul><li>Favorite food.</li><li>What is your favorite food?</li><li>What do you like to eat?</li></ul></td><td>Free talk about the AI Assistant&apos;s favorite food.</td></tr><tr><td><ul><li>Favorite color.</li><li>What is your favorite color?</li><li>What color do you like?</li></ul></td><td>Free talk about the AI Assistant&apos;s favorite color.</td></tr><tr><td><ul><li>What do you like?</li><li>What are your hobbies?</li></ul></td><td>Free talk about the Assistant&apos;s hobbies.</td></tr><tr><td><ul><li>Shop.</li><li>Tell me about the shop.</li><li>What is the shop?</li></ul></td><td>Introduction to the application&apos;s shop page.</td></tr><tr><td><ul><li>Completion.</li><li>Completing tasks.</li><li>Incompletion.</li></ul></td><td>Introduction to the application&apos;s task completion/ uncompletion system.</td></tr><tr><td><ul><li>Productivity Report.</li><li>What is my productivity report?</li><li>Tell me about the productivity report.</li></ul></td><td>Introduction to the application&apos;s productivity report system.</td></tr><tr><td><ul><li>Hey!</li><li>Hello.</li><li>Good to see you.</li><li>How are you?</li><li>What&apos;s Up?</li><li>Hi.</li></ul></td><td>Greeting the user.</td></tr><tr><td><ul><li>Can you add a task for me?</li><li>Add a task.</li><li>Add task.</li></ul></td><td>Guides the user through the process of adding a new task.</td></tr><tr><td><ul><li>Can you delete this task for me please?</li><li>Delete a task.</li><li>Delete task.</li></ul></td><td>Guides the user through the process of deleting an existing task.</td></tr><tr><td><ul><li>Can you edit this task for me please?</li><li>Edit a task.</li><li>Edit task.</li></ul></td><td>Guides the user through the process of editing an existing task.</td></tr><tr><td><ul><li>What is the weather today?</li><li>Weather.</li></ul></td><td>Informs the user about the weather in their local area.</td></tr><tr><td><ul><li>Priority task.</li><li>Highest prioritised task.</li><li>What tasks should I prioritise.</li></ul></td><td>A suggestion from the AI Assistant about the user&apos;s highest prioritised task.</td></tr><tr><td><ul><li>Recurring Task.</li><li>What are recurring tasks?</li><li>Tell me about recurring tasks.</li></ul></td><td>Introduction to the application&apos;s recurring task system.</td></tr></tbody></table>
+<h3 id="artist">Artist</h3>
+<p>Our artist that has supported and provided us with the sprites for our character Mei, is Rena!</p>
+<p>Her Twitter/ X: <a href="https://twitter.com/__rrena">https://twitter.com/__rrena</a> (@__rrena)</p>
+<h3 id="art-gallery">Art Gallery</h3>
+<p>Here is the full gallery of artworks that Rena has provided us with.</p>
+<ul>
+<li>
+<p>Excited Mei</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/client/src/AppImages/Mei Chibi Icons/Mei_Chibi_Excited.png" alt="Mei Chibi Excited"></p>
+</li>
+<li>
+<p>Winking Mei</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/client/src/AppImages/Mei Chibi Icons/Mei_Chibi_Wink.png" alt="Mei Chibi Wink"></p>
+</li>
+<li>
+<p>Waving Mei</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/client/src/AppImages/Mei Chibi Icons/Mei_Chibi_Wave.png" alt="Mei Chibi Wave"></p>
+</li>
+<li>
+<p>Staring Mei</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/client/src/AppImages/Mei Chibi Icons/Mei_Chibi_Phone_Staring.png" alt="Mei Chibi Phone Staring"></p>
+</li>
+<li>
+<p>Texting Mei</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/client/src/AppImages/Mei Chibi Icons/Mei_Chibi_Phone_Texting.png" alt="Mei Chibi Phone Texting"></p>
+</li>
+<li>
+<p>Chibi Icon Mei</p>
+<p><img src="file:///c:/Users/ernes/OneDrive/Documents/Godot Game Projects/temp/Assistant-AI/client/src/AppImages/Mei Chibi Icons/Mei_Chibi_Icon.png" alt="Mei Chibi Icon"></p>
+</li>
+</ul>
+
+</body>
+</html>
